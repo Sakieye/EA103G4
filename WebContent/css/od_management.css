@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+/*Select*/
+body {
+	background-color:#F2F4EF;
+	text-algin:center;
+}
+
+h4 {
+	color: blue;
+	display: inline;
+}
+
+h3 {
+	color: #003853;
+	text-align: left;
+}
+
+table {
+	width: 100%;
+	background-color: #F2F4EF;
+	margin: 20px;
+	margin-bottom: 1px;
+}
+
+table, th, td {
+	text-algin:center;
+	border: 0px solid #B2D6CA;
+}
+
+#cancel{
+	display:block;
+}
+
+
+
+/*Create*/
+
+#create{
+	width:100%;
+	heigh:100%;	
+	backgroud-color: #F2F4EF;
+}

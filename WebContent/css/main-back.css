@@ -1,0 +1,121 @@
+        @charset "UTF-8";
+        @import url(font-awesome.min.css);
+        @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+
+
+        html, body, header, footer, ul, li, a, aside, div, nav {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            list-style-type: none;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-weight: 400;
+            margin: 10px 0;
+        }
+        header, footer {
+            display: block;
+        }
+
+        /* head */
+        #header {
+            background: rgba(0, 0, 0, 0.975);
+            color: #a6a6a6;
+            cursor: default;
+            height: 3.25em;
+            left: 0;
+            line-height: 3.25em;
+            position: fixed;
+            text-align: right;
+            top: 0;
+            width: 100%;
+            z-index: 10001;
+        }
+        #logo {
+            display: inline-block;
+            height: inherit;
+            left: 0.3em;
+            line-height: inherit;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+        }
+        #userbar {
+            display: inline-block;
+            height: inherit;
+            right: 1.75em;
+            line-height: inherit;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+        }
+        #userbar a {
+            color: #FFF;
+            text-decoration: none;
+        }
+        #userbar a:hover {
+            color: rgba(255, 255, 255, 0.65);
+        }
+        #logo a {
+            font-size: 1.25em;
+            color: #FFF;
+            text-decoration: none;
+        }
+        #logo a:hover {
+            color: rgba(255, 255, 255, 0.65);
+        }
+        #logo span {
+            font-weight: 400;
+            font-size: .8em;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* body */
+        .container {
+            overflow: hidden;
+        }
+        #center {
+            margin-left: 223px;
+            margin-top: 3.25em;
+            padding: 1em;
+            letter-spacing: 1px;
+        }
+        #left {
+            background-color: lightgray;
+            top: 3.25em;
+        }
+        #controlbar {
+            background-color: lightgray;
+            text-align: left;
+            position: absolute;
+            top: 3.25em;
+            display: inline-block;
+            width: 222px;
+            bottom: 0em;
+        }
+        #controlbar div {
+            font-size: 1.25em;
+            color: #000;
+        }
+
+        #controlbar div {
+            font-size: 1.25em;
+            color: #000;
+        }
+
+        #controlbar li {
+            font-size: 0.8em;
+        }
+
+        #controlbar li:hover {
+            background-color: white;
+        }
+        .service {
+            text-decoration: none;
+        }

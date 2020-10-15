@@ -1,0 +1,381 @@
+        /*custom font*/
+        @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+        /*basic reset*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("../images/bookclub/booclub_insert_background.jpg") center center fixed no-repeat;
+            background-size: cover;
+            font-family: montserrat, arial, verdana;
+            height: 1200px;
+        }
+        /*form styles*/
+
+        #msform {
+            width: 400px;
+            margin: 50px auto;
+            text-align: center;
+            position: relative;
+        }
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 3px;
+            box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+            padding: 20px 30px;
+            box-sizing: border-box;
+            width: 80%;
+            margin: 0 10%;
+
+            /*stacking fieldsets above each other*/
+            position: relative;
+        }
+        /*Hide all except first fieldset*/
+        #msform fieldset:not(:first-of-type) {
+            display: none;
+        }
+        /*inputs*/
+        #msform input, #msform textarea {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: montserrat;
+            color: #2C3E50;
+            font-size: 16px;
+        }
+        /*buttons*/
+        #msform .action-button {
+            width: 100px;
+            background: #27AE60;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 1px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px;
+        }
+        #msform .action-button:hover, #msform .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+        }
+        /*buttons del*/
+        #msform .action-button-del {
+            width: 100px;
+            background: #D83333;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 1px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px;
+        }
+        #msform .action-button-del:hover, #msform .action-button-del:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #D83333;
+        }
+        /*buttons question*/
+        #msform .action-button-question {
+            width: 100px;
+            background: #3EA2DF;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 1px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px;
+        }
+        #msform .action-button-question:hover, #msform .action-button-question:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #3EA2DF;
+        }
+        /*headings*/
+        .fs-title {
+            font-size: 28px;
+            text-transform: uppercase;
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+        .fs-subtitle {
+            font-weight: normal;
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        /*progressbar*/
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            /*CSS counters to number the steps*/
+            counter-reset: step;
+        }
+        #progressbar li {
+            list-style-type: none;
+            color: black;
+            text-transform: uppercase;
+            font-size: 18px;
+            width: 33.33%;
+            float: left;
+            position: relative;
+        }
+        #progressbar li::before {
+            content: counter(step);
+            counter-increment: step;
+            width: 25px;
+            line-height: 25px;
+            display: block;
+            font-size: 18px;
+            color: #333;
+            background: white;
+            border-radius: 3px;
+            margin: 0 auto 5px auto;
+        }
+        /*progressbar connectors*/
+        #progressbar li::after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: white;
+            position: absolute;
+            left: -50%;
+            top: 9px;
+            z-index: -1;
+            /*put it behind the numbers*/
+        }
+        #progressbar li:first-child::after {
+            /*connector not needed before the first step*/
+            content: none;
+        }
+        /*marking active/completed steps green*/
+        /*The number of the step and the connector before it = green*/
+        #progressbar li.active::before, #progressbar li.active::after {
+            background: #27AE60;
+            color: white;
+        }
+        #wrapperBackground {
+            padding-top: 5%;
+            height: auto;
+            border: 1px;
+            border-style: solid;
+            border-color: #CCC;
+            margin: auto;
+            text-align: left;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+        #wrapper {
+            height: 24px;
+            margin: 5%;
+        }
+        label #inputF {
+            visibility: hidden;
+            position: absolute;
+            border: 2px;
+        }
+        #uploadContent img {
+            width: 240px;
+            height: auto;
+
+        }
+        #uploadContent div {
+            margin-top: 5%;
+            display: inline-block;
+            padding: 5% 5%;
+            border: 2px;
+            border-style: dashed;
+            border-color: #CCDCE0;
+        }
+        #fileInput {
+            display: block;
+            color: #666;
+            font-size: 13px;
+            cursor: pointer;
+
+        }
+        .spot {
+            display: block;
+            margin-top: 5%;
+            float: left;
+            padding-top: 8px;
+            color: #666;
+            font-size: 16px;
+
+        }
+
+        .spot #spot {
+            width: 190px;
+            text-align: left;
+
+        }
+        #spot_text {
+            padding-top: 5%;
+            color: #666;
+            font-size: 13px;
+        }
+
+        #myForm {
+            padding-right: 5%;
+            padding-left: 5%;
+            padding-bottom: 5%;
+            height: auto;
+            border: 1px;
+            border-style: solid;
+            border-color: #CCC;
+            margin: auto;
+            font-size: 13px;
+            text-align: left;
+            overflow: hidden;
+            font-family: sans-serif;
+
+        }
+        #myForm #btnAddSpot {
+            margin-left: 60%;
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+        }
+        #myForm .trash {
+            float: right;
+            padding-top: 17px;
+            margin-left: 10px;
+
+        }
+
+
+        .xdsoft_datetimepicker .xdsoft_datepicker {
+            width: 300px;
+        }
+        .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+            height: 151px;
+        }
+
+        .toTop-arrow {
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            border-radius: 33%;
+            opacity: 0.6;
+            background: #000000;
+            cursor: pointer;
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            display: none;
+            box-shadow: 4px 4px 5px #999;
+        }
+        .toTop-arrow::before, .toTop-arrow::after {
+            width: 25px;
+            height: 6px;
+            border-radius: 3px;
+            background: #FFF;
+            position: absolute;
+            content: "";
+
+        }
+        .toTop-arrow::before {
+            transform: rotate(-45deg) translate(0, -50%);
+            left: 0.42rem;
+        }
+        .toTop-arrow::after {
+            transform: rotate(45deg) translate(0, -50%);
+            right: 0.42rem;
+        }
+        .toTop-arrow:focus {
+            outline: none;
+        }
+        input[type="button"], input[type="submit"] {
+            color: white !important;
+            line-height: normal;
+            height: auto;
+            text-transform: none;
+        }
+        #footer {
+            padding: 1rem 0 1rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #footer .copyright {
+            margin: 0 0 1rem 0;
+        }
+        ul.icons {
+            margin: 0 0 1rem 0;
+        }
+
+        input[type="checkbox"] {
+            opacity: 1;
+            appearance: auto;
+        }
+        .erroMsgs {
+            color: red;
+            font-size: 13px;
+            text-align: left;
+            margin-bottom: 4px;
+        }
+        select {
+            width: auto;
+            display: inline-block;
+            line-height: 20px;
+            float: left;
+        }
+        #addressOutside {
+            width: 260px !important;
+        }
+        <style type="text/css">.display {
+            text-align: center;
+        }
+
+        #map {
+            width: 500px;
+            height: 350px;
+            margin: 10px auto;
+            display: table-cell;
+        }
+
+        #panel {
+            font-size: 20px;
+        }
+
+        #keyword {
+            width: 500px;
+            font-size: 20px;
+            color: #000;
+            font-weight: 700;
+            padding: 5px 15px;
+        }
+
+        .info_title {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .info_head {
+            font-weight: 800;
+        }
+
+        .info_img {
+            height: 200px;
+            width: auto;
+        }
+        .pac-container {
+
+            z-index: 1051 !important;
+            position: fixed;
+            display: inline-block;
+            float: left;
+        }
+        .modal-backdrop {
+            z-index: 20;
+        }
+        ​ .modal {
+            z-index: 20;
+        }

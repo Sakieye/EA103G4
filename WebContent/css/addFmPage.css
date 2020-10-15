@@ -1,0 +1,86 @@
+        /*討論區文章*/
+        .content .container .row {
+            text-align: center;
+            vertical-align: middle;
+            margin-top: 10px;
+            color: black;
+            font-size: 20px;
+        }
+
+        .content .container .row #title {
+            text-align: center;
+        }
+        /*主題文字*/
+        .content .container .row .col-md-8 {
+            text-align: left;
+        }
+
+
+
+        /*討論區 發佈時間 回覆數*/
+        .content .container .row .col-md-2 {
+            font-size: 16px;
+        }
+        /*最新文章*/
+        .content .container .row #heading1 {
+            text-align: left;
+            font-size: 30px;
+            border-left: solid 8px green;
+        }
+        /*我要發佈按鈕那一個div*/
+        .content .container .row .col-md-6 {
+            text-align: right;
+        }
+        /*我要發佈按鈕*/
+        .content .container .row .col-md-6 input {
+            background-color: green;
+            color: white;
+            font-weight: 900;
+            font-size: 16px;
+        }
+        .content .container .row .col-md-6 input:hover {
+            background-color: #006400;
+        }
+        /*最新文章下的圖片*/
+        .content .container .row .col-md-3 img {
+            width: 100%;
+            height: 75%;
+        }
+
+		#two{
+        	background-image:url('../images/books1920.jpg');
+        }
+
+		.box{
+        	border-radius:10px;
+        	box-shadow: 12px 12px 7px rgba(0, 0, 0, 0.7);
+        	opacity: .8;
+        }
+        .box:hover{
+        	opacity: 1;
+        }
+
+
+        /*寬度調整*/
+        @media screen and (min-width: 768px) and (max-width: 991px) {
+            .content .container .row .col-md-2 {
+                display: none;
+            }
+            .content .container .row .col-md-8 {
+                margin: 0px auto;
+            }
+            .content .container .row .col-md-12 img {
+                width: 100%;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            .content .container .row .col-md-2 {
+                display: none;
+            }
+            .content .container .row .col-md-8 {
+                margin: 0px auto;
+            }
+            .content .container .row .col-md-12 img {
+                width: 100%;
+            }
+        }

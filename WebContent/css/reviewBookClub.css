@@ -1,0 +1,63 @@
+        table th {
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .table td {
+            vertical-align: middle;
+            font-size: 1.1rem;
+            height: auto;
+        }
+        input[type="submit"] {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        button {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
+        }
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        #container {
+            margin: 10vh auto;
+            height: 1200px;
+            width: 100%;
+        }
+        #ReviewTableBody {
+            margin-right: -32px;
+            font-family: "Noto Bold", sans-serif;
+        }
+
+        .reviewGroupBtn {
+            background-color: #3275E6;
+            border-color: #3275E6;
+        }
+
+        .reviewGroupBtn:hover {
+            background-color: #65A1EA;
+            border-color: #65A1EA;
+        }
+
+        .btn.chat {
+            height: auto;
+        }
+
+        .btn.chat:hover {
+            transform: scale(1.2, 1.2);
+            transition: 0.2s all;
+        }
+
+        .reviewSubmit {
+            display: contents;
+        }
+
+        #star {
+            margin: 0 auto;
+        }
+
+        #quitModal {
+            color: black;
+        }
+
+        #DismissModalCenterTitle {
+            color: black;
+        }

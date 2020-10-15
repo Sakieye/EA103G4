@@ -1,0 +1,348 @@
+        @font-face {
+            font-family: jf-openhuninn;
+            src: url('../fonts/jf-openhuninn-1.1.ttf');
+        }
+        @font-face {
+            font-family: Arciform;
+            src: url('../fonts/Arciform.otf');
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 1440px;
+            background: url("../images/bookclub/background.png") center center fixed no-repeat;
+            background-size: cover;
+            font-family: jf-openhuninn, arial;
+        }
+
+        .jumbotron {
+            background: url("../images/bookclub/jumbotron.jpg") no-repeat center center / cover;
+            color: #FFF;
+            margin-bottom: 0;
+
+        }
+        .jumbotron h1 {
+            filter: drop-shadow(3px 6px 6px black);
+        }
+        .jumbotron p {
+            filter: drop-shadow(3px 6px 6px black);
+        }
+        .path {
+            background-color: #EEE;
+            box-shadow: 0 0 12px 0 rgba(0, 0, 0, .3);
+
+        }
+        .path .breadcrumb {
+            background-color: transparent;
+            position: relative;
+            align-items: center;
+        }
+        #create_bookclub {
+            text-align: right;
+            right: 1%;
+            bottom: 10%;
+            margin-bottom: 15px;
+            margin-left: 50%;
+            font-family: jf-openhuninn;
+            font-size: 20px;
+            background-color: #86DDFF;
+            border-radius: 50px;
+            color: #D2D2D2;
+        }
+        .con {
+            position: relative;
+            max-width: 100%;
+            height: 300px;
+            margin-bottom: 50px;
+            border: 3px solid #CCC;
+            overflow: hidden;
+
+
+        }
+        .image {
+            display: block;
+            max-width: 100%;
+
+
+        }
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            /* Black see-through */
+            color: #f1f1f1;
+            width: 100%;
+            transition: cubic-bezier(1, 0.7, 0.5, 0.1), 1.5s;
+            opacity: 1;
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            text-align: center;
+
+            /* transition-delay: 1s; */
+        }
+
+        /* When you mouse over the container, fade in the overlay title */
+        .con:hover .overlay {
+            opacity: 0;
+
+        }
+        .con:hover {
+            box-shadow: 0 0 10px;
+        }
+        .little_title {
+            margin-bottom: 30px;
+        }
+        .card {
+
+            box-shadow: 3px 3px 5px #CCC;
+        }
+        .btn-success {
+            /* border: 3px solid #CCC; */
+            box-shadow: 2px 2px 5px #CCC;
+        }
+        .con:hover #search {
+            opacity: 1;
+
+        }
+        #search-box {
+            text-align: center;
+            border-radius: 20px;
+            width: 250px;
+            height: 40px;
+            box-shadow: 4px 4px 5px #999;
+            padding: 3px 3px 3px 22px;
+            background: #E6E6E6 url('../images/bookclub/search-box.png') no-repeat 3px 3px;
+        }
+        #search {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            margin: -47% auto;
+            display: block;
+            text-align: center;
+            z-index: 3;
+            opacity: 0;
+            transition: all, 2.5s;
+        }
+        input:focus {
+            outline: none
+        }
+
+        input::-webkit-input-placeholder {
+            text-align: center;
+            font-size: 18px;
+        }
+        /* 點擊置頂按鈕 css  */
+        .toTop-arrow {
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            border-radius: 33%;
+            opacity: 0.6;
+            background: #000000;
+            cursor: pointer;
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            display: none;
+            box-shadow: 4px 4px 5px #999;
+        }
+        .toTop-arrow::before, .toTop-arrow::after {
+            width: 25px;
+            height: 6px;
+            border-radius: 3px;
+            background: #FFF;
+            position: absolute;
+            content: "";
+
+        }
+        .toTop-arrow::before {
+            transform: rotate(-45deg) translate(0, -50%);
+            left: 0.42rem;
+        }
+        .toTop-arrow::after {
+            transform: rotate(45deg) translate(0, -50%);
+            right: 0.42rem;
+        }
+        .toTop-arrow:focus {
+            outline: none;
+        }
+        div.date {
+            width: 250px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        div.date .date-text {
+
+            font-size: 20px;
+            margin-left: 10px;
+            font-family: Arciform;
+            color: #777;
+
+        }
+        div.date .clock {
+            width: 24px;
+            height: 24px;
+            /* display: inline-block; */
+
+        }
+        b {
+            font-weight: normal;
+            color: #FFF;
+        }
+
+        input[type="text"] {
+            display: inline-block;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: white;
+        }
+        #footer {
+            position: relative;
+            width: 100%;
+            bottom: -248px;
+        }
+        label {
+            display: inline-block;
+        }
+        .img-thumbnail {
+            margin: 15px;
+            margin-left: 0;
+        }
+        #look {
+            border-radius: 20px;
+
+        }
+        #look_button {
+            text-align: right;
+        }
+
+        .style-9d977bdb-tab-list-container {
+            z-index: 10;
+            width: 100%
+        }
+        .style-9d977bdb-tab-list-container.style-aef1b6ee-isWebview {
+            top: 0
+        }
+        .style-e2cd9693-tab-list {
+            display: block;
+            max-width: 1080px;
+            width: auto;
+            margin: 0 auto;
+            padding: 0;
+            white-space: nowrap;
+
+        }
+        .style-9c4d2ab9-tab {
+            display: inline-block;
+            vertical-align: top
+        }
+        .style-9394412d-tab-link {
+            display: block;
+            color: inherit;
+            margin-bottom: -3px;
+            font-weight: 700;
+            padding: 10px;
+            text-decoration: none
+        }
+        .style-9394412d-tab-link:hover {
+            color: inherit
+        }
+        .style-fe5cd619-tab-icon {
+            height: 15px;
+            width: auto;
+            vertical-align: middle;
+            padding-right: 8px
+        }
+        .style-de5806aa-tab-label {
+            vertical-align: middle;
+            font-size: 20px;
+        }
+        .create_bookclub {
+            padding-bottom: 10px;
+        }
+        @media screen and (min-width:1080px) {
+            .style-9d977bdb-tab-list-container {
+                height: 72px;
+                box-shadow: none;
+                top: 50px;
+                text-align: center;
+            }
+        }
+        @media screen and (max-width:1079px) {
+            .style-9d977bdb-tab-list-container {
+                top: 50px;
+                text-align: center;
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-e2cd9693-tab-list {
+                position: relative;
+                z-index: 1
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-bf418730-tab-list-border {
+                width: 100%;
+                height: 3px;
+                /* background-color: #ccc; */
+                position: absolute;
+                bottom: 0;
+                left: 0
+            }
+        }
+        @media screen and (max-width:1079px) {
+            .style-9c4d2ab9-tab {
+                min-width: 25%
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-d50a2f10-tab-inner {
+                border-right: 1px solid #ccc
+            }
+        }
+        @media screen and (max-width:1079px) {
+            .style-caa1643f-tab-wide {
+                min-width: 27%
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-9394412d-tab-link {
+                margin-bottom: 0;
+                border-bottom-width: 6px;
+                padding: 0
+            }
+        }
+        @media screen and (max-width:1079px) {
+            .style-9394412d-tab-link {
+                text-align: center
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-d50a2f10-tab-inner {
+                display: block;
+                margin: 15px 0;
+                padding: 6px 0;
+                width: 100%;
+                text-align: center;
+                border-left: 1px solid #ccc
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-fe5cd619-tab-icon {
+                height: 20px;
+                width: auto
+            }
+        }
+        @media screen and (min-width:1080px) {
+            .style-de5806aa-tab-label {
+                font-size: 24px
+            }
+        }

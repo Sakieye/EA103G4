@@ -1,0 +1,273 @@
+        @font-face {
+            font-family: jf-openhuninn;
+            src: url('../fonts/jf-openhuninn-1.1.ttf');
+        }
+        @font-face {
+            font-family: Arciform;
+            src: url('../fonts/Arciform.otf');
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            position: relative;
+            min-height: 1440px;
+            background: url("../images/bookclub/background.png") center center fixed no-repeat;
+            background-size: cover;
+            font-family: jf-openhuninn, arial;
+        }
+
+        .container {
+            margin-top: 3%;
+        }
+        /* 點擊置頂按鈕 css  */
+        .toTop-arrow {
+            width: 3rem;
+            height: 3rem;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            border-radius: 33%;
+            opacity: 0.6;
+            background: #000000;
+            cursor: pointer;
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            display: none;
+            box-shadow: 4px 4px 5px #999;
+        }
+        .toTop-arrow::before, .toTop-arrow::after {
+            width: 25px;
+            height: 6px;
+            border-radius: 3px;
+            background: #FFF;
+            position: absolute;
+            content: "";
+
+        }
+        .toTop-arrow::before {
+            transform: rotate(-45deg) translate(0, -50%);
+            left: 0.42rem;
+        }
+        .toTop-arrow::after {
+            transform: rotate(45deg) translate(0, -50%);
+            right: 0.42rem;
+        }
+        .toTop-arrow:focus {
+            outline: none;
+        }
+
+        #bookclub_pic {
+            max-width: 100%;
+            text-align: center;
+            padding: 0;
+            filter: drop-shadow(2px 4px 6px black);
+        }
+        #mem_pic {
+            margin-right: 3%;
+            margin-bottom: 3%;
+            display: inline-block;
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 100%;
+            border: 3px solid #999;
+            box-shadow: 2px 4px 5px #999;
+
+        }
+        #mem_name {
+            display: inline-block;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+        #mem {
+            padding: 10px;
+            width: 100%;
+            height: auto;
+            position: sticky;
+            top: 10%;
+            text-align: center;
+            border: 1px solid #333;
+            box-shadow: 4px 4px 5px #999;
+            transition: all, 1.5s;
+            background-color: #E7E7E7;
+        }
+
+
+        .date-text {
+
+            font-size: 26px;
+            margin-left: 10px;
+            font-family: Arciform;
+            color: #777;
+
+
+        }
+        .subtitle_pic {
+            width: 32px;
+            height: 32px;
+
+
+
+        }
+        .bookclub_subtitle {
+            display: flex;
+            margin: 10px 0;
+        }
+        .bookclub_subtitle span {
+
+            font-size: 26px;
+            font-family: jf-openhuninn;
+            margin-left: 10px;
+            color: #777;
+        }
+        .bookclub_context {
+            font-size: 20px;
+        }
+        .bookclub_address {
+            display: flex;
+            color: #666;
+            margin-top: 25px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+        .address {
+            border-bottom: 1px dotted #666;
+        }
+        #map {
+            width: 100%;
+            height: 450px;
+            border: 3px solid #999;
+            box-shadow: 2px 4px 5px #999;
+            padding: 0;
+        }
+        #bookclub_intro {
+            margin-top: 20px;
+            display: none;
+            /* transition: all, 2.5s;
+            transition-property: display;
+            transition-duration: 3s; */
+        }
+        #mem_btn {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            background-color: #378DFF;
+            color: #FFF !important;
+        }
+        #register_form {
+            margin: 0;
+        }
+        .block {
+            padding: 10px;
+        }
+        .block-title {
+            font-weight: 500;
+            padding: 5px;
+        }
+        .block-body {
+            padding: 0px 20px;
+        }
+
+        .fixed {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 500px;
+            background-color: #abc;
+            border: 1px #ccc solid;
+            border-radius: 5px;
+            padding: 5px 15px;
+            /*opacity: 0.8;*/
+        }
+
+        .cards {
+            padding: 10px;
+        }
+        .card {
+            display: inline-block;
+            width: 31%;
+            padding: 5px;
+            background-color: lightgray;
+            box-shadow: 3px 3px 8px hsl(0, 0%, 70%);
+            margin: 5px;
+        }
+        .card .cover {
+            height: 500px;
+            background-color: lightgray;
+            position: relative;
+            background-size: auto 100%;
+            background-position: center center;
+            transition: 0.5s;
+        }
+        .card:hover {
+            box-shadow: 9px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+        .card:hover .cover {
+            background-size: auto 115%;
+        }
+        .card-body {
+            padding: 10px;
+        }
+        .card-body>:first-child {
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-weight: 500;
+            font-size: 24px;
+            color: lightcoral;
+        }
+        .card-body>:last-child {
+            margin-top: 0px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: black;
+        }
+        .style-6e8fa4a0-register-button {
+            position: relative;
+            display: -webkit-box;
+            display: flex;
+            -webkit-box-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-flex: 1;
+            flex: 1;
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 3px;
+            color: #fff !important;
+            ;
+            background-image: linear-gradient(105deg, #3e97d3 11%, #1074cc 116%);
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: inset 0 -3px 0 0 rgba(49, 115, 179, .22);
+            text-decoration: none;
+            cursor: pointer;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            -webkit-box-direction: normal;
+        }
+        a {
+            background-color: transparent;
+            text-decoration: none;
+        }
+        i {
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 4px;
+        }
+        .right {
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
+        .col-form-label {
+            font-size: larger;
+        }
+        button:focus {
+            outline: none;
+        }

@@ -1,0 +1,22 @@
+        table {
+            font-size: 14px;
+        }
+        td p {
+            font-size: 5px;
+            color: #8C8C8C;
+        }
+        form {
+            padding-bottom: 10px;
+        }
+        form .form-row {
+            padding-bottom: 10px;
+        }
+
+        a.button {
+            -webkit-appearance: button;
+            -moz-appearance: button;
+            appearance: button;
+
+            text-decoration: none;
+            color: initial;
+        }

@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+@import url(font-awesome.min.css);
+
+@import
+	url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700")
+	;
+
+.subpage {
+	background-color: #EBE5D9;
+	text-align: center;
+}
+
+/*bookindex.jsp*/
+div.page, .pagename {
+	margin: 10px 15px;
+	text-algin: center;
+	font-family: Century Gothic;
+	color: block;
+	font-size: 12px;
+}
+
+div.page>a {
+	color: blue;
+	font-size: 12px;
+}
+
+div>#book {
+	background-color: #EBE5D8;
+	text-align: center;
+}
+
+div>#booklist {
+	padding: 5px 5px;
+	width: 12rem;
+	height: 19.5rem;
+	position: relative;
+	overflow: hidden;
+	transition: box-shadow 500ms;
+	margin: 15px 10px;
+	border-radius: 8px;
+}
+
+div>#booklist:hover {
+	position: relative;
+	top: -1px;
+	box-shadow: 10px 10px 5px rgba(0.2, 0, 0, 0.2);
+}
+
+div>#book .card-top {
+	
+}
+
+div>#book #booklist .card-img-top {
+	margin: 10px 0px 0px 0px;
+	width: 130px;
+	height: 140px;
+	transition: box-shadow 500ms;
+}
+
+div>#book #booklist .card-img-top:hover {
+	position: relative;
+	transform: scale(1.1);
+}
+
+div>#book .card-body {
+	
+}
+
+div>#book .card-body .prdName {
+	font-size: 14px;
+	font-weight: 900;
+	color: #666666;
+	font-family: Helevetica;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	white-space: normal;
+}
+
+div>#book .card-body #price {
+	font-family: Century Gothic;
+	color: red;
+	font-size: 20px;
+}
+
+div>#book #booklist .card-body-btn {
+	width: 10px;
+	height: 10px;
+	transition: box-shadow 500ms;
+	position: absolute;
+	top: 245px;
+	left: 100px;
+	outline: none;
+	background-color: transparent;
+}
+
+div>#book #booklist .card-img-body {
+	width: 30px;
+	height: 30px;
+}
+
+
+
+
+
+
+
+
+/*cart.jsp*/
+div>#cartlist {
+}
+
+div>#cartlist .cartprd {
+	font-size: 14px;
+	font-weight: 900;
+	color: #666666;
+	font-family: Helevetica;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	white-space: normal;
+}
+
+/* div>#cartlist.prdCard { */
+	
+/* } */
+
+/* div>#cartlist.cardleft { */
+/* 	display: flex; */
+/* 	width: 90%; */
+/* } */
+
+/* div>#cartlist.cardright { */
+/* 	width: 10%; */
+/* 	height: 20%; */
+/* 	display: flex; */
+/* 	float: right; */
+/* } */

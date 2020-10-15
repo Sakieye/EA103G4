@@ -1,0 +1,86 @@
+        /*會員照片*/
+        #memPic {
+            width: 100px;
+            height: 100px;
+            border: solid 1px;
+            border-radius: 100%;
+            margin: 0px auto;
+            border: solid 5px;
+    		display: inline-block;
+    		border-radius: 100%;
+    		overflow: hidden;
+        }
+        #memInfo {
+            text-align: center;
+        }
+        /*我要回覆按鈕div*/
+        #replyBtn {
+            text-align: right;
+            margin-bottom: 30px;
+        }
+        /*我要回覆按鈕*/
+        #replyBtn input {
+            background-color: green;
+            color: white;
+            font-weight: 900;
+            font-size: 16px;
+            border-radius:10px;
+            outline:none;
+        }
+        #replyBtn input:hover {
+            background-color: #006400;
+        }
+        #titleRow .col-md-3 {
+            position: relative;
+        }
+        #titleRow .col-md-3 input {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -.5em;
+            margin-top: -.5em;
+        }
+        /*文章頁面發佈時間*/
+        #time {
+            text-align: center;
+            padding-top: 30px;
+        }
+
+        #fatopic {
+            font-size: 20px
+        }
+        
+		
+		.clear{
+			clear:both;
+		}
+		
+		.box{
+        	border-radius:10px;
+        	box-shadow: 12px 12px 7px rgba(0, 0, 0, 0.7);
+        	opacity: .8;
+        }
+        .box:hover{
+        	opacity: 1;
+        }
+        
+        #two{
+        	background-image:url('../images/books1920.jpg');
+        }
+		/*檢舉按鈕div*/
+		.reportBtn input{
+			border-radius:10px;
+			float:right;
+			margin-left:10px;
+			outline:none;
+			background-color: green;
+			color: white;
+		}
+		.reportBtn input:hover{
+			background-color:#222222;
+		}
+
+        /*寬度調整*/
+        @media screen and (min-width: 768px) and (max-width: 991px) {}
+        @media screen and (max-width: 768px) {}

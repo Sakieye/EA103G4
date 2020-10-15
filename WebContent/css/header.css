@@ -1,0 +1,86 @@
+#headName {
+	font-weight: 700;
+	font-size: 16px;
+	font-family: "LiGothic", "FangSong", Arial, serif;
+	line-height: 5px;
+	display: inline-block;
+	position: absolute;
+	right: 150px;
+	top: 12px;
+}
+
+#headName p {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+#img {
+	line-height: 10px;
+	display: inline-block;
+	position: absolute;
+	right: 100px;
+	top: 10px;
+}
+
+#img img {
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	border-radius: 100%;
+	
+}
+#img img:hover{
+	box-shadow: 0 0 14px #C0C0C0;
+}
+
+ #logOut {
+ 	padding: 3px;
+	display: inline-block;
+	background-color: black;
+	color: white !important;
+	font-family: 微軟正黑體;
+	margin-right: 15px;
+	line-height: 30px;
+	border: 1px solid black;
+	letter-spacing: 1px;
+	text-decoration: none;
+	line-height: 20px;
+}
+
+#logOut:hover {
+	text-decoration: underline;
+	border: 1px solid #C0C0C0;
+	border-radius: 10px;
+}
+
+/* #login { */
+/* 	display: inline-block; */
+/* 	background-color: black; */
+/* 	color: white !important; */
+/* 	font-size: 18px; */
+/* 	margin-right: -15px; */
+/* 	padding-top: 3px; */
+/* 	text-align: center; */
+/* 	font-family: �L�n������; */
+/* } */
+
+
+#headName #myForm {
+	display: inline-block;
+}
+
+#logIn {
+	text-decoration: none;
+	color: black;
+	color: white !important;
+	line-height: 30px;
+	font-family: "LiGothic", "FangSong", Arial, serif;
+	text-align: center;
+	letter-spacing: 1px;
+}
+
+#logIn:hover {
+	text-decoration: underline;
+	border: 1px solid #C0C0C0;
+	border-radius: 10px;
+}
