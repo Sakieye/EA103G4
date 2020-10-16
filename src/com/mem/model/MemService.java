@@ -97,4 +97,8 @@ public class MemService {
 	public List<MemVO> getAll(Map<String, String[]> map){
 		return dao.getAll(map);
 	}
+	
+	public void updateExp(MemVO memVO) {
+		dao.update(memVO);
+	}
 }

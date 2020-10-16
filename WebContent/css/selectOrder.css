@@ -1,0 +1,175 @@
+* {
+	box-sizing: border-box;
+}
+
+ul {
+	padding: 0;
+}
+
+ul a {
+	display: inline-block;
+	text-decoration: none;
+	color: #666;
+}
+
+.content {
+	height: 800px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #E0E0E0;
+	font-family: "Helvetica", "Arial", "LiHei Pro",
+		"���雓�嚙踝蕭謢察���蕭蹎刻嚙踐揭嚙踝蕭謕蕭��嚙踝蕭謕蕭豲��嚙踝����蕭��-���雓�鞊莎�揭嚙踝蕭��嚙踐���",
+		"���雓�嚙踝蕭謅蕭�����蕭謖嚙踝蕭��蕭�嚙踐�蕭豲��嚙踝����雓Ｗ�揭嚙踐飾嚙踝����蕭����雓�嚙踝蕭謢察���蕭蹎刻嚙踐揭嚙踝蕭謕蕭��嚙踝蕭謕蕭豲��嚙踝����蕭��", sans-serif;
+	font-weight: 700;
+}
+
+.menuDiv {
+	border-radius: 10px;
+	width: 1300px;
+	height: 700px;
+	background-color: #2F4F4F;
+	display: flex;
+	box-shadow: 0 0 17px black;
+}
+
+/* ===================================
+  			 嚙踝蕭謕蕭豲��嚙踝����蕭�����嚙踐疚鞎�蕭謕蕭豲嚙踐鞊曹����蕭謖鞊莎�揭嚙踝蕭�����蕭��嚙踝蕭謕蕭豲��嚙踝����蕭�����嚙踐疚���蕭�嚙踝��蕭謆扯�偃豱佗蕭嚙踐嚙踐�嚙踝嚙踐揭嚙踝蕭�����嚙踐��嚙踝����雓Ｗ�揭嚙踝蕭謕蕭��嚙踝蕭謕蕭��嚙踝蕭謕蕭豲������蕭��雓�鞊船������嚙踐�嚙踝蕭謕蕭������蕭嚙踐�蕭��蕭�����蕭謖嚙踝蕭�����雓�鞊莎�揭嚙踝蕭�貔��蕭�豱佗蕭嚙踝��蕭豱批�����ˇ���嚙踝蕭��雓葡���嚙踐�嚙踝蕭謕蕭��雓����嚙踐嚙踝蕭�嚙踐�蕭豲��嚙踝����蕭�����嚙踐疚鞎�蕭謕蕭豲嚙踐鞊曹����蕭��嚙踝蕭豯抆���蕭��嚙踐���雓�鞊莎�揭嚙踝蕭謕蕭��蕭謍堆蕭謕蕭��嚙踝���蕭謖嚙踝蕭謅���雓�鞊莎�揭嚙踝蕭�貔��蕭�豱佗蕭嚙踐�蕭豲��憪蕭嚙踝蕭
+   			===================================*/
+.myMenu {
+	width: 350px;
+	margin: 0 auto;
+	list-style-type: none;
+	top: 200px;
+	margin-left: 30px;
+	margin-top: 70px;
+}
+
+#myContainer {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin-right: 0;
+	background-color: white;
+}
+.selectBlock{
+	width: 1000px;
+	height: 150px;
+/* 	border: 1px solid black; */
+}
+.selectBlock .input-group{
+	width: 400px;
+	display: inline-block;
+}
+.selectBlock select{
+	height: 40px;
+	width: 200px !important;
+	color: black !important;
+	font-size: 18px;
+	letter-spacing: 1px;
+	font-family: Microsoft JhengHei;
+	border: 1px solid grey;
+	margin-left: 80px;
+	border-radius: 8px;
+}
+.selectBlock .dateBlock{
+	margin-top: 30px;
+	width: 500px;
+	display: inline-block;
+	height: 55px;
+	margin-left: 30px;
+}
+.selectBlock .date{
+	width: 300px;
+}
+.selectBlock .mybtn{
+	margin-left: 5px;
+	color: white !important;
+}
+.mybtn2{
+	color: white !important;
+	height: 30px;
+	line-height: 0;
+}
+.delForm{
+	margin: 0 0 0 0;
+}
+.selectBlock .dateDiv{
+	display: inline-block;
+}
+.selectBlock .dateDiv input{
+	background-color: white !important;
+	border: 1px solid grey;
+	border-radius: 8px;
+	font-size: 18px;
+}
+
+.selectBlock .btnDiv{
+	display: inline-block;
+}
+.drop-down {
+	position: relative;
+}
+
+.submenu {
+	position: relative;
+	opacity: 0;
+	width: 100%;
+	z-index: 8;
+	transition: opacity 0.5s ease;
+}
+
+.submenu-item {
+	display: block;
+	height: 0px;
+	overflow: hidden;
+	transition: height 0.5s ease;
+}
+
+.drop-down:hover .submenu {
+	opacity: 1;
+}
+
+.drop-down:hover .submenu-item {
+	overflow: visible;
+	height: 30px;
+}
+/* ===================================
+   			���雓�嚙踝蕭謢察���蕭��蕭謕蕭��縐������嚙踝蕭謅��鞊莎�揭���雓�鞊船�頩�������雓�鞊莎�揭嚙踝蕭��嚙踐嚙踝蕭謕蕭��
+   		   ===================================*/
+.item {
+	font-size: 25px;
+	width: 100%;
+	padding: 15px;
+	color: white;
+}
+
+.item:hover {
+	background: #333;
+}
+
+.submenu-item {
+	background: #333;
+	color: #eee;
+	width: 100%;
+	padding-left: 20px;
+	line-height: 30px;
+}
+
+.submenu-item:hover {
+	background: #555;
+}
+
+.now .item {
+	background: #ddd;
+}
+
+.now .submenu {
+	opacity: 1;
+}
+
+.now .submenu-item {
+	background: #555;
+	overflow: visible;
+	height: 30px;
+}

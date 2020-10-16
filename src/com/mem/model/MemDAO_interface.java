@@ -5,7 +5,7 @@ import java.util.Map;
 
 
 public interface MemDAO_interface {
-	public void insert(MemVO memVO);
+	public MemVO insert(MemVO memVO);
     public void update(MemVO memVO);
     public void updatePwd(MemVO memVO);
     public void delete(String mem_id);

@@ -1,5 +1,7 @@
 package com.detail.model;
 
+import java.util.List;
+
 public class DetailService {
 
 	private DetailDAO_Interface ddi;
@@ -24,7 +26,7 @@ public class DetailService {
 		return dtVO;
 	}
 
-	public DetailVO getOneOd(String order_id) {
+	public List<DetailVO> getOneOd(String order_id) {
 		return ddi.findbyid(order_id);
 	}
 

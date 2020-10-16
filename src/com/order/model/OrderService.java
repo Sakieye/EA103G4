@@ -1,6 +1,7 @@
 package com.order.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.detail.model.DetailVO;
 
@@ -70,5 +71,9 @@ public class OrderService {
 		
 	}
 	
-
+	//哲維增加
+	public List<OrderVO> allSelect(Map<String, String[]> map){
+		return odi.allSelect(map);
+	}
+	
 }

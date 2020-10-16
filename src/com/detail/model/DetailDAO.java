@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -27,10 +29,11 @@ public class DetailDAO implements DetailDAO_Interface {
 	
 	private static final String INS_ODT=
 			"INSERT INTO ORDER_DETAILS VALUES(?,?,?,?,?,?)";
+//	private static final String FIND_ID=
+//			"SELECT * FROM ORDERS WHERE ORDER_ID=?";  原本的
+	
 	private static final String FIND_ID=
-			"SELECT * FROM ORDERS WHERE ORDER_ID=?";
-	
-	
+			"SELECT * FROM ORDER_DETAILS WHERE ORDER_ID=?";  //哲維修改
 	
 	@Override
 	public void doCreate(DetailVO dtVO , Connection con) {
@@ -74,7 +77,8 @@ public class DetailDAO implements DetailDAO_Interface {
 	}
 
 	@Override
-	public DetailVO findbyid(String order_id) {
+	public List<DetailVO> findbyid(String order_id) {		//更改回傳型別 BY哲維
+		List<DetailVO> list = new ArrayList<DetailVO>(); //哲維增加
 		DetailVO dtVO = null;
 		Connection con =null;
 		PreparedStatement pstmt =null;
@@ -85,6 +89,7 @@ public class DetailDAO implements DetailDAO_Interface {
 			pstmt = con.prepareStatement(FIND_ID);
 			con.setAutoCommit(false);
 			
+			pstmt.setString(1, order_id);         //哲維增加
 			rs= pstmt.executeQuery();
 			while(rs.next()) {
 				dtVO = new DetailVO();
@@ -127,7 +132,7 @@ public class DetailDAO implements DetailDAO_Interface {
 				}
 			}
 		}
-		return dtVO;
+		return list;   //修改回傳物件
 	}
 
 }

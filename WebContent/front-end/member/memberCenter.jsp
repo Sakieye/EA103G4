@@ -46,7 +46,7 @@
 			        <a class="item">訂單管理</a>
 			        <div class="submenu">
 			            <a class="submenu-item" href="#">訂單修改/取消</a>
-			            <a class="submenu-item" href="#">訂單查詢</a>
+			            <a class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/selectOrder.jsp">訂單查詢</a>
 			        </div>
 			    </li>
 			    <li class="itembox drop-down">

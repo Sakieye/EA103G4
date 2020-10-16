@@ -35,13 +35,15 @@ public class MemDAO implements MemDAO_interface {
 	private static final String CHECK_EMAIL = "SELECT mem_id FROM MEMBER WHERE MEM_EMAIL = ?";
 	
 	@Override
-	public void insert(MemVO memVO) {
+	public MemVO insert(MemVO memVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT_STMT);
+			
+			String cols[] = {"MEM_ID"};
+			pstmt = con.prepareStatement(INSERT_STMT, cols);
 
 			pstmt.setString(1, memVO.getMem_account());
 			pstmt.setString(2, memVO.getMem_password());
@@ -55,6 +57,16 @@ public class MemDAO implements MemDAO_interface {
 			pstmt.setBytes(10, memVO.getMem_pic());
 
 			pstmt.executeUpdate();
+			
+			String mem_id = null;
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				mem_id = rs.getString(1);
+				memVO.setMem_id(mem_id);
+			} else {
+				System.out.println("error:沒取到ID");
+			}
+			rs.close();
 
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -76,6 +88,7 @@ public class MemDAO implements MemDAO_interface {
 				}
 			}
 		}
+		return memVO;
 	}
 
 	public void updatePwd(MemVO memVO) {
