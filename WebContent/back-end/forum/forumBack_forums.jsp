@@ -120,7 +120,7 @@ html {
 									name="farId" value="${farVO.farId}"> <input
 									type="hidden" name="faId" value="${farVO.faId}"> <input
 									type="hidden" name="adminId" value="${adminsVO.admin_id}"></td>
-									${adminsVO.admin_id}ddd
+									${adminsVO.admin_id}
 								</form>
 							</tr>
 

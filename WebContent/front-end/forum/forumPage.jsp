@@ -5,7 +5,6 @@
 <%@ page import="com.mem.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-
 <% 
 	FaVO faVO = (FaVO)request.getAttribute("faVO");
 %>
@@ -56,9 +55,10 @@
 						</div>
 						<div class="row">
 							<div class="col-md-2" id="memInfo">
-								<div  id="memPic"><img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${faVO.memId}" style="width: 100px; height: 100px;">	</div>
-								<div class="col-md-12">${memSvc.getOneMem(faVO.memId).mem_name}</div>
-								
+								<div><b>樓主</b></div>
+								<div id="memPic"><img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${faVO.memId}" style="width: 100px; height: 100px;">	</div>
+								<div class="col-md-12" id="AmemName"><b>${memSvc.getOneMem(faVO.memId).mem_name}</b></div>
+								<div id="AmemExp"><b>${memSvc.getOneMem(faVO.memId).mem_exp}</b></div>
 							</div>
 							<div class="col-md-10">
 									<div class="row">
@@ -87,11 +87,13 @@
 							</div>
 						</div>
 						<hr>
-						<c:forEach var="fmVO" items="${list}">
+						<c:forEach var="fmVO" items="${list}" varStatus="tag">
 								<div class="row">
 									<div class="col-md-2" id="memInfo">
-										<div  id="memPic"><img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${fmVO.memId}" style="width: 100px; height: 100px;"></div>
-										<div class="col-md-12">${memSvc.getOneMem(fmVO.memId).mem_name}</div>
+										<div id="reply"><b>${tag.index}樓</b></div>
+										<div class="memPic" id="memPic${tag.index}"><img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${fmVO.memId}" style="width: 100px; height: 100px;"></div>
+										<div class="col-md-12" id="memName${tag.index}"><b>${memSvc.getOneMem(fmVO.memId).mem_name}</b></div>
+										<div id="memExp${tag.index}"><b>${memSvc.getOneMem(fmVO.memId).mem_exp}</b></div>
 									</div>
 									<div class="col-md-10">
 										<div class="container">
@@ -132,7 +134,96 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript">
+	
 	$(document).ready(function(){
+		
+			if((parseInt($("#AmemExp").text())) < 1000){
+				$("#AmemExp").text("Lv.1");
+				$("#AmemExp").css("font-weight","bold");
+				$("#AmemExp").css("color","gray");
+				$("#AmemName > b").css("color","gray");
+				$("#memPic").css("border-color","gray");
+				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+			}else if((parseInt($("#AmemExp").text())) <= 2000){
+				$("#AmemExp").text("Lv.2");
+				$("#AmemExp").css("font-weight","bold");
+				$("#AmemExp").css("color","skyblue");
+				$("#AmemName > b").css("color","skyblue");
+				$("#memPic").css("border-color","skyblue");
+				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+			}else if((parseInt($("#AmemExp").text())) <= 3000){
+				$("#AmemExp").text("Lv.3");
+				$("#AmemExp").css("font-weight","bold");
+				$("#AmemExp").css("color","red");
+				$("#AmemName > b").css("color","red");
+				$("#memPic").css("border-color","red");
+				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+			}else if((parseInt($("#AmemExp").text())) <= 4000){
+				$("#AmemExp").text("Lv.4");
+				$("#AmemExp").css("font-weight","bold");
+				$("#AmemExp").css("color","yellow");
+				$("#AmemName > b").css("color","yellow");
+				$("#memPic").css("border-color","yellow");
+				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+			}else{
+				$("#AmemExp").text("Lv.5");
+				$("#AmemExp").css("font-weight","bold");
+				$("#AmemExp").css("color","black");
+				$("#AmemName > b").css("color","black");
+				$("#memPic").css("border-color","black");
+				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+			}
+		
+		for(let i = 0; i < `${list.size()}`;i++){
+			if((parseInt($("#memExp" + i).text())) <= 1000){
+				$("#memExp" + i).text("Lv.1");
+				$("#memExp" + i).css("font-weight","bold");
+				$("#memExp" + i).css("color","gray");
+				$("#memName" + i +"> b").css("color","gray");
+				$("#memPic" + i).css("border-color","gray");
+				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
+			}else if((parseInt($("#memExp" + i).text())) <= 2000){
+				$("#memExp" + i).text("Lv.2");
+				$("#memExp" + i).css("font-weight","bold");
+				$("#memExp" + i).css("color","skyblue");
+				$("#memName" + i +"> b").css("color","skyblue");
+				$("#memPic" + i).css("border-color","skyblue");
+				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
+			}else if((parseInt($("#memExp" + i).text())) <= 3000){
+				$("#memExp" + i).text("Lv.3");
+				$("#memExp" + i).css("font-weight","bold");
+				$("#memExp" + i).css("color","red");
+				$("#memName" + i +"> b").css("color","red");
+				$("#memPic" + i).css("border-color","red");
+				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
+			}else if((parseInt($("#memExp" + i).text())) <= 4000){
+				$("#memExp" + i).text("Lv.4");
+				$("#memExp" + i).css("font-weight","bold");
+				$("#memExp" + i).css("color","yellow");
+				$("#memName" + i +"> b").css("color","yellow");
+				$("#memPic" + i).css("border-color","yellow");
+				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
+			}else{
+				$("#memExp" + i).text("Lv.5");
+				$("#memExp" + i).css("font-weight","bold");
+				$("#memExp" + i).css("color","black");
+				$("#memName" + i +"> b").css("color","black");
+				$("#memPic" + i).css("border-color","black");
+				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
+			}
+			
+		}
+			
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
 		$.ajax({
 			type:"POST",
 			url:"<%=request.getContextPath() %>/front-end/forum/fc.do?action=checkCollection",
@@ -141,7 +232,6 @@
 				"faId" :$("#starImg").find('input[name = "faId"]').val(),
 			},
 			success:function(count){
-				console.log(count);
 				if(count != 0){
 					$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/2.png");
 				} else if(count == 0){
@@ -154,7 +244,8 @@
 		$("#starImg").click(function(){
 			
 			if($('#starImg img').attr('src') == "<%=request.getContextPath() %>/images/forum/1.png"){
-				$.post("<%=request.getContextPath() %>/front-end/forum/fc.do?action=collect",
+				$.post(
+						"<%=request.getContextPath() %>/front-end/forum/fc.do?action=collect",
 						{
 							"memId":$("#starImg").find('input[name = "memId"]').val(),
 							"faId" :$("#starImg").find('input[name = "faId"]').val(),
