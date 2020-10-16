@@ -22,32 +22,7 @@
     <div id="container">
         <main id="center" class="column">
             <article>
-                <h1>Heading</h1>
-                <a href="">Features1</a> <a href="">Features2</a> <a href="">Features3</a> <a href="">Features4</a>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
-                <div>Lorem, ipsum dolor sit, amet consectetur adipisicing elit. Culpa, distinctio nobis quia quasi ex vitae, suscipit laudantium eos placeat, consequuntur voluptatum et dignissimos nesciunt inventore earum totam? Ipsum, eum soluta!</div>
-                <p>Today's News</p>
+                <h1>部客匣管理後台首頁</h1>
             </article>
         </main>
         <%@include file="/back-end/sidebar/sidebar.jsp" %>
