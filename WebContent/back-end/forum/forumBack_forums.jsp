@@ -5,12 +5,19 @@
 <%@ page import="com.Far.model.*"%>
 <%@ page import="com.Fmr.model.*"%>
 <%@ page import="com.mem.model.*"%>
+<%@ page import="com.admins.model.*"%>
 <%@ page import="java.util.*"%>
 
 <%
 	FarService farSvc = new FarService();
 	List<FarVO> list = farSvc.getAllJundge();
 	pageContext.setAttribute("list", list);
+	
+	String admin_id = (String)session.getAttribute("admin_id");
+	String admin_name= (String)session.getAttribute("admin_name");
+	AdminsService admSvc = new AdminsService();
+	AdminsVO adminsVO = admSvc.getOneAdmin(admin_id);
+    session.setAttribute("adminsVO", adminsVO);    
 %>
 
 <jsp:useBean id="faSvc" scope="page" class="com.Fa.model.FaService" />
@@ -59,7 +66,6 @@ html {
 <body>
 	<!-- header -->
 	<jsp:include page="/back-end/header/header.jsp" />
-
 
 	<div id="container">
 
@@ -113,7 +119,8 @@ html {
 									name="action" value="judge"> <input type="hidden"
 									name="farId" value="${farVO.farId}"> <input
 									type="hidden" name="faId" value="${farVO.faId}"> <input
-									type="hidden" name="admidId" value="${adminVO.admin_id}"></td>
+									type="hidden" name="adminId" value="${adminsVO.admin_id}"></td>
+									${adminsVO.admin_id}ddd
 								</form>
 							</tr>
 

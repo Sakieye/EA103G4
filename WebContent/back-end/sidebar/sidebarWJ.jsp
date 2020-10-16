@@ -55,6 +55,15 @@
                                     style="display: none"></label></span>
                         </form>
                     </li>
+               <li>&nbsp;&nbsp;
+                        <form style="margin: 0px; display: inline" method="GET"
+                            action="">
+
+                            <span class="auth2"><label style="cursor: pointer"><font
+                                    color="blue">二手書訂單管理</font> <input type="submit" class="authlist"
+                                    style="display: none"></label></span>
+                        </form>
+                    </li>
             </ul>
         </div>
         <div>

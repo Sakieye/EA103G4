@@ -122,9 +122,7 @@ public class FmrServlet extends HttpServlet {
 				String fmrStatus = req.getParameter("fmrStatus");
 				String fmId = req.getParameter("fmId");
 				String adminId = req.getParameter("adminId");
-				if(adminId == null || adminId.trim().length() == 0) {
-					adminId = "ADM0001";
-				}
+				System.out.println(adminId);
 				System.out.println(fmrStatus);
 				System.out.println(fmId);
 				System.out.println(fmrId);

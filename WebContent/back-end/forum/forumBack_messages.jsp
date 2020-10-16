@@ -5,12 +5,19 @@
 <%@ page import="com.Far.model.*"%>
 <%@ page import="com.Fmr.model.*"%>
 <%@ page import="com.mem.model.*"%>
+<%@ page import="com.admins.model.*"%>
 <%@ page import="java.util.*"%>
 
 <%
 	FmrService fmrSvc = new FmrService();
 	List<FmrVO> list_fmr = fmrSvc.getAllJundge();
 	pageContext.setAttribute("list_fmr", list_fmr);
+	
+	String admin_id = (String)session.getAttribute("admin_id");
+    String admin_name= (String)session.getAttribute("admin_name");
+    AdminsService admSvc = new AdminsService();
+    AdminsVO adminsVO = admSvc.getOneAdmin(admin_id);
+    session.setAttribute("adminsVO", adminsVO); 
 %>
 
 
@@ -111,7 +118,7 @@ html {
 									name="action" value="judge"> <input type="hidden"
 									name="fmrId" value="${fmrVO.fmrId}"> <input
 									type="hidden" name="fmId" value="${fmrVO.fmId}"> <input
-									type="hidden" name="admidId" value="${adminVO.admin_id}">
+                                    type="hidden" name="adminId" value="${adminsVO.admin_id}">
 
 								</td>
 								</form>

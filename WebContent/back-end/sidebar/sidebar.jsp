@@ -14,6 +14,7 @@
             <ul>
                 <li>&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/BookManagementIndex" class="service">商品管理</a></li>
                 <li>&nbsp;&nbsp;<a href="" class="service">訂單管理</a></li>
+                <li>&nbsp;&nbsp;<a href="" class="service">二手書訂單管理</a></li>
             </ul>
         </div>
         <div>

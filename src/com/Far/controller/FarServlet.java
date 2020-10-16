@@ -119,9 +119,6 @@ public class FarServlet extends HttpServlet {
 				String farStatus = req.getParameter("farStatus");
 				String faId = req.getParameter("faId");
 				String adminId = req.getParameter("adminId");
-				if(adminId == null || adminId.trim().length() == 0) {
-					adminId = "ADM0001";
-				}
 				//取得文章下的留言
 				FmService fmSvc = new FmService();
 				List<FmVO> list = fmSvc.getOneFAFm(faId);
