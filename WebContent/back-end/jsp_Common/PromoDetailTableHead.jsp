@@ -2,9 +2,7 @@
 
 <thead>
     <tr>
-        <th scope="col">
-            <input type="checkbox" id="select-all">
-        </th>
+        <th scope="col"><input type="checkbox" id="select-all"></th>
         <th scope="col">書名/書名原文</th>
         <th scope="col">作者</th>
         <th scope="col">出版社</th>

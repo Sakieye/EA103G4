@@ -48,7 +48,8 @@ public class StatisticsTimerTask extends TimerTask {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		
+		long start2 = System.currentTimeMillis();
 		Map<String, Double> viewedCount = new HashMap<String, Double>();
 
 		// 換日後，從昨天開始統計7天
@@ -90,15 +91,23 @@ public class StatisticsTimerTask extends TimerTask {
 
 		// 建置當天新的統計Zset，key為categoryID，score為viewedCount，value為bookID
 		String today = LocalDate.now().toString();
+		String popularBookKey = "popularBooks" + today;
 		hotBooksInCategories.forEach((categoryID, map) -> {
 			StringBuilder keyName = new StringBuilder(categoryID).append(",").append(today).append("viewed");
 			jedis.zadd(keyName.toString(), map);
 			jedis.expire(keyName.toString(), (int) (25 * 60 * 60)); // 25小時過期
+			
+			// 不分類別全站熱門統計
+			map.forEach((bookID, count) ->{
+				jedis.zincrby(popularBookKey, count, bookID);
+			});
 		});
 		
-		System.out.println("瀏覽/銷售統計更新完成");
+		jedis.expire(popularBookKey, (int) (25 * 60 * 60)); // 25小時過期
+
+		System.out.printf("瀏覽/銷售統計更新完成，花費: %d ms\n", System.currentTimeMillis() - start2);
 
 		// 歸還Redis連線資源
-		jedis.close();
+		JedisUtil.closeJedis(jedis);
 	}
 }
