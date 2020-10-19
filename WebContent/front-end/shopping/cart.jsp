@@ -21,12 +21,22 @@
 
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
-<link rel="stylesheet" href="<%= request.getContextPath()%>/css/memSpace.css" />
+<!--書城首頁CSS-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookshop-eshop-index.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/bookshop_index.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
+<!--商品展示Slider CSS與字體-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/product-slider.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bookshop_index.css" />
+<!--Header購物車、次Header搜尋欄-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-front-with-cart-and-search.css">
+<!--下拉式書籍類別選單-->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
 
 <script>
 	window.console = window.console || function(t) {
@@ -40,9 +50,14 @@
 
 </head>
 
-<body translate="no" class="subpage" style="background-color: #EBE5D9;">
-	<jsp:include page="/front-end/header/header.jsp" />
-
+<body style="background-color: #EBE5D9;">
+<%-- 	統一版<jsp:include page="/front-end/header/header.jsp" /> --%>
+	<jsp:include page="/front-end/header/header-with-cart.jsp" />
+	<section id="One" class="wrapper style4">
+	<!-- Eshop Header -->
+	<div id="logoDiv">
+		<%@include file="/front-end/header/eshop-header.jsp"%>
+	</div>
 
 	<div class="container">
 		<main id="center" class="column">
@@ -161,6 +176,7 @@
 				</div>
 		</main>
 	</div>
+	</section>
 		<jsp:include page="/front-end/footer/footer.jsp" />
 	<script
 		src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
