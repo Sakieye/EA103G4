@@ -91,17 +91,16 @@
 				PromoDetailService promoDetailService = (PromoDetailService) getServletContext()
 						.getAttribute("promoDetailService");
 				PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
-
+			    
 				List<Book> bestsellers = bookService.getByBookName("java");
 				bestsellers = bestsellers.subList(0, 30);
-
-				List<Book> popularBooks = bookService.getPopularBooks(30, 500);
-
+			    
+				List<Book> popularBooks = bookService.getPopularBooks(30, 500);	
 				// 待名人收藏書單完成再修正celebrityBooks取得方式
 				List<Book> celebrityBooks = bookService.getByPublisherName("歐萊禮");
 				Collections.shuffle(celebrityBooks);
 				celebrityBooks = celebrityBooks.subList(0, 30);
-
+			    
 				List<Book> promoBooks = bookService.getPromoBooks(30, promoDetailService, promoService);
 				List<Book> newBooks = bookService.getNewBooks(30);
 
@@ -182,7 +181,7 @@
 			<!-- Promo Products -->
 			<c:if test="${promoBooks.size() > 0}">
 			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
-                <jsp:param name="title" value="今日特惠" />
+                <jsp:param name="title" value="特惠主題" />
                 <jsp:param name="type" value="promoBooks" />
             </jsp:include>
 			<!-- End of Promo Products -->

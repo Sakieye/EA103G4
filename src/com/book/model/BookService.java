@@ -19,6 +19,7 @@ import org.apache.commons.math3.util.Pair;
 
 import com.category.model.Category;
 import com.category.model.CategoryService;
+import com.promo.model.Promo;
 import com.promo.model.PromoService;
 import com.promodetail.model.PromoDetailService;
 
@@ -367,22 +368,41 @@ public class BookService {
 	}
 
 	public List<Book> getPromoBooks(int num, PromoDetailService promoDetailService, PromoService promoService) {
-		Set<String> bookIDs = new HashSet<String>();
-		List<Book> books = new ArrayList<Book>();
+		Set<String> bookIDSet = new HashSet<String>();
+		List<String> bookIDs = new ArrayList<String>();
+		List<Promo> effPromos = new ArrayList<Promo>();
 
 		promoService.getValidPromos().forEach(promo -> {
-			promoDetailService.getByPromoID(promo.getPromoID()).forEach(pd -> {
-				bookIDs.add(pd.getBookID());
-			});
+			effPromos.add(promo);
 		});
 
-		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
-
-		if (books.size() > num) {
-			books = books.subList(0, num);
+		Promo randPromo = null;
+		// 隨機選一個促銷事件，並從effPromos移除。但當選擇的randPromo對應promoDetails數量 < num，持續選擇別的Promo並加入bookIDs
+		while (bookIDSet.size() < num && (randPromo = getRandPromo(effPromos)) != null) {
+			promoDetailService.getByPromoID(randPromo.getPromoID()).forEach(pd -> {
+				bookIDSet.add(pd.getBookID());
+			});
 		}
 
-		return books;
+		bookIDs.addAll(bookIDSet);
+		// 脫離迴圈可能是bookIDs足夠或沒有effPromos了，故需判斷bookIDs長度
+		if (bookIDs.size() > num) {
+			bookIDs = bookIDs.subList(0, num);
+		}
+
+		return getByBookIDList(new ArrayList<String>(bookIDs));
+	}
+
+	private Promo getRandPromo(List<Promo> promos) {
+		Promo randPromo = null;
+
+		if (promos.size() > 0) {
+			int randNum = new Random().nextInt(promos.size());
+			randPromo = promos.get(randNum);
+			promos.remove(randNum);
+		}
+
+		return randPromo;
 	}
 
 	public List<Book> getNewBooks(int num) {

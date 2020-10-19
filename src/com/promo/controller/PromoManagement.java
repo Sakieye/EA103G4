@@ -38,9 +38,6 @@ public class PromoManagement extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String whichPage = request.getParameter("whichPage");
-		String showAll = request.getParameter("showAll");
-		HttpSession session = request.getSession();
 
 		// 使用搜尋
 		if ("getAdvSearch".equals(request.getParameter("action"))) {

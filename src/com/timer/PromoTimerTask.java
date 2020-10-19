@@ -92,8 +92,8 @@ public class PromoTimerTask extends TimerTask {
 		System.out.printf("\n完成更新，本輪有效的促銷事件: %s\n花費: %d ms\n", currentValidPromos, spendTime);
 	}
 
-	private Double calculateSalePricePromoOrBookBPPromo(double salePrice, int max) {
-		double temp = Arith.mul(salePrice, max);
+	private Double calculateSalePricePromoOrBookBPPromo(double listPrice, int max) {
+		double temp = Arith.mul(listPrice, max);
 		return Arith.div(temp, 100.0, 0);
 	}
 
@@ -209,7 +209,7 @@ public class PromoTimerTask extends TimerTask {
 						}
 					} else { // 仍有其他作用中的促銷事件
 						// 仍有其他作用中的促銷事件
-						int[] maxDiscountAndMaxBpPercent = { -1, 0 };
+						int[] maxDiscountAndMaxBpPercent = { pd.getDiscount(), pd.getBpPercent() };
 
 						String[] ohterPromos = effectivePromos.split(",");
 						Map<String, int[]> otherPromoMap = new HashMap<String, int[]>();

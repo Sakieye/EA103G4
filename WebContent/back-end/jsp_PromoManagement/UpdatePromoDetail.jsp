@@ -33,22 +33,7 @@ String publisherName = publisherService.getOnePublisher(book.getPublisherID()).g
 
 <body>
     <div class="col-md-12">
-        <form>
-            <div class="form-row">
-                <div class="col-md-4">
-                    <label for="promoName">促銷事件名稱</label>
-                    <h3 id="promoName"><a href="${pageContext.request.contextPath}/ShowPromoDetails?promoID=<%=promoID%>">${promo.promoName}</a></h3>
-                </div>
-                <div class="col-md-4">
-                    <label for="promoStartTime">促銷事件起始時間</label>
-                    <h3 id="promoStartTime">${promo.promoStartTime}</h3>
-                </div>
-                <div class="col-md-4">
-                    <label for="promoEndTime">促銷事件終止時間</label>
-                    <h3 id="promoEndTime">${promo.promoEndTime}</h3>
-                </div>
-            </div>
-        </form>
+        <%@include file="/back-end/jsp_Common/PromoInfo.jsp"%>
         <form method='post' action='${pageContext.request.contextPath}/UpdatePromoDetail'>
             <div class="form-row">
                 <div class="col-md-2">
@@ -73,6 +58,7 @@ String publisherName = publisherService.getOnePublisher(book.getPublisherID()).g
                     <th scope="col">書名/書名原文</th>
                     <th scope="col">作者</th>
                     <th scope="col">出版社</th>
+                    <th scope="col">定價</th>
                     <th scope="col">預設<br>售價</th>
                     <th scope="col">促銷售價/<br>折扣百分比</th>
                     <th scope="col">紅利<br>回饋</th>
@@ -83,11 +69,12 @@ String publisherName = publisherService.getOnePublisher(book.getPublisherID()).g
             </thead>
             <tbody>
 	            <tr>
-	                <td>${book.bookName}
+	                <td><a href="${pageContext.request.contextPath}/Product/${book.bookID}">${book.bookName}</a>
 	                    <p>${book.bookNameOriginal}</p>
 	                </td>
 	                <td>${book.author}</td>
 	                <td><%=publisherName%></td>
+	                <td>${book.listPrice}</td>
 	                <td>${book.salePrice}</td>
 	                <td>${book.salePricePromo eq Double.NaN ? "" : book.salePricePromo}
 	                    <p>${promoDetail eq null ? "" : promoDetail.discount}</p>

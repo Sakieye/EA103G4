@@ -6,6 +6,7 @@
         <th scope="col">書名/書名原文</th>
         <th scope="col">作者</th>
         <th scope="col">出版社</th>
+        <th scope="col">定價</th>
         <th scope="col">預設<br>售價</th>
         <th scope="col">促銷售價/<br>折扣百分比</th>
         <th scope="col">紅利<br>回饋</th>

@@ -17,6 +17,12 @@ import com.book.model.BookService;
 import com.category.model.CategoryDAO;
 import com.category.model.CategoryDAOImpl;
 import com.category.model.CategoryService;
+import com.promo.model.PromoDAO;
+import com.promo.model.PromoDAOImpl;
+import com.promo.model.PromoService;
+import com.promodetail.model.PromoDetailDAO;
+import com.promodetail.model.PromoDetailDAOImpl;
+import com.promodetail.model.PromoDetailService;
 
 import oracle.jdbc.pool.OracleDataSource;
 
@@ -35,10 +41,16 @@ public class TestBookDAO {
 			DataSource dataSource = (DataSource) ds;
 			BookDAO bookDAO = new BookDAOImpl(dataSource);
 			BookService bookService = new BookService(bookDAO);
-			
+
 			CategoryDAO categoryDAO = new CategoryDAOImpl(dataSource);
 			CategoryService categoryService = new CategoryService(categoryDAO);
-			
+
+			PromoDAO promoDAO = new PromoDAOImpl(dataSource);
+			PromoService promoService = new PromoService(promoDAO);
+
+			PromoDetailDAO promoDetailDAO = new PromoDetailDAOImpl(dataSource);
+			PromoDetailService promoDetailService = new PromoDetailService(promoDetailDAO);
+
 //			Double.parseDouble("a");
 //			Integer.valueOf("a");
 //			testAddBook(bookService);
@@ -54,11 +66,17 @@ public class TestBookDAO {
 //			testUpdateBookSalePricePromo(bookService);
 //			testUpdateBookSalePricePromoBatch(bookService);
 //			testUpdateBookIsSoldBatch(bookService);
-			testgetByParentCategoryID(bookService, categoryService);
+//			testgetByParentCategoryID(bookService, categoryService);
+			testgetPromoBooks(bookService, 30, promoDetailService, promoService);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void testgetPromoBooks(BookService bookService, int num, PromoDetailService promoDetailService,
+			PromoService promoService) {
+		bookService.getPromoBooks(num, promoDetailService, promoService);
 	}
 
 	private static void testgetByParentCategoryID(BookService bookService, CategoryService categoryService) {
@@ -69,7 +87,6 @@ public class TestBookDAO {
 	private static void tsetUpdateBookIsSoldBatch(BookService bookService) {
 		List<Book> books = bookService.getByBookName("java");
 		List<String> bookIDs = new ArrayList<String>();
-		
 
 		for (int i = 0; i < books.size(); i++) {
 			bookIDs.add(books.get(i).getBookID());
@@ -97,10 +114,8 @@ public class TestBookDAO {
 			java.util.Date parsed;
 			parsed = format.parse("20000920");
 			java.sql.Date dateSQL = new java.sql.Date(parsed.getTime());
-			System.out.println(bookService
-					.addBook("P000000001", "LAN0000001", "CAT0101000", "測試書名11", "TEST_ISBN", "測試作者", 500.0, 400.0, 10.0, 1,
-							dateSQL, 10, 5, "測試書籍簡介文章CLOB", "測試書名原文")
-					.get());
+			System.out.println(bookService.addBook("P000000001", "LAN0000001", "CAT0101000", "測試書名11", "TEST_ISBN",
+					"測試作者", 500.0, 400.0, 10.0, 1, dateSQL, 10, 5, "測試書籍簡介文章CLOB", "測試書名原文").get());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -156,8 +171,7 @@ public class TestBookDAO {
 			parsed = format.parse("20000920");
 			java.sql.Date dateSQL = new java.sql.Date(parsed.getTime());
 			bookService.updateBook("B00000096206", "P000000001", "LAN0000001", "CAT0101000", "測試書名4", "TEST_ISBN",
-					"測試作者", 600.0, 400.0, 5.0, 0, dateSQL, 20, 10, "測試書籍簡介文章CLOB",
-					"測試書名原文");
+					"測試作者", 600.0, 400.0, 5.0, 0, dateSQL, 20, 10, "測試書籍簡介文章CLOB", "測試書名原文");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -173,8 +187,7 @@ public class TestBookDAO {
 			salePricePromos.add(Double.NaN);
 		}
 
-		bookService.updateBookSalePricePromoBatch(bookIDs, salePricePromos)
-				.forEach(book -> System.out.println(book));
+		bookService.updateBookSalePricePromoBatch(bookIDs, salePricePromos).forEach(book -> System.out.println(book));
 	}
 
 }

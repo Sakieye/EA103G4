@@ -52,6 +52,11 @@ public class Promo {
 		this.promoEndTime = promoEndTime;
 	}
 
+	public boolean isValid() {
+		Timestamp cur = new Timestamp(System.currentTimeMillis());
+		return (cur.after(promoStartTime) && cur.before(promoEndTime));
+	}
+
 	@Override
 	public String toString() {
 		return promoID + "\t" + promoName + "\t" + promoStartTime + "\t" + promoEndTime;
@@ -72,13 +77,13 @@ public class Promo {
 		if (obj == null) {
 			return false;
 		}
-		
+
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		
+
 		final Promo other = (Promo) obj;
-		
+
 		if (!Objects.equals(this.promoID, other.promoID)) {
 			return false;
 		}

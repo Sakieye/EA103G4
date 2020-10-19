@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.promo.model.*"%>
 
@@ -54,22 +55,31 @@
 							<c:forEach var="promo" items="${promotions}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 								<tr>
 									<td>${promo.promoID}</td>
-									<td>${promo.promoName}</td>
-									<td>${promo.promoStartTime}</td>
-									<td>${promo.promoEndTime}</td>
 									<td>
-										<form METHOD="get" action="${pageContext.request.contextPath}/UpdatePromo" style="margin-bottom: 0px; display:inline;" target="_blank">
+									   ${promo.promoName}
+									   <c:if test="${promo.isValid()}">
+									       <p>effective</p>
+									   </c:if>
+									</td>
+									<td>
+										<fmt:formatDate value="${promo.promoStartTime}" pattern="yyyy-MM-dd HH:mm" />
+									</td>
+									<td>
+										<fmt:formatDate value="${promo.promoEndTime}" pattern="yyyy-MM-dd HH:mm" />
+									</td>
+									<td>
+										<form METHOD="get" action="${pageContext.request.contextPath}/UpdatePromo" style="margin-bottom: 0px; display: inline;" target="_blank">
 											<input type="hidden" name="promoID" value="${promo.promoID}">
 											<input type="submit" value="編輯">
 										</form>
-										<form METHOD="get" action="${pageContext.request.contextPath}/ShowPromoDetails" style="margin-bottom: 0px; display:inline;" target="_blank">
-                                            <input type="hidden" name="promoID" value="${promo.promoID}">
-                                            <input type="submit" value="查看/修改明細">
-                                        </form>
-                                        <form METHOD="get" action="${pageContext.request.contextPath}/AddPromoDetails" style="margin-bottom: 0px; display:inline;" target="_blank">
-                                            <input type="hidden" name="promoID" value="${promo.promoID}">
-                                            <input type="submit" value="新增明細">
-                                        </form>
+										<form METHOD="get" action="${pageContext.request.contextPath}/ShowPromoDetails" style="margin-bottom: 0px; display: inline;" target="_blank">
+											<input type="hidden" name="promoID" value="${promo.promoID}">
+											<input type="submit" value="查看/修改明細">
+										</form>
+										<form METHOD="get" action="${pageContext.request.contextPath}/AddPromoDetails" style="margin-bottom: 0px; display: inline;" target="_blank">
+											<input type="hidden" name="promoID" value="${promo.promoID}">
+											<input type="submit" value="新增明細">
+										</form>
 									</td>
 								</tr>
 							</c:forEach>
@@ -79,7 +89,7 @@
 				</tbody>
 			</table>
 		</main>
-		<%@include file="/back-end/sidebar/sidebar.jsp" %>
+		<%@include file="/back-end/sidebar/sidebar.jsp"%>
 	</div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -88,22 +98,22 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous"></script>
 	<script>
-        $('#promoStartTime').datetimepicker({
-            timepicker: true,
-            datepicker: true,
-            format: 'Y-m-d H:i',
-            hours12: false,
-            step: 30,
-        })
-        
-        $('#promoEndTime').datetimepicker({
-            timepicker: true,
-            datepicker: true,
-            format: 'Y-m-d H:i',
-            hours12: false,
-            step: 30,
-        })
-    </script>
+		$('#promoStartTime').datetimepicker({
+			timepicker : true,
+			datepicker : true,
+			format : 'Y-m-d H:i',
+			hours12 : false,
+			step : 30,
+		})
+
+		$('#promoEndTime').datetimepicker({
+			timepicker : true,
+			datepicker : true,
+			format : 'Y-m-d H:i',
+			hours12 : false,
+			step : 30,
+		})
+	</script>
 </body>
 
 </html>

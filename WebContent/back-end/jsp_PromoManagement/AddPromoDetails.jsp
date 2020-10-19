@@ -74,7 +74,7 @@ session.setAttribute("categories", categories);
                                          </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td>${book.bookName}
+                                <td><a href="${pageContext.request.contextPath}/Product/${book.bookID}">${book.bookName}</a>
                                     <p>${book.bookNameOriginal}</p>
                                 </td>
                                 <td>${book.author}</td>
