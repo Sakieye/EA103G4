@@ -70,4 +70,14 @@ public class AdminsService {
 	public Optional<AdminsVO> getAdminPicByAdminId(String admin_id){
 		return dao.findAdminPicByAdminId(admin_id);
 	}
+	
+	public AdminsVO updatePswd(String admin_id, String admin_pswd) {
+		AdminsVO adminsVO = new AdminsVO();
+		
+		adminsVO.setAdmin_id(admin_id);
+		adminsVO.setAdmin_pswd(admin_pswd);
+		
+		dao.updatePswd(adminsVO);
+		return adminsVO;
+	}
 }

@@ -2,28 +2,18 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.admins.model.*"%>
-
 <%
 	AdminsVO adminsVO = (AdminsVO) request.getAttribute("adminsVO");
-
-	java.sql.Date admin_dutydate = null;
-	try {
-		admin_dutydate = adminsVO.getAdmin_dutydate();
-	} catch (Exception e) {
-		admin_dutydate = new java.sql.Date(System.currentTimeMillis());
-	}
 %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-<!-- Basic Page Info -->
 <meta charset="utf-8">
-<title>新增員工資料</title>
-<!-- Mobile Specific Metas -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>新增員工資料</title>
 <!-- CSS -->
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/vendors/styles/core.css">
@@ -33,13 +23,15 @@
 	href="<%=request.getContextPath()%>/src/plugins/jquery-steps/jquery.steps.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/vendors/styles/style.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-
 
 <style>
 .main-container {
 	padding: 80px 30px 100px 270px
+}
+
+#preview img {
+	height: 200px;
+	width: 200px;
 }
 
 .city, .town {
@@ -185,46 +177,29 @@
 	margin-right: 5px;
 	width: calc(100% - 10px)
 }
-
-/* datetimepicker  */
-.xdsoft_datetimepicker .xdsoft_datepicker {
-	width: 300px; /* width:  300px; */
-}
-
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-	height: 151px; /* height:  151px; */
-}
 </style>
-
 
 <!-- 下拉式地址 -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.twzipcode.min.js"></script>
 
-
 </head>
 
-
 <body>
-<jsp:include page="/back-end/header/header.jsp" />
+	<jsp:include page="/back-end/header/header.jsp" />
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
 				<div class="pd-20 card-box mb-30">
-
 					<div class="clearfix">
 						<h2 class="text-dark h2">新增員工資料</h2>
 						<a
-								href="<%=request.getContextPath()%>/back-end/admins/listAllAdmins.jsp"><img
-								type="button" id="button"
-								src="<%=request.getContextPath()%>/images/admins/back.png"
-								height="30px" width="30px"></a>
+							href="<%=request.getContextPath()%>/back-end/admins/listAllAdmins.jsp"><img
+							type="button" id="button"
+							src="<%=request.getContextPath()%>/images/admins/back.png"
+							height="30px" width="30px"></a>
 					</div>
-
-
-
-
 
 					<!-- 錯誤表列 -->
 					<c:if test="${not empty errorMsgs}">
@@ -236,43 +211,35 @@
 						</ul>
 					</c:if>
 
-
-					<form method="post" action="admins.do" name="form1"
-						enctype="multipart/form-data">
+					<form method="post"
+						action="<%=request.getContextPath()%>/back-end/admin/admins.do"
+						name="form1" enctype="multipart/form-data">
 						<section>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>姓名:</label>
-										 <input type="text" class="form-control"
-											name="admin_name"
-											value="<%=(adminsVO == null) ? "林宛儒" : adminsVO.getAdmin_name()%>" />
+										<label>姓名:</label> <input type="text" class="form-control"
+											name="admin_name" />
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>身分證:</label> 
-										<input type="text" class="form-control"
-											name="admin_id_no"
-											value="<%=(adminsVO == null) ? "A229988776" : adminsVO.getAdmin_id_no()%>" />
+										<label>身分證:</label> <input type="text" class="form-control"
+											name="admin_id_no" />
 									</div>
 								</div>
 							</div>
-
-
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Email:</label> <input type="email" class="form-control"
-											name="admin_mail"
-											value="<%=(adminsVO == null) ? "dinmei1991@gmail.com" : adminsVO.getAdmin_mail()%>" />
+											name="admin_mail" />
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>手機:</label> <input type="text" class="form-control"
-											name="admin_mobile"
-											value="<%=(adminsVO == null) ? "0926099233" : adminsVO.getAdmin_mobile()%>" />
+											name="admin_mobile" />
 									</div>
 								</div>
 							</div>
@@ -280,9 +247,8 @@
 								<div class="col-md-12">
 									<div id="twzipcode"></div>
 									<div class="form-group">
-
 										<label>地址:</label>
-										 <div id="zipcode3">
+										<div id="zipcode3">
 											<div class="f3" data-role="county" name="city"></div>
 											<div class="f4" data-role="district" name="town"></div>
 											<input type="text" class="f13 address form-control"
@@ -291,21 +257,18 @@
 									</div>
 								</div>
 							</div>
-
-
 							<div class="row">
-
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>雇用日期:</label> 
-											<input type="date" class="date form-control"
-											 id="admin_dutydate" name="admin_dutydate">
+										<label>雇用日期:</label> <input type="date"
+											class="date form-control" id="admin_dutydate"
+											name="admin_dutydate">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>在職狀態:</label> <select
-											class="custom-select form-control" name="admin_jobstate" >
+											class="custom-select form-control" name="admin_jobstate">
 											<option>請選擇</option>
 											<option value="1" selected>在職</option>
 											<option value="0">離職</option>
@@ -320,44 +283,44 @@
 											id="admin_pic">
 									</div>
 									<table>
-										<tr><td width="100"  height="100" id="preview" ></td></tr>
+										<tr>
+											<td width="100" height="100" id="preview"></td>
+										</tr>
 									</table>
-
 								</div>
-							 <div class="col-md-6">
+								<div class="col-md-6">
 									<div class="form-group">
 										<label>權限:</label>
 										<div class="form-group">
 											<jsp:useBean id="permissiondelimitSvc" scope="page"
 												class="com.permissiondelimit.model.PermissionDelimitService" />
+											<c:forEach var="permissiondelimitVO"
+												items="${permissiondelimitSvc.all}">
+												<label><input type="checkbox" name="per_id[]"
+													value="${permissiondelimitVO.per_id}">${permissiondelimitVO.per_name}
+												</label>
+											</c:forEach>
 										</div>
-									</div>
-									<div>
-										<img type="button" id="button"
-											src="<%=request.getContextPath()%>/images/login/8.png"
-											height="60px" width="60px" align="left">
 									</div>
 								</div>
 							</div>
-									
 							<div class="row">
-								<input type="hidden" name="action" value="insert">
-								<input type="hidden" name="admin_id" value="${adminsVO.admin_id}"> 
+								<input type="hidden" name="action" value="insert"> <input
+									type="hidden" name="admin_id" value="${adminsVO.admin_id}">
 								<input type="submit" value="送出" class="btn btn-dark btn-sm">
-							</div> 
+							</div>
 						</section>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-<jsp:include page="/back-end/sidebar/sidebar.jsp" />
+	<jsp:include page="/back-end/sidebar/sidebar.jsp" />
 
 	<!-- 自訂js -->
 	<!-- 圖片 -->
 	<script type="text/javascript">
 		function init() {
-
 			var admin_pic = document.getElementById("admin_pic");
 			var preview = document.getElementById('preview');
 
@@ -405,9 +368,6 @@
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/js/taiwan_address_auto_change.js"
 		charset="UTF-8"></script>
-		<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/jquery.twzipcode.min.js"></script>
 
 	<!-- js -->
 
@@ -421,10 +381,6 @@
 		src="<%=request.getContextPath()%>/src/plugins/jquery-steps/jquery.steps.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/vendors/scripts/steps-setting.js"></script>
-	<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
-
 </body>
 
 </html>

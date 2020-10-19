@@ -10,5 +10,6 @@ public interface AdminsDAO_interface {
 	public List<AdminsVO> getAll();
 	Optional<AdminsVO> findAdminPicByAdminId(String admin_id);//show圖片
 	
-    
+	//update password
+	public void updatePswd(AdminsVO adminsVO);
 }

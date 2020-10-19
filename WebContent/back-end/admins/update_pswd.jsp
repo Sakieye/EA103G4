@@ -2,21 +2,23 @@
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.admins.model.*"%>
+
+<%
+String admin_id_s = (String)session.getAttribute("admin_id_s");
+%>
+
 <html>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8">
-<title>登入</title>
+<title>修改密碼</title>
 <!-- BOOSTRAP CSS-->
 <link href="<%=request.getContextPath()%>/css/sb-admin-2.min.css" rel="stylesheet">
 <style type="text/css">
-        #login {
+        #confirm {
             color: #fff;
             background-color: #8dc9cc;
             border-color: #8dc9cc;
@@ -62,12 +64,11 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block" style="background-color: #222222"><img src= "<%=request.getContextPath()%>/images/login/logo.png" width="456 px" height="500px"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">嘿! 部客俠</h1>
-                                        <h6 class="h6 text-gray-700 mb-4">－歡迎回家－</h6>
+                                        <h1 class="h4 text-gray-900 mb-4">嘿！你來了</h1>
+                                        <h5 class="h5 text-gray-700 mb-4">一修改密碼 保護你我 一</h5>
                                     </div>
                                     <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do" class="user">
                                         <%-- 錯誤表列 --%>
@@ -79,24 +80,34 @@
                                                 </c:forEach>
                                             </ul>
                                         </c:if>
+                                        
+                                        <%-- 正確表列 --%>
+                                        <c:if test="${not empty rightMsgs}">
+                                            <ul>
+                                                <c:forEach var="r_message" items="${rightMsgs}">
+                                                    <li style="color: blue">${r_message}</li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:if>
+                                        <span id="word"></span>
                                         <div class="form-group">
-                                            <input type="text" name="admin_id" class="form-control form-control-user" id="exampleInputAccount" aria-describedby="accountHelp" placeholder="請輸入帳號...">
+                                            <input type="text" name="pswd" class="form-control form-control-user" id="exampleInputAccount" aria-describedby="accountHelp" placeholder="請輸入新密碼...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="admin_pswd" class="form-control form-control-user" id="exampleInputPassword" placeholder="密碼">
-                                        </div>
-                                        <input type="hidden" name="action" value="login">
-                                        <input type="submit" value="登入" class="btn btn-user btn-block" id="login">
-                                    </form>
+                                            <input type="password" name="pswd_again" class="form-control form-control-user" id="exampleInputPassword" placeholder="確認密碼">
+                                        </div>       
+                                        <input type="hidden" name="action" value="update_pswd"> 
+                                        <input type="hidden" name="admin_id" value="<%=admin_id_s%>">
+                                        <input type="submit" value="確認" class="btn btn-user btn-block" id="confirm" />
+                                    </form>                                    
                                     <hr>
                                     <div class="text-center">
-                                        <p class="m-0">2020 &copy; Bookshop admin</p>
-                                    </div>
-                                    <div>
-                                        <img type="button" id="button" src="<%=request.getContextPath()%>/images/login/8.png" height="60px" width="60px" align="right">
-                                    </div>
+                                        <a href="<%=request.getContextPath()%>/back-end/login/login.jsp"><img src="<%=request.getContextPath()%>/images/login/logo2.png" width="150 px" height="50px"></a>
+                                    </div>                                   
                                 </div>
                             </div>
+                            <div class="col-lg-6 d-none d-lg-block" style="background-color: #222222"><img src= "<%=request.getContextPath()%>/images/login/logo.png" width="456 px" height="500px"></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -104,22 +115,7 @@
         </div>
     </div>
     <!-- js-->
-    <script src="<%=request.getContextPath()%>/js/sb-admin-2.min.js"></script>
-    <script type="text/javascript">
-    function init() {
-        var button = document.getElementById("button");
-        var exampleInputAccount = document
-            .getElementById("exampleInputAccount");
-        var exampleInputPassword = document
-            .getElementById("exampleInputPassword");
-        button.addEventListener("click", function(e) {
-            e.preventDefault();
-            exampleInputAccount.value = "ADM0007";
-            exampleInputPassword.value = "000000";
-        });
-    }
-    window.onload = init;
-    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>    
 </body>
 
 </html>

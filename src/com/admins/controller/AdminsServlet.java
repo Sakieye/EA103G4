@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
@@ -63,7 +64,8 @@ public class AdminsServlet extends HttpServlet {
 				}
 
 				/** 3管理員密碼 **/
-				String admin_pswd = "000000";
+				String admin_pswd = genAuthCode(8);
+			    
 
 				/** 4管理員手機 **/
 				String admin_mobile = req.getParameter("admin_mobile");
@@ -79,10 +81,8 @@ public class AdminsServlet extends HttpServlet {
 				String town = req.getParameter("town").trim();
 				String address = req.getParameter("address").trim();
 				
-				String[] addressArray = {city, town, address};
-				
-//				String admin_address = String.join(",",addressArray);//Java8
-				
+				String[] addressArray = {city, town, address};				
+//				String admin_address = String.join(",",addressArray);//Java8				
 				StringBuilder sb = new StringBuilder();
 				if(addressArray.length > 0) {
 					for(int i=0; i < addressArray.length; i++) {
@@ -150,12 +150,12 @@ public class AdminsServlet extends HttpServlet {
 				AdminsService adminsSvc = new AdminsService();
 				AdminsVO adminsVO2 = adminsSvc.addAdmins(admin_name, admin_id_no, admin_pswd, admin_mobile,
 						admin_address, admin_dutydate, admin_jobstate, admin_pic, admin_mail);
-
+                //System.out.println("adminsVO2"+adminsVO2);
 				String admin_id = adminsVO2.getAdmin_id();
-
+//				System.out.println("admin_id"+admin_id);
 				/** 10權限編號 **/
 				String per_id[] = req.getParameterValues("per_id[]"); // 一個員工可以有很多權限編號
-
+//				System.out.println("per_id"+per_id);
 				AdminPermissionVO adminpermissionVO = new AdminPermissionVO(); // 使用關連表格的值物件來設定權限編號 (從前端選取的資料)
 				for (int i = 0; i < per_id.length; i++) {
 					adminpermissionVO.setAdmin_id(admin_id);
@@ -176,6 +176,7 @@ public class AdminsServlet extends HttpServlet {
 					list2.add(permissiondelimitVO);
 					req.setAttribute("permissiondelimitVO", list2);
 //					System.out.println(permissiondelimitVO);
+//					System.out.println("list2"+list2);
 				}
 				/*************************** 3.新增完成，準備轉交(Send the Success view) ***********/
 				String url = "/back-end/admins/listAllAdmins.jsp";
@@ -194,8 +195,6 @@ public class AdminsServlet extends HttpServlet {
 		if ("update".equals(action)) { // 修改員工資料:來自update_admins.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
@@ -231,22 +230,7 @@ public class AdminsServlet extends HttpServlet {
 //				System.out.println("@update輸入5," + admin_mobile);
 
 				/** 管理員地址 **/				
-				String city = req.getParameter("city").trim();
-				String town = req.getParameter("town").trim();
-				String address = req.getParameter("address").trim();
-				
-				String[] addressArray = {city, town, address};
-				
-//				String admin_address = String.join(",",addressArray);//Java8
-				
-				StringBuilder sb = new StringBuilder();
-				if(addressArray.length>0) {
-					for(int i=0; i< addressArray.length; i++) {
-						sb.append(addressArray[i]);
-					}
-				}
-				String admin_address = sb.toString();
-
+				String admin_address = req.getParameter("admin_address").trim();								
 				if (admin_address == null || admin_address.trim().length() == 0) {
 					errorMsgs.add("管理員地址:不得空白");
 				}
@@ -256,7 +240,7 @@ public class AdminsServlet extends HttpServlet {
 				/** 管理員就職狀態 **/
 				Integer admin_jobstate = null;
 				admin_jobstate = new Integer(req.getParameter("admin_jobstate").trim());
-								
+							
 //				System.out.println("@update輸入7," + admin_jobstate);
 
 				/** 管理員照片 **/	
@@ -319,12 +303,11 @@ public class AdminsServlet extends HttpServlet {
 				
 				String per_id[] = req.getParameterValues("per_id[]");
 				
-				if(per_id == null) {
+				if(per_id == null || admin_jobstate == 0 ) {
 					adminpermissionSvc2.deleteAdminPermission(admin_id);					
-				}else {
-				
+				}else {				
 					adminpermissionSvc2.deleteAdminPermission(admin_id);
-				
+					
 				AdminPermissionVO adminpermissionVO = new AdminPermissionVO(); 
 				for (int i = 0; i < per_id.length; i++) {
 					adminpermissionVO.setAdmin_id(admin_id);
@@ -365,13 +348,75 @@ public class AdminsServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		//修改密碼
+		
+		if("update_pswd".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			List<String> rightMsgs = new LinkedList<String>();
+			req.setAttribute("rightMsgs", rightMsgs);
+			try {
+				//admin_id參數
+				String admin_id = req.getParameter("admin_id");
+				System.out.println("1,admin_id "+ admin_id );
+				
+				String pswd = req.getParameter("pswd").trim();
+				String pswd_again = req.getParameter("pswd_again").trim();
+				String admin_pswd = null;
+				System.out.println("2,pswd "+pswd);
+				System.out.println("3,pswd_again"+pswd_again);
+				
+				
+				if(pswd == null || pswd.trim().length() == 0 || pswd_again == null || pswd_again.trim().length() == 0  ) {
+					errorMsgs.add("密碼:不得空白");
+				}else if(!pswd.trim().equals(pswd_again)) {
+					errorMsgs.add("兩次輸入修改密碼不一樣");
+				}else {
+				 admin_pswd = pswd_again;
+				 rightMsgs.add("修改已完成，請回登入頁面再次登入!");
+				}
+				System.out.println("4,admin_pswd"+admin_pswd);
+				
+				AdminsVO adminsVO = new AdminsVO();
+				adminsVO.setAdmin_pswd(admin_pswd);
+				
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("adminsVO", adminsVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/admins/update_pswd.jsp");
+					failureView.forward(req, res);
+					return; // 程式中斷
+				}
+			
+				//開始修改
+				AdminsService adminsSvc = new AdminsService();
+				adminsVO = adminsSvc.updatePswd(admin_id, admin_pswd);
+				System.out.println("5,adminsVO.getAdmin_pswd()"+adminsVO.getAdmin_pswd());
+				
+				/*************************** 3.新增完成，準備轉交(Send the Success view) ***********/
+				req.setAttribute("adminsVO", adminsVO);
+				System.out.println("6,adminsVO"+adminsVO);
+
+				String url = "/back-end/admins/update_pswd.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功轉交listAllAdmins.jsp
+				successView.forward(req, res);
+//				System.out.println("AdminsSevlet-insert OK!");
+				req.getSession().invalidate();
+				
+				
+			}catch (Exception e) {
+				errorMsgs.add("修改密碼失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/admins/update_pswd.jsp");
+				failureView.forward(req, res);
+			}
+			
+			
+		}		
 
 		// 用admin_id來搜查管理員資料
 		if ("getOne_For_Display".equals(action)) { // 來自listAllAdmins.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
@@ -438,8 +483,6 @@ public class AdminsServlet extends HttpServlet {
 		if ("getOne_For_Update".equals(action)) { // 來自修改成功轉交listAllAdmins.jsp.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
@@ -484,8 +527,6 @@ public class AdminsServlet extends HttpServlet {
 		if ("getOne_For_Delete_Perid".equals(action)) { // 來自修改成功轉交listAllAdmins.jsp.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
@@ -521,104 +562,107 @@ public class AdminsServlet extends HttpServlet {
 		if ("login".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
-				String admin_id = new String(req.getParameter("admin_id"));
-				String admin_pswd = new String(req.getParameter("admin_pswd"));
+				String account = new String(req.getParameter("admin_id"));
+				String password = new String(req.getParameter("admin_pswd"));				
 				
-//				AdminsService adminsSvc = new AdminsService();
-//				AdminsVO adminsVO = adminsSvc.getOneAdmin(admin_id);
-//				List<AdminsVO> list = new ArrayList<AdminsVO>();
-//				list.add(adminsVO);
+				//header登入人名
+				AdminsVO adminsVO = new AdminsService().getOneAdmin(account); 
+				String admin_name = adminsVO.getAdmin_name();
+				String admin_id = adminsVO.getAdmin_id();//update_pswd改密碼用
 				
-//				// 取得權限
-				AdminPermissionService adminPermissionSvc = new AdminPermissionService();
-				List<AdminPermissionVO> adminPermissionVO = adminPermissionSvc.getOneAdminPermission(admin_id);
+				//取得權限
+			    List<AdminPermissionVO> adminpermissionVO = new AdminPermissionService().getOneAdminPermission(account);			    
+				List<PermissionDelimitVO> list = new ArrayList<>();
+				PermissionDelimitService permissiondelimitSvc = new PermissionDelimitService();
 
-				// 檢查該帳號 , 密碼是否有效
-				if (!allowUser(admin_id, admin_pswd)) { // 帳號 , 密碼無效時
-					errorMsgs.add("您的帳號或密碼無效！請重新輸入！");
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
-					failureView.forward(req, res);
-				} else {
-					AdminsService adminsSvc = new AdminsService();
-					AdminsVO adminsVO = adminsSvc.getOneAdmin(admin_id);
-
-					String admin_name = adminsVO.getAdmin_name();
-					
-					// 帳號 , 密碼有效時, 才做以下工作 (成功 將資料存至 session)
-					HttpSession session = req.getSession();
-//					session.setAttribute("adminsVO", adminsVO);
-					session.setAttribute("adminPermissionVO", adminPermissionVO);
-					session.setAttribute("admin_id", admin_id); // *工作1: 才在session內做已經登入過的標識
-					session.setAttribute("admin_name",admin_name);
-
-
-					AdminPermissionService adminpermissionSvc = new AdminPermissionService();
-					List<AdminPermissionVO> list = adminpermissionSvc.getOneAdminPermission(admin_id);
-//					System.out.println(list);
-					
-					try {
-
-						String location = (String) session.getAttribute("location");
-						if (location != null) {
-							session.removeAttribute("location"); // *工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
-							res.sendRedirect(location);
-							return;
-						}
-					} catch (Exception ignored) {
-					}
-
-					req.setAttribute("adminsVO", adminsVO);
-
-					req.setAttribute("adminpermissionVO", list);
-
-					List<PermissionDelimitVO> list2 = new ArrayList<>();
-					for (int i = 0; i < list.size(); i++) {
-						PermissionDelimitVO permissiondelimitVO = new PermissionDelimitService()
-								.getOnePermissionDelimit(list.get(i).getPer_id());
-						list2.add(permissiondelimitVO);
-					}
-					req.setAttribute("permissiondelimitVO", list2);
-//					System.out.println("1"+list2);
-					
-					session.setAttribute("permissiondelimitVO2", list2);
-
-					res.sendRedirect(req.getContextPath() + "/back-end/login/loginSuccess.jsp"); // *工作3:
-																									// (-->如無來源網頁:則重導至login_success.jsp)
+				for(int i = 0; i < adminpermissionVO.size(); i++) {
+					PermissionDelimitVO permissiondelimitVO = permissiondelimitSvc.getOnePermissionDelimit(adminpermissionVO.get(i).getPer_id());
+					list.add(permissiondelimitVO);
+//					System.out.println("permissiondelimitVO"+permissiondelimitVO.getPer_name());
 				}
 
+			    // 【檢查該帳號 , 密碼是否有效】
+                if(adminsVO.getAdmin_jobstate() == 0) {
+                	errorMsgs.add("你已經離職了，還想幹嘛！");
+                	RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
+					failureView.forward(req, res);
+                }
+						
+                else if (!allowUser(account, password)) {          //【帳號 , 密碼無效時】
+			    	errorMsgs.add("您的帳號或密碼無效！請重新輸入！");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
+					failureView.forward(req, res);
+			    	
+			    }else {   
+			    	//【帳號 , 密碼有效時, 才做以下工作】
+			      HttpSession session = req.getSession();
+			      session.setAttribute("account_s", account);   //*工作1: 才在session內做已經登入過的標識
+			      session.setAttribute("admin_name_s", admin_name);
+			      session.setAttribute("admin_id_s", admin_id);
+			      session.setAttribute("adminsVO_s", adminsVO);
+			      session.setAttribute("adminpermissionVO_s", adminpermissionVO);
+			      session.setAttribute("permissiondelimitVO_s", list);
+//			      System.out.println("account"+account);
+//			      System.out.println("admin_name"+admin_name);
+//			      System.out.println("adminpermissionVO"+adminpermissionVO);
+//			      System.out.println("list"+list);
+			      
+			       try {                                                        
+			         String location = (String) session.getAttribute("location");
+			         if (location != null) {
+			           session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+			           res.sendRedirect(location);            
+			           return;
+			         }
+			       }catch (Exception ignored) { }
+			      res.sendRedirect(req.getContextPath()+"/back-end/login/loginSuccess.jsp");  //*工作3: (-->如無來源網頁:則重導至login_success.jsp)
+			    }
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
 				failureView.forward(req, res);
-			}
+			}			
 		}
 	}
 
-	protected boolean allowUser(String admin_id, String admin_pswd) {
+	protected boolean allowUser(String account, String password) {
 
 		AdminsVO adminsVO = new AdminsVO();
 		AdminsService adminsSvc = new AdminsService();
 
-		adminsVO = adminsSvc.getOneAdmin(admin_id);
-//		System.out.println(adminsVO);
+		adminsVO = adminsSvc.getOneAdmin(account);
 
 		if (adminsVO == null) {
 			return false;
 		}
 
-		if ((adminsVO.getAdmin_id()).equals(admin_id) && (adminsVO.getAdmin_pswd()).equals(admin_pswd)
-				&& (adminsVO.getAdmin_jobstate()) == 1) {
+		if ((adminsVO.getAdmin_id()).equals(account) && (adminsVO.getAdmin_pswd()).equals(password) && adminsVO.getAdmin_jobstate() == 1) {
 			return true;
 		} else {
 			return false;
 		}
+		
+	}
+		
+		public static String genAuthCode(int n) {
+			String data = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+			char[] ch = new char[n]; // 宣告一個字元陣列物件ch 儲存 驗證碼
+			for (int i = 0; i < n; i++) {
+				Random random = new Random(); // 建立一個新的隨機數生成器
+				int index = random.nextInt(data.length()); // 返回[0,data.length)範圍的int值 作用：儲存下標
+				ch[i] = data.charAt(index); // charAt() : 返回指定索引處的 char 值 ==》儲存到字元陣列物件ch裡面
+			}
+			// 將char陣列型別轉換為String型別儲存到result
+			// String result = new String(ch);//方法一：直接使用構造方法 String(char[] value) ：分配一個新的
+			// String，使其表示字元陣列引數中當前包含的字元序列。
+			String result = String.valueOf(ch);// 方法二： String方法 valueOf(char c) ：返回 char 引數的字串表示形式。
+			return result;
+		}
 
 	}
 
-}
+
