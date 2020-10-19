@@ -1,3 +1,12 @@
+       	 body{
+      		background-color: rgba(0, 0, 0, .2) !important;
+      		background-blend-mode: multiply;
+      		background-image: url('../images/books1920.jpg');
+      		background-attachment: fixed;
+      		background-position: center; 
+      		background-size: cover;
+      		background-repeat:no-repeat;
+      	}
         /*°Q½×°Ï¤å³¹*/
         .content .container .row {
             text-align: center;
@@ -48,7 +57,8 @@
         }
 
 		#two{
-        	background-image:url('../images/books1920.jpg');
+/*         	background-image:url('../images/books1920.jpg'); */
+			background-color:rgba(0,0,0,0);
         }
 
 		.box{

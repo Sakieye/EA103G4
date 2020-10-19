@@ -118,7 +118,7 @@
         }
 		#aTopic a:hover{
 			text-decoration:none;
-			color: #006400;
+			color: red;
 		}
 		
 		input[type="text"] {

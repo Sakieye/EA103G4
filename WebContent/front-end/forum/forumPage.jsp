@@ -1,30 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.Fa.model.*"%>
 <%@ page import="com.mem.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%
-	FaVO faVO = (FaVO) request.getAttribute("faVO");
-%>
+
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 
 <!DOCTYPE HTML>
 <html>
 
 <head>
-<title>BookShop</title>
+<title>BookShop討論區</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/main-front.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/forumPage.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/header.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumPage.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
@@ -34,12 +27,12 @@
 	<jsp:include page="/front-end/header/header.jsp" />
 	<!-- One -->
 	<section id="One" class="wrapper style3">
-				<div class="inner">
-					<header class="align-center">
-						<p>share your passion for reading</p>
-						<h2>BookShop 討論區</h2>
-					</header>
-				</div>
+		<div class="inner">
+			<header class="align-center">
+				<p><b>share your passion for reading</b></p>
+				<h2>BookShop 討論區</h2>
+			</header>
+		</div>
 	</section>
 	<!-- Two -->
 	<section id="two" class="wrapper style2">
@@ -49,12 +42,10 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-12" id="replyBtn">
-								<form method="post"
-									action="<%=request.getContextPath()%>/front-end/forum/fm.do">
+								<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fm.do">
 									<input type="hidden" name="faId" value="${faVO.faId}">
-									<input type="hidden" name="memId"
-										value="${sessionScope.memVO.mem_id}"> <input
-										type="hidden" name="action" value="getOne_For_AddFm">
+									<input type="hidden" name="memId" value="${sessionScope.memVO.mem_id}">
+									<input type="hidden" name="action" value="getOne_For_AddFm">
 									<input type="submit" value="我要回覆">
 								</form>
 							</div>
@@ -65,9 +56,7 @@
 									<b>樓主</b>
 								</div>
 								<div id="memPic">
-									<img
-										src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${faVO.memId}"
-										style="width: 100px; height: 100px;">
+									<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${faVO.memId}">
 								</div>
 								<div class="col-md-12" id="AmemName">
 									<b>${memSvc.getOneMem(faVO.memId).mem_name}</b>
@@ -78,32 +67,31 @@
 							</div>
 							<div class="col-md-10">
 								<div class="row">
-									<div class="col-md-8" style="font-size: 26px;">
+									<div class="col-md-8 faTopic">
 										<b>${faVO.faTopic}</b>
 									</div>
 									<div class="col-md-4">
 										<div class="reportBtn">
-											<form method="post"
-												action="<%=request.getContextPath()%>/front-end/forum/far.do">
-												<input type="submit" value="檢舉"> <input
-													type="hidden" name="action" value="getOne_Fa_Report">
+											<form method="post" action="<%=request.getContextPath()%>/front-end/forum/far.do">
+												<input type="submit" value="檢舉">
+												<input type="hidden" name="action" value="getOne_Fa_Report">
 												<input type="hidden" name="faId" value="${faVO.faId}">
 											</form>
 											<input type="submit" value="追蹤">
-											<div id="starImg">
-												<img src="<%=request.getContextPath()%>/images/forum/1.png"
-													style="width: 35px; height: 35px; float: right; margin-right: 15px;">
-												<input type="hidden" name="faId" value="${faVO.faId}">
-												<input type="hidden" name="memId"
-													value="${sessionScope.memVO.mem_id}">
-											</div>
+											<c:if test="${sessionScope.memVO != null}">
+												<div id="starImg">
+													<img src="<%=request.getContextPath()%>/images/forum/1.png">
+													<input type="hidden" name="faId" value="${faVO.faId}">
+													<input type="hidden" name="memId" value="${sessionScope.memVO.mem_id}">
+												</div>
+											</c:if>
 										</div>
 									</div>
 								</div>
 								<div class="clear"></div>
 								<hr>
 								<div class="row">
-									<div class="col-md-12">${faVO.faContent}</div>
+									<div class="col-md-12 content">${faVO.faContent}</div>
 								</div>
 							</div>
 						</div>
@@ -115,9 +103,7 @@
 										<b>${tag.index}樓</b>
 									</div>
 									<div class="memPic" id="memPic${tag.index}">
-										<img
-											src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${fmVO.memId}"
-											style="width: 100px; height: 100px;">
+										<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${fmVO.memId}">
 									</div>
 									<div class="col-md-12" id="memName${tag.index}">
 										<b>${memSvc.getOneMem(fmVO.memId).mem_name}</b>
@@ -129,7 +115,7 @@
 								<div class="col-md-10">
 									<div class="container">
 										<div class="row" id="fmContent">
-											<div class="col-md-12">
+											<div class="col-md-12 content">
 												<b>${fmVO.fmContent}</b>
 											</div>
 										</div>
@@ -137,13 +123,12 @@
 								</div>
 							</div>
 
-							<form method="post"
-								action="<%=request.getContextPath()%>/front-end/forum/fmr.do">
+							<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fmr.do">
 								<div class="reportBtn">
-									<input type="submit" value="檢舉"> <input type="hidden"
-										name="action" value="getOne_Fm_Report"> <input
-										type="hidden" name="faId" value="${faVO.faId}"> <input
-										type="hidden" name="fmId" value="${fmVO.fmId}">
+									<input type="submit" value="檢舉">
+									<input type="hidden" name="action" value="getOne_Fm_Report">
+									<input type="hidden" name="faId" value="${faVO.faId}">
+									<input type="hidden" name="fmId" value="${fmVO.fmId}">
 								</div>
 							</form>
 							<div class="clear"></div>
@@ -163,15 +148,13 @@
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
-		
-			if((parseInt($("#AmemExp").text())) < 1000){
+		/*等級*/
+			if((parseInt($("#AmemExp").text())) <= 1000){
 				$("#AmemExp").text("Lv.1");
 				$("#AmemExp").css("font-weight","bold");
 				$("#AmemExp").css("color","gray");
@@ -247,17 +230,7 @@
 			}
 			
 		}
-			
-		
-		
-		
-		
-		
-		
-	
-		
-		
-		
+		/*收藏*/
 		$.ajax({
 			type:"POST",
 			url:"<%=request.getContextPath()%>/front-end/forum/fc.do?action=checkCollection",

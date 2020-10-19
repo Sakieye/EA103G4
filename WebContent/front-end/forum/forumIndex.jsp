@@ -17,7 +17,7 @@
 <html>
 
 <head>
-<title>BookShop</title>
+<title>BookShop討論區</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
@@ -30,9 +30,19 @@
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
 	<!-- Header -->
+	<!-- One -->
+	<section id="One" class="wrapper style3">
+		<div class="inner">
+			<header class="align-center">
+				<p><b>share your passion for reading</b></p>
+				<h2>BookShop 討論區</h2>
+			</header>
+		</div>
+	</section>
+	<!-- Two -->
 	<section id="two" class="wrapper style2">
 		<div class="inner">
-			<div class="box" style="text-align: center">
+			<div class="box">
 				<div class="content">
 					<header class="align-center">
 						<c:if test="${not empty errorMsgs}">
@@ -127,13 +137,13 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script>
 	$(document).ready(function(){
-		if(location.href.split("/")[location.href.split("/").length-1] === "forumIndex.jsp"){
+		if(location.href.indexOf("forumIndex.jsp") !== -1){
 			$("#heading2>a>b").css("color","red");
-		}else if(location.href.split("/")[location.href.split("/").length-1] === "forumIndex_hot.jsp"){
-			$("#heading1>b").css("color","green");
+		}else if(location.href.indexOf("forumIndex_hot.jsp") !== -1){
+			$("#heading1>a>b").css("color","green");
 		}else{
 			$("#heading2>a>b").css("color","red");
-			$("#heading1>b").css("color","green");
+			$("#heading1>a>b").css("color","green");
 		}
 	})
 	

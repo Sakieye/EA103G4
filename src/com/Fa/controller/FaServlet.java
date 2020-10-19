@@ -158,7 +158,6 @@ public class FaServlet extends HttpServlet {
 
 		//修改文章
 		if ("update".equals(action)) {
-
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
@@ -166,17 +165,17 @@ public class FaServlet extends HttpServlet {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				String faId = new String(req.getParameter("faId"));
 				
-				
 				String faTopic = req.getParameter("faTopic").trim();
 				if (faTopic == null || faTopic.trim().length() == 0) {
 					errorMsgs.add("主題勿空白!!");
 				}
 				
-				
 				String faContent = req.getParameter("faContent").trim();
 				if (faContent == null || faContent.trim().length() == 0) {
 					errorMsgs.add("內容勿空白!!");
 				}
+			
+				
 				
 			
 				FaVO faVO = new FaVO();
@@ -188,7 +187,7 @@ public class FaServlet extends HttpServlet {
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("faVO", faVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/forum/updateFaPage.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/forum/memberCenter_forum.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -204,7 +203,7 @@ public class FaServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改文章失敗" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/forum/updateFaPage.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/forum/memberCenter_forum.jsp");
 				failureView.forward(req, res);
 			}
 

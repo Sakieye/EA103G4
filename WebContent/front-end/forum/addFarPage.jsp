@@ -10,7 +10,7 @@
 <html>
 
 <head>
-<title>BookShop</title>
+<title>BookShop討論區</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet"
@@ -29,16 +29,6 @@
 <body class="subpage">
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
-
-	<!-- One -->
-	<section id="One" class="wrapper style3">
-		<div class="inner">
-			<header class="align-center">
-				<p>share your passion for reading</p>
-				<h2>BookShop 討論區</h2>
-			</header>
-		</div>
-	</section>
 	<!-- Two -->
 	<section id="two" class="wrapper style2">
 		<div class="inner">
