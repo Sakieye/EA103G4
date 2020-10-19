@@ -168,7 +168,7 @@
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
-	<script	src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
