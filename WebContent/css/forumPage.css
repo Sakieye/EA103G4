@@ -79,12 +79,14 @@
 			border-radius:10px;
 			float:right;
 			margin-left:10px;
+			font-weight: 900;
 			outline:none;
 			background-color: green;
 			color: white;
 		}
 		.reportBtn input:hover{
-			background-color:#222222;
+			background-color: #fff !important;
+			color:#000 !important;
 		}
 		.hr{
 			    border: 2px solid;

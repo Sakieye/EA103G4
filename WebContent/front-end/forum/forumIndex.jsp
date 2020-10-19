@@ -20,14 +20,10 @@
 <title>BookShop</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/main-front.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/forumIndex.css">
-<link rel="stylesheet"
-    href="<%=request.getContextPath()%>/css/header.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumIndex.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 
 <body class="subpage">
@@ -60,7 +56,7 @@
 									<a href="forumIndex_hot.jsp"><b>熱門文章</b></a>
 								</div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<form method="post"
 									action="<%=request.getContextPath()%>/front-end/forum/fa.do">
 									<input type="text" name="faTopic"> <input type="hidden"
@@ -68,7 +64,7 @@
 										value="搜尋">
 								</form>
 							</div>
-							<div class="col-md-1">
+							<div class="col-md-2">
 								<input type="submit" value="我要發佈"
 									onclick="location.href='addFaPage.jsp'">
 							</div>
@@ -129,7 +125,19 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
+	<script>
+	$(document).ready(function(){
+		if(location.href.split("/")[location.href.split("/").length-1] === "forumIndex.jsp"){
+			$("#heading2>a>b").css("color","red");
+		}else if(location.href.split("/")[location.href.split("/").length-1] === "forumIndex_hot.jsp"){
+			$("#heading1>b").css("color","green");
+		}else{
+			$("#heading2>a>b").css("color","red");
+			$("#heading1>b").css("color","green");
+		}
+	})
+	
+	</script>
 </body>
 
 </html>

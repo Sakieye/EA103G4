@@ -60,7 +60,7 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div id="heading1">
-									<b>最新文章</b>
+									<a href="forumIndex.jsp"><b>最新文章</b></a>
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -130,6 +130,20 @@
 
    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	
+	<script>
+	$(document).ready(function(){
+		if(location.href.split("/")[location.href.split("/").length-1] === "forumIndex.jsp"){
+			$("#heading2>a>b").css("color","red");
+		}else if(location.href.split("/")[location.href.split("/").length-1] === "forumIndex_hot.jsp"){
+			$("#heading1>a>b").css("color","green");
+		}else{
+			$("#heading2>a>b").css("color","red");
+			$("#heading1>a>b").css("color","green");
+		}
+	})
+	
+	</script> 
 </body>
 
 </html>
