@@ -10,12 +10,26 @@
 <header id="header">
 	<div class="logo">
 		<a href="<%=request.getContextPath()%>/front-end/front-index.jsp">
-			部客匣 <span>BookShop</span>
+			部客匣 <span>Bookshop</span>
 		</a>
 	</div>
-
+	<!--Cart-->
+	<div class="cart col-md-1">
+		<!--
+            int prodectInCart = 0;
+            List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
+            if (cartlist != null) {
+                prodectInCart = cartlist.length();
+            }
+            -->
+		<a href="<%=request.getContextPath()%>/front-end/shopping/cart.jsp">
+			<i class="fa">&#xf07a;</i> <span class='badge badge-cart' id='lblCartCount'>5</span>
+		</a>
+	</div>
+	<!--End of Cart-->
+	<!--Member-->
 	<c:if test="${not empty sessionScope.memVO.mem_id}">
-		<div id="headName">
+		<div id="headName" class="mem-header">
 			<a href="<%=request.getContextPath()%>/mem/mem.do?action=logout" type="button" id="logOut">登出</a>
 			<p>${memVO.mem_name}&nbsp;&nbsp;Hello</p>
 		</div>
@@ -23,7 +37,7 @@
 		<%
 			if (memVO.getMem_pic() != null) {
 		%>
-		<div id="img">
+		<div id="img" class="mem-header">
 			<a href="<%=request.getContextPath()%>/front-end/member/memberCenter.jsp">
 				<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${memVO.mem_id}">
 			</a>
@@ -31,7 +45,7 @@
 		<%
 			} else {
 		%>
-		<div id="img">
+		<div id="img" class="mem-header">
 			<a href="<%=request.getContextPath()%>/front-end/member/memberCenter.jsp">
 				<img src="<%=request.getContextPath()%>/BookShopLogo/3.png">
 			</a>
@@ -43,7 +57,7 @@
 	<c:if test="${empty sessionScope.memVO.mem_id}">
 		<a id="logIn" href="<%=request.getContextPath()%>/front-end/member/signIn.jsp">登入</a>
 	</c:if>
-
+	<!--End of Member-->
 	<a href="#menu">Menu</a>
 </header>
 

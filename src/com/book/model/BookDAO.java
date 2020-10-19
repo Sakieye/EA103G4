@@ -24,4 +24,6 @@ public interface BookDAO {
 	List<Book> findByBookIDList(List<String> bookIDs);
 	void updateEffPromos(String effectivePromos);
 	void updateBatch(List<Book> books);
+	List<Book> findByRandom(int num);
+	List<Book> findNewBooks(int num);
 }

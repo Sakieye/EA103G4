@@ -1,6 +1,10 @@
 package com.category.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class CategoryService {
@@ -103,5 +107,37 @@ public class CategoryService {
 
 	public void deleteCategory(String categoryID) {
 		categoryDAO.delete(categoryID);
+	}
+
+	public Map<String, List<Category>> getCategoryTree() {
+		List<Category> allCats = getAll();
+		Map<String, List<Category>> catMap = new LinkedHashMap<String, List<Category>>(); // parentCatID : [childCats...]
+
+		allCats.forEach(cat -> {
+			String parentCatID = cat.getParentCategoryID();
+			String catName = cat.getCategoryName();
+			List<Category> childCats = catMap.get(parentCatID);
+
+			//類別名稱只留最後一個,後的字串
+			int lastIdxOfCamma = catName.lastIndexOf(',');
+			if (lastIdxOfCamma != -1) {
+				cat.setCategoryName(catName.substring(lastIdxOfCamma + 1));
+			}
+
+			if (childCats == null) {
+				childCats = new ArrayList<>(Arrays.asList(cat));
+				catMap.put(parentCatID, childCats);
+			} else {
+				childCats.add(cat);
+			}
+
+		});
+		
+//		catMap.forEach((k, v) -> {
+//			System.out.println(k);
+//			v.forEach(cat -> System.out.println(cat));
+//		});
+
+		return catMap;
 	}
 }
