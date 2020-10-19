@@ -104,15 +104,14 @@ div>#book #booklist .card-img-body {
 
 
 
-
-
-
-
 /*cart.jsp*/
-div>#cartlist {
-}
 
-div>#cartlist .cartprd {
+
+
+
+
+table>.cartprd {
+	text-aglin:center;
 	font-size: 14px;
 	font-weight: 900;
 	color: #666666;
@@ -124,18 +123,24 @@ div>#cartlist .cartprd {
 	white-space: normal;
 }
 
-/* div>#cartlist.prdCard { */
-	
-/* } */
 
-/* div>#cartlist.cardleft { */
-/* 	display: flex; */
-/* 	width: 90%; */
-/* } */
+#imgTd>.prdimgTd {
+	width: 110px;
+	height: 120px;
+}
 
-/* div>#cartlist.cardright { */
-/* 	width: 10%; */
-/* 	height: 20%; */
-/* 	display: flex; */
-/* 	float: right; */
-/* } */
+div> #chelisInf{
+}
+
+
+
+
+
+/*pay.jsp*/
+
+
+
+
+div>#collapseOne {
+	display: none;
+}

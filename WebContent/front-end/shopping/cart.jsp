@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.shping.model.*"%>
+<%@ page import="com.mem.model.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,12 +13,15 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <!-- 	購物車每分鐘刷新一次 -->
 <meta http-equiv="refresh" content="60">
 
 
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/main-front.css" />
+
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/memSpace.css" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/bootstrap.min.css">
@@ -49,38 +53,59 @@
 
 						<div class="container-fluid">
 							<nav class="navbar navbar-light bg-light">
-								<font>│ 鑲 金 購 物 車</font>
+								<h2><font>│ 鑲 金 購 物 車</font></h2>
 
 								<hr size="10px" align="center" width="100%">
 
 								<%
 									@SuppressWarnings("unchecked")
 									List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
-									String totalPrice = (String) session.getAttribute("getTotal");
+									String[] totalPrice = (String[]) session.getAttribute("getTotal");
+									pageContext.setAttribute("totalPrice", totalPrice);
 									pageContext.setAttribute("cartlist", cartlist);
-
+									MemVO memVO = (MemVO)session.getAttribute("memVO");
+								%>
+									
+								<%	
+									if (memVO.getMem_id() != null) {
 									if (cartlist != null && cartlist.size() > 0) {
 								%>
-
+								<c:set var="count" scope="session"/>
 
 								<table class="cartprd">
-
+									
 									<c:forEach var="cart" items="${cartlist}"
-										varStatus="cartstatus">
-										<tr>
-											<td><h5>${cartstatus.index}</h5></td>
-											<td>商品圖</td>
-											<td><h6>ISBN：${cart.isbn}</h6>
-												<h3>${cart.book_Name}</h3>
+										varStatus="cartstatus" >
+										
+										<tr >
+											<!--項目 -->
+											<td style="vertical-align:middle;"><h5>${count=count+1}</h5></td>
+											<!--商品圖 -->
+											<td id="imgTd" style="vertical-align:middle;">
+									<img class="prdimgTd" alt="404 NOT FOUND"
+										src="${pageContext.request.contextPath}/ShowBookPic?bookID=${cart.book_Id}">
+								</td>
+											<!--ISBN -->
+											<td style="vertical-align:middle;">
+												<h6>ISBN：${cart.isbn}</h6> <!--商品名稱  -->
+												<h3>${cart.book_Name}</h3> <!--出版社  -->
 												<h6>${cart.publisher_Id}</h6></td>
-											<td><h5>${cart.order_Qty}個</h5></td>
-											<td><h5>
-													$
+											<!--購買數量  -->
+											<td style="vertical-align:middle;"><h5>${cart.comm_Qty}個</h5></td>
+											<!--價錢小計  -->
+											<td style="vertical-align:middle;"><h5>
+													TWD$
 													<fmt:formatNumber type="number"
-														value="${cart.price*cart.order_Qty}" maxFractionDigits="0" />
+														value="${cart.price*cart.comm_Qty}" maxFractionDigits="0" />
 												</h5></td>
-											<td><h5>${cart.book_BP}</h5></td>
-											<td><div class="cardright">
+											<!--單項獲得紅利  -->
+											<td style="vertical-align:middle;"><h5>
+											<fmt:formatNumber type="number"
+																value="${cart.book_BP*cart.comm_Qty}"
+																maxFractionDigits="0" />點</h5></td>
+																
+											<!--刪除商品  -->
+											<td style="vertical-align:middle;"><div class="cardright">
 													<FORM class="form-inline" name="delFrom" method="POST"
 														action="<%=request.getContextPath()%>/Shopping.html">
 														<input type="hidden" name="action" value="DEL"> <input
@@ -92,53 +117,58 @@
 										</tr>
 
 									</c:forEach>
+									
 								</table>
-								<hr size="10px" align="center" width="100%">
-								<div class="checklist">
-											<p>商品總金額：<span id="prdtotal"><%=totalPrice%></span></p>
-											<p>折抵紅利：<input
-											type="number" id="use_Bonus" step="5" min="0" max="10000"
-											value="10" style="width: 80px; height: 30px;"></p>
-											<p>
-												結帳總金額：$<span id="total">${sessionScope.getTotal}</span>
-											</p>
-										
-
+									<div id=chelisBtn>
+										<button class="btn btn-sm btn-outline-secondary"
+											onClick="self.location.href='index.jsp'">繼續選購</button>
+									</div>
+									<div id=chelisInf>
+										<p>
+											總金額(活動優惠已折扣)：<span id="prdtotal">${totalPrice[0]}</span>
+										</p>
+									</div>
+									<!-- 結帳 -->
+									<div id=chelisBtn>
 										<FORM class="form-inline" name="checkFrom" method="POST"
 											action="<%=request.getContextPath()%>/Shopping.html">
-											<input type="hidden" name="isbn" value="${cart.isbn}">
-											<input type="hidden" name="book_Name" value="${cart.book_Name}">
-											<input type="hidden" name="pay" value="${cartstatus.index}">
-											<input type="hidden" name="action" value="PAY">
+											<!-- 訂單資訊 -->
+											
+											<input type="hidden" name="action" value="PAYCHECK">
+												
 											<button class="btn btn-sm btn-outline-secondary"
 												type="submit">下一步</button>
 										</FORM>
-								</div>
+									</div>
+
+
+								<%
+									} else {
+								%>
+								<a style="color: #668787; font-size: 20px; text-aglin: center;">
+								<c:out value="購物車空空der...與您的腦一樣ＱＱ" /></a>
+								<%
+									}}else{
+								%>
+<%-- 								<jsp:forward page="/front-end/member/signIn.jsp" /> --%>
+								<jsp:forward page="/front-end/shopping/index.jsp"/>
+								
+								<%} %>
+							</nav>
 						</div>
-
-
-						<%
-							} else {
-						%>
-						<a style="color: #668787; font-size: 20px; text-aglin: center;"><c:out
-								value="購物車空空der...與您的腦一樣ＱＱ" /></a>
-						<%
-							}
-						%>
-						</nav>
 					</div>
 				</div>
-			</div>
+				</div>
 		</main>
 	</div>
-	<%-- 	<jsp:include page="/front-end/footer/footer.jsp" /> --%>
+		<jsp:include page="/front-end/footer/footer.jsp" />
 	<script
 		src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
-	
+
 
 </body>
 </html>

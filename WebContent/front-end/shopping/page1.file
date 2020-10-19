@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%  int rowsPerPage = 10;  //每頁的筆數
+<%  int rowsPerPage = 16;  //每頁的筆數
     int rowNumber=0;      //總筆數
     int pageNumber=0;     //總頁數      
     int whichPage=1;      //第幾頁
@@ -11,7 +11,7 @@
           rowsPerPage = Integer.MAX_VALUE;
        }
        
-    rowNumber=list.size();
+    rowNumber=shpingcart.size();
     if (rowNumber%rowsPerPage !=0)
          pageNumber=rowNumber/rowsPerPage + 1;
     else pageNumber=rowNumber/rowsPerPage;    
@@ -42,11 +42,13 @@
         <a href="${request.header("Referer")}?whichPage=1">＜＜</a>&nbsp;
         <a href="${request.header("Referer")}?whichPage=<%=whichPage-1%>">＜</a>&nbsp;
     <%}%>
-    
+    <%if (pageNumber>0){%>
     <font id="pagename">第 <%=whichPage%> 頁　/　共 <%=pageNumber%> 頁</font>
-  
+  <%}%>
     <%if(pageIndex < pageIndexArray[pageNumber-1]){%>
         <a href='${request.header("Referer")}?whichPage=<%=whichPage+1%>'>＞</a>&nbsp;
         <a href="${request.header("Referer")}?whichPage=<%=pageNumber%>">＞＞</a>&nbsp;
     <%}%>
 <%}%>
+
+

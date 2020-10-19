@@ -1,3 +1,41 @@
+      
+      	body{
+      		background-color: rgba(0, 0, 0, .2) !important;
+      		background-blend-mode: multiply;
+      		background-image: url('../images/books1920.jpg');
+      		background-attachment: fixed;
+      		background-position: center; 
+      		background-size: cover;
+      		background-repeat:no-repeat;
+      	}
+      	.wrapper.style2{
+      		background-color: rgba(0,0,0,0);
+      	}
+      	.wrapper.style3{
+      		background-color: rgba(0,0,0,0);
+      		background-image:none;
+      	}
+      	.wrapper.style3:before{
+      		background-color: rgba(0,0,0,0);
+      	}
+      	.wrapper{
+      		padding: 0rem 0 4rem 0;
+      	}
+      	.align-center{
+      		text-align:left;
+      	}
+      	.wrapper.style3 h2{
+      		color:black;
+      	}
+      	.wrapper.style3 p:after{
+      		display:none;
+      	}
+      	.align-center{
+      	    margin-top: 50px;
+      	}
+      	.box .content{
+      		background-color:floralwhite;
+      	}
         .box{
         	border-radius:10px;
         	box-shadow: 12px 12px 7px rgba(0, 0, 0, 0.7);
@@ -6,10 +44,14 @@
         .box:hover{
         	opacity: 1;
         }
-        
-        #two{
-        	background-image:url('../images/books1920.jpg');
-        }
+/*         .wrapper.style3 { */
+/*         	background-image: url('../images/forum/bookOne.jpg'); */
+/*         } */
+/*         #two{ */
+/*         	background-image:url('../images/books1920.jpg'); */
+/*         	background-attachment: fixed; */
+/*     		background-position: center; */
+/*         } */
         
         .container .row .col-md-3 a:hover{
         	text-decoration:none;
@@ -87,7 +129,11 @@
 		}
 		
 		a.page-link{
-			color: #007bff !important;
+			color: #000 !important;
+		}
+		a.page-link:hover{
+			color: #fff !important;
+			background-color:#000;
 		}
 		
         

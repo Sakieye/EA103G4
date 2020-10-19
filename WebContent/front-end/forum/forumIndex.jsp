@@ -17,26 +17,32 @@
 <html>
 
 <head>
-<title>BookShop</title>
+<title>BookShop討論區</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/main-front.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/forumIndex.css">
-<link rel="stylesheet"
-    href="<%=request.getContextPath()%>/css/header.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumIndex.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 
 <body class="subpage">
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
 	<!-- Header -->
+	<!-- One -->
+	<section id="One" class="wrapper style3">
+		<div class="inner">
+			<header class="align-center">
+				<p><b>share your passion for reading</b></p>
+				<h2>BookShop 討論區</h2>
+			</header>
+		</div>
+	</section>
+	<!-- Two -->
 	<section id="two" class="wrapper style2">
 		<div class="inner">
-			<div class="box" style="text-align: center">
+			<div class="box">
 				<div class="content">
 					<header class="align-center">
 						<c:if test="${not empty errorMsgs}">
@@ -60,7 +66,7 @@
 									<a href="forumIndex_hot.jsp"><b>熱門文章</b></a>
 								</div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<form method="post"
 									action="<%=request.getContextPath()%>/front-end/forum/fa.do">
 									<input type="text" name="faTopic"> <input type="hidden"
@@ -68,7 +74,7 @@
 										value="搜尋">
 								</form>
 							</div>
-							<div class="col-md-1">
+							<div class="col-md-2">
 								<input type="submit" value="我要發佈"
 									onclick="location.href='addFaPage.jsp'">
 							</div>
@@ -129,7 +135,19 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
+	<script>
+	$(document).ready(function(){
+		if(location.href.indexOf("forumIndex.jsp") !== -1){
+			$("#heading2>a>b").css("color","red");
+		}else if(location.href.indexOf("forumIndex_hot.jsp") !== -1){
+			$("#heading1>a>b").css("color","green");
+		}else{
+			$("#heading2>a>b").css("color","red");
+			$("#heading1>a>b").css("color","green");
+		}
+	})
+	
+	</script>
 </body>
 
 </html>

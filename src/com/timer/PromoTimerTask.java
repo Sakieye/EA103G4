@@ -153,9 +153,9 @@ public class PromoTimerTask extends TimerTask {
 							}
 						});
 
-						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getSalePrice(),
+						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
 								(100 - maxDiscountAndMaxBpPercent[0]));
-						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getSalePrice(),
+						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
 								maxDiscountAndMaxBpPercent[1]);
 
 						book.setSalePricePromo(salePricePromo);
@@ -195,9 +195,9 @@ public class PromoTimerTask extends TimerTask {
 					if (effectivePromos == null) {
 						effectivePromos = ""; // 先給空字串，加上"newPromoID,"之後為"newPromoID,"，而不會是"nullnewPromoID,"
 
-						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getSalePrice(),
+						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
 								(100 - pd.getDiscount()));
-						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getSalePrice(),
+						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
 								pd.getBpPercent());
 
 						if (salePricePromo < book.getSalePrice()) {
@@ -235,9 +235,9 @@ public class PromoTimerTask extends TimerTask {
 							}
 						});
 
-						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getSalePrice(),
+						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
 								(100 - maxDiscountAndMaxBpPercent[0]));
-						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getSalePrice(),
+						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
 								maxDiscountAndMaxBpPercent[1]);
 
 						book.setSalePricePromo(salePricePromo);

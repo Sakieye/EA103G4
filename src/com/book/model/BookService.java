@@ -1,17 +1,36 @@
 package com.book.model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.TimeZone;
+
+import org.apache.commons.math3.distribution.EnumeratedDistribution;
+import org.apache.commons.math3.util.Pair;
 
 import com.category.model.Category;
 import com.category.model.CategoryService;
+import com.promo.model.PromoService;
+import com.promodetail.model.PromoDetailService;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Tuple;
+import tools.CountComparator;
+import tools.JedisUtil;
 
 public class BookService {
 	private final BookDAO bookDAO;
+	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
 	public BookService(BookDAO bookDAO) {
 		this.bookDAO = bookDAO;
@@ -94,8 +113,9 @@ public class BookService {
 	}
 
 	public Optional<Book> updateBook(String bookID, String publisherID, String languageID, String categoryID,
-			String bookName, String isbn, String author, Double listPrice, Double salePrice, Double bookBP, Integer isSold,
-			Date publicationDate, Integer stock, Integer safetyStock, String bookIntro, String bookNameOriginal) {
+			String bookName, String isbn, String author, Double listPrice, Double salePrice, Double bookBP,
+			Integer isSold, Date publicationDate, Integer stock, Integer safetyStock, String bookIntro,
+			String bookNameOriginal) {
 		// 一般update時，無法修改salePricePromo, bookBPPromo, promoEndTime
 		// effectivePromos，但建構需傳入參數，暫時傳入NaN和null，但實際update方法並不會更新這幾格
 		Book book = new Book(bookID, publisherID, languageID, categoryID, bookName, isbn, author, listPrice, salePrice,
@@ -156,5 +176,216 @@ public class BookService {
 		List<String> bookIDs = new ArrayList<String>();
 		books.forEach(book -> bookIDs.add(book.getBookID()));
 		return getByBookIDList(bookIDs);
+	}
+
+	public List<Book> getPopularBooks(int bookNum, int sampleNum) {
+		// 取得Jedis連線資源
+		JedisPool pool = JedisUtil.getJedisPool();
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+
+		List<String> bookIDs = new ArrayList<String>();
+		List<Book> books = new ArrayList<Book>();
+
+		String keyName;
+		String keyNameToday = "popularBooks" + LocalDate.now().toString();
+		String keyNameYesterday = "popularBooks"
+				+ DATE_FORMATTER.format(new Date(new java.util.Date().getTime() - 24 * 60 * 60 * 1000));
+
+		// 計算今天或昨天的統計是否超過30筆
+		long sumToday = jedis.zcard(keyNameToday.toString());
+		long sumYesterday = jedis.zcard(keyNameYesterday.toString());
+
+		// 預設用today當key(書籍數量必須超過30)，其次以昨日當key(須超過30本)，不然直接隨機取書並回傳
+		if (sumToday >= bookNum) {
+			keyName = keyNameToday;
+		} else if (sumYesterday >= bookNum) {
+			keyName = keyNameYesterday;
+		} else {
+			books.addAll(getByRandom(bookNum));
+			return books;
+		}
+
+		// 查詢書籍統計資料並計算權重(只取總站熱門前500本)
+		Set<Tuple> res;
+		if (jedis.zcard(keyName.toString()) >= sampleNum) {
+			res = jedis.zrangeWithScores(keyName.toString(), -sampleNum, -1);
+		} else {
+			res = jedis.zrangeWithScores(keyName.toString(), 0, -1);
+		}
+
+		// 歸還連線資源到Jedis連線池
+		JedisUtil.closeJedis(jedis);
+
+		List<Pair<String, Double>> bookWeights = new ArrayList<Pair<String, Double>>();
+		res.forEach(tuple -> {
+			String bookID = tuple.getElement();
+			double viewedCount = tuple.getScore();
+			bookWeights.add(new Pair<String, Double>(bookID, viewedCount));
+		});
+
+		// 使用apache.commons.math3.distribution.EnumeratedDistribution.EnumeratedDistribution對有權重的bookWeights抽樣
+		Object[] objs = new EnumeratedDistribution<String>(bookWeights).sample(bookNum);
+
+		for (Object bookID : objs) {
+			bookIDs.add(bookID.toString());
+		}
+
+		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
+
+//		books.forEach(b->System.out.println(b));
+
+		return books;
+	}
+
+	public Set<Book> getRecommendedBooks(List<Book> recentViewedBooks, String thisBookID) {
+		// 取得Jedis連線資源
+		JedisPool pool = JedisUtil.getJedisPool();
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+
+		String thisCategoryID = getByBookID(thisBookID).get().getCategoryID();
+
+		// 從cookie計算近期瀏覽記錄中占比最高的5個書籍類別(因傳入的近期瀏覽書籍可能是0~30本，favoriteCategoryIDs的可能長度為0~5)
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		recentViewedBooks.forEach(viwedBook -> {
+			String categoryID = viwedBook.getCategoryID();
+			int count = map.containsKey(categoryID) ? map.get(categoryID) : 0;
+			map.put(categoryID, count + 1);
+		});
+
+		List<Map.Entry<String, Integer>> favoriteCategoryIDs = CountComparator.entriesSortedByValues(map);
+		if (favoriteCategoryIDs.size() > 5) {
+			favoriteCategoryIDs = favoriteCategoryIDs.subList(0, 5);
+		}
+
+		if (favoriteCategoryIDs.size() == 0) {
+			// 從商品詳情頁面URL取的bookID，並加入此categoryID，令favoriteCategoryIDs長度在1~5之間。
+			Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<String, Integer>(thisCategoryID, 1);
+			favoriteCategoryIDs.add(entry);
+		}
+
+		int sumToday = 0;
+		int sumYesterday = 0;
+		String today = LocalDate.now().toString();
+		String yesterday = DATE_FORMATTER.format(new Date(new java.util.Date().getTime() - 24 * 60 * 60 * 1000));
+
+		// 計算今天或昨天的統計是否超過30筆
+		for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
+			String categoryID = entry.getKey();
+			StringBuilder keyName = new StringBuilder(categoryID).append(",").append(today).append("viewed");
+			StringBuilder keyNameYesterday = new StringBuilder(categoryID).append(",").append(yesterday)
+					.append("viewed");
+			sumToday += jedis.zcard(keyName.toString());
+			sumYesterday += jedis.zcard(keyNameYesterday.toString());
+
+			if (sumToday >= 30 || sumYesterday >= 30) {
+				break;
+			}
+		}
+
+		Set<Book> recommBooks = new HashSet<Book>();
+		Set<String> recommBookIDs = new HashSet<String>();
+		List<Pair<String, Double>> bookWeights = new ArrayList<Pair<String, Double>>();
+
+		for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
+			String categoryID = entry.getKey();
+			double weight = entry.getValue();
+			StringBuilder keyName = new StringBuilder(categoryID).append(",");
+
+			// 預設用today當key(書籍數量必須超過30)，其次以昨日當key(須超過30本)，不然直接以該商品的categoryID隨機取書並回傳
+			if (sumToday >= 30) {
+				keyName.append(today).append("viewed");
+			} else if (sumYesterday >= 30) {
+				keyName.append(yesterday).append("viewed");
+			} else {
+				List<Book> recommBookList = getByCategoryID(thisCategoryID);
+
+				if (recommBookList.size() >= 30) {
+					Random random = new Random();
+					while (recommBooks.size() < 30) {
+						recommBooks.add(recommBookList.get(random.nextInt(recommBookList.size())));
+					}
+				} else {
+					recommBooks.addAll(recommBookList);
+				}
+				return recommBooks;
+			}
+
+			// 查詢書籍統計資料並計算權重(只取熱門前200本)
+			Set<Tuple> res;
+			if (jedis.zcard(keyName.toString()) >= 200) {
+				res = jedis.zrangeWithScores(keyName.toString(), -200, -1);
+			} else {
+				res = jedis.zrangeWithScores(keyName.toString(), 0, -1);
+			}
+
+			// 歸還連線資源到Jedis連線池
+			JedisUtil.closeJedis(jedis);
+
+			res.forEach(tuple -> {
+				String bookID = tuple.getElement();
+				double viewedCount = tuple.getScore();
+				bookWeights.add(new Pair<String, Double>(bookID, viewedCount * weight));
+			});
+		}
+
+		// 使用apache.commons.math3.distribution.EnumeratedDistribution.EnumeratedDistribution對有權重的bookWeights抽樣
+		Object[] objs = new EnumeratedDistribution<String>(bookWeights).sample(30);
+
+		for (Object bookID : objs) {
+			recommBookIDs.add(bookID.toString());
+		}
+
+		// 觀察權重分布
+//		favoriteCategoryIDs.forEach(entry -> System.out.println(entry));
+
+		recommBooks.addAll(getByBookIDList(new ArrayList<String>(recommBookIDs)));
+		return recommBooks;
+	}
+
+	public void UpdateRedisViewCount(String bookID) {
+		// 取得Jedis連線資源
+		JedisPool pool = JedisUtil.getJedisPool();
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+
+		// 本書當日瀏覽次數+1，key為當天日期 + "viwed"，score為當天被瀏覽次數，value為bookID。
+		// Redis過期是以key為單位移除資料，為實現動態的7天統計，key設定和當天日期有關，而另一邊需設計排程器，每天計算仍有效的(7天內)瀏覽次數。
+		LocalDate date = LocalDate.now();
+		long current = System.currentTimeMillis();// 當前時間毫秒數
+		long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();// 今天零點零分零秒的毫秒數
+		jedis.zincrby(date + "viewed", 1, bookID);
+		jedis.expire(date + "viewed", 7 * 24 * 60 * 60 - (int) ((current - zero) / 1000)); // 7天過期
+
+		// 歸還連線資源到Jedis連線池
+		JedisUtil.closeJedis(jedis);
+	}
+
+	public List<Book> getByRandom(int num) {
+		return bookDAO.findByRandom(num);
+	}
+
+	public List<Book> getPromoBooks(int num, PromoDetailService promoDetailService, PromoService promoService) {
+		Set<String> bookIDs = new HashSet<String>();
+		List<Book> books = new ArrayList<Book>();
+
+		promoService.getValidPromos().forEach(promo -> {
+			promoDetailService.getByPromoID(promo.getPromoID()).forEach(pd -> {
+				bookIDs.add(pd.getBookID());
+			});
+		});
+
+		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
+
+		if (books.size() > num) {
+			books = books.subList(0, num);
+		}
+
+		return books;
+	}
+
+	public List<Book> getNewBooks(int num) {
+		return bookDAO.findNewBooks(num);
 	}
 }

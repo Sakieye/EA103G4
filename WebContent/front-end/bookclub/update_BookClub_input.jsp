@@ -128,7 +128,7 @@
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
 <script src='<%=request.getContextPath()%>/js/jquery.min.js'></script>
-<script	src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script	src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
 <script src="<%= request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
 <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>

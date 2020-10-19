@@ -29,9 +29,6 @@
         	box-shadow:0 0 17px black;
         }
         
-         /* ===================================
-  			 嚙踐�蕭蹓��蕭��嚙踝蕭謏��
-   			===================================*/
         .myMenu {
             max-width: 300px;
             margin: 0 auto;
@@ -56,9 +53,6 @@
         .myTable td{
         	width: 120px;
         }
-        /* ===================================
-   			���嚙踝蕭蹎刻嚙踝蕭豯株嚙踝蕭����蕭
-		   ===================================*/
         .drop-down {
             position: relative;
         }
@@ -82,9 +76,6 @@
             overflow: visible;
             height: 30px;
         }
-        /* ===================================
-   			嚙踐��葭擐蕭嚙踝�嚙踝蕭謏��
-   		   ===================================*/
         .item {
         	font-size: 25px;
             width: 100%;
@@ -116,9 +107,6 @@
             height: 30px;
         }
         
-        
-        /*討論區*/
-        
        .container .row{
        	color: black;
        	margin-top: 20px;
@@ -134,11 +122,41 @@
        }
        #forum_record input[type="submit"]:hover{
        	background-color:#00104F;
-       	color:white;
+       	color:white !important;
        }
+       
        form{
        	margin: 0 0 0 0;
        }
         
+       .modal-dialog.modal-lg{
+        	margin-top:5rem;
+       }
+       
+       button.btn.btn-primary{
+       	border-radius:20px;
+       	font-weight:bold;
+       	background-color:#2F4F4F;
+       	border:none;
+       	outline:none;
+       	color:white;
+       }
+       
+       button.btn.btn-primary:hover{
+        	background-color:#00104F;
+       		color:white !important;
+       }
+       input.btn.btn-secondary{
+       	border-radius:20px;
+       	font-weight:bold;
+       	background-color:#2F4F4F;
+       	border:none;
+       	outline:none;
+       	color:white;
+       }
+       input.btn.btn-secondary:hover{
+       	background-color:#00104F;
+       	color:white !important;
+       }
        
         

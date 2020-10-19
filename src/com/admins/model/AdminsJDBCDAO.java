@@ -27,6 +27,8 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 	//private static final String DELETE = "DELETE FROM ADMINS WHERE ADMIN_ID = ?";
 	private static final String FIND_BY_ADMIN_ID = "SELECT * FROM ADMINS WHERE ADMIN_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM ADMINS ORDER BY ADMIN_ID";
+	//update password
+	private static final String UPDATE_PSWD = "UPDATE ADMINS SET ADMIN_PSWD= ? WHERE ADMIN_ID = ?";
 
 
 	public Object insert(AdminsVO adminsVO){
@@ -203,7 +205,7 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 				adminsVO.setAdmin_jobstate(rs.getInt("admin_jobstate"));
 				adminsVO.setAdmin_pic(rs.getBytes("admin_pic"));
 				adminsVO.setAdmin_mail(rs.getString("admin_mail"));
-//				System.out.println("(FIND_BY_ADMIN_ID ok)");
+				System.out.println("(FIND_BY_ADMIN_ID ok)");
 			}
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -370,27 +372,70 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 		}
 		return Optional.ofNullable(adminsVO);
 	}
+	
+	public void updatePswd(AdminsVO adminsVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(UPDATE_PSWD);
+			
+			pstmt.setString(1, adminsVO.getAdmin_pswd());
+			pstmt.setString(2, adminsVO.getAdmin_id());
+			
+			pstmt.executeUpdate();
+			
+//			System.out.println("updatePswd ok");
+			
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources		
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
 
 	
 
-		public static void main(String[] args) throws IOException {
-
-			AdminsJDBCDAO dao = new AdminsJDBCDAO();
+//		public static void main(String[] args) throws IOException {
+//
+//			AdminsJDBCDAO dao = new AdminsJDBCDAO();
 
 	// add
-			AdminsVO adminsVO1 = new AdminsVO();
-			adminsVO1.setAdmin_name("林嗯嗯");
-			adminsVO1.setAdmin_id_no("M223344556");
-			adminsVO1.setAdmin_pswd("123456");
-			adminsVO1.setAdmin_mobile("0922334556");
-			adminsVO1.setAdmin_address("哈哈");
-			adminsVO1.setAdmin_dutydate(java.sql.Date.valueOf("2005-01-01"));
-			adminsVO1.setAdmin_jobstate(new Integer(0));
-			byte[] pic = getPictureByteArray("WebContent/images/admins/ADM0001.png");
-			adminsVO1.setAdmin_pic(pic);
-			adminsVO1.setAdmin_mail("asd@gmail.com");
-			adminsVO1.getAdmin_id();
-			dao.insert(adminsVO1);
+//			AdminsVO adminsVO1 = new AdminsVO();
+//			adminsVO1.setAdmin_name("林嗯嗯");
+//			adminsVO1.setAdmin_id_no("M223344556");
+//			adminsVO1.setAdmin_pswd("123456");
+//			adminsVO1.setAdmin_mobile("0922334556");
+//			adminsVO1.setAdmin_address("哈哈");
+//			adminsVO1.setAdmin_dutydate(java.sql.Date.valueOf("2005-01-01"));
+//			adminsVO1.setAdmin_jobstate(new Integer(0));
+//			byte[] pic = getPictureByteArray("WebContent/images/admins/ADM0001.png");
+//			adminsVO1.setAdmin_pic(pic);
+//			adminsVO1.setAdmin_mail("asd@gmail.com");
+//			adminsVO1.getAdmin_id();
+//			dao.insert(adminsVO1);
 //			System.out.println(adminsVO1);
 ////	// update
 //			AdminsVO adminsVO2 = new AdminsVO();
@@ -447,7 +492,15 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 //			AdminsVO adminsVO4  = dao.findOneAdminAcntPswd("ADM0010");
 //			System.out.print(adminsVO4.getAdmin_acnt() + ",");
 //			System.out.print(adminsVO4.getAdmin_pswd());
-		}
+//		}
+	
+	// update_pswd
+//	AdminsVO adminsVO6 = new AdminsVO();
+//	adminsVO6.setAdmin_pswd("000000");
+//	adminsVO6.setAdmin_id("ADM0071");
+//	dao.updatePswd(adminsVO6);
+//	System.out.println("adminsVO6.getAdmin_pswd"+ adminsVO6.getAdmin_pswd());
+//		}
 
 				}
 

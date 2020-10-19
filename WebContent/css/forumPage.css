@@ -1,3 +1,44 @@
+        body{
+        	background-color: rgba(0, 0, 0, .2) !important;
+      		background-blend-mode: multiply;
+      		background-image: url('../images/books1920.jpg'); 
+      		background-attachment: fixed;
+      		background-position: center; 
+      		background-size: cover;
+      		background-repeat:no-repeat;
+      	}
+      	.wrapper.style2{
+      		background-color: rgba(0,0,0,0);
+      	}
+      	.wrapper.style3{
+      		background-color: rgba(0,0,0,0);
+      		background-image:none
+      	}
+      	.wrapper.style3:before{
+      		background-color: rgba(0,0,0,0);
+      	}
+      	.wrapper{
+      		padding: 0rem 0 4rem 0;
+      	}
+      	.align-center{
+      		text-align:left;
+      	}
+      	.wrapper.style3 h2{
+      		color:black;
+      	}
+      	.wrapper.style3 p:after{
+      		display:none;
+      	}
+      	.align-center{
+      	    margin-top: 50px;
+      	}
+      	.box .content{
+      		background-color:floralwhite;
+      	}
+      	.col-md-12.content>p>img{
+      		max-width:650px;
+      		max-height:400px;
+      	}
         #memPic {
             width: 100px;
             height: 100px;
@@ -57,7 +98,26 @@
         #fatopic {
             font-size: 20px
         }
-        
+        .col-md-8.faTopic{
+        	font-size: 26px;
+        	margin-top: 30px;
+        }
+        #starImg img{
+        	width: 35px; 
+        	height: 35px; 
+        	float: right; 
+        	margin-right: 15px;
+        }
+        #memPic img{
+       	 	width: 100px; 
+			height: 100px;
+        }
+		.memPic img{
+			width: 100px; 
+			height: 100px;
+		}
+		
+		
 		
 		.clear{
 			clear:both;
@@ -72,23 +132,25 @@
         	opacity: 1;
         }
         
-        #two{
-        	background-image:url('../images/books1920.jpg');
-        }
+       
 		.reportBtn input{
 			border-radius:10px;
 			float:right;
 			margin-left:10px;
+			font-weight: 900;
 			outline:none;
 			background-color: green;
 			color: white;
 		}
-		.reportBtn input:hover{
-			background-color:#222222;
+		.wrapper.style2 .reportBtn input[type="submit"]:hover{
+			background-color: green !important;
 		}
-		.hr{
-			    border: 2px solid;
-   				color: black;
+		
+		
+		
+		.wrapper.style2 hr{
+			border:solid rgba(0,0,0,0.4) 1px;
+			margin-top:5px;
 		}
 		
 		

@@ -31,6 +31,8 @@ public class AdminsDAO implements AdminsDAO_interface {
 	//private static final String DELETE = "DELETE FROM ADMINS WHERE ADMIN_ID = ?";
 	private static final String FIND_BY_ADMIN_ID = "SELECT * FROM ADMINS WHERE ADMIN_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM ADMINS ORDER BY ADMIN_ID";
+	//update password
+    private static final String UPDATE_PSWD = "UPDATE ADMINS SET ADMIN_PSWD= ? WHERE ADMIN_ID = ?";
 
 	public Object insert(AdminsVO adminsVO){
 		Connection con = null;
@@ -63,8 +65,7 @@ public class AdminsDAO implements AdminsDAO_interface {
 			
 //			System.out.println(adminsVO);
 //			System.out.println(admin_id);
-//			System.out.println(adminsVO.getAdmin_id());
-//			
+//			System.out.println(adminsVO.getAdmin_id());			
 //			System.out.println("@AdminsDAO新增成功"+admin_id);
 
 
@@ -320,7 +321,6 @@ while (rs.next()) {
 			pstmt = con.prepareStatement(FIND_BY_ADMIN_ID);
 			pstmt.setString(1, admin_id);
 			
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -354,6 +354,46 @@ while (rs.next()) {
 			}
 		}
 		return Optional.ofNullable(adminsVO);
+	}
+	
+	
+	@Override
+    public void updatePswd(AdminsVO adminsVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_PSWD);
+			
+			pstmt.setString(1, adminsVO.getAdmin_pswd());
+			pstmt.setString(2, adminsVO.getAdmin_id());
+			
+			pstmt.executeUpdate();
+			
+			System.out.println("updatePswd ok");
+			
+		}  catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources		
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 	}
 
 	
