@@ -16,10 +16,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>BOOKSHOP書香天地</title>
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/memSpace.css" />
-<title>BOOKSHOP書香天地</title>
 <meta charset="UTF-8">
 
 <script>
@@ -36,8 +36,6 @@
 <body translate="no" class="subpage">
 	<jsp:include page="/front-end/header/header.jsp" />
 
-	<!-- 點擊置頂按鈕 -->
-	<button type="button" id="BackTop" class="toTop-arrow"></button>
 	<div class="container">
 		<main id="center" class="column">
 			<div class="container-fluid">
@@ -56,11 +54,11 @@
 										</c:forEach>
 									</ul>
 								</c:if>
-								
-								<hr size="10px" align="center" width="100%" >
-								
-								<FORM class="BookManagement" METHOD="post" 
-								ACTION="<%=request.getContextPath()%>/front-end/shopping/bookindex.jsp">
+
+								<hr size="10px" align="center" width="100%">
+
+								<FORM class="BookManagement" METHOD="post"
+									ACTION="<%=request.getContextPath()%>/front-end/shopping/bookindex.jsp">
 									<div class="col-md-3">
 										<label for="categoryID">書籍類別</label> <select name="categoryID"
 											id="categoryID" class="form-control mr-sm-2">
@@ -70,31 +68,27 @@
 											</c:forEach>
 										</select>
 									</div>
-									<input type="hidden" name="action" value="${category.categoryID}" >
+									<input type="hidden" name="action"
+										value="${category.categoryID}">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">開始查詢</button>
+								</FORM>
+
+								<FORM class="MemServlet" METHOD="post"
+									ACTION="<%=request.getContextPath()%>/MemServlet.html">
+
+									<input type="hidden" name="action" value="signin"> <input
+										type="hidden" name="mem_account" value="joel199583">
+									<input type="hidden" name="mem_password" value="199583">
+
+									<button class="btn btn-sm btn-outline-secondary" type="submit">送會員</button>
 								</FORM>
 							</nav>
 						</div>
 					</div>
 				</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			</div>
 		</main>
 	</div>
-	<jsp:include page="/front-end/footer/footer.jsp" />
 	<script
 		src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>

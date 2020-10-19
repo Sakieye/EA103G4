@@ -35,52 +35,109 @@ public class OrderDAO implements OrderDAO_Interface {
 	private static final String INS_ORD = "INSERT INTO ORDERS VALUES(('OD'||LPAD(ODID_SEQ.NEXTVAL,10,'0')),?,?,?,?,DEFAULT,?,?,?,?,?,?,DEFAULT,?)";
 	private static final String UPD_ORD = "UPDATE ORDERS SET REC_NAME=?, REC_TEL=?, REC_ADD=?, ORDER_PAY=?, DELIVERY=?, ORDER_STATUS=?, MEM_NOTE=? WHERE ORDER_ID=?";
 	private static final String DEL_ORD = "UPDATE ORDERS SET ORDER_QTY=0, ORDER_TOTAL=0, GET_BONUS=0, USE_BONUS=0, ORDER_STATUS=4 WHERE ORDER_ID=?";
+	private static final String GO_ORD =  "UPDATE ORDERS SET ORDER_STATUS=? WHERE ORDER_ID=?";
 	private static final String FIND_ID = "SELECT * FROM ORDERS WHERE ORDER_ID=?";
 	private static final String GET_ALL = "SELECT * FROM ORDERS ORDER BY ORDER_ID";
 
+
 	@Override
-	public void doCreate(OrderVO odvo, List<DetailVO> dtList) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String orid_next =null;
-		dtList=new ArrayList<DetailVO>();
+	public void doCreate(OrderVO odvo) {
+		
+		Connection con =null;
+		PreparedStatement pstmt =null;
 		try {
 			
-			String[] oid = {"order_id"};
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INS_ORD, oid);
+			pstmt = con.prepareStatement(INS_ORD);
+			
+			pstmt.setString(1,odvo.getMem_id());
+			pstmt.setString(2,odvo.getRec_name());
+			pstmt.setString(3,odvo.getRec_tel());
+			pstmt.setString(4,odvo.getRec_add());
+			pstmt.setInt(5,odvo.getOrder_qty());
+			pstmt.setInt(6,odvo.getOrder_total());
+			pstmt.setInt(7,odvo.getOrder_pay());
+			pstmt.setInt(8,odvo.getDelivery());
+			pstmt.setInt(9,odvo.getGet_bonus());
+			pstmt.setInt(10,odvo.getUse_bonus());
+			pstmt.setString(11, odvo.getMem_note());
+			
+			pstmt.executeUpdate();		
+
+		}catch(SQLException sqle) {
+			throw new RuntimeException("▲Error： [doCreate]" + sqle.getMessage());
+		}finally {
+			if(pstmt !=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			if(con !=null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+	
+	@Override
+	public void doCreateODDT(OrderVO odCartVO, List<DetailVO> cartlist) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		
+		try {
+			
+			//訂單ID
+			String[] orid = {"order_id"};
+			//擷取訂單ID(轉送明細)
+			String orid_next =null;
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INS_ORD, orid);
+			
+			//關閉自動更新
 			con.setAutoCommit(false);
 
-			pstmt.setString(1, odvo.getMem_id());
-			pstmt.setString(2, odvo.getRec_name());
-			pstmt.setString(3, odvo.getRec_tel());
-			pstmt.setString(4, odvo.getRec_add());
-			pstmt.setInt(5, odvo.getOrder_qty());
-			pstmt.setInt(6, odvo.getOrder_total());
-			pstmt.setInt(7, odvo.getOrder_pay());
-			pstmt.setInt(8, odvo.getDelivery());
-			pstmt.setInt(9, odvo.getGet_bonus());
-			pstmt.setInt(10, odvo.getUse_bonus());
-			pstmt.setString(11, odvo.getMem_note());
+			pstmt.setString(1, odCartVO.getMem_id());
+			pstmt.setString(2, odCartVO.getRec_name());
+			pstmt.setString(3, odCartVO.getRec_tel());
+			pstmt.setString(4, odCartVO.getRec_add());
+			pstmt.setInt(5, odCartVO.getOrder_qty());
+			pstmt.setInt(6, odCartVO.getOrder_total());
+			pstmt.setInt(7, odCartVO.getOrder_pay());
+			pstmt.setInt(8, odCartVO.getDelivery());
+			pstmt.setInt(9, odCartVO.getGet_bonus());
+			pstmt.setInt(10, odCartVO.getUse_bonus());
+			pstmt.setString(11, odCartVO.getMem_note());
 
 			pstmt.executeUpdate();
 			
+			//訂單與明細對應的自增主鍵值
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
-				DetailVO dtVO=new DetailVO();
-				orid_next =  rs.getString(1);
-				dtVO.setOrder_id(orid_next);
-//				System.out.println("order_id： " + orid_next);
-				dtList.add(dtVO);
-			}
+				orid_next =  rs.getString(1); 
+				
+				System.out.println("取出訂單ID： " + orid_next);
+			}else {
+				System.out.println("▲Error： [無法取得訂單ID]");
+			}rs.close();
+			
+			//新增訂單明細
 			DetailDAO dtDAO = new DetailDAO();
-			for(DetailVO dtVO:dtList) {
+			for(DetailVO dtVO:cartlist) {
 				dtVO.setOrder_id(orid_next);
 				dtDAO.doCreate(dtVO, con);
-				
 			}
 			
 			con.commit();
+			con.setAutoCommit(true);
+			
+			System.out.println("本次新增訂單："+orid_next+" 包含"+cartlist.size()+" 筆明細.");
 		} catch (SQLException sqle) {
 			try {
 				con.rollback();
@@ -106,6 +163,10 @@ public class OrderDAO implements OrderDAO_Interface {
 		}
 
 	}
+
+	
+	
+	
 
 	@Override
 	public void update(OrderVO odvo) {
@@ -332,8 +393,6 @@ public class OrderDAO implements OrderDAO_Interface {
 		}
 		return list;
 	}
-
-	//哲維增加
 	public List<OrderVO> allSelect(Map<String, String[]> map) {
 		List<OrderVO> list = new ArrayList<OrderVO>();
 		OrderVO odVO = null;
@@ -400,4 +459,7 @@ public class OrderDAO implements OrderDAO_Interface {
 		}
 		return list;
 	}
+	
+	
+
 }

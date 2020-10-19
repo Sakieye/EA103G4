@@ -29,11 +29,10 @@ public class DetailDAO implements DetailDAO_Interface {
 	
 	private static final String INS_ODT=
 			"INSERT INTO ORDER_DETAILS VALUES(?,?,?,?,?,?)";
-//	private static final String FIND_ID=
-//			"SELECT * FROM ORDERS WHERE ORDER_ID=?";  原本的
-	
 	private static final String FIND_ID=
-			"SELECT * FROM ORDER_DETAILS WHERE ORDER_ID=?";  //哲維修改
+			"SELECT * FROM ORDER_DETAILS WHERE ORDER_ID=?";
+	
+	
 	
 	@Override
 	public void doCreate(DetailVO dtVO , Connection con) {
@@ -45,25 +44,19 @@ public class DetailDAO implements DetailDAO_Interface {
 			pstmt.setString(2, dtVO.getBook_id());
 			pstmt.setString(3, dtVO.getItems_name());
 			pstmt.setInt(4, dtVO.getComm_qty());
-			pstmt.setInt(5, dtVO.getComm_price());
+			pstmt.setDouble(5, dtVO.getComm_price());
 			pstmt.setInt(6, dtVO.getComm_bonus());
-//			pstmt.setString(2, "BS11");
-//			pstmt.setString(3, "123");
-//			pstmt.setInt(4, 1);
-//			pstmt.setInt(5, 2);
-//			pstmt.setInt(6, 3);
-
 			
 			pstmt.executeUpdate();
-//			System.out.println("有執行");
 			
 		} catch (SQLException sqle) {
+			if(con != null) {
 			try {
 				con.rollback();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+			}
 			throw new RuntimeException("▲Error： [doCreateDT]" + sqle.getMessage());
 		} finally {
 			if(pstmt != null) {
@@ -77,8 +70,8 @@ public class DetailDAO implements DetailDAO_Interface {
 	}
 
 	@Override
-	public List<DetailVO> findbyid(String order_id) {		//更改回傳型別 BY哲維
-		List<DetailVO> list = new ArrayList<DetailVO>(); //哲維增加
+	public List<DetailVO> findbyid(String order_id) {
+		List<DetailVO> list = new ArrayList<DetailVO>();
 		DetailVO dtVO = null;
 		Connection con =null;
 		PreparedStatement pstmt =null;
@@ -89,7 +82,7 @@ public class DetailDAO implements DetailDAO_Interface {
 			pstmt = con.prepareStatement(FIND_ID);
 			con.setAutoCommit(false);
 			
-			pstmt.setString(1, order_id);         //哲維增加
+			pstmt.setString(1,order_id);
 			rs= pstmt.executeQuery();
 			while(rs.next()) {
 				dtVO = new DetailVO();
@@ -97,8 +90,9 @@ public class DetailDAO implements DetailDAO_Interface {
 				dtVO.setBook_id(rs.getString("book_id"));
 				dtVO.setItems_name(rs.getString("items_name"));
 				dtVO.setComm_qty(rs.getInt("comm_qty"));
-				dtVO.setComm_price(rs.getInt("comm_price"));
+				dtVO.setComm_price(rs.getDouble("comm_price"));
 				dtVO.setComm_bonus(rs.getInt("comm_bonus"));
+				list.add(dtVO);
 			}
 			con.commit();
 		
@@ -132,7 +126,7 @@ public class DetailDAO implements DetailDAO_Interface {
 				}
 			}
 		}
-		return list;   //修改回傳物件
+		return list;
 	}
 
 }

@@ -18,8 +18,9 @@
 <meta charset="UTF-8">
 
 
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/memSpace.css" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/bootstrap.min.css">
@@ -40,34 +41,34 @@
 <body translate="no" class="subpage">
 	<jsp:include page="/front-end/header/header.jsp" />
 
-	
+
 	<div class="container">
 		<div class="row">
 			<!-- multistep form -->
-			<div class="row mx-md-n6" id="main_in" style="text-algin:center;">
+			<div class="row mx-md-n6" id="main_in" style="text-algin: center;">
 
 				<!-- 廣告 -->
-				
+
 				<!-- 書 -->
 				<%
 					BookService bookService = (BookService) getServletContext().getAttribute("bookService");
-					List<Book> list = bookService.getByCategoryID(request.getParameter("categoryID"));
-					pageContext.setAttribute("list", list);
+					List<Book> shpingcart = bookService.getByCategoryID(request.getParameter("categoryID"));
+					pageContext.setAttribute("shpingcart", shpingcart);
 				%>
-				<c:if test="${not empty list}">
-					<div class="page" >
+				<c:if test="${not empty shpingcart}">
+					<div class="page">
 						<%@ include file="/front-end/shopping/page1.file"%>
 					</div>
 					<div class="row mx-auto" id="book">
 
-						<c:forEach var="book" items="${list}" begin="<%=pageIndex%>"
+						<c:forEach var="book" items="${shpingcart}" begin="<%=pageIndex%>"
 							end="<%=pageIndex+rowsPerPage-1%>">
-
+							<!--商品清單  -->
 							<div class="card" id="booklist"
 								onclick="<%=request.getContextPath()%> ">
 								<div class="card-top">
 									<img class="card-img-top" alt="404 NOT FOUND"
-										src="${pageContext.request.contextPath}/ShowPrdPic?bookID=${book.bookID}">
+										src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
 								</div>
 								<div class="card-body">
 									<div class="card-body-prdName"
@@ -76,19 +77,23 @@
 									</div>
 									<div class="card-body-price"
 										style="width: 120px; height: 30px; text-align: left;">
-										<span id="price"> $ 
-										<b><fmt:formatNumber type="number" value="${book.bookRealPrice}" maxFractionDigits="0"/></b>
+										<span id="price"> $ <b><fmt:formatNumber
+													type="number" value="${book.bookRealPrice}"
+													maxFractionDigits="0" /></b>
 										</span>
 									</div>
 								</div>
+								<!--加入購物車  -->
 								<FORM class="form-inline" name="cartFrom" method="POST"
 									action="<%=request.getContextPath()%>/Shopping.html">
 									<div class="card-body-car" style="text-align: left;">
 										<h5 style="margin: 60px 0px 2px 16px;">
-											數量： <input type="number" name="order_Qty" step="1" min="1"
+											數量： <input type="number" name="comm_Qty" step="1" min="1"
 												max="50" value="1" style="width: 50px; height: 18px;">
 										</h5>
+										<input type="hidden" name="mem_Id" value="visitors">
 										<input type="hidden" name="book_Name" value="${book.bookName}">
+										<input type="hidden" name="book_Id" value="${book.bookID}">
 										<input type="hidden" name="isbn" value="${book.isbn}">
 										<input type="hidden" name="book_BP" value="${book.bookRealBP}">
 										<input type="hidden" name="publisher_Id"

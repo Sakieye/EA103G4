@@ -6,7 +6,7 @@ public class DetailVO {
 	private String book_id;
 	private String items_name;
 	private Integer comm_qty;
-	private Integer comm_price;
+	private Double comm_price;
 	private Integer comm_bonus;
 	
 	
@@ -39,10 +39,10 @@ public class DetailVO {
 	public void setComm_qty(Integer comm_qty) {
 		this.comm_qty = comm_qty;
 	}
-	public Integer getComm_price() {
+	public Double getComm_price() {
 		return comm_price;
 	}
-	public void setComm_price(Integer comm_price) {
+	public void setComm_price(Double comm_price) {
 		this.comm_price = comm_price;
 	}
 	public Integer getComm_bonus() {
