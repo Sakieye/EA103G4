@@ -18,7 +18,7 @@
 	<div class="myContent">
 		<div id="inner">
 			<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do">
-				<h1>請輸入新密碼,並至您的信箱收取驗證碼</h1>
+				<h1>請輸入新密碼,並至您的手機收取驗證碼</h1>
 				<div class="inputDiv">
 					<label>新密碼</label> <input name="newPwd" type="password"
 						id="userInput1" class="form-control form-control-sm" /> <span

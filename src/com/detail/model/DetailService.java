@@ -12,7 +12,7 @@ public class DetailService {
 	}
 
 	public DetailVO createDt(String order_id, String book_id, String items_name, 
-			Integer comm_qty, Integer comm_price, Integer comm_bonus) {
+			Integer comm_qty, Double comm_price, Integer comm_bonus) {
 		DetailVO dtVO = new DetailVO();
 		
 		dtVO.setOrder_id(order_id);

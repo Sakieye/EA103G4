@@ -31,7 +31,7 @@ public class UsedbookTransactionDAO implements UsedbookTransactionDAO_interface 
 	private static final String FIND_BY_SELLER_MEM_ID = "SELECT PO_NO, BOOK_ID, BUYER_MEM_ID, BOOK_STATE, BOOK_STATE_PIC, UDB_SALE_PRICE, RELEASE_DATE FROM USEDBOOK_TRANSACTION WHERE SELLER_MEM_ID = ?";
 	private static final String FIND_BY_BUYER_MEM_ID = "SELECT PO_NO, BOOK_ID, SELLER_MEM_ID, BOOK_STATE, BOOK_STATE_PIC, UDB_SALE_PRICE, RELEASE_DATE FROM USEDBOOK_TRANSACTION WHERE BUYER_MEM_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM USEDBOOK_TRANSACTION ORDER BY BOOK_ID";
-
+	
 	@Override
 	public void insert(UsedbookTransactionVO usedbooktransactionVO) {
 
@@ -417,6 +417,7 @@ public class UsedbookTransactionDAO implements UsedbookTransactionDAO_interface 
 		return baos.toByteArray();
 
 	}
+
 
 //	public static void main(String[] args) throws IOException {
 //

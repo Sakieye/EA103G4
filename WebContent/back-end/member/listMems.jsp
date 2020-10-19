@@ -6,11 +6,10 @@
 
 
 <% 
-	List<MemVO> list = (List<MemVO>) request.getAttribute("list");
-	pageContext.setAttribute("list", list);
+	
 %>
 
-
+<jsp:useBean id="listMems" scope="request" type="java.util.List<MemVO>" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,16 +71,21 @@
 		line-height: 50px;
 		font-weight: 700;
   	}
-  	table, th, td {
+  	#table1 th, td {
 	    border-bottom: 1px solid grey;
 	    text-align: center;
 	    padding-bottom: 3px;
 	    padding-top: 3px;
   	}
   
-	 th{
+	 #table1 th{
 	  	font-size:16px
 	 }
+	 
+	 .table2 .input2{
+  		height: 25px;
+	 }
+	 
 </style>  
 </head>
 <body>
@@ -119,7 +123,7 @@
         			 		
         	</div>
         	
-        	<table>
+        	<table id="table1">
 				<tr>
 					<th>會員編號</th>
 					<th>會員帳號</th>
@@ -139,8 +143,8 @@
 					<th></th>
 					
 				</tr>
-				<%@ include file="page1.file" %>
-				<c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+				<%@ include file="page1_ByCompositeQuery.file" %>
+				<c:forEach var="memVO" items="${listMems}" varStatus="memNO" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 				<tr>
 					<td>${memVO.mem_id}</td>
 					<td>${memVO.mem_account}</td>
@@ -156,14 +160,14 @@
 					<td>${memVO.mem_birth}</td>
 					<td>${memVO.mem_addr}</td>
 					<td>${memVO.mem_tel}</td>
-					<td>${memVO.mem_bonus}</td>
+					<td><fmt:formatNumber type="number" value="${memVO.mem_bonus}" maxFractionDigits="0"/></td>
 					<c:if test="${memVO.mem_iskol == 0}">
 						<td>普通會員</td>
 					</c:if>
 					<c:if test="${memVO.mem_iskol == 1}">
 						<td>公眾人物</td>
 					</c:if>
-					<td>${memVO.mem_exp}</td>
+					<td><fmt:formatNumber type="number" value="${memVO.mem_exp}" maxFractionDigits="0"/></td>
 					<c:if test="${memVO.mem_status == 0}">
 						<td style="color: blue;">正常</td>
 					</c:if>
@@ -172,35 +176,178 @@
 					</c:if>
 					<td><fmt:formatDate value="${memVO.mem_cretime}" pattern="yyyy-MM-dd hh:mm"/></td>
 					<td>
-					
-						 <button type="button" class="btn btn-primary btn-sm" onclick='openWindows("${memVO.mem_id}")' >修改</button>
-						
+<%-- 						<button type="button" class="btn btn-primary btn-sm" onclick='openWindows("${memVO.mem_id}")' >修改</button> --%>
+						<button type="submit" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal1${memNO.index}" data-backdrop="static" >修改</button>
+						<!-- Modal -->
+							<div class="modal fade" id="myModal1${memNO.index}"
+								tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" name="form1" enctype="multipart/form-data">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalCenterTitle" style="font-weight: 700;">會員(${memVO.mem_id})</h5>						
+												<button type="button" class="close" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<table class="table table2">
+													<tr>
+														<th>會員姓名</th>
+														<th>${memVO.mem_name}</th>
+													</tr>
+													<tr>
+														<th>紅利餘額</th>
+														<td><input type="text" name="mem_bonus" size="10" value="${memVO.mem_bonus}" class="input2" /></td>
+													</tr>
+													<tr>
+														<th>經驗值</th>
+														<td><input type="text" name="mem_exp" size="10" value="${memVO.mem_exp}" class="input2" /></td>
+													</tr>
+													<tr>
+														<th>身分</th>
+														<c:if test="${memVO.mem_iskol == 0}">
+															<td>
+																<select size="1" name="mem_iskol">
+																	<option value="0">普通會員</option>
+																	<option value="1">公眾人物</option>
+																</select>
+															</td>
+														</c:if>
+														<c:if test="${memVO.mem_iskol == 1}">
+															<td>
+																<select size="1" name="mem_iskol">
+																	<option value="0">普通會員</option>
+																	<option value="1">公眾人物</option>
+																</select>
+															</td>
+														</c:if>
+													</tr>			
+												</table>																													
+											</div>
+											<div class="modal-footer">
+												<input type="hidden" name="mem_account" value="${memVO.mem_account}" />
+												<input type="hidden" name="mem_password" value="${memVO.mem_password}" />
+												<input type="hidden" name="mem_name" value="${memVO.mem_name}" />
+												<input type="hidden" name="mem_email" value="${memVO.mem_email}" />
+												<input type="hidden" name="mem_nickname" value="${memVO.mem_nickname}" />
+												<input type="hidden" name="mem_sex" value="${memVO.mem_sex}" />
+												<input type="hidden" name="mem_birth" value="${memVO.mem_birth}" />
+												<input type="hidden" name="mem_addr" value="${memVO.mem_addr}" />
+												<input type="hidden" name="mem_tel" value="${memVO.mem_tel}" />
+												<input type="hidden" name="mem_pic" value="${memVO.mem_pic}" />
+												<input type="hidden" name="mem_status" value="${memVO.mem_status}" />
+												<input type="hidden" name="mem_id" value="${memVO.mem_id}" />				
+												<input type="hidden" name="action" value="update_fromBack_listMems" />
+												<button type="submit" class="btn btn-secondary" >送出修改</button>
+												<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
+			     								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
+												<button type="button" class="btn btn-secondary mybtn2" data-dismiss="modal">Close</button>
+											</div>
+										</FORM>
+									</div>
+								</div>
+							</div>
+							<!-- madal -->
 					</td>
-					<td>
-						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" enctype="multipart/form-data">
-						    <input type="hidden" name="mem_account" value="${memVO.mem_account}" />
-							<input type="hidden" name="mem_password" value="${memVO.mem_password}" />
-							<input type="hidden" name="mem_name" value="${memVO.mem_name}" />
-							<input type="hidden" name="mem_email" value="${memVO.mem_email}" />
-							<input type="hidden" name="mem_nickname" value="${memVO.mem_nickname}" />
-							<input type="hidden" name="mem_sex" value="${memVO.mem_sex}" />
-							<input type="hidden" name="mem_birth" value="${memVO.mem_birth}" />
-							<input type="hidden" name="mem_addr" value="${memVO.mem_addr}" />
-							<input type="hidden" name="mem_tel" value="${memVO.mem_tel}" />
-							<input type="hidden" name="mem_pic" value="${memVO.mem_pic}" />
-							<input type="hidden" name="mem_bonus" value="${memVO.mem_bonus}" />
-							<input type="hidden" name="mem_exp" value="${memVO.mem_exp}" />
-							<input type="hidden" name="mem_iskol" value="${memVO.mem_iskol}" />
-							<input type="hidden" name="mem_status"  value="2">
-						    <input type="hidden" name="mem_id"  value="${memVO.mem_id}" />
-						    <input type="hidden" name="action"	value="UpdateStatusDeleteFromlistMems" />
-							<button type="submit" class="btn btn-danger btn-sm">註銷</button>
-						</FORM>
+					<td>					
+						<c:if test="${memVO.mem_status == 0}">
+							<button type="submit" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal2${memNO.index}" data-backdrop="static" >註銷</button>
+						</c:if>
+						<c:if test="${memVO.mem_status == 2}">
+							<button type="submit" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#myModal3${memNO.index}" data-backdrop="static" >恢復</button>
+						</c:if>
+						<!-- Modal -->
+						<div class="modal fade" id="myModal2${memNO.index}"
+							tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">	
+										<div class="modal-header">							
+											<button type="button" class="close" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<h5 class="modal-title" id="exampleModalCenterTitle"
+												style="font-weight: 700;">確定要對會員(${memVO.mem_id})做註銷嗎?</h5>
+										</div>
+										<div class="modal-footer">
+											<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" enctype="multipart/form-data">
+												<input type="hidden" name="mem_account" value="${memVO.mem_account}" />
+												<input type="hidden" name="mem_password" value="${memVO.mem_password}" />
+												<input type="hidden" name="mem_name" value="${memVO.mem_name}" />
+												<input type="hidden" name="mem_email" value="${memVO.mem_email}" />
+												<input type="hidden" name="mem_nickname" value="${memVO.mem_nickname}" />
+												<input type="hidden" name="mem_sex" value="${memVO.mem_sex}" />
+												<input type="hidden" name="mem_birth" value="${memVO.mem_birth}" />
+												<input type="hidden" name="mem_addr" value="${memVO.mem_addr}" />
+												<input type="hidden" name="mem_tel" value="${memVO.mem_tel}" />
+												<input type="hidden" name="mem_pic" value="${memVO.mem_pic}" />
+												<input type="hidden" name="mem_bonus" value="${memVO.mem_bonus}" />
+												<input type="hidden" name="mem_exp" value="${memVO.mem_exp}" />
+												<input type="hidden" name="mem_iskol" value="${memVO.mem_iskol}" />
+												<input type="hidden" name="mem_status"  value="2" />			    
+												<input type="hidden" name="mem_id"  value="${memVO.mem_id}" />
+												<input type="hidden" name="action"	value="UpdateStatus" />
+												<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
+			     								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
+												<button type="submit" class="btn btn-danger">確認</button>
+											</form>
+											<button type="button" class="btn btn-secondary mybtn2" data-dismiss="modal">Close</button>
+										</div>
+								</div>
+							</div>
+						</div>
+						<!-- madal -->	
+						<div class="modal fade" id="myModal3${memNO.index}"
+							tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">	
+										<div class="modal-header">							
+											<button type="button" class="close" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<h5 class="modal-title" id="exampleModalCenterTitle"
+												style="font-weight: 700;">確定要恢復會員(${memVO.mem_id})的帳號使用權嗎?</h5>
+										</div>
+										<div class="modal-footer">
+											<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" enctype="multipart/form-data">
+												<input type="hidden" name="mem_account" value="${memVO.mem_account}" />
+												<input type="hidden" name="mem_password" value="${memVO.mem_password}" />
+												<input type="hidden" name="mem_name" value="${memVO.mem_name}" />
+												<input type="hidden" name="mem_email" value="${memVO.mem_email}" />
+												<input type="hidden" name="mem_nickname" value="${memVO.mem_nickname}" />
+												<input type="hidden" name="mem_sex" value="${memVO.mem_sex}" />
+												<input type="hidden" name="mem_birth" value="${memVO.mem_birth}" />
+												<input type="hidden" name="mem_addr" value="${memVO.mem_addr}" />
+												<input type="hidden" name="mem_tel" value="${memVO.mem_tel}" />
+												<input type="hidden" name="mem_pic" value="${memVO.mem_pic}" />
+												<input type="hidden" name="mem_bonus" value="${memVO.mem_bonus}" />
+												<input type="hidden" name="mem_exp" value="${memVO.mem_exp}" />
+												<input type="hidden" name="mem_iskol" value="${memVO.mem_iskol}" />
+												<input type="hidden" name="mem_status"  value="0" />			    
+												<input type="hidden" name="mem_id"  value="${memVO.mem_id}" />
+												<input type="hidden" name="action"	value="UpdateStatus" />
+												<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
+			     								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
+												<button type="submit" class="btn btn-danger">確認</button>
+											</form>
+											<button type="button" class="btn btn-secondary mybtn2" data-dismiss="modal">Close</button>
+										</div>
+								</div>
+							</div>
+						</div>
+						<!-- madal -->				
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
-		<%@ include file="page2.file" %>
+		<%@include file="page2_ByCompositeQuery.file" %>
     </main>
     <jsp:include page="/back-end/sidebar/sidebar.jsp" />
     </div>

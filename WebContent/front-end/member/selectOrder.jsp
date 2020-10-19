@@ -94,7 +94,7 @@
 							</div>
 							 <div class="dateBlock">
 							 	 <input type="hidden" name="action" value="listOrder">
-							 	 <div class="dateDiv"><input name="order_date" class="form-control form-control-sm date" id="f_date1" type="date" placeholder="請輸入日期"></div>
+							 	 <div class="dateDiv"><input name="order_date" class="form-control form-control-sm date" id="f_date1" type="text" placeholder="請輸入日期"></div>
 								 <div class="btnDiv"><button class="btn btn-primary mybtn" type="submit">送出</button></div>
 							 </div>
 						</form>
@@ -150,7 +150,7 @@
 										<!-- Modal -->								   
 										  
 											<div class="modal fade" id="exampleModalCenter${orderNO.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-											  <div class="modal-dialog modal-dialog-centered" role="document">
+											  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 											    <div class="modal-content">
 											      <div class="modal-header">
 											        <h5 class="modal-title" id="exampleModalCenterTitle" style="font-weight: 700;">訂單明細</h5>
@@ -174,7 +174,7 @@
 														      <th scope="row">${detailVO.items_name}</th>
 														      <td>${detailVO.comm_qty}</td>
 														      <td>$${detailVO.comm_price}</td>
-														      <td>$${detailVO.comm_bonus}</td>
+														      <td>${detailVO.comm_bonus}</td>
 														    </tr>
 														  </tbody>
 													  </c:forEach>
@@ -222,7 +222,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     
     <script>
 	    $.datetimepicker.setLocale('zh');

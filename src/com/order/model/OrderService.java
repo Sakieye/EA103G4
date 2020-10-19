@@ -33,9 +33,15 @@ public class OrderService {
 		odVO.setGet_bonus(get_bonus);
 		odVO.setUse_bonus(use_bonus);
 		odVO.setMem_note(mem_note);
-		odi.doCreate(odVO, null);
+		odi.doCreate(odVO);
 		
 		return odVO; 
+		
+	}
+	
+	public void createODDT(OrderVO odCartVO , List<DetailVO> cartlist) {
+
+		odi.doCreateODDT(odCartVO, cartlist);
 		
 	}
 	
@@ -70,10 +76,9 @@ public class OrderService {
 		return odi.getAll();
 		
 	}
-	
-	//哲維增加
 	public List<OrderVO> allSelect(Map<String, String[]> map){
 		return odi.allSelect(map);
 	}
 	
+
 }

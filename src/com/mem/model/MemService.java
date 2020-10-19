@@ -27,9 +27,8 @@ public class MemService {
 		memVO.setMem_addr(mem_addr);
 		memVO.setMem_tel(mem_tel);
 		memVO.setMem_pic(mem_pic);
-		dao.insert(memVO);
 		
-		return memVO;
+		return dao.insert(memVO);
 	}
 	
 	public MemVO updateMem(String mem_id, String mem_account,String mem_password,String mem_name,

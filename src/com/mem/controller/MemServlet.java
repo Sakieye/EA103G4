@@ -65,7 +65,7 @@ public class MemServlet extends HttpServlet {
 		}
 
 		// 修改 from後台
-		if ("getOne_For_Update".equals(action)) {
+		if ("getOne_For_Update".equals(action)) { //用不到了
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
@@ -89,8 +89,11 @@ public class MemServlet extends HttpServlet {
 			}
 		}
 
-		if ("update_fromBack".equals(action) || "UpdateStatusDelete".equals(action) || "update_fromFront".equals(action)
-				|| "UpdateStatusDeleteFromlistMems".equals(action)) { // 來自 後台update_mem.jsp或前台??? 的請求參數
+		if ("update_fromBack".equals(action) || "UpdateStatus".equals(action) || "update_fromFront".equals(action)
+				|| "UpdateStatusDeleteFromlistMems".equals(action) || "update_fromBack_listMems".equals(action)) { // 來自 後台update_mem.jsp或前台??? 的請求參數
+			
+			String requestURL = req.getParameter("requestURL");
+			
 			try {
 				String mem_id = req.getParameter("mem_id").trim();
 
@@ -128,7 +131,7 @@ public class MemServlet extends HttpServlet {
 
 				byte[] mem_pic = null;
 				Part part = req.getPart("mem_pic");
-				if (part.getSize() != 0) {
+				if (part.getSize() != 0 && !requestURL.equals("/back-end/member/listMems.jsp") && !requestURL.equals("/back-end/member/listAllMem.jsp")) {
 					InputStream in = part.getInputStream();
 					mem_pic = new byte[in.available()];
 					in.read(mem_pic);
@@ -175,26 +178,25 @@ public class MemServlet extends HttpServlet {
 				memVO = memSvc.updateMem(mem_id, mem_account, mem_password, mem_name, mem_email, mem_nickname, mem_sex,
 						mem_birth, mem_addr, mem_tel, mem_bonus, mem_pic, mem_iskol, mem_exp, mem_status);
 
-				if ("update_fromFront".equals(action)) {// 轉送回前台
+				if ("update_fromFront".equals(action)) {
 					HttpSession session = req.getSession();
 					session.setAttribute("memVO", memVO);
 					String url = "/front-end/member/memberCenter.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 轉送到/front-end/memberCenter.jsp
 					successView.forward(req, res);
-				} else if ("update_fromBack".equals(action)) {// 轉送回後台
-					req.setAttribute("memVO", memVO);
-					String url = "/back-end/member/update_mem.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 轉送到update_mem.jsp
-					successView.forward(req, res);
-				} else if ("UpdateStatusDelete".equals(action)) {
-					String url = "/back-end/member/listAllMem.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 轉送到update_mem.jsp
-					successView.forward(req, res);
-				} else {
-					String url = "/back-end/member/listMems.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 轉送到update_mem.jsp
-					successView.forward(req, res);
+					return;
 				}
+
+				if(requestURL.equals("/back-end/member/listMems.jsp")){
+					HttpSession session = req.getSession();
+					Map<String, String[]> map = (Map<String, String[]>)session.getAttribute("map");
+					List<MemVO> list  = memSvc.getAll(map);
+					req.setAttribute("listMems",list); //  複合查詢, 資料庫取出的list物件,存入request
+				}
+				
+				String url = requestURL;
+				RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁
+				successView.forward(req, res);
 
 			} catch (Exception e) {
 				if ("update_fromFront".equals(action)) {// 前台
@@ -316,7 +318,10 @@ public class MemServlet extends HttpServlet {
 
 			try {
 				String mem_id = (String) req.getSession().getAttribute("mem_id");
-				String genAuthCode = (String) req.getSession().getAttribute("genAuthCode");
+				String code = (String) req.getSession().getAttribute("code");
+				
+//				System.out.println(mem_id);
+//				System.out.println(code);
 
 				String newPwd = req.getParameter("newPwd").trim();
 				if (newPwd == null || newPwd.trim().length() == 0)
@@ -330,8 +335,8 @@ public class MemServlet extends HttpServlet {
 
 				String userInputCode = req.getParameter("userInputCode").trim();
 				if (userInputCode == null || userInputCode.trim().length() == 0)
-					errorMsgs.put("userInputCodeError", "請至您的信箱收取驗證碼並輸入");
-				else if (!userInputCode.equals(genAuthCode))
+					errorMsgs.put("userInputCodeError", "請察看手機驗證碼並輸入");
+				else if (!userInputCode.equals(code))
 					errorMsgs.put("userInputCodeError", "驗證碼不正確");
 
 				if (!errorMsgs.isEmpty()) {
@@ -415,17 +420,21 @@ public class MemServlet extends HttpServlet {
 			try {
 
 				/*************************** 1.將輸入資料轉為Map **********************************/
-				// 採用Map<String,String[]> getParameterMap()的方法
-				// 注意:an immutable java.util.Map
-				Map<String, String[]> map = req.getParameterMap();
+				HttpSession session = req.getSession();
+				Map<String, String[]> map = (Map<String, String[]>)session.getAttribute("map");
+				if (req.getParameter("whichPage") == null){
+					HashMap<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap());
+					session.setAttribute("map",map1);
+					map = map1;
+				} 
 
 				/*************************** 2.開始複合查詢 ***************************************/
 				MemService memSvc = new MemService();
 				List<MemVO> list = memSvc.getAll(map);
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
-				req.setAttribute("list", list); // 資料庫取出的list物件,存入request
-				RequestDispatcher successView = req.getRequestDispatcher("/back-end/member/listMems.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
+				req.setAttribute("listMems", list); // 資料庫取出的list物件,存入request
+				RequestDispatcher successView = req.getRequestDispatcher("/back-end/member/listMems.jsp"); 
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
@@ -440,9 +449,6 @@ public class MemServlet extends HttpServlet {
 
 			try {
 
-				/*************************** 1.將輸入資料轉為Map **********************************/
-				// 採用Map<String,String[]> getParameterMap()的方法
-				// 注意:an immutable java.util.Map
 				Map<String, String[]> map = req.getParameterMap();
 
 				/*************************** 2.開始複合查詢 ***************************************/

@@ -23,48 +23,48 @@
     <!-- Banner -->
     <section class="banner full">
         <article>
-            <img src="<%=request.getContextPath()%>/front-end/images/slide01.jpg" alt="" />
+            <img src="<%=request.getContextPath()%>/front-end/images/0.jpg" alt="" />
             <div class="inner">
-                <header>
-                    <p>Content1</p>
-                    <h2>Ad1</h2>
-                </header>
+<!--                 <header> -->
+<!--                     <p>Content1</p> -->
+<!--                     <h2>Ad1</h2> -->
+<!--                 </header> -->
             </div>
         </article>
         <article>
-            <img src="<%=request.getContextPath()%>/front-end/images/slide02.jpg" alt="" />
+            <img src="<%=request.getContextPath()%>/front-end/images/1.jpg" alt="" />
             <div class="inner">
-                <header>
-                    <p>Content2</p>
-                    <h2>Ad2</h2>
-                </header>
+<!--                 <header> -->
+<!--                     <p>Content2</p> -->
+<!--                     <h2>Ad2</h2> -->
+<!--                 </header> -->
             </div>
         </article>
         <article>
-            <img src="<%=request.getContextPath()%>/front-end/images/slide03.jpg" alt="" />
+            <img src="<%=request.getContextPath()%>/front-end/images/2.jpg" alt="" />
             <div class="inner">
-                <header>
-                    <p>Content3</p>
-                    <h2>Ad3</h2>
-                </header>
+<!--                 <header> -->
+<!--                     <p>Content3</p> -->
+<!--                     <h2>Ad3</h2> -->
+<!--                 </header> -->
             </div>
         </article>
         <article>
-            <img src="<%=request.getContextPath()%>/front-end/images/slide04.jpg" alt="" />
+            <img src="<%=request.getContextPath()%>/front-end/images/3.jpg" alt="" />
             <div class="inner">
-                <header>
-                    <p>Content4</p>
-                    <h2>Ad4</h2>
-                </header>
+<!--                 <header> -->
+<!--                     <p>Content4</p> -->
+<!--                     <h2>Ad4</h2> -->
+<!--                 </header> -->
             </div>
         </article>
         <article>
-            <img src="<%=request.getContextPath()%>/front-end/images/slide05.jpg" alt="" />
+            <img src="<%=request.getContextPath()%>/front-end/images/4.jpg" alt="" />
             <div class="inner">
-                <header>
-                    <p>Content5</p>
-                    <h2>Ad5</h2>
-                </header>
+<!--                 <header> -->
+<!--                     <p>Content5</p> -->
+<!--                     <h2>Ad5</h2> -->
+<!--                 </header> -->
             </div>
         </article>
     </section>

@@ -17,8 +17,13 @@
 		    align-items:center;
 		    justify-content:center;
 		    background-color: #E0E0E0;
-		    font-family: "Helvetica", "Arial","LiHei Pro","暺��-蝜�","敺株�迤暺��", sans-serif;
+		    font-family: "Helvetica", "Arial","LiHei Pro", sans-serif;
 		    font-weight: 700;
+		    background-image: url(../images/4.jpg);
+			background-size: cover;
+			background-attachment: fixed;
+			background-position: center;
+			position: relative;
         }
         .menuDiv{   	
         	border-radius: 10px;
@@ -31,7 +36,7 @@
        
         
          /* ===================================
-  			 ���蕭��頩�蕭謕蕭謚渲嚙踝�蕭����雓蕭嚙踐
+  			 嚙踝蕭謕蕭��嚙踝蕭謘遴��嚙踐�雓�雓葡����蕭蹎刻嚙踐揭嚙踝蕭謕蕭豲������揭
    			===================================*/
         .myMenu {
             max-width: 300px;
@@ -71,7 +76,7 @@
         	
         }
         .inputBlock .left label{
-        	font-family: "Helvetica", "Arial","LiHei Pro","暺��-蝜�","敺株�迤暺��", sans-serif;
+        	font-family: "Helvetica", "Arial","LiHei Pro","��嚙踝蕭-��蕭","��嚙踐�縣��嚙踝蕭", sans-serif;
 		    font-weight: 700;
 		    font-size: 20px;
         }
@@ -152,7 +157,7 @@
         }
         
         /* ===================================
-   			嚙踝蕭謕蕭豲���頩����鞊舀����嚙踝嚙踐嚙踝蕭謕
+   			���雓�鞊莎�揭嚙踝蕭謕蕭豲����蕭豱佗蕭嚙踐�蕭豲���赯�嚙踐揭嚙踝蕭謕蕭豲������揭���雓�
 		   ===================================*/
         .drop-down {
             position: relative;
@@ -178,7 +183,7 @@
             height: 30px;
         }
         /* ===================================
-   			���蕭�嚙踐此��������蕭����雓蕭嚙踐
+   			嚙踝蕭謕蕭��嚙踐���迨嚙踐嚙踝蕭��蕭豲嚙踝蕭謕蕭豲蕭蹎刻嚙踐揭嚙踝蕭謕蕭豲������揭
    		   ===================================*/
         .item {
         	font-size: 25px;

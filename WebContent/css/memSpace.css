@@ -1,3 +1,7 @@
+    	body{
+    		
+    	}
+    	
     	* {
             box-sizing: border-box;
         }
@@ -16,9 +20,19 @@
 		    align-items:center;
 		    justify-content:center;
 		    background-color: #E0E0E0;
-		    font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+		    font-family: "Helvetica", "Arial","LiHei Pro", sans-serif;
 		    font-weight: 700;
+		    background-image: url(../images/4.jpg);
+			background-size: cover;
+			background-attachment: fixed;
+			background-position: center;
+			position: relative;
         }
+        .content:before{
+        	background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        
         .menuDiv{   	
         	border-radius: 10px;
         	width: 800px;
@@ -29,7 +43,7 @@
         }
         
          /* ===================================
-  			 嚙踐�蕭蹓��蕭��嚙踝蕭謏��
+  			 ���蕭��頩�蕭謕蕭謚渲嚙踝�蕭����雓蕭嚙踐
    			===================================*/
         .myMenu {
             max-width: 300px;
@@ -56,7 +70,7 @@
         	width: 120px;
         }
         /* ===================================
-   			���嚙踝蕭蹎刻嚙踝蕭豯株嚙踝蕭����蕭
+   			嚙踝蕭謕蕭豲���頩����鞊舀����嚙踝嚙踐嚙踝蕭謕
 		   ===================================*/
         .drop-down {
             position: relative;
@@ -82,7 +96,7 @@
             height: 30px;
         }
         /* ===================================
-   			嚙踐��葭擐蕭嚙踝�嚙踝蕭謏��
+   			���蕭�嚙踐此��������蕭����雓蕭嚙踐
    		   ===================================*/
         .item {
         	font-size: 25px;

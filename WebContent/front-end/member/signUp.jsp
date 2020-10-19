@@ -134,17 +134,16 @@
 								</c:if>
 							</div>
 							<div class="input-div">
-<!-- 																<input type="text" name="mem_birth" -->
-<%-- 																	value="<%=(memVO == null) ? "" : memVO.getMem_birth()%>" id="f_date1" /> --%>
-<%-- 																<c:if test="${not empty errorMsgs.birth}"> --%>
-<%-- 																	<div class="errorMsg">${errorMsgs.birth}</div> --%>
-<%-- 																</c:if> --%>
-								<input type="date" name="mem_birth"
-									value="<%=(memVO == null) ? "" : memVO.getMem_birth()%>"
-									id="f_date1" />
-								<c:if test="${not empty errorMsgs.birth}">
-									<div class="errorMsg">${errorMsgs.birth}</div>
-								</c:if>
+							<input type="text" name="mem_birth" value="<%=(memVO == null) ? "" : memVO.getMem_birth()%>" id="f_date1" />
+							<c:if test="${not empty errorMsgs.birth}">
+								<div class="errorMsg">${errorMsgs.birth}</div>
+							</c:if>
+<!-- 								<input type="date" name="mem_birth" -->
+<%-- 									value="<%=(memVO == null) ? "" : memVO.getMem_birth()%>" --%>
+<!-- 									id="f_date1" /> -->
+<%-- 								<c:if test="${not empty errorMsgs.birth}"> --%>
+<%-- 									<div class="errorMsg">${errorMsgs.birth}</div> --%>
+<%-- 								</c:if> --%>
 							</div>
 							<div class="input-div">
 								<input type="text" id="addr" placeholder="請輸入地址" name="mem_addr"
@@ -154,7 +153,7 @@
 								</c:if>
 							</div>
 							<div class="input-div">
-								<input type="tel" id="tel" placeholder="請輸入電話" name="mem_tel"
+								<input type="tel" maxlength="10" id="tel" placeholder="請輸入電話" name="mem_tel"
 									value="<%=(memVO == null) ? "" : memVO.getMem_tel()%>" /><br />
 								<c:if test="${not empty errorMsgs.tel}">
 									<div class="errorMsg">${errorMsgs.tel}</div>
@@ -181,7 +180,7 @@
 	<jsp:include page="/front-end/footer/footer.jsp" />
 
 	<script src='<%=request.getContextPath()%>/js/jquery.min.js'></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
 
 	<script>

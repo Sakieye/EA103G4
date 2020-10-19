@@ -11,7 +11,7 @@ public class jdbcUtil_CompositeQuery_Member {
 
 		if ("mem_iskol".equals(columnName) || "mem_status".equals(columnName)) // 用於其他
 			aCondition = columnName + "=" + value;
-		else if ("mem_email".equals(columnName) || "mem_name".equals(columnName)) // 用於varchar
+		else if ("mem_email".equals(columnName) || "mem_name".equals(columnName) || "mem_tel".equals(columnName)) // 用於varchar
 			aCondition = columnName + " like '%" + value + "%'";
 
 		return aCondition + " ";

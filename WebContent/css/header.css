@@ -12,6 +12,7 @@
 #headName p {
 	display: inline-block;
 	margin-right: 10px;
+	letter-spacing: 2px;
 }
 
 #img {
@@ -38,11 +39,11 @@
 	display: inline-block;
 	background-color: black;
 	color: white !important;
-	font-family: 微軟正黑體;
+	font-family: "LiGothic", "FangSong", Arial, serif;
 	margin-right: 15px;
 	line-height: 30px;
 	border: 1px solid black;
-	letter-spacing: 1px;
+	letter-spacing: 3px;
 	text-decoration: none;
 	line-height: 20px;
 }
@@ -61,7 +62,7 @@
 /* 	margin-right: -15px; */
 /* 	padding-top: 3px; */
 /* 	text-align: center; */
-/* 	font-family: �L�n������; */
+/* 	font-family: 嚙盤嚙緯嚙踝蕭嚙踝蕭嚙踝蕭; */
 /* } */
 
 
@@ -76,7 +77,8 @@
 	line-height: 30px;
 	font-family: "LiGothic", "FangSong", Arial, serif;
 	text-align: center;
-	letter-spacing: 1px;
+	letter-spacing: 3px;
+	
 }
 
 #logIn:hover {

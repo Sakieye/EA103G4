@@ -125,6 +125,7 @@
 							<input type="hidden" name="mem_iskol" value="${memVO.mem_iskol}" />
 							<input type="hidden" name="mem_status" value="${memVO.mem_status}" />
 							<input type="hidden" name="mem_id" value="${memVO.mem_id}" />
+							<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 							<input type="submit" value="送出修改">
 						</FORM>
 				    </div>

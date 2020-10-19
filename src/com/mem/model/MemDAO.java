@@ -67,6 +67,8 @@ public class MemDAO implements MemDAO_interface {
 				System.out.println("error:沒取到ID");
 			}
 			rs.close();
+			
+			
 
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -133,6 +135,7 @@ public class MemDAO implements MemDAO_interface {
 		
 		try {
 			con = ds.getConnection();
+			con.setAutoCommit(false); //可能有交易問題所以 修改預設
 			pstmt = con.prepareStatement(UPDATE);
 			
 			pstmt.setString(1, memVO.getMem_account());
@@ -153,7 +156,17 @@ public class MemDAO implements MemDAO_interface {
 
 			pstmt.executeUpdate();
 			
+			con.commit();
+			con.setAutoCommit(true);
+			
 		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					con.rollback();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources

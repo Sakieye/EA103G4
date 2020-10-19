@@ -102,8 +102,21 @@
 						<td><%= bonus %></td>
 					</tr>
 					<tr>
-						<td>經驗值</td>
-						<td><%= exp %></td>
+						<td>等級</td>
+						<td>
+							<% if(exp <= 1000) {%>
+								LV.1
+							<%} else if (exp > 1000 && exp <= 2000) {%>
+								LV.2
+							<%} else if (exp > 2000 && exp <= 3000) {%>
+								LV.3
+							<%} else if (exp > 3000 && exp <= 4000) {%>
+								LV.4
+							<%} else {%>
+								LV.5
+							<%} %>
+							&nbsp;&nbsp;(<%= exp %>)
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -115,10 +128,10 @@
 
 <jsp:include page="/front-end/footer/footer.jsp"/>
 
-	<script src='<%= request.getContextPath()%>/js/jquery.min.js'></script>
-    <script src="<%= request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
-    <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
-    <script src="<%= request.getContextPath()%>/js/util.js"></script>
-    <script src="<%= request.getContextPath()%>/js/main.js"></script>
+	<script src='<%= request.getContextPath() %>/js/jquery.min.js'></script>
+    <script src="<%= request.getContextPath() %>/js/jquery.scrollex.min.js"></script>
+    <script src="<%= request.getContextPath() %>/js/skel.min.js"></script>
+    <script src="<%= request.getContextPath() %>/js/util.js"></script>
+    <script src="<%= request.getContextPath() %>/js/main.js"></script>
 </body>
 </html>

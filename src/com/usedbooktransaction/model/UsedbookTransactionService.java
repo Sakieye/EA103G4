@@ -68,5 +68,5 @@ public class UsedbookTransactionService {
 	public List<UsedbookTransactionVO> getAll() {
 		return dao.getAll();
 	}
-
+	
 }
