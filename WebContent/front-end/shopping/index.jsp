@@ -16,6 +16,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/memSpace.css" />
 <title>BOOKSHOP書香天地</title>
 <meta charset="UTF-8">
 
