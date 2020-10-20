@@ -82,7 +82,6 @@
 								%>
 									
 								<%	
-									if (memVO.getMem_id() != null) {
 									if (cartlist != null && cartlist.size() > 0) {
 								%>
 								<c:set var="count" scope="session"/>
@@ -102,11 +101,13 @@
 								</td>
 											<!--ISBN -->
 											<td style="vertical-align:middle;">
-												<h6>ISBN：${cart.isbn}</h6> <!--商品名稱  -->
-												<h3>${cart.book_Name}</h3> <!--出版社  -->
-												<h6>${cart.publisher_Id}</h6></td>
+												<h6>ISBN：${cart.isbn}</h6> 
+												<!--商品名稱  -->
+												<h5>${cart.book_Name}</h5> 
+												<!--出版社  -->
+<%-- 												<h6>${cart.publisher_Id}</h6></td> --%>
 											<!--購買數量  -->
-											<td style="vertical-align:middle;"><h5>${cart.comm_Qty}個</h5></td>
+											<td style="vertical-align:middle;"><h5>${cart.comm_Qty}本</h5></td>
 											<!--價錢小計  -->
 											<td style="vertical-align:middle;"><h5>
 													TWD$
@@ -114,7 +115,7 @@
 														value="${cart.price*cart.comm_Qty}" maxFractionDigits="0" />
 												</h5></td>
 											<!--單項獲得紅利  -->
-											<td style="vertical-align:middle;"><h5>
+											<td style="vertical-align:middle;"><h5>+ 
 											<fmt:formatNumber type="number"
 																value="${cart.book_BP*cart.comm_Qty}"
 																maxFractionDigits="0" />點</h5></td>
@@ -132,7 +133,6 @@
 										</tr>
 
 									</c:forEach>
-									
 								</table>
 									<div id=chelisBtn>
 										<button class="btn btn-sm btn-outline-secondary"
@@ -162,11 +162,8 @@
 								%>
 								<a style="color: #668787; font-size: 20px; text-aglin: center;">
 								<c:out value="購物車空空der...與您的腦一樣ＱＱ" /></a>
-								<%
-									}}else{
-								%>
-<%-- 								<jsp:forward page="/front-end/member/signIn.jsp" /> --%>
-								<jsp:forward page="/front-end/shopping/index.jsp"/>
+								<div style="height:80%; width:100%;"></div>
+								
 								
 								<%} %>
 							</nav>
@@ -177,6 +174,7 @@
 		</main>
 	</div>
 	</section>
+	
 		<jsp:include page="/front-end/footer/footer.jsp" />
 	<script
 		src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>

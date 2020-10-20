@@ -33,7 +33,6 @@ public class ShpingServlet extends HttpServlet {
 		String payURL = "/front-end/shopping/pay.jsp";
 		String whichPage = req.getParameter("whichPage");
 		String showAll = req.getParameter("showAll");
-		System.out.println("→ Shopping.html");
 
 		@SuppressWarnings("unchecked")
 		List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
@@ -48,20 +47,15 @@ public class ShpingServlet extends HttpServlet {
 				if (cartlist == null) {
 					cartlist = new Vector<Cart>();
 					cartlist.add(cart1);
-					System.out.println("新增全新CART" + cart1.toString());
 				} else {
 					if (cartlist.contains(cart1)) {
 						Cart cart2 = cartlist.get(cartlist.indexOf(cart1));
 						cart2.setComm_Qty(cart2.getComm_Qty() + cart1.getComm_Qty());
-						System.out.println("增加品項" + cart2.toString());
 					} else {
 						cartlist.add(cart1);
-						System.out.println(cart1.toString());
 					}
 				}
 				String[] getTotal = shping.gettotal(cartlist);
-				System.out.println(getTotal[0]);
-				System.out.println(getTotal[1]);
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
 				req.getRequestDispatcher(indexURL).forward(req, res);
@@ -76,8 +70,8 @@ public class ShpingServlet extends HttpServlet {
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
 
-				// req.getRequestDispatcher(cartURL).forward(req, res);
-				res.sendRedirect(delURL);
+				 req.getRequestDispatcher(cartURL).forward(req, res);
+//				res.sendRedirect(delURL);
 			}
 			//付款確認
 			if (action.equals("PAYCHECK")) {
@@ -135,23 +129,27 @@ public class ShpingServlet extends HttpServlet {
 	private String[] gettotal(List<Cart> cartlist) {
 
 		int total = 0;
-		int Bonus = 0;
+		int bonus = 0;
+		int qty = 0;
 
 		for (int i = 0; i < cartlist.size(); i++) {
 			Cart cart = cartlist.get(i);
 
 			double book_BP = cart.getBook_BP();
 			double price = cart.getPrice();
-			int order_Qty = cart.getComm_Qty();
-			total += (price * order_Qty);
-			Bonus += (book_BP * order_Qty);
+			int comm_Qty = cart.getComm_Qty();
+			total += (price * comm_Qty);
+			bonus += (book_BP * comm_Qty);
+			qty += comm_Qty;
 		}
 
-		String[] totalArray = new String[2];
-		String getTotal = String.valueOf(total);
-		String get_Bonus = String.valueOf(Bonus);
-		totalArray[0] = getTotal;
+		String[] totalArray = new String[3];
+		String get_Total = String.valueOf(total);
+		String get_Bonus = String.valueOf(bonus);
+		String get_Qty = String.valueOf(qty);
+		totalArray[0] = get_Total;
 		totalArray[1] = get_Bonus;
+		totalArray[2] = get_Qty;
 
 		return totalArray;
 

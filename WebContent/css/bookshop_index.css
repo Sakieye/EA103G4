@@ -5,6 +5,10 @@
 @import
 	url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700")
 	;
+	
+.wrapper{
+	background-color: #EBE5D8;
+}	
 
 .subpage {
 	background-color: #EBE5D9;
@@ -26,14 +30,16 @@ div.page>a {
 }
 
 div>#book {
-	background-color: #EBE5D8;
+/* 	background-color: #EBE5D8; */
 	text-align: center;
+	padding:5% 0% 5% 0%;
 }
 
-div>#booklist {
+
+#booklist{
 	padding: 5px 5px;
-	width: 12rem;
-	height: 19.5rem;
+	width: 100%;
+	height: 70%;
 	position: relative;
 	overflow: hidden;
 	transition: box-shadow 500ms;
@@ -41,7 +47,9 @@ div>#booklist {
 	border-radius: 8px;
 }
 
-div>#booklist:hover {
+
+
+#booklist:hover {
 	position: relative;
 	top: -1px;
 	box-shadow: 10px 10px 5px rgba(0.2, 0, 0, 0.2);
@@ -99,6 +107,9 @@ div>#book #booklist .card-body-btn {
 div>#book #booklist .card-img-body {
 	width: 30px;
 	height: 30px;
+	position: absolute;
+	top: 50%;
+	left:80%;
 }
 
 
@@ -138,7 +149,10 @@ div> #chelisInf{
 
 /*pay.jsp*/
 
-
+.card +#cardpay {
+	width: 100%;
+	height:auto;
+}
 
 
 div>#collapseOne {

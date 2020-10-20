@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.mem.model.*"%>
+<%@ page import="com.shping.model.*"%>
 
 <%
 	MemVO memVO = (MemVO) session.getAttribute("memVO");
+	String[] comm_Qty = (String[]) session.getAttribute("getTotal");
+	pageContext.setAttribute("comm_Qty", comm_Qty);
 %>
 
 <!-- Header -->
@@ -23,7 +26,7 @@
             }
             -->
 		<a href="<%=request.getContextPath()%>/front-end/shopping/cart.jsp">
-			<i class="fa">&#xf07a;</i> <span class='badge badge-cart' id='lblCartCount'>5</span>
+			<i class="fa">&#xf07a;</i> <span class='badge badge-cart' id='lblCartCount'>${comm_Qty[2]}</span>
 		</a>
 	</div>
 	<!--End of Cart-->

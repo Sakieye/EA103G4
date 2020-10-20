@@ -97,7 +97,7 @@
 							<div class="accordion" id="accordionExample" style="width: 100%;">
 								<!-- 購物清單 -->
 
-								<div class="card">
+								<div class="card" id="cardpay">
 									<div class="card-header" id="headingOne">
 										<h2 class="mb-0">
 											<button class="btn btn-link btn-block text-left"
