@@ -90,8 +90,12 @@
 								<div class="card" id="booklist"
 									onclick="<%=request.getContextPath()%> ">
 									<div class="card-top">
-										<img class="card-img-top" alt="404 NOT FOUND"
-											src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
+										<FORM class="form-inline" name="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
+<%-- 											<img class="card-img-top" alt="404 NOT FOUND" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}"> --%>
+											<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}"
+													src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
+											<input type="hidden" name="action" value="BOOKDETAIL">
+										</FORM>
 									</div>
 									<div class="card-body">
 										<div class="card-body-prdName"

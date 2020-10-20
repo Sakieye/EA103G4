@@ -1,8 +1,8 @@
 package com.shping.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.shping.model.Cart;
-import com.order.model.*;
+import com.book.model.Book;
+import com.book.model.BookService;
 
 @WebServlet("/Shopping.html")
 public class ShpingServlet extends HttpServlet {
@@ -27,7 +28,7 @@ public class ShpingServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		String indexURL = "/front-end/shopping/bookindex.jsp";
-		
+		String detailURL = "/front-end/shopping/prddetail.jsp";
 		String cartURL = "/front-end/shopping/cart.jsp";
 		String delURL = "http://localhost:8081/BookShop1014(2202)/front-end/shopping/cart.jsp";
 		String payURL = "/front-end/shopping/pay.jsp";
@@ -84,6 +85,15 @@ public class ShpingServlet extends HttpServlet {
 
 			}
 
+		}else if(action.equals("BOOKDETAIL")) {
+			String book_Id = req.getParameter("book_Id");
+			BookService bkSvc = (BookService) getServletContext().getAttribute("bookService");
+			Optional<Book> prddetail = bkSvc.getByBookID(book_Id);
+			
+			req.setAttribute("bkdetail", prddetail);
+			req.getRequestDispatcher(detailURL).forward(req, res);
+			
+			
 		}
 
 		// 頁面session
@@ -96,6 +106,7 @@ public class ShpingServlet extends HttpServlet {
 		}
 
 	}
+	
 
 	private Cart getPrd(HttpServletRequest req) throws ServletException, IOException {
 		String mem_Id = req.getParameter("mem_Id");
