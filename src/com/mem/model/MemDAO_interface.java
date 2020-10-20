@@ -1,5 +1,6 @@
 package com.mem.model;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,5 +17,5 @@ public interface MemDAO_interface {
     public boolean checkEmail(String mem_email);	//檢查EMAIL
     public String getMemIdByMail (String mem_email);
     public List<MemVO> getAll(Map<String, String[]> map);
-    
+    public void updateBonus(String mem_id, Double mem_bonus, Connection con); //訂單產生時或取消訂單時使用
 }

@@ -39,9 +39,9 @@ public class OrderService {
 		
 	}
 	
-	public void createODDT(OrderVO odCartVO , List<DetailVO> cartlist) {
+	public void createODDT(OrderVO odCartVO , List<DetailVO> cartlist, Double newBonus) {
 
-		odi.doCreateODDT(odCartVO, cartlist);
+		odi.doCreateODDT(odCartVO, cartlist, newBonus);
 		
 	}
 	

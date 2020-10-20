@@ -610,4 +610,10 @@ public class MemJDBCDAO implements MemDAO_interface {
 		return null;
 	}
 
+	@Override
+	public void updateBonus(String mem_id, Double mem_bonus, Connection con) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

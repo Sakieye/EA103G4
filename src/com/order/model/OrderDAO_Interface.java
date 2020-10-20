@@ -8,7 +8,7 @@ import com.detail.model.DetailVO;
 public interface OrderDAO_Interface {
 	
 	void doCreate(OrderVO odvo);
-	void doCreateODDT(OrderVO odvo, List<DetailVO> cartlist);
+	void doCreateODDT(OrderVO odvo, List<DetailVO> cartlist, Double newBonus);
 	void update(OrderVO odvo);
 	void cancel(String order_id);
 	OrderVO findbyid(String order_id);

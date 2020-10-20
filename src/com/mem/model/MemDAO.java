@@ -33,6 +33,7 @@ public class MemDAO implements MemDAO_interface {
 	private static final String SIGNIN = "SELECT mem_id FROM MEMBER WHERE MEM_ACCOUNT = ? and MEM_PASSWORD = ?";
 	private static final String CHECK_ACC = "SELECT mem_id FROM MEMBER WHERE MEM_ACCOUNT = ?";
 	private static final String CHECK_EMAIL = "SELECT mem_id FROM MEMBER WHERE MEM_EMAIL = ?";
+	private static final String UPDATE_BONUS = "UPDATE MEMBER SET MEM_BONUS=? WHERE MEM_ID=?";
 	
 	@Override
 	public MemVO insert(MemVO memVO) {
@@ -614,5 +615,43 @@ public class MemDAO implements MemDAO_interface {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void updateBonus(String mem_id, Double mem_bonus, Connection con) { //訂單或取消時產生時，同時觸發的方法
+		
+		PreparedStatement pstmt = null;
+
+		try {
+
+     		pstmt = con.prepareStatement(UPDATE_BONUS);
+
+			pstmt.setDouble(1, mem_bonus);
+			pstmt.setString(2, mem_id);
+			
+
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+		}
 	}
 }

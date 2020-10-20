@@ -1,5 +1,6 @@
 package com.mem.model;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -99,5 +100,9 @@ public class MemService {
 	
 	public void updateExp(MemVO memVO) {
 		dao.update(memVO);
+	}
+	
+	public void updateBonus(String mem_id, Double mem_bonus, Connection con) {
+		dao.updateBonus(mem_id, mem_bonus, con);
 	}
 }

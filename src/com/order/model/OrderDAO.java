@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import com.detail.model.DetailDAO;
 import com.detail.model.DetailVO;
+import com.mem.model.MemDAO;
 
 import tools.jdbcUtil_CompositeQuery_Order;
 
@@ -86,7 +87,7 @@ public class OrderDAO implements OrderDAO_Interface {
 	}
 	
 	@Override
-	public void doCreateODDT(OrderVO odCartVO, List<DetailVO> cartlist) {
+	public void doCreateODDT(OrderVO odCartVO, List<DetailVO> cartlist, Double newBonus) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -133,6 +134,10 @@ public class OrderDAO implements OrderDAO_Interface {
 				dtVO.setOrder_id(orid_next);
 				dtDAO.doCreate(dtVO, con);
 			}
+			
+			//修改會員紅利點數
+			MemDAO memDAO = new MemDAO();
+			memDAO.updateBonus(odCartVO.getMem_id(), newBonus, con);
 			
 			con.commit();
 			con.setAutoCommit(true);

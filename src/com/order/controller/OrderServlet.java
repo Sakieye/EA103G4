@@ -136,18 +136,12 @@ public class OrderServlet extends HttpServlet {
 				MemVO memVO = (MemVO) req.getSession().getAttribute("memVO");
 				Double newBonus = memVO.getMem_bonus() - odCartVO.getUse_bonus() + odCartVO.getGet_bonus();
 
-				MemService memSvc = new MemService();
-				memSvc.updateMem(memVO.getMem_id(), memVO.getMem_account(), memVO.getMem_password(),
-						memVO.getMem_name(), memVO.getMem_email(), memVO.getMem_nickname(), memVO.getMem_sex(),
-						memVO.getMem_birth(), memVO.getMem_addr(), memVO.getMem_tel(), newBonus, memVO.getMem_pic(),
-						memVO.getMem_iskol(), memVO.getMem_exp(), memVO.getMem_status());
-
-				memVO = memSvc.getOneMem(memVO.getMem_id());
-
-				req.getSession().setAttribute("memVO", memVO);
-
 				OrderService odSvc = new OrderService();
-				odSvc.createODDT(odCartVO, cartlist);
+				odSvc.createODDT(odCartVO, cartlist, newBonus);
+				
+				MemService memSvc = new MemService();
+				memVO = memSvc.getOneMem(memVO.getMem_id());
+				req.getSession().setAttribute("memVO", memVO);
 
 				String url = "/back-end/order/listAll_order.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);

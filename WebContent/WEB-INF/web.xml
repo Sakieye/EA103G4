@@ -74,6 +74,11 @@
 		<url-pattern>/front-end/celebrity_book/celebrityBook.jsp</url-pattern>
 		<url-pattern>/front-end/favorite_book/favoriteBook.jsp</url-pattern>
 		<url-pattern>/front-end/bookclub/addBookClub.jsp</url-pattern>
+		<url-pattern>/front-end/shopping/cart.jsp</url-pattern>
+		<url-pattern>/front-end/forum/addFaPage.jsp</url-pattern>
+		<url-pattern>/front-end/forum/addFmPage.jsp</url-pattern>
+		<url-pattern>/front-end/forum/addFarPage.jsp</url-pattern>
+		<url-pattern>/front-end/forum/addFmrPage.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
