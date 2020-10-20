@@ -2,9 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.Fa.model.*"%>
 <%@ page import="com.mem.model.*"%>
-<%
-	FaVO faVO = (FaVO) request.getAttribute("faVO");
-%>
+
 <!DOCTYPE HTML>
 <html>
 

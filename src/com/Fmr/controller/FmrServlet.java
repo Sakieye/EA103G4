@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.Fa.model.*;
 import com.Fm.model.*;
@@ -42,10 +43,9 @@ public class FmrServlet extends HttpServlet {
 				
 				
 				//轉交到新增留言檢舉頁面
-				req.setAttribute("fmVO", fmVO);
-			
-				
-				
+				//req.setAttribute("fmVO", fmVO);
+				HttpSession session = req.getSession();
+				session.setAttribute("fmVO", fmVO);
 				String url = "/front-end/forum/addFmrPage.jsp";
 				RequestDispatcher successView = req
 						.getRequestDispatcher(url);
@@ -122,10 +122,6 @@ public class FmrServlet extends HttpServlet {
 				String fmrStatus = req.getParameter("fmrStatus");
 				String fmId = req.getParameter("fmId");
 				String adminId = req.getParameter("adminId");
-				System.out.println(adminId);
-				System.out.println(fmrStatus);
-				System.out.println(fmId);
-				System.out.println(fmrId);
 				FmrService fmrSvc = new FmrService();
 				fmrSvc.judgeFmr(Integer.parseInt(fmrStatus),adminId, fmrId);
 				

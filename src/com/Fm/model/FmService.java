@@ -9,7 +9,7 @@ public class FmService {
 	private FmDAO_interface dao;
 	
 	public FmService() {
-		dao = new FmJDBCDAO();
+		dao = new FmDAO();
 	}
 	//取得所有留言
 	public List<FmVO> getAll(){

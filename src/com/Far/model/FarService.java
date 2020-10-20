@@ -6,7 +6,7 @@ public class FarService {
 	private FarDAO_interface dao;
 	
 	public FarService() {
-		dao = new FarJDBCDAO();
+		dao = new FarDAO();
 	}
 
 	//新增文章檢舉

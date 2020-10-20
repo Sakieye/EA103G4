@@ -8,7 +8,7 @@ public class FcService {
 	private FcDAO_interface dao;
 	
 	public FcService() {
-		dao = new FcJDBCDAO();
+		dao = new FcDAO();
 	}
 	
 	//收藏文章

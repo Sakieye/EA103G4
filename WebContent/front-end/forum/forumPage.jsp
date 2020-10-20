@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 
+
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 
 <!DOCTYPE HTML>
@@ -160,35 +161,36 @@
 				$("#AmemExp").css("color","gray");
 				$("#AmemName > b").css("color","gray");
 				$("#memPic").css("border-color","gray");
-				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+				$("#memPic").css("box-shadow"," 0 0 10px gray");
 			}else if((parseInt($("#AmemExp").text())) <= 2000){
 				$("#AmemExp").text("Lv.2");
 				$("#AmemExp").css("font-weight","bold");
-				$("#AmemExp").css("color","skyblue");
-				$("#AmemName > b").css("color","skyblue");
-				$("#memPic").css("border-color","skyblue");
-				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+				$("#AmemExp").css("color","blue");
+				$("#AmemName > b").css("color","blue");
+				$("#memPic").css("border-color","blue");
+				$("#memPic").css("box-shadow"," 0 0 10px blue");
 			}else if((parseInt($("#AmemExp").text())) <= 3000){
 				$("#AmemExp").text("Lv.3");
 				$("#AmemExp").css("font-weight","bold");
 				$("#AmemExp").css("color","red");
 				$("#AmemName > b").css("color","red");
 				$("#memPic").css("border-color","red");
-				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+				$("#memPic").css("box-shadow"," 0 0 10px red");
 			}else if((parseInt($("#AmemExp").text())) <= 4000){
+				console.log("123");
 				$("#AmemExp").text("Lv.4");
 				$("#AmemExp").css("font-weight","bold");
-				$("#AmemExp").css("color","yellow");
-				$("#AmemName > b").css("color","yellow");
-				$("#memPic").css("border-color","yellow");
-				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+				$("#AmemExp").css("color","#5B4B00");
+				$("#AmemName > b").css("color","#5B4B00");
+				$("#memPic").css("border-color","#5B4B00");
+				$("#memPic").css("box-shadow"," 0 0 10px #5B4B00");
 			}else{
 				$("#AmemExp").text("Lv.5");
 				$("#AmemExp").css("font-weight","bold");
 				$("#AmemExp").css("color","black");
 				$("#AmemName > b").css("color","black");
 				$("#memPic").css("border-color","black");
-				$("#memPic").css("box-shadow"," 0 0 10px #9ecaed");
+				$("#memPic").css("box-shadow"," 0 0 10px black");
 			}
 		
 		for(let i = 0; i < `${list.size()}`;i++){
@@ -216,10 +218,10 @@
 			}else if((parseInt($("#memExp" + i).text())) <= 4000){
 				$("#memExp" + i).text("Lv.4");
 				$("#memExp" + i).css("font-weight","bold");
-				$("#memExp" + i).css("color","yellow");
-				$("#memName" + i +"> b").css("color","yellow");
-				$("#memPic" + i).css("border-color","yellow");
-				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
+				$("#memExp" + i).css("color","#5B4B00");
+				$("#memName" + i +"> b").css("color","#5B4B00");
+				$("#memPic" + i).css("border-color","#5B4B00");
+				$("#memPic" + i).css("box-shadow"," 0 0 10px #5B4B00");
 			}else{
 				$("#memExp" + i).text("Lv.5");
 				$("#memExp" + i).css("font-weight","bold");

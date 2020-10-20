@@ -1,14 +1,25 @@
 package com.Fa.model;
 
 import java.util.*;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import java.io.IOException;
 import java.sql.*;
 
-public class FaJDBCDAO implements FaDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "BOOKSHOP";
-	String passwd = "123456";
+public class FaDAO implements FaDAO_interface {
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/bookshop");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO FORUM_ARTICLES (FAID,MEMID,FATOPIC,FACONTENT\r\n"
 			+ ")VALUES('FA' || lpad(FORUM_ART_SEQ.NEXTVAL,3,'0'),?,?,?)";
@@ -19,7 +30,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 	//取得一個文章所有資訊(FAID)
 	private static final String GET_ONE_STMT = "SELECT FAID,MEMID,FATOPIC,FACONTENT,FADATE,FASTATUS,FAVIEWS FROM FORUM_ARTICLES WHERE FAID = ?";
 	//取得一個會員的所有文章
-	private static final String GET_ONE_MEM_FA_STMT = "SELECT FAID,MEMID,FATOPIC,FACONTENT,FADATE,FASTATUS,FAVIEWS FROM FORUM_ARTICLES WHERE MEMID = ? AND FASTATUS = 0";
+	private static final String GET_ONE_MEM_FA_STMT = "SELECT FAID,MEMID,FATOPIC,FACONTENT,FADATE,FASTATUS,FAVIEWS FROM FORUM_ARTICLES WHERE MEMID = ? AND FASTATUS = 0 ORDER BY FADATE DESC";
 	//更改文章狀態 = 1(下架)
 	private static final String UPDATE_LOGOUT = "UPDATE FORUM_ARTICLES SET FASTATUS = 1 WHERE FAID = ?";
 	//會員修改自己的文章
@@ -38,8 +49,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 		
 		
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			
 			pstmt = con.prepareStatement(INSERT_STMT);
 
@@ -48,11 +58,8 @@ public class FaJDBCDAO implements FaDAO_interface {
 			pstmt.setString(3, faVO.getFaContent());
 			
 			pstmt.executeUpdate();
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+			
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -79,8 +86,8 @@ public class FaJDBCDAO implements FaDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
+			
 			pstmt = con.prepareStatement(UPDATE_STMT);
 
 			pstmt.setString(1, faVO.getFaTopic());
@@ -88,10 +95,6 @@ public class FaJDBCDAO implements FaDAO_interface {
 			pstmt.setString(3, faVO.getFaId());
 
 			pstmt.executeUpdate();
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
@@ -118,18 +121,14 @@ public class FaJDBCDAO implements FaDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_LOGOUT);
 
 			pstmt.setString(1, faId);
 
 			pstmt.executeUpdate();
 			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -157,8 +156,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, faId);
@@ -178,10 +176,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 			}
 
 			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -221,8 +216,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -236,11 +230,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 					list.add(faVO);
 			}
 
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -279,8 +269,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_MEM_FA_STMT);
 			pstmt.setString(1, memId);
 			rs = pstmt.executeQuery();
@@ -298,11 +287,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 				}
 			}
 
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -342,8 +327,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT_HOT);
 			rs = pstmt.executeQuery();
 
@@ -359,11 +343,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 					list.add(faVO);
 			}
 
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -398,19 +378,14 @@ public class FaJDBCDAO implements FaDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(ADD_VIEWS);
 
 			pstmt.setInt(1, faVO.getFaViews());
 			pstmt.setString(2, faVO.getFaId());
 
 			pstmt.executeUpdate();
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )
 		} finally {
@@ -440,9 +415,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			
 			pstmt = con.prepareStatement(RESEARCH_STMT);
 			
@@ -460,10 +433,6 @@ public class FaJDBCDAO implements FaDAO_interface {
 					list.add(faVO);
 			}
 			
-			// Handle any driver errors ( JDBC 驅動 )
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors ( SQL 除錯 )
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources ( 關閉資源 )

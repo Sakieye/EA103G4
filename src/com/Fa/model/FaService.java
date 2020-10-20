@@ -7,7 +7,7 @@ public class FaService {
 	private FaDAO_interface dao;
 	
 	public FaService() {
-		dao = new FaJDBCDAO();
+		dao = new FaDAO();
 		
 	}
 	//新增留言

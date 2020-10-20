@@ -12,7 +12,6 @@ import com.Fa.model.*;
 import com.Fm.model.*;
 import com.mem.model.*;
 
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class FaServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -32,32 +31,25 @@ public class FaServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
+				//取得 文章編號(faId)
 				String faId = req.getParameter("faId");
-			
-				/***************************2.開始查詢資料*****************************************/
+				//取得此文章編號資訊
 				FaService faSvc = new FaService();
 				FaVO faVO = faSvc.getOneFa(faId);
-				
+				//文章瀏覽數 +1
 				int faViews = faVO.getFaViews() + 1;
 				faSvc.addFaViews(faId, faViews);
-
+				//取得此文章編號下的留言
 			 	FmService fmSvc = new FmService();
 			 	List<FmVO> list = fmSvc.getOneFAFm(faVO.getFaId());
-				
-			 	
+			 	//取得發布此文章的會員資料
 			 	MemService memSvc = new MemService();
 			 	MemVO memVO = memSvc.getOneMem(faVO.getMemId());
 			 	
-			 	
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/forum/forumIndex.jsp");
-					failureView.forward(req, res);
-					return;//程式中斷
-				}
-				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("faVO", faVO);
-				req.setAttribute("list", list);
+				//req.setAttribute("faVO", faVO);
+			 	HttpSession session = req.getSession();
+			 	session.setAttribute("faVO", faVO);
+			 	req.setAttribute("list", list);
 				req.setAttribute("memVO", memVO);
 				
 				String url = "/front-end/forum/forumPage.jsp";

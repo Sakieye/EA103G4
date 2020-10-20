@@ -6,7 +6,7 @@ public class FmrService {
 	private FmrDAO_interface dao;
 	
 	public FmrService() {
-		dao = new FmrJDBCDAO();
+		dao = new FmrDAO();
 	}
 	
 	//新增留言檢舉

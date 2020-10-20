@@ -47,9 +47,6 @@ public class FmServlet extends HttpServlet {
 				fmVO.setMemId(memId);
 				fmVO.setFmContent(fmContent);
 				
-				FaVO faVO = new FaVO();
-				List<FmVO> list = new ArrayList<>();  
-				
 				if(!errorMsgs.isEmpty()) {
 					req.setAttribute("fmVO", fmVO);
 					RequestDispatcher failureView = req
@@ -57,6 +54,11 @@ public class FmServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
+				
+				FaVO faVO = new FaVO();
+				List<FmVO> list = new ArrayList<>();  
+				
+				
 				
 				FmService fmSvc = new FmService();
 				fmVO = fmSvc.addFm(faId, memId, fmContent);

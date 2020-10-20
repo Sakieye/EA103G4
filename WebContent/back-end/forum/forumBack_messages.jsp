@@ -31,11 +31,12 @@
 
 <head>
 <meta name="name" content="content" charset="UTF-8">
-<title></title>
+<title>討論區檢舉管理</title>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/main-back.css" />
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <style>
 html {
@@ -98,9 +99,6 @@ html {
 								<th scope="row">${memSvc.getOneMem(fmrVO.memId).mem_name}</th>
 								<td><button type="button" class="btn btn-primary"
 										data-toggle="modal" data-target="#exampleModal_1${vs.index}">文章詳情</button></td>
-								<%-- 						<td>${fmSvc.getOneFm(fmrVO.fmId).fmContent}</td> --%>
-
-								<%-- 								<td>${fmrVO.fmrContent}</td> --%>
 								<td><button type="button" class="btn btn-primary"
 										data-toggle="modal" data-target="#exampleModal${vs.index}">檢舉原因</button></td>
 
