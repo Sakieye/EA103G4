@@ -10,14 +10,14 @@
 <header id="header">
 	<div class="logo">
 		<a href="<%=request.getContextPath()%>/front-end/front-index.jsp">
-			部客匣 <span>BookShop</span>
+			部客匣<span>BookShop</span>
 		</a>
 	</div>
 
 	<c:if test="${not empty sessionScope.memVO.mem_id}">
 		<div id="headName">
 			<a href="<%=request.getContextPath()%>/mem/mem.do?action=logout" type="button" id="logOut">登出</a>
-			<p>${sessionScope.memVO.mem_name}&nbsp;&nbsp;Hello</p>
+			<p>${memVO.mem_name}&nbsp;&nbsp;Hello</p>
 		</div>
 
 		<%
@@ -25,7 +25,7 @@
 		%>
 		<div id="img">
 			<a href="<%=request.getContextPath()%>/front-end/member/memberCenter.jsp">
-				<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${sessionScope.memVO.mem_id}">
+				<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${memVO.mem_id}">
 			</a>
 		</div>
 		<%

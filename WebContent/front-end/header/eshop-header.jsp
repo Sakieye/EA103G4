@@ -22,7 +22,7 @@
 			<ul>
 				<c:forEach var="firstLvCat" items="${firstLevelCats}">
 					<li>
-						<a href="${pageContext.request.contextPath}/front-end/shopping/bookindex.jsp?categoryID=${firstLvCat.categoryID}">${firstLvCat.categoryName}</a>
+						<a href="${pageContext.request.contextPath}/Search?categoryID=${firstLvCat.categoryID}">${firstLvCat.categoryName}</a>
 						<%
 							Category firstLvCat = (Category) pageContext.getAttribute("firstLvCat");
 							List<Category> secondLevelCats = catMap.get(firstLvCat.getCategoryID());
@@ -32,7 +32,7 @@
 							<ul>
 								<c:forEach var="secondLvCat" items="${secondLevelCats}">
 									<li>
-										<a href="${pageContext.request.contextPath}/front-end/shopping/bookindex.jsp?categoryID=${secondLvCat.categoryID}">${secondLvCat.categoryName}</a>
+										<a href="${pageContext.request.contextPath}/Search?categoryID=${secondLvCat.categoryID}">${secondLvCat.categoryName}</a>
 										<%
 											Category secondLvCat = (Category) pageContext.getAttribute("secondLvCat");
 											List<Category> thirdLevelCats = catMap.get(secondLvCat.getCategoryID());
@@ -42,7 +42,7 @@
 										<ul>
 										     <c:forEach var="thirdLvCat" items="${thirdLevelCats}">
 										         <li>
-										             <a href="${pageContext.request.contextPath}/front-end/shopping/bookindex.jsp?categoryID=${thirdLvCat.categoryID}">${thirdLvCat.categoryName}</a>
+										             <a href="${pageContext.request.contextPath}/Search?categoryID=${thirdLvCat.categoryID}">${thirdLvCat.categoryName}</a>
 										         </li>
 										     </c:forEach>
 										</ul>
@@ -71,7 +71,7 @@
 </div>
 <!--Advanced Search Form-->
 <div class="advanced-search-form">
-    <form method='post' action='<%=request.getContextPath()%>/front-end/shopping/bookindex.jsp'>
+    <form method='post' action='<%=request.getContextPath()%>/Search'>
         <div class="row advanced-search-form-row">
             <label for="bookName" class="col-form-label">書名&emsp;&emsp;&emsp;</label>
             <div>

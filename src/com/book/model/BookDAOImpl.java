@@ -22,6 +22,7 @@ public class BookDAOImpl implements BookDAO {
 
 	private static final String INSERT_STMT = "INSERT INTO BOOKS(BOOK_ID,PUBLISHER_ID,LANGUAGE_ID,CATEGORY_ID,BOOK_NAME,ISBN,AUTHOR,LIST_PRICE,SALE_PRICE,BOOK_BP,IS_SOLD,PUBLICATION_DATE,STOCK,SAFETY_STOCK,BOOK_INTRO,BOOK_NAME_ORIGINAL) VALUES ('B' || lpad(BOOK_ID_SEQ.NEXTVAL, 11, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String FIND_BY_BOOK_ID_STMT = "SELECT * FROM BOOKS WHERE BOOK_ID = ?";
+	private static final String FIND_BY_BOOK_ID_STMT_FRONT = "SELECT * FROM BOOKS WHERE BOOK_ID = ? AND IS_SOLD = 1";
 	private static final List<String> ADV_SEARCH_CONDITIONS = Arrays.asList("publisherName", "bookName", "author",
 			"categoryID", "publicationDateMin", "publicationDateMax", "salePriceMin", "salePriceMax", "discountMin",
 			"discountMax", "isbn", "isSold");
@@ -42,6 +43,7 @@ public class BookDAOImpl implements BookDAO {
 	private static final String UPDATE_EFFECTIVE_PROMOS = "UPDATE BOOKS SET EFFECTIVE_PROMOS = ?　WHERE BOOK_ID = ?";
 	private static final String UPDATE_BATCH_STMT = "UPDATE BOOKS SET PUBLISHER_ID = ?, LANGUAGE_ID = ?, CATEGORY_ID = ?, BOOK_NAME = ?, ISBN = ?, AUTHOR = ?, LIST_PRICE = ?, SALE_PRICE = ?, BOOK_BP = ?, IS_SOLD = ?, PUBLICATION_DATE = ?, STOCK = ?, SAFETY_STOCK = ?, BOOK_INTRO = ?, BOOK_NAME_ORIGINAL = ?, SALE_PRICE_PROMO = ?, BOOK_BP_PROMO = ?, EFFECTIVE_PROMOS = ? WHERE BOOK_ID = ?";
 	private static final String FIND_BY_RANDOM_STMT = "SELECT * FROM(SELECT * FROM BOOKS ORDER BY dbms_random.value) WHERE ROWNUM <= ?";
+	private static final String FIND_BY_RANDOM_STMT_FRONT = "SELECT * FROM(SELECT * FROM BOOKS WHERE IS_SOLD = 1 ORDER BY dbms_random.value) WHERE ROWNUM <= ?";
 	private static final String FIND_NEW_STMT = "SELECT * FROM(SELECT * FROM BOOKS ORDER BY PUBLICATION_DATE DESC NULLS LAST) WHERE ROWNUM <= ?";
 
 	@Override
@@ -166,46 +168,6 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public List<Book> findByISBN(String isbn) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("isbn", isbn);
-		List<Book> listBook = advSearch(map);
-		return listBook;
-	}
-
-	@Override
-	public List<Book> findByBookName(String bookName) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("bookName", bookName);
-		List<Book> listBook = advSearch(map);
-		return listBook;
-	}
-
-	@Override
-	public List<Book> findByAuthor(String author) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("author", author);
-		List<Book> listBook = advSearch(map);
-		return listBook;
-	}
-
-	@Override
-	public List<Book> findByPublisherName(String publisherName) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("publisherName", publisherName);
-		List<Book> listBook = advSearch(map);
-		return listBook;
-	}
-
-	@Override
-	public List<Book> findByCategoryID(String categoryID) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("categoryID", categoryID);
-		List<Book> listBook = advSearch(map);
-		return listBook;
-	}
-
-	@Override
 	public List<Book> advSearch(Map<String, String> map) {
 		List<Book> listBook = new ArrayList<Book>();
 		Book book = null;
@@ -286,13 +248,6 @@ public class BookDAOImpl implements BookDAO {
 				}
 			}
 		}
-		return listBook;
-	}
-
-	@Override
-	public List<Book> getAll() {
-		Map<String, String> map = new HashMap<String, String>();
-		List<Book> listBook = advSearch(map);
 		return listBook;
 	}
 
@@ -533,7 +488,7 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public List<Book> findByBookIDList(List<String> bookIDs) {
+	public List<Book> findByBookIDList(List<String> bookIDs, boolean isFront) {
 		List<Book> listBook = new ArrayList<Book>();
 		Book book = null;
 		Connection con = null;
@@ -542,7 +497,11 @@ public class BookDAOImpl implements BookDAO {
 
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(FIND_BY_BOOK_ID_STMT);
+			if (isFront) {
+				pstmt = con.prepareStatement(FIND_BY_BOOK_ID_STMT_FRONT);
+			} else {
+				pstmt = con.prepareStatement(FIND_BY_BOOK_ID_STMT);
+			}
 
 			for (String bookID : bookIDs) {
 				pstmt.setString(1, bookID);
@@ -816,7 +775,7 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public List<Book> findByRandom(int num) {
+	public List<Book> findByRandom(int num, boolean isFront) {
 		List<Book> listBook = new ArrayList<Book>();
 		Book book = null;
 		Connection con = null;
@@ -886,7 +845,7 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public List<Book> findNewBooks(int num) {
+	public List<Book> findNewBooks(int num, boolean isFront) {
 		List<Book> listBook = new ArrayList<Book>();
 		Book book = null;
 		Connection con = null;
@@ -895,7 +854,12 @@ public class BookDAOImpl implements BookDAO {
 
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(FIND_NEW_STMT);
+			
+			if (isFront) {
+				pstmt = con.prepareStatement(FIND_BY_RANDOM_STMT_FRONT);
+			} else {
+				pstmt = con.prepareStatement(FIND_NEW_STMT);
+			}
 
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();

@@ -56,30 +56,91 @@ public class BookService {
 	// 傳入ID回傳Optional<null>或Optional<Book>，必須先用Optional<Book>
 	// book.isPresent()確認裡面不是null後才能用Optional<Book> book.get()取出VO
 	public Optional<Book> getByBookID(String bookID) {
-		return bookDAO.findByBookID(bookID);
+		return getByBookID(bookID, false);
+	}
+
+	public Optional<Book> getByBookID(String bookID, boolean isFrontEnd) {
+		Optional<Book> b = bookDAO.findByBookID(bookID);
+		if (b.isPresent() && isFrontEnd) {
+			// 若下架則改為Optional.ofNullable(null)
+			if (b.get().getIsSold() == 0) {
+				b = Optional.ofNullable(null);
+			}
+		}
+		return b;
 	}
 
 	public List<Book> getByBookISBN(String isbn) {
-		return bookDAO.findByISBN(isbn);
+		return getByBookISBN(isbn, false);
+	}
+
+	public List<Book> getByBookISBN(String isbn, boolean isFrontEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("isbn", isbn);
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
+		return bookDAO.advSearch(map);
 	}
 
 	public List<Book> getByBookName(String bookName) {
-		return bookDAO.findByBookName(bookName);
+		return getByBookName(bookName, false);
+	}
+
+	public List<Book> getByBookName(String bookName, boolean isFrontEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("bookName", bookName);
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
+		return bookDAO.advSearch(map);
 	}
 
 	public List<Book> getByAuthor(String author) {
-		return bookDAO.findByAuthor(author);
+		return getByAuthor(author, false);
+	}
+
+	public List<Book> getByAuthor(String author, boolean isFrontEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("author", author);
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
+		return bookDAO.advSearch(map);
 	}
 
 	public List<Book> getByPublisherName(String publisherName) {
-		return bookDAO.findByPublisherName(publisherName);
+		return getByPublisherName(publisherName, false);
+	}
+
+	public List<Book> getByPublisherName(String publisherName, boolean isFrontEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("publisherName", publisherName);
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
+		return bookDAO.advSearch(map);
 	}
 
 	public List<Book> getByCategoryID(String categoryID) {
-		return bookDAO.findByCategoryID(categoryID);
+		return getByCategoryID(categoryID, false);
+	}
+
+	public List<Book> getByCategoryID(String categoryID, boolean isFrontEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("categoryID", categoryID);
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
+		return bookDAO.advSearch(map);
 	}
 
 	public List<Book> getByParentCategoryID(String parentCategoryID, CategoryService categoryService) {
+		return getByParentCategoryID(parentCategoryID, categoryService, false);
+	}
+
+	public List<Book> getByParentCategoryID(String parentCategoryID, CategoryService categoryService,
+			boolean isFrontEnd) {
 		List<Book> books = new ArrayList<Book>();
 
 		if (parentCategoryID == null) {
@@ -87,7 +148,8 @@ public class BookService {
 		}
 
 		// 將本身加入books
-		books.addAll(bookDAO.findByCategoryID(parentCategoryID));
+		books.addAll(getByCategoryID(parentCategoryID, isFrontEnd));
+
 		List<Category> childCategories = categoryService.getByParentCategoryID(parentCategoryID);
 
 		childCategories.forEach(childCategory -> {
@@ -96,21 +158,36 @@ public class BookService {
 			List<Category> grandChildCategories = categoryService.getByParentCategoryID(childCategoryID);
 			// 有子類別且該子類別下有其他子類別
 			grandChildCategories.forEach(grandChildCategory -> {
-				books.addAll(bookDAO.findByCategoryID(grandChildCategory.getCategoryID()));
+				books.addAll(getByCategoryID(grandChildCategory.getCategoryID(), isFrontEnd));
 			});
 
-			books.addAll(bookDAO.findByCategoryID(childCategoryID));
+			books.addAll(getByCategoryID(childCategoryID, isFrontEnd));
 		});
 
 		return books;
 	}
 
 	public List<Book> getByAdvSearch(Map<String, String> map) {
+		return getByAdvSearch(map, false);
+	}
+
+	public List<Book> getByAdvSearch(Map<String, String> map, boolean isFrontEnd) {
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
 		return bookDAO.advSearch(map);
 	}
 
 	public List<Book> getAll() {
-		return bookDAO.getAll();
+		return getAll(false);
+	}
+
+	public List<Book> getAll(boolean isFrontEnd) {
+		Map<String, String> map = new HashMap<String, String>();
+		if (isFrontEnd) {
+			map.put("isSold", "1");
+		}
+		return getByAdvSearch(map);
 	}
 
 	public Optional<Book> updateBook(String bookID, String publisherID, String languageID, String categoryID,
@@ -133,7 +210,11 @@ public class BookService {
 	}
 
 	public List<Book> getByBookIDList(List<String> bookIDs) {
-		return bookDAO.findByBookIDList(bookIDs);
+		return getByBookIDList(bookIDs, false);
+	}
+
+	public List<Book> getByBookIDList(List<String> bookIDs, boolean isFrontEnd) {
+		return bookDAO.findByBookIDList(bookIDs, isFrontEnd);
 	}
 
 	public List<Book> updateBookSalePricePromoBatch(List<String> bookIDs, List<Double> salePricePromos) {
@@ -178,7 +259,8 @@ public class BookService {
 		books.forEach(book -> bookIDs.add(book.getBookID()));
 		return getByBookIDList(bookIDs);
 	}
-
+	
+	// 前端專用方法
 	public List<Book> getPopularBooks(int bookNum, int sampleNum) {
 		// 取得Jedis連線資源
 		JedisPool pool = JedisUtil.getJedisPool();
@@ -203,11 +285,11 @@ public class BookService {
 		} else if (sumYesterday >= bookNum) {
 			keyName = keyNameYesterday;
 		} else {
-			books.addAll(getByRandom(bookNum));
+			books.addAll(getByRandom(bookNum, true));
 			return books;
 		}
 
-		// 查詢書籍統計資料並計算權重(只取總站熱門前500本)
+		// 查詢書籍統計資料並計算權重(只取總站熱門前sampleNum本)
 		Set<Tuple> res;
 		if (jedis.zcard(keyName.toString()) >= sampleNum) {
 			res = jedis.zrangeWithScores(keyName.toString(), -sampleNum, -1);
@@ -234,11 +316,16 @@ public class BookService {
 
 		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
 
-//		books.forEach(b->System.out.println(b));
+		books.forEach(b -> {
+			if (b.getIsSold() == 0) {
+				books.remove(b);
+			}
+		});
 
 		return books;
 	}
-
+	
+	// 前端專用方法
 	public Set<Book> getRecommendedBooks(List<Book> recentViewedBooks, String thisBookID) {
 		// 取得Jedis連線資源
 		JedisPool pool = JedisUtil.getJedisPool();
@@ -310,10 +397,16 @@ public class BookService {
 				} else {
 					recommBooks.addAll(recommBookList);
 				}
+
+				recommBooks.forEach(b -> {
+					if (b.getIsSold() == 0) {
+						recommBooks.remove(b);
+					}
+				});
 				return recommBooks;
 			}
 
-			// 查詢書籍統計資料並計算權重(只取熱門前200本)
+			// 查詢書籍統計資料並計算權重(只取該類別熱門前200本)
 			Set<Tuple> res;
 			if (jedis.zcard(keyName.toString()) >= 200) {
 				res = jedis.zrangeWithScores(keyName.toString(), -200, -1);
@@ -342,6 +435,11 @@ public class BookService {
 //		favoriteCategoryIDs.forEach(entry -> System.out.println(entry));
 
 		recommBooks.addAll(getByBookIDList(new ArrayList<String>(recommBookIDs)));
+		recommBooks.forEach(b -> {
+			if (b.getIsSold() == 0) {
+				recommBooks.remove(b);
+			}
+		});
 		return recommBooks;
 	}
 
@@ -363,10 +461,11 @@ public class BookService {
 		JedisUtil.closeJedis(jedis);
 	}
 
-	public List<Book> getByRandom(int num) {
-		return bookDAO.findByRandom(num);
+	public List<Book> getByRandom(int num, boolean isFront) {
+		return bookDAO.findByRandom(num, isFront);
 	}
 
+	// 前端專用方法
 	public List<Book> getPromoBooks(int num, PromoDetailService promoDetailService, PromoService promoService) {
 		Set<String> bookIDSet = new HashSet<String>();
 		List<String> bookIDs = new ArrayList<String>();
@@ -377,7 +476,8 @@ public class BookService {
 		});
 
 		Promo randPromo = null;
-		// 隨機選一個促銷事件，並從effPromos移除。但當選擇的randPromo對應promoDetails數量 < num，持續選擇別的Promo並加入bookIDs
+		// 隨機選一個促銷事件，並從effPromos移除。但當選擇的randPromo對應promoDetails數量 <
+		// num，持續選擇別的Promo並加入bookIDs
 		while (bookIDSet.size() < num && (randPromo = getRandPromo(effPromos)) != null) {
 			promoDetailService.getByPromoID(randPromo.getPromoID()).forEach(pd -> {
 				bookIDSet.add(pd.getBookID());
@@ -390,7 +490,7 @@ public class BookService {
 			bookIDs = bookIDs.subList(0, num);
 		}
 
-		return getByBookIDList(new ArrayList<String>(bookIDs));
+		return getByBookIDList(new ArrayList<String>(bookIDs), true);
 	}
 
 	private Promo getRandPromo(List<Promo> promos) {
@@ -404,8 +504,9 @@ public class BookService {
 
 		return randPromo;
 	}
-
+	
+	// 前端專用方法
 	public List<Book> getNewBooks(int num) {
-		return bookDAO.findNewBooks(num);
+		return bookDAO.findNewBooks(num, true);
 	}
 }

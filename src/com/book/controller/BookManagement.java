@@ -34,9 +34,9 @@ public class BookManagement extends HttpServlet {
 		String isSold = request.getParameter("isSold");
 		HttpSession session = request.getSession();
 		CategoryService categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
-        List<Category> categories = categoryService.getAll();
-        request.setAttribute("categories", categories);
-		
+		List<Category> categories = categoryService.getAll();
+		request.setAttribute("categories", categories);
+
 		// 使用搜尋
 		if ("getAdvSearch".equals(request.getParameter("action"))) {
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
@@ -56,24 +56,18 @@ public class BookManagement extends HttpServlet {
 			List<Book> books = bookService.getByAdvSearch(map);
 
 			request.setAttribute("books", books);
-		}
-
-		// 換頁操作(session中保有前次的查詢結果和本次請求第幾頁)
-		if (session != null) {
-			if (session.getAttribute("books") != null && (whichPage != null || showAll != null)) {
-				request.setAttribute("books", session.getAttribute("books"));
-				request.setAttribute("whichPage", whichPage);
-				request.setAttribute("showAll", showAll);
-			}
-		}
-
-		// 上下架操作
-		if ("0".equals(isSold) || "1".equals(isSold)) {
+		} else if ("0".equals(isSold) || "1".equals(isSold)) { // 上下架操作
 			String bookList = request.getParameter("bookList");
 			if (bookList != null) {
 				List<String> bookIDs = Arrays.asList(bookList.split(","));
 				BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 				bookService.updateBookIsSoldBatch(bookIDs, Integer.parseInt(isSold));
+			}
+		} else if (session != null) { // 換頁操作(session中保有前次的查詢結果和本次請求第幾頁)
+			if (session.getAttribute("books") != null && (whichPage != null || showAll != null)) {
+				request.setAttribute("books", session.getAttribute("books"));
+				request.setAttribute("whichPage", whichPage);
+				request.setAttribute("showAll", showAll);
 			}
 		}
 

@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.book.model.*"%>
+<%@ page import="com.adver.model.*"%>
 <%@ page import="com.category.model.*"%>
 <%@ page import="com.promo.model.*"%>
 <%@ page import="com.promodetail.model.*"%>
@@ -32,7 +33,7 @@
 
 <body>
 	<!-- Header With Cart-->
-	<jsp:include page="/front-end/header/header-with-cart.jsp" />
+	<%@include file="/front-end/header/header-with-cart.jsp"%>
 	<section id="One" class="wrapper style4">
 		<!-- Eshop Header -->
 		<div id="logoDiv">
@@ -41,47 +42,16 @@
 		<!-- Eshop Body -->
 		<div class="col-md-8" id="bookshop-body">
 			<!-- Advertisements1 -->
-			<div id="advertisement-silder-1" class="carousel slide" data-ride="carousel">
-				<ol class="carousel-indicators">
-					<li data-target="#advertisement-silder-1" data-slide-to="0" class="active"></li>
-					<li data-target="#advertisement-silder-1" data-slide-to="1"></li>
-					<li data-target="#advertisement-silder-1" data-slide-to="2"></li>
-					<li data-target="#advertisement-silder-1" data-slide-to="3"></li>
-				</ol>
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000573079&width=1000&height=326&fill=f" alt="First slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000572919&width=1000&height=326&fill=f" alt="Second slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000572794&width=1000&height=326&fill=f" alt="Third slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000572295&width=1000&height=326&fill=f" alt="Fourth slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-				</div>
-				<a class="carousel-control-prev" href="#advertisement-silder-1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
-				</a> <a class="carousel-control-next" href="#advertisement-silder-1" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>
-				</a>
-			</div>
+			<%
+				// AdService取用邏輯待改善
+				AdService adService = new AdService();
+				List<AdVO> ads = adService.getAll();
+				request.setAttribute("adList1", ads.subList(0, ads.size() / 2));
+				request.setAttribute("adList2", ads.subList((ads.size() / 2), ads.size()));
+			%>
+			<jsp:include page="/front-end/bookshop-eshop/ADSliderHorizontal.jsp">
+				<jsp:param name="type" value="adList1" />
+			</jsp:include>
 			<!-- End of Advertisements1 -->
 			<hr>
 			<!-- Bestsellers -->
@@ -91,21 +61,19 @@
 				PromoDetailService promoDetailService = (PromoDetailService) getServletContext()
 						.getAttribute("promoDetailService");
 				PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
-			    
-				List<Book> bestsellers = bookService.getByBookName("java");
-				bestsellers = bestsellers.subList(0, 30);
-			    
-				List<Book> popularBooks = bookService.getPopularBooks(30, 500);	
+
+				List<Book> popularBooks = bookService.getPopularBooks(30, 500);
 				// 待名人收藏書單完成再修正celebrityBooks取得方式
-				List<Book> celebrityBooks = bookService.getByPublisherName("歐萊禮");
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("publisherName", "歐萊禮");
+				map.put("bookName", "python");
+				List<Book> celebrityBooks = bookService.getByAdvSearch(map, true);
 				Collections.shuffle(celebrityBooks);
-				celebrityBooks = celebrityBooks.subList(0, 30);
-			    
+
 				List<Book> promoBooks = bookService.getPromoBooks(30, promoDetailService, promoService);
 				List<Book> newBooks = bookService.getNewBooks(30);
 
 				// 將bestsellers等slider需要的物件設定在request scope，使ProductSlider.jsp取出
-				request.setAttribute("bestsellers", bestsellers);
 				request.setAttribute("popularBooks", popularBooks);
 				request.setAttribute("celebrityBooks", celebrityBooks);
 				request.setAttribute("promoBooks", promoBooks);
@@ -113,10 +81,6 @@
 
 				// 需傳入自訂名稱的書籍清單，並把type參數設定為此名稱，title參數則為顯示標題
 			%>
-			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
-				<jsp:param name="title" value="暢銷書籍" />
-				<jsp:param name="type" value="bestsellers" />
-			</jsp:include>
 			<!-- End of Bestsellers -->
 			<hr>
 			<!-- Popular Books -->
@@ -135,63 +99,25 @@
 			<hr>
 			<br>
 			<!-- Advertisements2 -->
-			<div id="advertisement-silder-2" class="carousel slide" data-ride="carousel">
-				<ol class="carousel-indicators">
-					<li data-target="#advertisement-silder-2" data-slide-to="0" class="active"></li>
-					<li data-target="#advertisement-silder-2" data-slide-to="1"></li>
-					<li data-target="#advertisement-silder-2" data-slide-to="2"></li>
-					<li data-target="#advertisement-silder-2" data-slide-to="3"></li>
-				</ol>
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000573079&width=1000&height=326&fill=f" alt="First slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000572919&width=1000&height=326&fill=f" alt="Second slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000572794&width=1000&height=326&fill=f" alt="Third slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<a href="https://www.google.com/"> <img class="d-block w-100" src="https://media.taaze.tw/showBanaerImage.html?pk=1000572295&width=1000&height=326&fill=f" alt="Fourth slide">
-						</a>
-						<div class="carousel-caption d-none d-md-block" id="advertisement">
-							<p>測試廣告文字</p>
-						</div>
-					</div>
-				</div>
-				<a class="carousel-control-prev" href="#advertisement-silder-2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
-				</a> <a class="carousel-control-next" href="#advertisement-silder-2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>
-				</a>
-			</div>
+			<jsp:include page="/front-end/bookshop-eshop/ADSliderHorizontal.jsp">
+				<jsp:param name="type" value="adList2" />
+			</jsp:include>
 			<!-- End of Advertisements2 -->
 			<hr>
 			<!-- Promo Products -->
 			<c:if test="${promoBooks.size() > 0}">
-			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
-                <jsp:param name="title" value="特惠主題" />
-                <jsp:param name="type" value="promoBooks" />
-            </jsp:include>
-			<!-- End of Promo Products -->
-			<hr>
+				<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
+					<jsp:param name="title" value="特惠主題" />
+					<jsp:param name="type" value="promoBooks" />
+				</jsp:include>
+				<!-- End of Promo Products -->
+				<hr>
 			</c:if>
 			<!-- New Books -->
 			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
-                <jsp:param name="title" value="注目新品" />
-                <jsp:param name="type" value="newBooks" />
-            </jsp:include>
+				<jsp:param name="title" value="注目新品" />
+				<jsp:param name="type" value="newBooks" />
+			</jsp:include>
 			<!-- End of New Books -->
 		</div>
 		<!-- End of Eshop Body -->

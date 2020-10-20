@@ -9,4 +9,5 @@ public interface AdDAO_Interface {
 	void cancel(String ad_id);
 	AdVO findbytime(Timestamp ad_start);
 	List<AdVO> getAll();
+	AdVO getOne(String ad_id);
 }

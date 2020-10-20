@@ -22,7 +22,7 @@ public class ShowBookPic extends HttpServlet {
 		response.setContentType("image/*");
 		String bookID = request.getParameter("bookID");
 		String bookPicName = request.getParameter("bookPicName");
-		
+
 		if (bookID != null && bookPicName != null) {
 			BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
 			Optional<BookPicture> bookPic = bookPicService.getByBookIDAndBookPicName(bookID, bookPicName);
@@ -30,10 +30,7 @@ public class ShowBookPic extends HttpServlet {
 				OutputStream os = response.getOutputStream();
 				os.write(bookPic.get().getBookPic());
 			}
-		}
-		
-		// 只請求封面圖
-		if (bookID != null && bookPicName == null) {
+		} else if (bookID != null && bookPicName == null) { // 只請求封面圖
 			BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
 			Optional<BookPicture> bookPic = bookPicService.getFirstPicByBookID(bookID);
 			if (bookPic.isPresent()) {

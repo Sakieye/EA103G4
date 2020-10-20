@@ -9,7 +9,7 @@ public class AdVO {
 	private String ad_type; //notnull
 	private Timestamp ad_start;
 	private Timestamp ad_end;
-	private Byte ad_image; //notnull
+	private byte[] ad_image; //notnull
 	private String ad_url;
 	private String ad_copy;
 	private Timestamp ad_update; //default
@@ -51,10 +51,10 @@ public class AdVO {
 	public void setAd_end(Timestamp ad_end) {
 		this.ad_end = ad_end;
 	}
-	public Byte getAd_image() {
+	public byte[] getAd_image() {
 		return ad_image;
 	}
-	public void setAd_image(Byte ad_image) {
+	public void setAd_image(byte[] ad_image) {
 		this.ad_image = ad_image;
 	}
 	public String getAd_url() {

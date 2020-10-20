@@ -13,20 +13,15 @@
 <header id="header">
 	<div class="logo">
 		<a href="<%=request.getContextPath()%>/front-end/front-index.jsp">
-			部客匣 <span>Bookshop</span>
+			部客匣
+			<span>Bookshop</span>
 		</a>
 	</div>
 	<!--Cart-->
 	<div class="cart col-md-1">
-		<!--
-            int prodectInCart = 0;
-            List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
-            if (cartlist != null) {
-                prodectInCart = cartlist.length();
-            }
-            -->
 		<a href="<%=request.getContextPath()%>/front-end/shopping/cart.jsp">
-			<i class="fa">&#xf07a;</i> <span class='badge badge-cart' id='lblCartCount'>${comm_Qty[2]}</span>
+			<i class="fa">&#xf07a;</i>
+			<span class='badge badge-cart' id='lblCartCount'>${comm_Qty[2]}</span>
 		</a>
 	</div>
 	<!--End of Cart-->
