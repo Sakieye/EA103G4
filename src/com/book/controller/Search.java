@@ -44,7 +44,7 @@ public class Search extends HttpServlet {
 			}
 
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
-			List<Book> books = bookService.getByBookName(bookName);
+			List<Book> books = bookService.getByBookName(bookName, true);
 			request.setAttribute("books", books);
 			request.getRequestDispatcher(SUCESS_URL).forward(request, response);
 		} else if ("advSearch".equals(action)) { // 使用進階搜尋
@@ -101,7 +101,7 @@ public class Search extends HttpServlet {
 				for (int i = 0; i < ADV_SEARCH_CONDITIONS.length; i++) {
 					map.put(ADV_SEARCH_CONDITIONS[i], params[i]);
 				}
-				List<Book> books = bookService.getByAdvSearch(map);
+				List<Book> books = bookService.getByAdvSearch(map, true);
 				request.setAttribute("books", books);
 			} catch (Exception ex) {
 				errorMsgs.add("無法取得要查詢的資料: " + ex.getMessage());

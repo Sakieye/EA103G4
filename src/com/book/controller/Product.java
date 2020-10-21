@@ -52,7 +52,7 @@ public class Product extends HttpServlet {
 		BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 		String requestURI = request.getRequestURI();
 		String bookID = requestURI.substring(requestURI.lastIndexOf('/') + 1, requestURI.lastIndexOf('/') + 13);
-		Optional<Book> b = bookService.getByBookID(bookID);
+		Optional<Book> b = bookService.getByBookID(bookID, true);
 
 		if (b.isPresent()) {
 			Book book = b.get();

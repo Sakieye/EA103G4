@@ -56,7 +56,7 @@ public class JedisUtil {
 	}
 
 	/**
-	 * 在 Jedis Pool 以外强行销毁 Jedis
+	 * 在 Jedis Pool 以外強行銷毀 Jedis
 	 */
 	public static void destroyJedis(Jedis jedis) {
 		if (jedis != null) {
