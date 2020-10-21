@@ -163,6 +163,14 @@
 	</div>
 	<!--------------------------------------------------- 檢舉讀書會跳窗 --------------------------------------------------->
 	<jsp:include page="/front-end/footer/footer.jsp" />
+	
+	<%
+		ServletContext context = getServletContext();
+		String key = context.getInitParameter("key");
+		String key2 = context.getInitParameter("key2");
+		StringBuffer magicKey = new StringBuffer("https://maps.googleapis.com/maps/api/js?key=").append(key).append("B").append(key2).append("&libraries=places&callback=initMap");
+	%>
+	
 	<script	src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
@@ -576,9 +584,7 @@
 //     		event.preventDefault();
 // 			});
     </script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBe4jT12WuIw51Tvjr-ecpa9XzGpurlP7E&libraries=places&callback=initMap"
-		async defer></script>
+	<script	src=<%=magicKey%> async defer></script>
 </body>
 
 </html>
