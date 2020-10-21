@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -121,7 +120,6 @@ public class AddOneBook extends HttpServlet {
 			request.getRequestDispatcher("/back-end/jsp_BookManagement/AddOneBook.jsp").forward(request, response);
 			return;// 程式中斷
 		} else {
-			List<String> sucessMsg = new ArrayList<String>();
 			request.getRequestDispatcher("/UpdateBookPic?bookID=" + bookID).forward(request, response);
 		}
 	}

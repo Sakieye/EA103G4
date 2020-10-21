@@ -7,12 +7,11 @@
 <%
 	String type = request.getParameter("type");
 	List<AdVO> ads = (List<AdVO>) request.getAttribute(type);
-	
+
 	// ads.forEach(ad->System.out.println(ad.getAd_id()));
-	
+
 	int count = 1;
 	pageContext.setAttribute("ads", ads);
-	
 
 	// ads長度為0，則會顯示預設的靜態廣告
 %>
@@ -29,33 +28,22 @@
 			</ol>
 			<%
 				count = 0;
+						pageContext.setAttribute("count", count);
 			%>
 			<div class="carousel-inner">
 				<c:forEach var="ad" items="${ads}">
-					<c:choose>
-						<c:when test="<%=count == 0%>">
-							<div class="carousel-item active">
-								<a href="${ad.ad_url}">
-									<img class="d-block w-100" src="${pageContext.request.contextPath}/ShowADPic?ad_id=${ad.ad_id}">
-								</a>
-								<div class="carousel-caption d-none d-md-block" id="advertisement">
-									<p>${ad.ad_type}</p>
-								</div>
-							</div>
-						</c:when>
-						<c:otherwise>
-							<div class="carousel-item">
-								<a href="${ad.ad_url}">
-									<img class="d-block w-100" src="${pageContext.request.contextPath}/ShowADPic?ad_id=${ad.ad_id}">
-								</a>
-								<div class="carousel-caption d-none d-md-block" id="advertisement">
-									<p>${ad.ad_type}</p>
-								</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
+					<div class='carousel-item ${count eq 0 ? "active" : ""}'>
+
+						<a href="${ad.ad_url}">
+							<img class="d-block w-100" src="${pageContext.request.contextPath}/ShowADPic?ad_id=${ad.ad_id}">
+						</a>
+						<div class="carousel-caption d-none d-md-block" id="advertisement">
+							<p>${ad.ad_type}</p>
+						</div>
+					</div>
 					<%
 						count++;
+									pageContext.setAttribute("count", count);
 					%>
 				</c:forEach>
 			</div>
