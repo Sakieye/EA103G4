@@ -9,6 +9,7 @@
             text-decoration: none;
             color: #666;
         }
+        
         .content{
         	height: 800px;
         	width: 100%;
@@ -16,8 +17,13 @@
 		    align-items:center;
 		    justify-content:center;
 		    background-color: #E0E0E0;
-		  
+		    font-family: "Helvetica", "Arial","LiHei Pro", sans-serif;
 		    font-weight: 700;
+		    background-image: url(../images/4.jpg);
+			background-size: cover;
+			background-attachment: fixed;
+			background-position: center;
+			position: relative;
         }
         .menuDiv{   	
         	color: #fff;
@@ -46,7 +52,6 @@
 			background-color: #E0E0E0;
         }
         .mem-info img{
-        	border-radius: 100%;
         	box-shadow:0 0 15px #5B4B00;
         	margin-left: 120px;
         }
@@ -158,5 +163,6 @@
        	background-color:#00104F;
        	color:white !important;
        }
+       
        
         

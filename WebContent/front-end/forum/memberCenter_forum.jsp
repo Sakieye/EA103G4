@@ -5,15 +5,8 @@
 <%@ page import="com.mem.model.*"%>
 <%@ page import="com.Fa.model.*"%>
 
-<%
-// 	MemVO memVO = (MemVO) session.getAttribute("memVO");
-// 	String memId = memVO.getMem_id();
-// 	FaService faSvc = new FaService();
-// 	List<FaVO> list = faSvc.getOneMemFa(memId);
-// 	pageContext.setAttribute("list", list);
-%>
-<jsp:useBean id="memVO" scope="session" type="com.mem.model.MemVO"/>
-<jsp:useBean id="faSvc" scope="page" class="com.Fa.model.FaService"/>
+<jsp:useBean id="memVO" scope="session" type="com.mem.model.MemVO" />
+<jsp:useBean id="faSvc" scope="page" class="com.Fa.model.FaService" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,7 +75,8 @@
 					</div>
 					<hr>
 					<%@ include file="page_memberCenter_forum.file"%>
-					<c:forEach var="faVO" items="${faSvc.getOneMemFa(memVO.getMem_id())}" varStatus="update" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+					<c:forEach var="faVO" items="${faSvc.getOneMemFa(memVO.getMem_id())}" varStatus="update" begin="<%=pageIndex%>"
+						end="<%=pageIndex+rowsPerPage-1%>">
 						<div class="row" id=forum_record>
 							<div class="col-md-8">
 								<a href="<%=request.getContextPath() %>/front-end/forum/fa.do?action=getOne_For_Display&faId=${faVO.faId}" target="_blank">${faVO.faTopic}</a>
@@ -103,24 +97,32 @@
 												</button>
 											</div>
 											<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
-											<div class="modal-body">
-												<p>
-													<label for="topic">主題 :</label>
-													<input type="text" name="faTopic" value="${faVO.faTopic}">
-												</p>
-												<p>
-													<label for="content">內容 :</label>
-													<textarea id="summernote${update.index}" name="faContent">${faVO.faContent}</textarea>
-												</p>
-												<p style="display: inline-flex;">
-													<input type="submit">
-													<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="取消">
-													<input type="hidden" name="action" value="update">
-													<input type="hidden" name="memId" value="${memVO.mem_id}">
-													<input type="hidden" name="faId" value="${faVO.faId}">
-												</p>
-											</div>
-											
+												<div class="modal-body">
+													<c:if test="${not empty errorMsgs}">
+														<font style="color: red">請修正以下錯誤:</font>
+														<ul>
+															<c:forEach var="message" items="${errorMsgs}">
+																<li style="color: red">${message}</li>
+															</c:forEach>
+														</ul>
+													</c:if>
+													<p>
+														<label for="topic">主題 :</label>
+														<input type="text" name="faTopic" value="${faVO.faTopic}" id="faTopic">
+													</p>
+													<p>
+														<label for="content">內容 :</label>
+														<textarea id="summernote${update.index}" name="faContent" id="faContent">${faVO.faContent}</textarea>
+													</p>
+													<p style="display: inline-flex;">
+														<input type="submit" >
+														<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="取消">
+														<input type="hidden" name="action" value="update">
+														<input type="hidden" name="memId" value="${memVO.mem_id}">
+														<input type="hidden" name="faId" value="${faVO.faId}">
+													</p>
+												</div>
+
 											</form>
 										</div>
 									</div>
@@ -151,12 +153,12 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-	
+
 	<script type="text/javascript">
 		var summerIdIndex = ${faSvc.getOneMemFa(memVO.getMem_id()).size()};
- 	</script> 
- 	<!-- include summernote css/js -->
+	</script>
+	<!-- include summernote css/js -->
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
- 	<script src="<%=request.getContextPath()%>/js/summernote_updateFa.js"></script>
+	<script src="<%=request.getContextPath()%>/js/summernote_updateFa.js"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@
 	FaService faSvc = new FaService();
 	List<FaVO> list = faSvc.getAll_Index();
 	pageContext.setAttribute("list", list);
+	
 %>
 <jsp:useBean id="fmSvc" scope="page" class="com.Fm.model.FmService" />
 <!DOCTYPE HTML>
@@ -23,11 +24,14 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumIndex.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 
 <body class="subpage">
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
+	
 	<!-- Header -->
 	<!-- One -->
 	<section id="One" class="wrapper style3">
@@ -118,6 +122,11 @@
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 
+	 <!-- jQuery v1.9.1 -->
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <!-- toastr v2.1.4 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script>
@@ -130,7 +139,28 @@
 				$("#heading2>a>b").css("color", "red");
 				$("#heading1>a>b").css("color", "green");
 			}
+			if(`${exp}` !== ""){
+				toastr['success']('新增文章成功啦！', '${exp}');
+			}
+			
 		})
+		toastr.options = {
+  				closeButton: true,
+  				debug: false,
+  				newestOnTop: false,
+  				progressBar: true,
+  				positionClass: "toast-top-right",
+  				preventDuplicates: false,
+  				onclick: null,
+  				showDuration: "300",
+  				hideDuration: "1000",
+  				timeOut: "5000",
+  				extendedTimeOut: "1000",
+  				showEasing: "swing",
+  				hideEasing: "linear",
+  				showMethod: "fadeIn",
+  				hideMethod: "fadeOut"
+		};
 	</script>
 </body>
 
