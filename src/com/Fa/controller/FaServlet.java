@@ -70,7 +70,7 @@ public class FaServlet extends HttpServlet {
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-
+			
 			try {
 				String memId = req.getParameter("memId");
 				if (memId == null || memId.trim().length() == 0) {
@@ -109,8 +109,18 @@ public class FaServlet extends HttpServlet {
 				/*************************** 2.新增資料 ***************************************/
 				FaService faSvc = new FaService();
 				faVO = faSvc.addFa(memId, faTopic, faContent);
-
+				
+				MemService memSvc = new MemService();
+				MemVO memVO = memSvc.getOneMem(memId);
+				memVO.setMem_exp(memVO.getMem_exp()+50);
+				memSvc.updateExp(memVO);
+				
+				
+				
+				HttpSession session = req.getSession();
+				session.setAttribute("memVO", memVO);
 				req.setAttribute("faVO", faVO);
+				req.setAttribute("exp", "經驗值 + 50");
 				String url = "/front-end/forum/forumIndex.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -166,9 +176,6 @@ public class FaServlet extends HttpServlet {
 				if (faContent == null || faContent.trim().length() == 0) {
 					errorMsgs.add("內容勿空白!!");
 				}
-			
-				
-				
 			
 				FaVO faVO = new FaVO();
 
