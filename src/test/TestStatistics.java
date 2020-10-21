@@ -1,4 +1,4 @@
-package com.test;
+package test;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

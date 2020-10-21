@@ -1,0 +1,23 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+  <%if (rowsPerPage < rowNumber) {%>
+    <%if(pageIndex >= rowsPerPage){%>
+        <a href="${request.header("Referer")}?whichPage=1">至第一頁</A>&nbsp;
+        <a href="${request.header("Referer")}?whichPage=<%=whichPage-1%>">上一頁 </A>&nbsp;
+    <%}%>
+  
+    <%if(pageIndex < pageIndexArray[pageNumber-1]){%>
+        <a href='${request.header("Referer")}?whichPage=<%=whichPage+1%>'>下一頁 </A>&nbsp;
+        <a href="${request.header("Referer")}?whichPage=<%=pageNumber%>">至最後一頁</A>&nbsp;
+    <%}%>
+  <%}%>  
+  
+  <%if (pageNumber>1) {%>
+    <form metho="get" action="${request.header("Referer")}" style="display:inline-block">
+        <span>
+        <label for="whichPage">跳轉至第 
+        <input type="number" id="whichPage" name="whichPage" value='${param.whichPage}' style="background:#FFF ;border:1px solid #ced4da; border-radius:.25rem; padding:4px 6px;">
+                         頁</label></span>
+        <button class="btn btn-primary btn-sm" type="submit" style="position:relative; bottom: 3px; left:6px; height:auto; color:#FFF !important;">確認</button>
+    </form>
+  <%}%>

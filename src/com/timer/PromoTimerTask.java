@@ -81,10 +81,10 @@ public class PromoTimerTask extends TimerTask {
 			currentValidPromos.append(promo.getPromoID()).append(":00:00").append(",");
 		});
 
-		// =====失效促銷事件處理=====
+		// 失效促銷事件處理
 		removePromos(removePromos);
 
-		// =====生效促銷事件處理=====
+		// 生效促銷事件處理
 		newPromos(newPromos);
 
 		bookService.updateEffPromos(currentValidPromos.toString());
@@ -208,7 +208,6 @@ public class PromoTimerTask extends TimerTask {
 							book.setBookBPPromo(bookBPPromo);
 						}
 					} else { // 仍有其他作用中的促銷事件
-						// 仍有其他作用中的促銷事件
 						int[] maxDiscountAndMaxBpPercent = { pd.getDiscount(), pd.getBpPercent() };
 
 						String[] ohterPromos = effectivePromos.split(",");

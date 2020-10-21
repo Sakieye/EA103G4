@@ -1,4 +1,4 @@
-package com.test;
+package test;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

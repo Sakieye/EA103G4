@@ -1,4 +1,4 @@
-package com.test;
+package test;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;

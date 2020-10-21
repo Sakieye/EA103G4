@@ -29,6 +29,7 @@
 <!--下拉式書籍類別選單-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
+
 </head>
 
 <body>
@@ -49,12 +50,11 @@
 				request.setAttribute("adList1", ads.subList(0, ads.size() / 2));
 				request.setAttribute("adList2", ads.subList((ads.size() / 2), ads.size()));
 			%>
-			<jsp:include page="/front-end/bookshop-eshop/ADSliderHorizontal.jsp">
+			<jsp:include page="/front-end/bookshop-eshop/adSliderHorizontal.jsp">
 				<jsp:param name="type" value="adList1" />
 			</jsp:include>
 			<!-- End of Advertisements1 -->
 			<hr>
-			<!-- Bestsellers -->
 			<%
 				// 待Redis銷售統計完成再修正bestsellers取得方式
 				BookService bookService = (BookService) getServletContext().getAttribute("bookService");
@@ -73,7 +73,7 @@
 				List<Book> promoBooks = bookService.getPromoBooks(30, promoDetailService, promoService);
 				List<Book> newBooks = bookService.getNewBooks(30);
 
-				// 將bestsellers等slider需要的物件設定在request scope，使ProductSlider.jsp取出
+				// 將bestsellers等slider需要的物件設定在request scope，使productSlider.jsp取出
 				request.setAttribute("popularBooks", popularBooks);
 				request.setAttribute("celebrityBooks", celebrityBooks);
 				request.setAttribute("promoBooks", promoBooks);
@@ -81,17 +81,15 @@
 
 				// 需傳入自訂名稱的書籍清單，並把type參數設定為此名稱，title參數則為顯示標題
 			%>
-			<!-- End of Bestsellers -->
-			<hr>
 			<!-- Popular Books -->
-			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
+			<jsp:include page="/front-end/bookshop-eshop/productSlider.jsp">
 				<jsp:param name="title" value="熱門書籍" />
 				<jsp:param name="type" value="popularBooks" />
 			</jsp:include>
 			<!-- End of Popular Books -->
 			<hr>
 			<!-- Celebrity Books -->
-			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
+			<jsp:include page="/front-end/bookshop-eshop/productSlider.jsp">
 				<jsp:param name="title" value="逸洪的私房書單" />
 				<jsp:param name="type" value="celebrityBooks" />
 			</jsp:include>
@@ -99,14 +97,14 @@
 			<hr>
 			<br>
 			<!-- Advertisements2 -->
-			<jsp:include page="/front-end/bookshop-eshop/ADSliderHorizontal.jsp">
+			<jsp:include page="/front-end/bookshop-eshop/adSliderHorizontal.jsp">
 				<jsp:param name="type" value="adList2" />
 			</jsp:include>
 			<!-- End of Advertisements2 -->
 			<hr>
 			<!-- Promo Products -->
 			<c:if test="${promoBooks.size() > 0}">
-				<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
+				<jsp:include page="/front-end/bookshop-eshop/productSlider.jsp">
 					<jsp:param name="title" value="特惠主題" />
 					<jsp:param name="type" value="promoBooks" />
 				</jsp:include>
@@ -114,7 +112,7 @@
 				<hr>
 			</c:if>
 			<!-- New Books -->
-			<jsp:include page="/front-end/bookshop-eshop/ProductSlider.jsp">
+			<jsp:include page="/front-end/bookshop-eshop/productSlider.jsp">
 				<jsp:param name="title" value="注目新品" />
 				<jsp:param name="type" value="newBooks" />
 			</jsp:include>
@@ -138,6 +136,16 @@
 	<script src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
 	<!--Header下拉式書籍類別選單-->
 	<script src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
+	<!--錯誤訊息提示-->
+	<%
+		List<String> errorMsgs = (ArrayList<String>) request.getAttribute("errorMsgs");
+		pageContext.setAttribute("errorMsgs", errorMsgs);
+	%>
+	<c:if test="${errorMsgs.size()>0}">
+		<script type="text/javascript">
+			alert("${errorMsgs}");
+		</script>
+	</c:if>
 </body>
 
 </html>

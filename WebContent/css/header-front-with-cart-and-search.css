@@ -11,7 +11,7 @@
 }
 
 .cart a:hover {
-    color: lightgray;
+	color: lightgray;
 }
 
 .badge-cart {
@@ -41,9 +41,14 @@
 	position: relative;
 	display: inline-block;
 	top: 20%;
-	left: 12.5%;
+	left: 7.4%;
 	float: left;
 	padding-right: 0;
+}
+
+#normal-search-form {
+    margin: 0;
+    left: 6.5%;
 }
 
 .search-bar input {
@@ -65,13 +70,12 @@
 	border-radius: 0;
 	height: 2em;
 	border: lightgray;
-	font-size: 14.5px;
 	border: 1px solid lightgray;
 	border-left: 0;
 }
 
 .search-icon {
-	left: 8.8%;
+	padding-left: 0;
 }
 
 .search-btn {
@@ -85,8 +89,8 @@
 .advanced-search-form {
 	position: absolute;
 	background-color: #fff;
-	left: 57.6%;
-	top: 6.2%;
+	left: 61.2%;
+	top: 14vh;
 	padding: 0;
 	width: 21.3%;
 	font-size: 12px;
@@ -187,7 +191,6 @@ input[type=number]::-webkit-inner-spin-button {
 
 #categories-menu {
 	position: relative;
-	left: 12%;
 	z-index: 10;
 }
 
@@ -205,3 +208,4 @@ input[type=number]::-webkit-inner-spin-button {
 #categories-menu-first-ul {
 	background: #F2F2F2;
 }
+
