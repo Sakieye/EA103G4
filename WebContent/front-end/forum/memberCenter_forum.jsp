@@ -6,13 +6,14 @@
 <%@ page import="com.Fa.model.*"%>
 
 <%
-	MemVO memVO = (MemVO) session.getAttribute("memVO");
-	String memId = memVO.getMem_id();
-	FaService faSvc = new FaService();
-	List<FaVO> list = faSvc.getOneMemFa(memId);
-	pageContext.setAttribute("list", list);
+// 	MemVO memVO = (MemVO) session.getAttribute("memVO");
+// 	String memId = memVO.getMem_id();
+// 	FaService faSvc = new FaService();
+// 	List<FaVO> list = faSvc.getOneMemFa(memId);
+// 	pageContext.setAttribute("list", list);
 %>
-
+<jsp:useBean id="memVO" scope="session" type="com.mem.model.MemVO"/>
+<jsp:useBean id="faSvc" scope="page" class="com.Fa.model.FaService"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,11 +81,11 @@
 						<div class="col-md-1"></div>
 					</div>
 					<hr>
-					<%@ include file="pageForMemberCenter_forum.file"%>
-					<c:forEach var="faVO" items="${list}" varStatus="update" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+					<%@ include file="page_memberCenter_forum.file"%>
+					<c:forEach var="faVO" items="${faSvc.getOneMemFa(memVO.getMem_id())}" varStatus="update" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 						<div class="row" id=forum_record>
 							<div class="col-md-8">
-								<a href="<%=request.getContextPath() %>/front-end/forum/fa.do?action=getOne_For_Display&faId=${faVO.faId}">${faVO.faTopic}</a>
+								<a href="<%=request.getContextPath() %>/front-end/forum/fa.do?action=getOne_For_Display&faId=${faVO.faId}" target="_blank">${faVO.faTopic}</a>
 							</div>
 							<div class="col-md-2">
 								<fmt:formatDate value="${faVO.faDate}" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -115,9 +116,8 @@
 													<input type="submit">
 													<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="¨ú®ø">
 													<input type="hidden" name="action" value="update">
-													<input type="hidden" name="memId" value="${sessionScope.memVO.mem_id}">
+													<input type="hidden" name="memId" value="${memVO.mem_id}">
 													<input type="hidden" name="faId" value="${faVO.faId}">
-													
 												</p>
 											</div>
 											
@@ -152,23 +152,11 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	
-	<!-- include summernote css/js -->
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					for(let i = 0; i < `${list.size()}`;i++){
-					$('#summernote'+i).summernote(
-							{
-								fontSizes : [ '8', '9', '10', '11', '12', '14',
-										'18', '24', '36', '48', '64', '82',
-										'150' ],
-								height : 300,
-								lang : 'zh-CN',
-								focus : true
-							})
-					}
-				});
-	</script>
+		var summerIdIndex = ${faSvc.getOneMemFa(memVO.getMem_id()).size()};
+ 	</script> 
+ 	<!-- include summernote css/js -->
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+ 	<script src="<%=request.getContextPath()%>/js/summernote_updateFa.js"></script>
 </body>
 </html>

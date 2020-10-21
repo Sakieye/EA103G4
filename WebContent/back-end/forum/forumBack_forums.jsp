@@ -56,6 +56,9 @@ html {
 .modal-dialog {
 	top: 180px;
 }
+#faContent img{
+	max-width:700px;
+}
 </style>
 </head>
 
@@ -113,14 +116,14 @@ html {
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal_1${vs.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
-									<div class="modal-content">
+									<div class="modal-content" style="width:800px;">
 										<div class="modal-header">
 											<h5 class="modal-title" id="exampleModalLabel">${faSvc.getOneFa(farVO.faId).faTopic}</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
-										<div class="modal-body">${faSvc.getOneFa(farVO.faId).faContent}</div>
+										<div class="modal-body" id="faContent">${faSvc.getOneFa(farVO.faId).faContent}</div>
 
 									</div>
 								</div>

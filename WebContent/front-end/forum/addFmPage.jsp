@@ -3,7 +3,6 @@
 <%@ page import="com.Fa.model.*"%>
 <!DOCTYPE HTML>
 <html>
-
 <head>
 <title>BookShop討論區</title>
 <meta charset="utf-8" />
@@ -18,7 +17,6 @@
 <body class="subpage">
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
-
 	<!-- Two -->
 	<section id="two" class="wrapper style2">
 		<div class="inner">
@@ -70,23 +68,8 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<!-- include summernote css/js -->
-
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
-	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					$('#summernote').summernote(
-							{
-								fontSizes : [ '8', '9', '10', '11', '12', '14',
-										'18', '24', '36', '48', '64', '82',
-										'150' ],
-								height : 300,
-								lang : 'zh-CN',
-								focus : true
-							})
-				});
-	</script>
+	<script src="<%=request.getContextPath()%>/js/summernote.js"></script>
 </body>
 
 </html>

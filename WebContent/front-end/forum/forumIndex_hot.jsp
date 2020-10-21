@@ -11,7 +11,6 @@
 	pageContext.setAttribute("list", list);
 %>
 
-
 <!DOCTYPE HTML>
 <html>
 
@@ -80,7 +79,7 @@
 						</div>
 						
 					</div>
-				<%@ include file="page1.file" %> 
+				
 				<hr>
 				
 					<div class="container">
@@ -90,7 +89,7 @@
 							<div class="col-md-2" style="font-weight:900;">觀看數</div>
 						</div>
 						<hr>
-						
+						<%@ include file="page1.file" %> 
 						<c:forEach var="faVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 								<div class="row">
 									<div class="col-md-8" id="aTopic">

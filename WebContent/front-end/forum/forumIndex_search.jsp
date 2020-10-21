@@ -7,10 +7,7 @@
 <%@ page import="com.mem.model.*"%>
 <%@ page import="java.util.*"%>
 
-<%
-		List<FaVO> list = (List<FaVO>)session.getAttribute("list");
-		pageContext.setAttribute("list", list);
-%>
+<jsp:useBean id="list" scope="session" type="java.util.List<FaVO>"/>
 <jsp:useBean id="fmSvc" scope="page" class="com.Fm.model.FmService"/>
 <!DOCTYPE HTML>
 <html>
@@ -79,7 +76,7 @@
 						</div>
 						
 					</div>
-					<%@ include file="page1.file" %>
+					
 				<hr>
 			
 					<div class="container">
@@ -89,7 +86,7 @@
 							<div class="col-md-2" style="font-weight:900;">回應數</div>
 						</div>
 						<hr>
-						 
+						 <%@ include file="page1.file" %>
 						<c:forEach var="faVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 								<div class="row">
 									<div class="col-md-8" id="aTopic">
@@ -99,23 +96,16 @@
 										<fmt:formatDate value="${faVO.faDate}"
 											pattern="yyyy-MM-dd HH:mm:ss" />
 									</div>
-									
-										
 										<div class="col-md-2">${fmSvc.getFmResponsesByFaId(faVO.faId)}</div>
-										
-									
 								</div>
 								<hr>
 							
 						</c:forEach>
 						<%@ include file="page2.file" %>
 					</div>
-					
 				</div>
-				
 			</div>
 		</div>
-		
 	</section>
 	<!-- Footer -->
 	<jsp:include page="/front-end/footer/footer.jsp"/>

@@ -60,6 +60,9 @@ html {
 .modal-dialog {
 	top: 180px;
 }
+#faContent img{
+	max-width:700px;
+}
 </style>
 </head>
 
@@ -130,7 +133,7 @@ html {
 								tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 								aria-hidden="true">
 								<div class="modal-dialog" role="document">
-									<div class="modal-content">
+									<div class="modal-content" style="width:800px;">
 										<div class="modal-header">
 
 											<button type="button" class="close" data-dismiss="modal"
@@ -138,7 +141,7 @@ html {
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
-										<div class="modal-body">${fmSvc.getOneFm(fmrVO.fmId).fmContent}</div>
+										<div class="modal-body" id="faContent">${fmSvc.getOneFm(fmrVO.fmId).fmContent}</div>
 
 									</div>
 								</div>

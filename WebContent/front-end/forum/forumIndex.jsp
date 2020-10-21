@@ -80,11 +80,8 @@
 								<input type="submit" value="我要發佈" onclick="location.href='addFaPage.jsp'">
 							</div>
 						</div>
-
 					</div>
-					
 					<hr>
-
 					<div class="container">
 						<div class="row">
 							<div class="col-md-8" id="title" style="font-weight: bold;">主題</div>
@@ -102,23 +99,15 @@
 								<div class="col-md-2">
 									<fmt:formatDate value="${faVO.faDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 								</div>
-
-
 								<div class="col-md-2">${fmSvc.getFmResponsesByFaId(faVO.faId)}</div>
-
-
 							</div>
 							<hr>
-
 						</c:forEach>
 						<%@ include file="page2.file"%>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
-
 	</section>
 	<!-- Footer -->
 	<jsp:include page="/front-end/footer/footer.jsp" />

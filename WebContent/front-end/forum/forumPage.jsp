@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 
-
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService" />
 
 <!DOCTYPE HTML>
@@ -19,8 +18,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumPage.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 
 <body class="subpage">
