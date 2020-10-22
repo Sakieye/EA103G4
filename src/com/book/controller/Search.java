@@ -118,7 +118,9 @@ public class Search extends HttpServlet {
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 			CategoryService categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
 			List<Book> books = bookService.getByParentCategoryID(categoryID, categoryService, true);
+			
 			request.setAttribute("books", books);
+			request.setAttribute("catLevelMap", categoryService.getCatLevelMap(categoryID));
 			request.getRequestDispatcher(SUCESS_URL).forward(request, response);
 
 		} else if (session != null) { // 換頁操作(session中保有前次的查詢結果和本次請求第幾頁)
@@ -126,6 +128,9 @@ public class Search extends HttpServlet {
 			if (session.getAttribute("books") != null && (whichPage != null)) {
 				request.setAttribute("whichPage", whichPage);
 				request.setAttribute("books", session.getAttribute("books"));
+				if (session.getAttribute("catLevelMap") != null) {
+					request.setAttribute("catLevelMap", session.getAttribute("catLevelMap"));
+				}
 				request.getRequestDispatcher(SUCESS_URL).forward(request, response);
 			}
 		}

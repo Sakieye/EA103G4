@@ -51,11 +51,16 @@
 					<%
 						//若是未查詢，會是空List或是前一次搜尋結果
 						List<Book> books = (ArrayList<Book>) request.getAttribute("books");
+						Map<String, String> catLevelMap = (Map<String, String>) request.getAttribute("catLevelMap");
 						session.setAttribute("books", books);
+						session.setAttribute("catLevelMap", catLevelMap);
 					%>
 					<c:choose>
 						<c:when test="${not empty books}">
 							<div class="page col-md-12">
+								<!--類別查詢才顯示類別階層-->
+								<%@ include file="/front-end/bookshop-eshop/breadcrumb.jsp"%>
+								<!--換頁-->
 								<%@ include file="/front-end/shopping/page1.file"%>
 								<%@ include file="/front-end/shopping/page2.file"%>
 							</div>
@@ -66,8 +71,7 @@
 										<div class="card" id="booklist" onclick="<%=request.getContextPath()%> ">
 											<div class="card-top">
 												<form class="form-inline" name="cartFrom" method="get" action="${pageContext.request.contextPath}/Product/${book.bookID}">
-													<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
-													<input type="hidden" name="action" value="BOOKDETAIL">
+													<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}"> <input type="hidden" name="action" value="BOOKDETAIL">
 												</form>
 											</div>
 											<div class="card-body">
@@ -77,11 +81,8 @@
 													</a>
 												</div>
 												<div class="card-body-price" style="width: 120px; height: 30px; text-align: left;">
-													<span id="price">
-														$
-														<b>
-															<fmt:formatNumber type="number" value="${book.bookRealPrice}" maxFractionDigits="0" />
-														</b>
+													<span id="price"> $ <b> <fmt:formatNumber type="number" value="${book.bookRealPrice}" maxFractionDigits="0" />
+													</b>
 													</span>
 												</div>
 											</div>
@@ -89,16 +90,9 @@
 											<form class="form-inline" name="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
 												<div class="card-body-car" style="text-align: left;">
 													<h5 style="margin: 60px 0px 2px 16px;">
-														數量：
-														<input type="number" name="comm_Qty" step="1" min="1" max="50" value="1" style="width: 35%; height: 10%;">
+														數量： <input type="number" name="comm_Qty" step="1" min="1" max="50" value="1" style="width: 35%; height: 10%;">
 													</h5>
-													<input type="hidden" name="mem_Id" value="visitors">
-													<input type="hidden" name="book_Name" value="${book.bookName}">
-													<input type="hidden" name="book_Id" value="${book.bookID}">
-													<input type="hidden" name="isbn" value="${book.isbn}">
-													<input type="hidden" name="book_BP" value="${book.bookRealBP}">
-													<input type="hidden" name="publisher_Id" value="${book.publisherID}">
-													<input type="hidden" name="price" value="${book.bookRealPrice}">
+													<input type="hidden" name="mem_Id" value="visitors"> <input type="hidden" name="book_Name" value="${book.bookName}"> <input type="hidden" name="book_Id" value="${book.bookID}"> <input type="hidden" name="isbn" value="${book.isbn}"> <input type="hidden" name="book_BP" value="${book.bookRealBP}"> <input type="hidden" name="publisher_Id" value="${book.publisherID}"> <input type="hidden" name="price" value="${book.bookRealPrice}">
 													<button type="submit" class="card-body-btn" name="action" value="ADD">
 														<img alt="404 NOT FOUND" class="card-img-body" onClick="herf='<%=request.getContextPath()%>/front-end/shopping/bookindex.jsp'" src="<%=request.getContextPath()%>/images/cliff/car.gif">
 													</button>

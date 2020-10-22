@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 public class CategoryService {
 	private final CategoryDAO categoryDAO;
@@ -111,14 +112,15 @@ public class CategoryService {
 
 	public Map<String, List<Category>> getCategoryTree() {
 		List<Category> allCats = getAll();
-		Map<String, List<Category>> catMap = new LinkedHashMap<String, List<Category>>(); // parentCatID : [childCats...]
+		Map<String, List<Category>> catMap = new LinkedHashMap<String, List<Category>>(); // parentCatID :
+																							// [childCats...]
 
 		allCats.forEach(cat -> {
 			String parentCatID = cat.getParentCategoryID();
 			String catName = cat.getCategoryName();
 			List<Category> childCats = catMap.get(parentCatID);
 
-			//類別名稱只留最後一個,後的字串
+			// 類別名稱只留最後一個,後的字串
 			int lastIdxOfCamma = catName.lastIndexOf(',');
 			if (lastIdxOfCamma != -1) {
 				cat.setCategoryName(catName.substring(lastIdxOfCamma + 1));
@@ -132,12 +134,33 @@ public class CategoryService {
 			}
 
 		});
-		
+
 //		catMap.forEach((k, v) -> {
 //			System.out.println(k);
 //			v.forEach(cat -> System.out.println(cat));
 //		});
 
 		return catMap;
+	}
+
+	public Map<String, String> getCatLevelMap(String categoryID) {
+		Map<String, String> catLevelMap = new TreeMap<String, String>(); // ID : Name
+		Optional<Category> cat = getByCategoryID(categoryID);
+		if (cat.isPresent()) {
+			String categoryName = cat.get().getCategoryName();
+			String[] catagoryNameLevel = categoryName.split(",");
+
+			for (int i = catagoryNameLevel.length - 1; i > -1; i--) {
+				catLevelMap.put(categoryID, catagoryNameLevel[i]);
+				categoryID = cat.get().getParentCategoryID();
+				cat = getByCategoryID(categoryID);
+
+				if (!cat.isPresent()) {
+					break;
+				}
+			}
+		}
+//		catLevelMap.forEach((k, v) -> System.out.println(k + " - " + v));
+		return catLevelMap;
 	}
 }
