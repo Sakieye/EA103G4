@@ -147,8 +147,7 @@
 									  	  <button type="submit" class="btn btn-primary mybtn2" data-toggle="modal" data-target="#exampleModalCenter${orderNO.index}">
   											 點我
 										  </button>	      	 
-										<!-- Modal -->								   
-										  
+										<!-- Modal -->
 											<div class="modal fade" id="exampleModalCenter${orderNO.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 											  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 											    <div class="modal-content">

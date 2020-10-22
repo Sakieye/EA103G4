@@ -364,4 +364,10 @@ public class RevDAOJDBC implements RevDAO_interface {
 			System.out.println();
 		}
 	}
+
+	@Override
+	public List<RevVO> getByBookId(String book_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

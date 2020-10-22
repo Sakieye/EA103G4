@@ -9,6 +9,8 @@ import javax.servlet.http.*;
 import com.mem.model.MemService;
 import com.mem.model.MemVO;
 
+import redis.clients.jedis.Jedis;
+
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -106,11 +108,16 @@ public class Mail extends HttpServlet {
 				mem_birth = new java.sql.Date(System.currentTimeMillis());
 				errorMsgs.put("birth", "請輸入日期");
 			}
-
-			String mem_addr = req.getParameter("mem_addr").trim();
+			
+			String city = req.getParameter("city").trim();//縣市
+			String town = req.getParameter("town").trim();//地區
+			String zipcode = req.getParameter("zipcode").trim();//郵遞區號
+			String mem_addr = req.getParameter("mem_addr").trim();//地址
 			if (mem_addr == null || mem_addr.trim().length() == 0)
 				errorMsgs.put("addr", "地址欄請勿空白");
 
+			String addr = city + town + zipcode + mem_addr;
+			
 			String mem_tel = req.getParameter("mem_tel").trim();
 			if (mem_tel == null || mem_tel.trim().length() == 0)
 				errorMsgs.put("tel", "電話欄請勿空白");
@@ -134,7 +141,7 @@ public class Mail extends HttpServlet {
 			memVO.setMem_nickname(mem_nickname);
 			memVO.setMem_sex(mem_sex);
 			memVO.setMem_birth(mem_birth);
-			memVO.setMem_addr(mem_addr);
+			memVO.setMem_addr(addr);
 			memVO.setMem_tel(mem_tel);
 			memVO.setMem_pic(mem_pic);
 
@@ -147,15 +154,19 @@ public class Mail extends HttpServlet {
 			}
 
 			/* 確認無錯誤後，接收Email請求參數 */
-			String from = req.getParameter("from");
 			String subject = req.getParameter("subject");
 			String genAuthCode = new Mail().genAuthCode();
 			String text = "請將以下驗證碼複製後，貼至註冊驗證頁面: " + genAuthCode;
 
 			/*************************** 3.打包完成,準備轉交(Send the Success view) ***********/
-
+			//驗證碼存入 redis
+			Jedis jedis = new Jedis("localhost", 6379);
+			jedis.auth("123456");
+			jedis.set(memVO.getMem_email(), genAuthCode);
+			jedis.expire(memVO.getMem_email(), 300); //過期時間五分鐘
+			jedis.close();
+			
 			HttpSession session = req.getSession();
-			session.setAttribute("genAuthCode", genAuthCode); // 驗證碼比對用
 			session.setAttribute("memVO", memVO); // 將memVO存在session中，尚未存進資料庫
 			String url = "/front-end/member/confirmationCode.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功後轉交confirmationCode.jsp
@@ -163,10 +174,8 @@ public class Mail extends HttpServlet {
 
 			/* 寄出 */
 			try {
-				Message message = createMessage(from, memVO.getMem_email(), subject, text);
+				Message message = createMessage(username, memVO.getMem_email(), subject, text);
 				Transport.send(message);
-//				res.getWriter().println("郵件傳送成功");
-//				System.out.println("郵件傳送成功");
 			} catch (MessagingException e) {
 				throw new RuntimeException(e);
 			}

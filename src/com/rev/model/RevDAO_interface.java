@@ -9,4 +9,5 @@ public interface RevDAO_interface {
     public RevVO findByPrimaryKey(String rev_id);
     public List<RevVO> findByMemId(String mem_id);
     public List<RevVO> getAll();
+    public List<RevVO> getByBookId(String book_id);
 }

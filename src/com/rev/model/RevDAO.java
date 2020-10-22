@@ -33,7 +33,8 @@ public class RevDAO implements RevDAO_interface{
 	private static final String GET_BY_MEMID = "SELECT * FROM REVIEW_RECORD WHERE MEM_ID = ?";
 	private static final String DELETE = "DELETE FROM REVIEW_RECORD WHERE REV_ID = ?";
 	private static final String UPDATE_STATUS = "UPDATE REVIEW_RECORD SET REV_STATUS=? WHERE REV_ID=?";
-
+	private static final String GET_BY_BOOK_ID = "SELECT * FROM REVIEW_RECORD WHERE BOOK_ID = ?";
+	
 	@Override
 	public void insert(RevVO revVO) {
 		Connection con = null;
@@ -265,6 +266,63 @@ public class RevDAO implements RevDAO_interface{
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				revVO = new RevVO();
+				revVO.setRev_id(rs.getString("rev_id"));
+				revVO.setMem_id(rs.getString("mem_id"));
+				revVO.setBook_id(rs.getString("book_id"));
+				revVO.setRev_content(rs.getString("rev_content"));
+				revVO.setRev_status(rs.getInt("rev_status"));
+				revVO.setRev_date(rs.getTimestamp("rev_date"));
+				list.add(revVO);
+			}
+		
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<RevVO> getByBookId(String book_id) {
+		List<RevVO> list = new ArrayList<RevVO>();
+		RevVO revVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_BY_BOOK_ID);
+			
+			pstmt.setString(1, book_id);
+			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
