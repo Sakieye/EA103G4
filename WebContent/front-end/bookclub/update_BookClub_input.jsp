@@ -18,6 +18,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>讀書會資料修改</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.datetimepicker.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
@@ -28,15 +29,12 @@
 	<div class="container">
 		<div class="row">
 			<jsp:include page="/front-end/header/header.jsp" />
-		
 		</div>
-
 	</div>
 	<div class="container">
 		<div class="row" id="container">
 			<div class="col-12">
-				<h1>讀書會修改</h1>
-				<h1></h1>
+				
 				<div style="font-size: 40px">
 					<b>讀書會資料修改</b>
 				</div>
@@ -44,7 +42,7 @@
 					enctype="multipart/form-data">
 					<table class="table table-striped">
 						<tr>
-							<td>讀書會編號:<font color=red><b>*</b></font></td>
+							<td>讀書會編號:</td>
 							<td>${bookClubVO.bc_id}</td>
 						</tr>
 						<tr>
@@ -54,12 +52,11 @@
 								value="${bookClubVO.bc_name}" /></td>
 						</tr>
 						<tr>
-
 							<td>地點:</td>
-
-							<td><div class="erroMsgs">${errorMsgs.bc_place}</div>
-								<div id="twzipcode"></div> <input id="address" type="text"
-								name="bc_place" size="45" value="${bookClubVO.bc_place}" /></td>
+							<td><button type="button" class="style-6e8fa4a0-register-button" style="display:none"
+							data-toggle="modal" data-target="#address-map">選擇地點</button>
+							<input type="text" class="form-control in" maxlength="30"
+							name="bc_place" value="${bookClubVO.bc_place}" id="address_out" ></td>
 						</tr>
 						<tr>
 							<td>活動開始時間:</td>
@@ -68,7 +65,6 @@
 								value="<fmt:formatDate value="${bookClubVO.bc_time_start}" pattern="yyyy-MM-dd HH:mm"/>" /></td>
 						</tr>
 						<tr>
-
 							<td>活動結束時間:</td>
 							<td><div class="erroMsgs">${errorMsgs.bc_time_end}</div> <input
 								type="text" name="bc_time_end" id="bc_time_end"
@@ -121,14 +117,49 @@
 	</div>
 
 	<jsp:include page="/front-end/footer/footer.jsp" />
+	<!---------------------------------------------------地址地圖跳窗 --------------------------------------------------->
+	<div class="modal" id="address-map" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">地址</h4>
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<label for="address" style="z-index:1000"></label>
+					<div id="twzipcode"></div>
+					<input type="text" class="form-control in" id="address"	value="${bookClubVO.bc_place}" maxlength="30" >
+					<div id="map"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						關閉</button>
+					<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="get_address()">選擇</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------- 地址地圖跳窗 --------------------------------------------------->
 </body>
 
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
+<%
+	ServletContext context = getServletContext();
+	String key = context.getInitParameter("key");
+	String key2 = context.getInitParameter("key2");
+	StringBuffer magicKey = new StringBuffer("https://maps.googleapis.com/maps/api/js?key=").append(key).append("B").append(key2).append("&libraries=places&callback=initMap");
+%>
+
 
 <script src='<%=request.getContextPath()%>/js/jquery.min.js'></script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script	src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <script	src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
 <script src="<%= request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
 <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
@@ -232,4 +263,104 @@
 		districtName : "town" // 自訂地區 select 標籤的 name 值
 	});
 </script>
+<!--     modal 置中script -->
+<script type="text/javascript">
+		$(document).ready(
+				function() {
+
+					function alignModal() {
+
+						var modalDialog = $(this).find(".modal-dialog");
+
+						/* Applying the top margin on modal dialog to align it vertically center */
+
+						modalDialog.css("margin-top", Math.max(0, ($(window)
+								.height() - modalDialog.height()) / 4));
+
+					}
+
+					// Align modal when it is displayed
+
+					$(".modal").on("shown.bs.modal", alignModal);
+
+					// Align modal when user resize the window
+
+					$(window).on("resize", function() {
+
+						$(".modal:visible").each(alignModal);
+
+					});
+
+				});
+</script>
+<script>
+        var map;
+        function init() {
+            var keyword = document.getElementById('address');
+            
+            var options = {
+                componentRestrictions: { country: 'tw' } // 限制在台灣範圍
+            };
+            var autocomplete = new google.maps.places.Autocomplete(keyword, options);
+            console.log(autocomplete);
+            // 地址的輸入框，值有變動時執行
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace(); // 地點資料存進place
+                console.log("2" + place);
+                // debugger;
+                // 確認回來的資料有經緯度
+                if (place.geometry) {
+                    // 改變map的中心點
+                    var searchCenter = place.geometry.location;
+                    // panTo是平滑移動、setCenter是直接改變地圖中心
+                    map.panTo(searchCenter);
+                    // 在搜尋結果的地點上放置標記
+                    var marker = new google.maps.Marker({
+                        position: searchCenter,
+                        map: map
+                    });
+                    // info window
+                    var infowindow = new google.maps.InfoWindow({
+                        content: `
+                            <div class="info_title">` + place.name + `</div>
+                            <div><span class="info_head">地址: </span>` + place.formatted_address + `</div>
+                            <div><span class="info_head">經緯度: </span>(` + place.geometry.location.lat() + `, ` + place.geometry.location.lng() + `)</div> 
+                            <div><img class="info_img" src="` + place.photos[5].getUrl() + `"></div>
+                        `
+                    });
+                    infowindow.open(map, marker);
+                }
+
+            });
+        }
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 24.9656967, lng: 121.1922173 },
+                zoom: 15,
+            });
+        }
+
+        window.onload = init;
+        
+        function get_address(){
+        	var address_in = $("#address").val();
+        	$("#address_out").attr("value",address_in);
+
+        }
+        
+            $("#address_out").on("focus",function(){
+            	
+                $(this).prev().click();
+                
+            })
+        
+//         $("#address_out").click(function(event)
+// 			{
+//         	console.log("aa");
+//     	//終止預設行為
+//     		event.preventDefault();
+// 			});
+    </script>
+<script	src=<%=magicKey%> async defer></script>
 </html>

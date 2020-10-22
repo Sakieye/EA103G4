@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bookclub_index.css">
-
+<title>讀書會首頁</title>
 </head>
 
 <body>

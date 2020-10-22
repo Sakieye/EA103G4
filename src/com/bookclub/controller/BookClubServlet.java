@@ -392,6 +392,21 @@ public class BookClubServlet extends HttpServlet {
 			}
 
 		}
+//		======================================================解散讀書會開始=========================================================
+		if ("disband".equals(action)) {
+			Map<String, String> situation = new LinkedHashMap<String, String>();
+			req.setAttribute("situation", situation);
+			
+			String bc_id = req.getParameter("bc_id");
+			BookClubService bookClubSvc = new BookClubService();
+			bookClubSvc.updateStatus(bc_id,2);
+			
+			situation.put("disband", "解散");
+			String url = "/front-end/bookclub/myBookClub.jsp";
+			RequestDispatcher view = req.getRequestDispatcher(url); 
+			view.forward(req, res);
+		}
+//		======================================================解散讀書會結束=========================================================
 //		======================================================模糊查詢開始=========================================================
 		if ("search".equals(action)) {
 			String search = req.getParameter("search");

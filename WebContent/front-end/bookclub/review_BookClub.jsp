@@ -14,8 +14,8 @@
 	pageContext.setAttribute("list", list);
 %>
 <%
-	BookClubService bookClubSvc = new BookClubService();
-	List<BookClubVO> listBook = bookClubSvc.getAll();
+	BookClubService BookClubSvc = new BookClubService();
+	List<BookClubVO> listBook = BookClubSvc.getAll();
 	pageContext.setAttribute("listBook", listBook);
 %>
 
@@ -25,7 +25,7 @@
 </style>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>我參加的讀書會</title>
+<title>讀書會報名紀錄</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sweetalert.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.datetimepicker.css" />
@@ -41,18 +41,22 @@
 			
 		</div>
 	</div>
+	<section id="One" class="wrapper style3">
+        <div class="inner">
+            <header class="align-center">
+                <p>部客匣BookShop</p>
+                <h2>讀書會報名紀錄</h2>
+            </header>
+        </div>
+    </section>
 	<div class="container">
 		<div class="row" id="container">
 			<div class="col-12">
-
-
-				<div style="font-size: 40px">
-					<b>已參加讀書會</b>
-				</div>
 				<table class="table reviewBody text-center table-striped">
 					<thead class="thead-light">
 						<tr>
 							<th scope="col" class="titleItem text-nowrap">讀書會名稱</th>
+							<th scope="col" class="titleItem text-nowrap">讀書會狀態</th>
 							<th scope="col" class="titleItem text-nowrap">審核狀態</th>
 							<th scope="col" class="titleItem text-nowrap">詳情</th>
 							<th scope="col" class="titleItem text-nowrap">聊天室</th>
@@ -60,17 +64,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<jsp:useBean id="BookClubSvc" scope="page"
+						<jsp:useBean id="bookClubSvc" scope="page"
 							class="com.bookclub.model.BookClubService" />
-						<c:forEach var="BookClub_Regis_DetailVO" items="${list}">
+						<c:forEach var="bookClub_Regis_DetailVO" items="${list}">
 							<tr>
 								<td><c:forEach var="bookClubVO" items="${listBook}">
 										<c:if
-											test="${BookClub_Regis_DetailVO.bc_id eq bookClubVO.bc_id}">
+											test="${bookClub_Regis_DetailVO.bc_id eq bookClubVO.bc_id}">
                            					 ${bookClubVO.bc_name}
                         				</c:if>
 									</c:forEach></td>
-								<td>${brdStatus[BookClub_Regis_DetailVO.brd_status]}</td>
+								<c:set var='bc_status' value='${bookClubSvc.getOneBookClub(bookClub_Regis_DetailVO.bc_id).bc_status}'/>
+								<td>${bcStatus[bc_status]}</td>	
+								<td>${brdStatus[bookClub_Regis_DetailVO.brd_status]}</td>
 								<td>
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
@@ -78,7 +84,7 @@
 										<button type="submit" class="reviewGroupBtn btn btn-info"
 											name="action" value="getOne_For_Display">詳情</button>
 										<input type="hidden" name="bc_id"
-											value="${BookClub_Regis_DetailVO.bc_id}">
+											value="${bookClub_Regis_DetailVO.bc_id}">
 									</form>
 								</td>
 								<td>
@@ -87,21 +93,20 @@
 										class="m-0">
 										<button type="submit" class="btn chat" name="action"
 											value="bookClubChat" style="border: none;"
-											${(BookClub_Regis_DetailVO.brd_status ne 2)? 'disabled' : ''}>
+											${(bookClub_Regis_DetailVO.brd_status ne 2)? 'disabled' : ''}>
 											<img
 												src="<%=request.getContextPath()%>/images/bookclub/chat.png">
 										</button>
 										<input type="hidden" name="bc_id"
-											value="${BookClub_Regis_DetailVO.bc_id}"> <input
+											value="${bookClub_Regis_DetailVO.bc_id}"> <input
 											type="hidden" name="mem_id" value="<%=memVO.getMem_id()%>">
 									</form>
 								</td>
 								<td>
 									<button type="button" class="btn btn-danger quit"
-										id="${BookClub_Regis_DetailVO.brd_status}" data-toggle="modal"
+										id="${bookClub_Regis_DetailVO.brd_status}" data-toggle="modal"
 										data-target="#quitModal"
-										value="${BookClub_Regis_DetailVO.bc_id}">退出</button>
-
+										value="${bookClub_Regis_DetailVO.bc_id}">退出</button>
 								</td>
 							</tr>
 						</c:forEach>
@@ -118,8 +123,9 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
-					<h5 class="modal-title" id="exampleModalCenterTitle">退出此行程?</h5>
+					<h4 class="modal-title" id="exampleModalCenterTitle">確定要退出此讀書會?</h4>
 				</div>
+				<img src="<%=request.getContextPath()%>/images/bookclub/check.png" style="height:250px">
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">取消</button>
