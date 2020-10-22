@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 import java.io.IOException;
 import java.sql.*;
 
@@ -275,7 +276,6 @@ public class FaDAO implements FaDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				if (rs.getInt("FASTATUS") == 0) {
 					faVO = new FaVO();
 					faVO.setFaId(rs.getString("FAID"));
 					faVO.setMemId(rs.getString("MEMID"));
@@ -284,7 +284,6 @@ public class FaDAO implements FaDAO_interface {
 					faVO.setFaDate(rs.getTimestamp("FADATE"));
 					faVO.setFaStatus(rs.getInt("FASTATUS"));
 					list.add(faVO);
-				}
 			}
 
 		}  catch (SQLException se) {
@@ -462,5 +461,7 @@ public class FaDAO implements FaDAO_interface {
 
 		return list;
 	}
+
+	
 
 }

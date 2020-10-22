@@ -123,7 +123,7 @@
        	background-color:#2F4F4F;
        	border:none;
        	outline:none;
-       	color:white;
+       	color:white !important;
        }
        #forum_record input[type="submit"]:hover{
        	background-color:#00104F;
@@ -144,7 +144,7 @@
        	background-color:#2F4F4F;
        	border:none;
        	outline:none;
-       	color:white;
+       	color:white !important;
        }
        
        button.btn.btn-primary:hover{
@@ -157,12 +157,13 @@
        	background-color:#2F4F4F;
        	border:none;
        	outline:none;
-       	color:white;
+       	color:white !important;
        }
        input.btn.btn-secondary:hover{
        	background-color:#00104F;
        	color:white !important;
        }
+       
        
        
         

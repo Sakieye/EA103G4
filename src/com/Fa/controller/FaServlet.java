@@ -264,12 +264,6 @@ public class FaServlet extends HttpServlet {
 			}
 		}
 		
-		
-		
-		
-		
-		
-
 	}
 
 

@@ -2,6 +2,7 @@ package com.Fa.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FaService {
 	private FaDAO_interface dao;
@@ -69,4 +70,5 @@ public class FaService {
 	public List<FaVO> search(String faTopic){
 		return dao.search(faTopic);
 	}
+	
 }

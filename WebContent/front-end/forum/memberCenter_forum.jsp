@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/memSpace_forum.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 <body>
 	<jsp:include page="/front-end/header/header.jsp" />
@@ -108,11 +109,11 @@
 													</c:if>
 													<p>
 														<label for="topic">主題 :</label>
-														<input type="text" name="faTopic" value="${faVO.faTopic}" id="faTopic">
+														<input type="text" name="faTopic" value="${faVO.faTopic}" id="faTopic" required="required">
 													</p>
 													<p>
 														<label for="content">內容 :</label>
-														<textarea id="summernote${update.index}" name="faContent" id="faContent">${faVO.faContent}</textarea>
+														<textarea id="summernote${update.index}" name="faContent" id="faContent" >${faVO.faContent}</textarea>
 													</p>
 													<p style="display: inline-flex;">
 														<input type="submit" >
@@ -160,5 +161,33 @@
 	<!-- include summernote css/js -->
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/summernote_updateFa.js"></script>
+	<!-- toastr v2.1.4 -->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		if(${not empty errorMsgs}){
+			toastr['error']('主題或內容請勿空白!!!', '修改文章失敗');
+			
+		}
+	})
+	
+	toastr.options = {
+  				closeButton: true,
+  				debug: false,
+  				newestOnTop: false,
+  				progressBar: true,
+  				positionClass: "toast-top-center",
+  				preventDuplicates: false,
+  				onclick: null,
+  				showDuration: "300",
+  				hideDuration: "1000",
+  				timeOut: "5000",
+  				extendedTimeOut: "1000",
+  				showEasing: "swing",
+  				hideEasing: "linear",
+  				showMethod: "fadeIn",
+  				hideMethod: "fadeOut"
+		};
+	</script>
 </body>
 </html>
