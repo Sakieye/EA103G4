@@ -47,4 +47,7 @@ public class RevService {
 		return dao.getAll();
 	}
 	
+	public List<RevVO> getByBookId(String book_id) {
+		return dao.getByBookId(book_id);
+	}
 }

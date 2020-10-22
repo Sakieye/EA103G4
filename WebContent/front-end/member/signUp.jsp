@@ -71,6 +71,9 @@
 									<label><span>*</span>住址</label>
 								</div>
 								<div>
+									<label></label>
+								</div>
+								<div>
 									<label><span>*</span>電話</label>
 								</div>
 								<div>
@@ -145,13 +148,22 @@
 <%-- 									<div class="errorMsg">${errorMsgs.birth}</div> --%>
 <%-- 								</c:if> --%>
 							</div>
-							<div class="input-div">
-								<input type="text" id="addr" placeholder="請輸入地址" name="mem_addr"
-									value="<%=(memVO == null) ? "" : memVO.getMem_addr()%>" />
-								<c:if test="${not empty errorMsgs.addr}">
-									<div class="errorMsg">${errorMsgs.addr}</div>
-								</c:if>
+							
+							
+							<div class="input-div addr">
+								<div id="boxing">					
+									<div id="twzipcode" style="display: inline-block;"></div>
+									<div class="inp">
+										<input id="e04" type="text" placeholder="請輸入地址" name="mem_addr" value="<%=(memVO == null) ? "" : memVO.getMem_addr()%>" />
+									</div>
+									<c:if test="${not empty errorMsgs.addr}">
+											<div class="errorMsg">${errorMsgs.addr}</div>
+									</c:if>
+								</div>							
 							</div>
+							
+							<div class="input-div"></div>
+							
 							<div class="input-div">
 								<input type="tel" maxlength="10" id="tel" placeholder="請輸入電話" name="mem_tel"
 									value="<%=(memVO == null) ? "" : memVO.getMem_tel()%>" /><br />
@@ -166,9 +178,7 @@
 							</div>
 							<div id="nothing">* 為必填欄位，請填妥欄位資訊。</div>
 							<div>
-								<input type="hidden" name="from"
-									value="bookshop.ea103@gmail.com" /> <input type="hidden"
-									name="subject" value="註冊驗證碼" />
+							 	<input type="hidden" name="subject" value="註冊驗證碼" />
 								<button type="submit" class="btn" id="btn-submit">SUBMIT</button>
 							</div>
 						</div>
@@ -179,8 +189,10 @@
 	</div>
 	<jsp:include page="/front-end/footer/footer.jsp" />
 
-	<script src='<%=request.getContextPath()%>/js/jquery.min.js'></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.twzipcode.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+	
 
 
 	<script>
@@ -330,6 +342,13 @@
 			}
 		});
 		
+		$("#twzipcode").twzipcode({
+			zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
+			css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
+			countyName: "city", // 自訂城市 select 標籤的 name 值
+			districtName: "town" // 自訂地區 select 標籤的 name 值
+			});
+		
 		
 	</script>
 
@@ -338,7 +357,7 @@
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.jquery.min.js"></script>
+	
 	<script src="<%=request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
 
 

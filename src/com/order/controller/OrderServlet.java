@@ -134,12 +134,15 @@ public class OrderServlet extends HttpServlet {
 
 				// 扣除使用的紅利點數
 				MemVO memVO = (MemVO) req.getSession().getAttribute("memVO");
+				MemService memSvc = new MemService();
+				memVO = memSvc.getOneMem(memVO.getMem_id()); //較不會有意外發生
+				
 				Double newBonus = memVO.getMem_bonus() - odCartVO.getUse_bonus() + odCartVO.getGet_bonus();
 
 				OrderService odSvc = new OrderService();
 				odSvc.createODDT(odCartVO, cartlist, newBonus);
 				
-				MemService memSvc = new MemService();
+				
 				memVO = memSvc.getOneMem(memVO.getMem_id());
 				req.getSession().setAttribute("memVO", memVO);
 

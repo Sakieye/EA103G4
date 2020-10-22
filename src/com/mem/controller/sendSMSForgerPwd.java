@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.mem.model.MemService;
 import com.mem.model.MemVO;
 
+import redis.clients.jedis.Jedis;
+
 
 @WebServlet("/mem/sendSMSForgerPwd.do")
 public class sendSMSForgerPwd extends HttpServlet {
@@ -48,7 +50,12 @@ public class sendSMSForgerPwd extends HttpServlet {
 			mem_id = memVO.getMem_id();
 		
 		req.getSession().setAttribute("mem_id", mem_id);
-		req.getSession().setAttribute("code", code);
+		
+		Jedis jedis = new Jedis("localhost", 6379);
+		jedis.auth("123456");
+		jedis.set(phoneNum, code);
+		jedis.expire(phoneNum, 300); //過期時間五分鐘
+		jedis.close();
 		
 		SendSMS(phoneNum, code);
 		

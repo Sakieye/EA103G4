@@ -12,6 +12,8 @@ import com.order.model.OrderService;
 import com.order.model.OrderVO;
 import com.payme.model.PayService;
 
+import redis.clients.jedis.Jedis;
+
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 
 public class MemServlet extends HttpServlet {
@@ -29,7 +31,7 @@ public class MemServlet extends HttpServlet {
 			String error = "";
 
 			HttpSession session = req.getSession();
-			String genAuthCode = (String) session.getAttribute("genAuthCode");
+			MemVO memVO = (MemVO) session.getAttribute("memVO");
 
 			String userInputCode = req.getParameter("userInputCode").trim();
 			if (userInputCode == null || userInputCode.trim().length() == 0) {
@@ -39,7 +41,21 @@ public class MemServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 			}
-
+			
+			Jedis jedis = new Jedis("localhost", 6379);
+			jedis.auth("123456");
+			
+			if(!jedis.exists(memVO.getMem_email())) {
+				error = "驗證碼已過期";
+				req.setAttribute("error", error);
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/confirmationCode.jsp");
+				failureView.forward(req, res);
+				return;
+			}
+			
+			String genAuthCode = jedis.get(memVO.getMem_email());
+			jedis.close();
+			
 			if (!genAuthCode.equals(userInputCode)) {
 				error = "驗證碼錯誤";
 				req.setAttribute("error", error);
@@ -47,7 +63,7 @@ public class MemServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 			} else {
-				MemVO memVO = (MemVO) session.getAttribute("memVO");
+				
 				MemService memSvc = new MemService();
 				memVO = memSvc.addMem(memVO.getMem_account(), memVO.getMem_password(), memVO.getMem_name(),
 						memVO.getMem_email(), memVO.getMem_nickname(), memVO.getMem_sex(), memVO.getMem_birth(),
@@ -56,7 +72,7 @@ public class MemServlet extends HttpServlet {
 				memVO = memSvc.getOneMem(memVO.getMem_id());
 
 				session.setAttribute("memVO", memVO);
-
+				
 				String url = "/front-end/front-index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交insertSuccess.jsp
 				successView.forward(req, res);
@@ -317,11 +333,12 @@ public class MemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				String mem_id = (String) req.getSession().getAttribute("mem_id");
-				String code = (String) req.getSession().getAttribute("code");
 				
-//				System.out.println(mem_id);
-//				System.out.println(code);
+				String mem_id = (String) req.getSession().getAttribute("mem_id");
+				MemService memSvc = new MemService();
+				MemVO memVO = memSvc.getOneMem(mem_id);
+				Jedis jedis = new Jedis("localhost", 6379);
+				jedis.auth("123456");
 
 				String newPwd = req.getParameter("newPwd").trim();
 				if (newPwd == null || newPwd.trim().length() == 0)
@@ -334,6 +351,13 @@ public class MemServlet extends HttpServlet {
 					errorMsgs.put("confirmPwdError", "密碼不正確");
 
 				String userInputCode = req.getParameter("userInputCode").trim();
+				
+				if(!jedis.exists(memVO.getMem_tel()))
+					errorMsgs.put("userInputCodeError", "驗證碼已過期");
+				
+				String code = jedis.get(memVO.getMem_tel());
+				jedis.close();
+				
 				if (userInputCode == null || userInputCode.trim().length() == 0)
 					errorMsgs.put("userInputCodeError", "請察看手機驗證碼並輸入");
 				else if (!userInputCode.equals(code))
@@ -347,7 +371,6 @@ public class MemServlet extends HttpServlet {
 				}
 
 				/* 開始修改密碼 */
-				MemService memSvc = new MemService();
 				memSvc.updatePwd(mem_id, newPwd);
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/signIn.jsp"); // 修改成功後,轉交signIn.jsp
 				successView.forward(req, res);
@@ -423,10 +446,10 @@ public class MemServlet extends HttpServlet {
 				HttpSession session = req.getSession();
 				Map<String, String[]> map = (Map<String, String[]>)session.getAttribute("map");
 				if (req.getParameter("whichPage") == null){
-					HashMap<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap());
+					HashMap<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap()); //把東西洗掉
 					session.setAttribute("map",map1);
 					map = map1;
-				} 
+				}
 
 				/*************************** 2.開始複合查詢 ***************************************/
 				MemService memSvc = new MemService();
@@ -479,10 +502,11 @@ public class MemServlet extends HttpServlet {
 				orderSvc.cancel(orderId);
 
 				MemVO memVO = (MemVO) req.getSession().getAttribute("memVO");
-
+				MemService memSvc = new MemService();
+				memVO = memSvc.getOneMem(memVO.getMem_id()); //較安全
+				
 				Double bonus = memVO.getMem_bonus() + useBonus - getBonus;
 
-				MemService memSvc = new MemService();
 				memSvc.updateMem(memVO.getMem_id(), memVO.getMem_account(), memVO.getMem_password(),
 						memVO.getMem_name(), memVO.getMem_email(), memVO.getMem_nickname(), memVO.getMem_sex(),
 						memVO.getMem_birth(), memVO.getMem_addr(), memVO.getMem_tel(), bonus, memVO.getMem_pic(),
