@@ -5,8 +5,15 @@
 <%@ page import="com.Fa.model.*"%>
 <%@ page import="com.Fm.model.*"%>
 <%@ page import="com.mem.model.*"%>
+<%@ page import="redis.clients.jedis.Jedis"%>
 <%@ page import="java.util.*"%>
-
+<%
+	Jedis jedis = new Jedis("localhost", 6379);
+	jedis.auth("123456");
+	Set<String> searchHotKeys = jedis.zrevrange("searchKeywords", 0 ,7);
+	jedis.close();
+	pageContext.setAttribute("searchHotKeys",searchHotKeys);
+%>
 <jsp:useBean id="list" scope="session" type="java.util.List<FaVO>"/>
 <jsp:useBean id="fmSvc" scope="page" class="com.Fm.model.FmService"/>
 <!DOCTYPE HTML>
@@ -64,17 +71,24 @@
 								</div>
 							</div>
 							<div class="col-md-4" id="search">
-								<form method="post" action="<%=request.getContextPath() %>/front-end/forum/fa.do">
-									<input type="text" name="faTopic">
+								<form method="post" id="searcForm" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
+									<input type="text" name="faTopic" id="searchText" value="${faTopic}">
 									<input type="hidden" name="action" value="search">
-									<input type="submit" value="搜尋">
+									<button type="submit">
+										<i class="fa fa-search"></i>
+									</button>
 								</form>
 							</div>
 							<div class="col-md-2">
 								<input type="submit" value="我要發佈" onclick="location.href='addFaPage.jsp'">
 							</div>
 						</div>
-						
+						<div class="row search_hot">
+						熱門搜尋:
+						<c:forEach var="hotKeyWords" items="${searchHotKeys}">
+							<span>♯${hotKeyWords}</span>
+						</c:forEach>
+						</div>
 					</div>
 					
 				<hr>
@@ -86,7 +100,7 @@
 							<div class="col-md-2" style="font-weight:900;">回應數</div>
 						</div>
 						<hr>
-						 <%@ include file="page1.file" %>
+						<%@ include file="page1.file" %>
 						<c:forEach var="faVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 								<div class="row">
 									<div class="col-md-8" id="aTopic">
@@ -129,6 +143,13 @@
 			$("#heading2>a>b").css("color","red");
 			$("#heading1>a>b").css("color","green");
 		}
+		$(".row.search_hot > span").click(function(){
+			var searchKey = $(this).text();		
+			$("#searchText").val(searchKey.substring(1));
+			$("#searcForm").submit();
+		})
+		
+		
 	})
 	
 	</script> 

@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.Fa.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="com.Fa.model.*"%>
+<%@ page import="redis.clients.jedis.Jedis"%>
 <%@ page import="java.util.*"%>
 
-<%
+<%	
+	Jedis jedis = new Jedis("localhost", 6379);
+	jedis.auth("123456");
+	Set<String> searchHotKeys = jedis.zrevrange("searchKeywords", 0 ,7);
+	jedis.close();
 	FaService faSvc = new FaService();
 	List<FaVO> list = faSvc.getAllHot();
 	pageContext.setAttribute("list", list);
+	pageContext.setAttribute("searchHotKeys",searchHotKeys);
 %>
 
 <!DOCTYPE HTML>
@@ -67,21 +73,26 @@
 							</div>
 							
 							<div class="col-md-4">
-								<form method="post" action="<%=request.getContextPath() %>/front-end/forum/fa.do">
-									<input type="text" name="faTopic">
+								<form method="post" id="searcForm" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
+									<input type="text" name="faTopic" id="searchText" > 
 									<input type="hidden" name="action" value="search">
-									<input type="submit" value="搜尋">
+									<button type="submit">
+										<i class="fa fa-search"></i>
+									</button>
 								</form>
 							</div>
 							<div class="col-md-2">
 								<input type="submit" value="我要發佈" onclick="location.href='addFaPage.jsp'">
 							</div>
 						</div>
-						
+						<div class="row search_hot">
+						熱門搜尋:
+						<c:forEach var="hotKeyWords" items="${searchHotKeys}">
+							<span>♯${hotKeyWords}</span>
+						</c:forEach>
+						</div>
 					</div>
-				
 				<hr>
-				
 					<div class="container">
 						<div class="row">
 							<div class="col-md-8" id="title" style="font-weight:bold;">主題</div>
@@ -134,6 +145,12 @@
 			$("#heading2>a>b").css("color","red");
 			$("#heading1>a>b").css("color","green");
 		}
+		$(".row.search_hot > span").click(function(){
+			var searchKey = $(this).text();		
+			$("#searchText").val(searchKey.substring(1));
+			$("#searcForm").submit();
+		})
+		
 	})
 	
 	</script> 

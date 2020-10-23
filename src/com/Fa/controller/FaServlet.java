@@ -5,12 +5,13 @@ import java.io.*;
 import java.util.*;
 
 import javax.servlet.*;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
 import com.Fa.model.*;
 import com.Fm.model.*;
 import com.mem.model.*;
+
+import redis.clients.jedis.Jedis;
 
 public class FaServlet extends HttpServlet {
 
@@ -235,7 +236,7 @@ public class FaServlet extends HttpServlet {
 			List<FaVO> list = new ArrayList<FaVO>();
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
+			Jedis jedis = null;
 			try {
 				String faTopic = new String(req.getParameter("faTopic"));
 				if (faTopic == null || faTopic.trim().length() == 0) {
@@ -248,10 +249,27 @@ public class FaServlet extends HttpServlet {
 				}
 				
 				FaService faSvc = new FaService();
+				
+				//換頁
 				HttpSession session = req.getSession();
 				list = faSvc.search(faTopic);
 				session.setAttribute("list", list);
 				
+				//關鍵字存到 redis
+				jedis = new Jedis("localhost", 6379);
+				jedis.auth("123456");
+				
+				
+				if (jedis.zrange("searchKeywords", 0 , -1).stream().anyMatch(key -> key.equals(faTopic))) {
+					jedis.zincrby("searchKeywords", 1, faTopic);
+				} else {
+					Map<String, Double> searchKeywords = new HashMap<>();
+					searchKeywords.put(faTopic, new Double(0));
+					jedis.zadd("searchKeywords", searchKeywords);
+				}
+				
+				
+				req.setAttribute("faTopic", faTopic);
 				String url = "/front-end/forum/forumIndex_search.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -261,8 +279,13 @@ public class FaServlet extends HttpServlet {
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front-end/forum/forumIndex.jsp");
 				failureView.forward(req, res);
+			}finally {
+				jedis.close();
 			}
 		}
+		
+		
+	
 		
 	}
 
