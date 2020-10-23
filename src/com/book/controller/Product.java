@@ -76,7 +76,18 @@ public class Product extends HttpServlet {
 			out.println("<h2>近期瀏覽書籍</h2>");
 			recentViewedBooks.forEach(viewedBook -> out.println(viewedBook + "<br>"));
 			out.println("<h2>推薦書籍</h2>");
+
+			
+
 			recommBooks.forEach(recommBook -> out.println(recommBook + "<br>"));
+			// 加入收藏書單測試
+			out.println("<form method='post' action='" + request.getContextPath()
+			+ "/front-end/favorite_book/favorite_book.do' style='margin-bottom: 0px;'>");
+			out.println("<input type='submit' value='新增至收藏書單'>");
+			out.println("<input type='hidden' name='book_ID' value='" + bookID + "'>");
+			out.println("<input type='hidden' name='mem_ID' value='M0001'>");
+			out.println("<input type='hidden' name='action' value='insertFavBook'>");
+			out.println("</form>");
 			// ===測試用待刪
 		}
 
