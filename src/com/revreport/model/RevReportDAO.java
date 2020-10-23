@@ -19,14 +19,14 @@ public class RevReportDAO implements RevReportDAO_interface{
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/JoelDB");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/bookshop");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	private static final String INSERT_STMT = "INSERT INTO REVIEW_REPORT (REV_REP_ID, REV_REP_REASON, REV_REP_PROOF, REV_ID, MEM_ID) VALUES "
-			+ "('REVREP'|| lpad(REV_REP_SEQ.NEXTVAL, 4, '0'), ?, ?, ?, ?)";
+			+ "('REVREP'|| lpad(REV_REP_SEQ.NEXTVAL, 4, '0'), ?, null, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM REVIEW_REPORT ORDER BY REV_REP_ID";
 	private static final String GET_ONE_STMT = "SELECT * FROM REVIEW_REPORT WHERE REV_REP_ID = ?";
 	private static final String GET_BY_MEMID = "SELECT * FROM REVIEW_REPORT WHERE MEM_ID = ?";
@@ -42,9 +42,8 @@ public class RevReportDAO implements RevReportDAO_interface{
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, revReportVO.getRev_rep_reason());
-			pstmt.setBytes(2, revReportVO.getRev_rep_proof());
-			pstmt.setString(3, revReportVO.getRev_id());
-			pstmt.setString(4, revReportVO.getMem_id());
+			pstmt.setString(2, revReportVO.getRev_id());
+			pstmt.setString(3, revReportVO.getMem_id());
 
 			pstmt.executeUpdate();
 

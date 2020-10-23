@@ -28,9 +28,9 @@ public class SignInFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		
 		HttpSession session = req.getSession();
-		Object memVO = session.getAttribute("memVO");
+		MemVO memVO = (MemVO)session.getAttribute("memVO");
 		
-		if(memVO == null) {
+		if(memVO.getMem_id() == null) {
 			session.setAttribute("location", req.getRequestURI());
 			res.sendRedirect(req.getContextPath() + "/front-end/member/signIn.jsp");
 			return;

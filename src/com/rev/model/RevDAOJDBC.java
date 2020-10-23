@@ -16,6 +16,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 	private static final String GET_BY_MEMID = "SELECT * FROM REVIEW_RECORD WHERE MEM_ID = ?";
 	private static final String DELETE = "DELETE FROM REVIEW_RECORD WHERE REV_ID = ?";
 	private static final String UPDATE_STATUS = "UPDATE REVIEW_RECORD SET REV_STATUS=? WHERE REV_ID=?";
+	private static final String GET_RATING_AVG = "select avg(rating)*0.2 from review_record where rating != 0 and book_id = ?";
 
 	@Override
 	public void insert(RevVO revVO) {
@@ -108,7 +109,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, rev_id);
-			
+
 			pstmt.executeUpdate();
 
 		} catch (ClassNotFoundException e) {
@@ -145,12 +146,12 @@ public class RevDAOJDBC implements RevDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
-			
+
 			pstmt.setString(1, rev_id);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				revVO = new RevVO();
 				revVO.setRev_id(rev_id);
 				revVO.setRev_content(rs.getString("rev_content"));
@@ -159,7 +160,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 				revVO.setBook_id(rs.getString("book_id"));
 				revVO.setRev_status(rs.getInt("rev_status"));
 			}
-			
+
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
@@ -197,21 +198,21 @@ public class RevDAOJDBC implements RevDAO_interface {
 	public List<RevVO> findByMemId(String mem_id) {
 		List<RevVO> list = new ArrayList<RevVO>();
 		RevVO revVO = null;
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_BY_MEMID);
-			
+
 			pstmt.setString(1, mem_id);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				revVO = new RevVO();
 				revVO.setRev_id(rs.getString("rev_id"));
 				revVO.setMem_id(mem_id);
@@ -221,7 +222,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 				revVO.setRev_date(rs.getTimestamp("rev_date"));
 				list.add(revVO);
 			}
-		}catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -252,12 +253,12 @@ public class RevDAOJDBC implements RevDAO_interface {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public List<RevVO> getAll() {
 		List<RevVO> list = new ArrayList<RevVO>();
 		RevVO revVO = null;
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -266,8 +267,8 @@ public class RevDAOJDBC implements RevDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				revVO = new RevVO();
 				revVO.setRev_id(rs.getString("rev_id"));
 				revVO.setMem_id(rs.getString("mem_id"));
@@ -277,7 +278,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 				revVO.setRev_date(rs.getTimestamp("rev_date"));
 				list.add(revVO);
 			}
-		}catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -312,7 +313,9 @@ public class RevDAOJDBC implements RevDAO_interface {
 	public static void main(String[] args) {
 		RevDAOJDBC dao = new RevDAOJDBC();
 		
-		//新增
+		System.out.println(dao.getRatingAvg("B00000000001"));
+
+		// 新增
 //		RevVO revVO1 = new RevVO();
 //		revVO1.setRev_content("我覺得不怎麼樣");
 //		revVO1.setMem_id("M0003");
@@ -320,19 +323,19 @@ public class RevDAOJDBC implements RevDAO_interface {
 //		
 //		dao.insert(revVO1);
 //		System.out.println("新增成功");
-		
-		//修改狀態
+
+		// 修改狀態
 //		RevVO revVO2 = new RevVO();
 //		revVO2.setRev_status(1);
 //		revVO2.setRev_id("REV0007");
 //		dao.updateStatus(revVO2);
 //		System.out.println("修改成功");
-		
-		//刪除
+
+		// 刪除
 //		dao.delete("REV0007");
 //		System.out.println("刪除成功");
-		
-		//查詢單筆
+
+		// 查詢單筆
 //		RevVO revVO3 = dao.findByPrimaryKey("REV0005");
 //		System.out.println(revVO3.getRev_id());
 //		System.out.println(revVO3.getRev_content());
@@ -340,8 +343,8 @@ public class RevDAOJDBC implements RevDAO_interface {
 //		System.out.println(revVO3.getMem_id());
 //		System.out.println(revVO3.getBook_id());
 //		System.out.println(revVO3.getRev_status());
-		
-		//查詢全部
+
+		// 查詢全部
 //		List<RevVO> list = dao.getAll();
 //		for(RevVO aRev : list) {
 //			System.out.print(aRev.getRev_id() + " ,");
@@ -352,22 +355,73 @@ public class RevDAOJDBC implements RevDAO_interface {
 //			System.out.print(aRev.getRev_status());
 //			System.out.println();
 //		}
-	
-		List<RevVO> list = dao.findByMemId("M0001");
-		for(RevVO aRev : list) {
-			System.out.print(aRev.getRev_id() + " ,");
-			System.out.print(aRev.getRev_content() + " ,");
-			System.out.print(aRev.getRev_date() + " ,");
-			System.out.print(aRev.getMem_id() + " ,");
-			System.out.print(aRev.getBook_id() + " ,");
-			System.out.print(aRev.getRev_status());
-			System.out.println();
-		}
+
+//		List<RevVO> list = dao.findByMemId("M0001");
+//		for (RevVO aRev : list) {
+//			System.out.print(aRev.getRev_id() + " ,");
+//			System.out.print(aRev.getRev_content() + " ,");
+//			System.out.print(aRev.getRev_date() + " ,");
+//			System.out.print(aRev.getMem_id() + " ,");
+//			System.out.print(aRev.getBook_id() + " ,");
+//			System.out.print(aRev.getRev_status());
+//			System.out.println();
+//		}
 	}
 
 	@Override
 	public List<RevVO> getByBookId(String book_id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Double getRatingAvg(String book_id) {
+		Double ratingAvg = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_RATING_AVG);
+
+			pstmt.setString(1, book_id);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ratingAvg = rs.getDouble(1);
+			}
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage()); // Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return ratingAvg;
 	}
 }

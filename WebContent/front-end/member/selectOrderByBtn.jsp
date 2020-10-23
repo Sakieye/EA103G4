@@ -198,7 +198,7 @@
 								  </tbody>
 							  </c:forEach>
 							</table>
-							<%@ include file="page2.file" %>
+							<%@ include file="page2_ByCompositeQuery.file" %>
 						</div>
 					</div>
 				</div> 	

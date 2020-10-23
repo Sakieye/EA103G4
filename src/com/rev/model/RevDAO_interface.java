@@ -10,4 +10,5 @@ public interface RevDAO_interface {
     public List<RevVO> findByMemId(String mem_id);
     public List<RevVO> getAll();
     public List<RevVO> getByBookId(String book_id);
+    public Double getRatingAvg(String book_id);
 }

@@ -10,12 +10,13 @@ public class RevService {
 		dao = new RevDAO();
 	}
 	
-	public RevVO addRev(String rev_content, String mem_id, String book_id) {
+	public RevVO addRev(String rev_content, String mem_id, String book_id, Integer rating) {
 		RevVO revVO = new RevVO();
 		
 		revVO.setRev_content(rev_content);
 		revVO.setMem_id(mem_id);
 		revVO.setBook_id(book_id);
+		revVO.setRating(rating);
 		dao.insert(revVO);
 		
 		return revVO;
@@ -49,5 +50,8 @@ public class RevService {
 	
 	public List<RevVO> getByBookId(String book_id) {
 		return dao.getByBookId(book_id);
+	}
+	public Double getRatingAvg(String book_id) {
+		return dao.getRatingAvg(book_id);
 	}
 }

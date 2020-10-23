@@ -73,6 +73,7 @@ html {
 				<option selected>請選擇</option>
 				<option value="<%=request.getContextPath()%>/back-end/forum/forumBack_forums.jsp">文章檢舉</option>
 				<option value="<%=request.getContextPath()%>/back-end/forum/forumBack_messages.jsp">留言檢舉</option>
+				<option value="<%=request.getContextPath()%>/back-end/forum/reviewBack.jsp">書評檢舉</option>
 			</select>
 
 			<div class="title">

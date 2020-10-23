@@ -61,7 +61,7 @@
 					</div></li>
 				<li class="itembox drop-down"><a class="item">互動紀錄</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp"">討論區發文紀錄</a> <a
+						<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">討論區發文紀錄</a> <a
 							class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">討論區留言紀錄</a> <a class="submenu-item"
 							href="#">書評發表紀錄</a>
 					</div></li>

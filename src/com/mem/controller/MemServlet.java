@@ -7,6 +7,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.mem.model.*;
 import com.order.model.OrderService;
 import com.order.model.OrderVO;
@@ -28,10 +31,16 @@ public class MemServlet extends HttpServlet {
 		String action = req.getParameter("action");
 
 		if ("insert".equals(action)) { // 來自confirmationCode.jsp的請求
+			
 			String error = "";
-
+			
 			HttpSession session = req.getSession();
 			MemVO memVO = (MemVO) session.getAttribute("memVO");
+			
+			Jedis jedis = new Jedis("localhost", 6379);
+			jedis.auth("123456");
+			String genAuthCode = jedis.get(memVO.getMem_email());
+			jedis.close();
 
 			String userInputCode = req.getParameter("userInputCode").trim();
 			if (userInputCode == null || userInputCode.trim().length() == 0) {
@@ -40,21 +49,15 @@ public class MemServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/confirmationCode.jsp");
 				failureView.forward(req, res);
 				return;
-			}
-			
-			Jedis jedis = new Jedis("localhost", 6379);
-			jedis.auth("123456");
+			}	
 			
 			if(!jedis.exists(memVO.getMem_email())) {
-				error = "驗證碼已過期";
+				error = "驗證碼已過期,請重新註冊";
 				req.setAttribute("error", error);
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/confirmationCode.jsp");
 				failureView.forward(req, res);
 				return;
-			}
-			
-			String genAuthCode = jedis.get(memVO.getMem_email());
-			jedis.close();
+			}		
 			
 			if (!genAuthCode.equals(userInputCode)) {
 				error = "驗證碼錯誤";
@@ -71,7 +74,7 @@ public class MemServlet extends HttpServlet {
 
 				memVO = memSvc.getOneMem(memVO.getMem_id());
 
-				session.setAttribute("memVO", memVO);
+				req.getSession().setAttribute("memVO", memVO);
 				
 				String url = "/front-end/front-index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交insertSuccess.jsp
@@ -471,19 +474,22 @@ public class MemServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
+				
+				HttpSession session = req.getSession();
+				Map<String, String[]> map = (Map<String, String[]>)session.getAttribute("map");
+				if (req.getParameter("whichPage") == null){
+					HashMap<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap()); //把東西洗掉
+					session.setAttribute("map",map1);
+					map = map1;
+				}
 
-				Map<String, String[]> map = req.getParameterMap();
-
-				/*************************** 2.開始複合查詢 ***************************************/
 				OrderService orderSvc = new OrderService();
 				List<OrderVO> list = orderSvc.allSelect(map);
 
-				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("list", list); // 資料庫取出的list物件,存入request
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/selectOrderByBtn.jsp"); 
 				successView.forward(req, res);
 
-				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

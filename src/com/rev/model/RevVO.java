@@ -8,7 +8,18 @@ public class RevVO implements java.io.Serializable {
 	private Timestamp rev_date;
 	private String mem_id;
 	private String book_id;
+	private Integer rating;
 	private Integer rev_status;
+	
+	
+	public Integer getRating() {
+		return rating;
+	}
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+	
+	
 	
 	public String getRev_id() {
 		return rev_id;

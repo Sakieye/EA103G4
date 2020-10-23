@@ -6,6 +6,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
+import org.json.JSONObject;
+
 import com.mem.model.MemService;
 import com.mem.model.MemVO;
 
@@ -158,7 +160,7 @@ public class Mail extends HttpServlet {
 			String genAuthCode = new Mail().genAuthCode();
 			String text = "請將以下驗證碼複製後，貼至註冊驗證頁面: " + genAuthCode;
 
-			/*************************** 3.打包完成,準備轉交(Send the Success view) ***********/
+			/*打包完成,準備轉交 */
 			//驗證碼存入 redis
 			Jedis jedis = new Jedis("localhost", 6379);
 			jedis.auth("123456");
@@ -168,6 +170,7 @@ public class Mail extends HttpServlet {
 			
 			HttpSession session = req.getSession();
 			session.setAttribute("memVO", memVO); // 將memVO存在session中，尚未存進資料庫
+			
 			String url = "/front-end/member/confirmationCode.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功後轉交confirmationCode.jsp
 			successView.forward(req, res);
