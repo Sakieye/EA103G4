@@ -2,6 +2,7 @@ package com.category.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,5 +163,27 @@ public class CategoryService {
 		}
 //		catLevelMap.forEach((k, v) -> System.out.println(k + " - " + v));
 		return catLevelMap;
+	}
+
+	public Map<String, Integer> getBookNumByCategoryIDs(List<String> categoryIDs) {
+		Map<String, Integer> categoryCountMap = new HashMap<String, Integer>();
+		List<String> categoryIDsLocal = new ArrayList<String>();
+
+		for (String categoryID : categoryIDs) {
+			if (Integer.parseInt(categoryID.substring(7)) > 0) {
+				categoryIDsLocal.add(categoryID);
+			} else if (Integer.parseInt(categoryID.substring(5, 7)) > 0) {
+				categoryIDsLocal.add(categoryID.substring(0, 7));
+			} else {
+				categoryIDsLocal.add(categoryID.substring(0, 5));
+			}
+		}
+
+		List<Integer> categoryCount = categoryDAO.getBookNumByCategoryIDs(categoryIDsLocal);
+		for (int i = 0; i < categoryIDsLocal.size(); i++) {
+			categoryCountMap.put(categoryIDs.get(i), categoryCount.get(i));
+		}
+
+		return categoryCountMap;
 	}
 }

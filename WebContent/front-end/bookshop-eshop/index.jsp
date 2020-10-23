@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
+<%@ page import="java.util.stream.*"%>
+<%@ page import="com.mem.model.*"%>
 <%@ page import="com.book.model.*"%>
 <%@ page import="com.adver.model.*"%>
-<%@ page import="com.category.model.*"%>
 <%@ page import="com.promo.model.*"%>
+<%@ page import="com.category.model.*"%>
 <%@ page import="com.promodetail.model.*"%>
+<%@ page import="com.celebrity_book.model.*"%>
 <%@ page import="java.util.concurrent.ThreadLocalRandom"%>
 
 <!DOCTYPE html>
@@ -56,26 +59,54 @@
 			<!-- End of Advertisements1 -->
 			<hr>
 			<%
-				// 待Redis銷售統計完成再修正bestsellers取得方式
 				BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 				PromoDetailService promoDetailService = (PromoDetailService) getServletContext()
 						.getAttribute("promoDetailService");
 				PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
-
+				MemService memService = new MemService();
+				Celebrity_BookService celebrityBookService = new Celebrity_BookService();
+				// 熱門瀏覽書
 				List<Book> popularBooks = bookService.getPopularBooks(30, 500);
-				// 待名人收藏書單完成再修正celebrityBooks取得方式
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("publisherName", "歐萊禮");
-				map.put("bookName", "python");
-				List<Book> celebrityBooks = bookService.getByAdvSearch(map, true);
-				Collections.shuffle(celebrityBooks);
 
+				// 名人收藏書單(memService新增getCelebrities、celebrityBookService新增getShareBookIDs方法，量大時能改善效能，避免getAll再篩選)
+				Set<MemVO> celebritiesSet = memService.getAll().stream().filter(mem -> mem.getMem_iskol() == 1)
+						.collect(Collectors.toSet());
+				Queue<MemVO> celebrities = new LinkedList<>(celebritiesSet);
+				List<Book> celebrityFavoriteBooks = new ArrayList<Book>();
+				MemVO randCelebrity = null;
+				String celebrityName = null;
+
+				while ((randCelebrity = celebrities.poll()) != null) {
+					String celeberityMemID = randCelebrity.getMem_id();
+					List<Celebrity_Book> favoriteBooks = celebrityBookService.getAll(celeberityMemID).stream()
+							.filter(book -> book.getShare_State() == 1).collect(Collectors.toList());;
+
+					if (favoriteBooks.size() > 0) {
+						celebrityName = memService.getOneMem(celeberityMemID).getMem_name();
+						List<String> bookIDs = new ArrayList<String>();
+
+						for (Celebrity_Book cBook : favoriteBooks) {
+							bookIDs.add(cBook.getBook_ID());
+						}
+
+						if (bookIDs.size() > 30) {
+							bookIDs = bookIDs.subList(0, 30);
+						}
+
+						celebrityFavoriteBooks = bookService.getByBookIDList(bookIDs, true);
+						pageContext.setAttribute("celebrityName", celebrityName);
+						request.setAttribute("celebrityFavoriteBooks", celebrityFavoriteBooks);
+						break;
+					}
+				}
+
+				// 促銷書
 				List<Book> promoBooks = bookService.getPromoBooks(30, promoDetailService, promoService);
+				// 新書
 				List<Book> newBooks = bookService.getNewBooks(30);
 
 				// 將bestsellers等slider需要的物件設定在request scope，使productSlider.jsp取出
 				request.setAttribute("popularBooks", popularBooks);
-				request.setAttribute("celebrityBooks", celebrityBooks);
 				request.setAttribute("promoBooks", promoBooks);
 				request.setAttribute("newBooks", newBooks);
 
@@ -87,12 +118,14 @@
 				<jsp:param name="type" value="popularBooks" />
 			</jsp:include>
 			<!-- End of Popular Books -->
-			<hr>
 			<!-- Celebrity Books -->
-			<jsp:include page="/front-end/bookshop-eshop/productSlider.jsp">
-				<jsp:param name="title" value="逸洪的私房書單" />
-				<jsp:param name="type" value="celebrityBooks" />
-			</jsp:include>
+			<c:if test="${celebrityName != null}">
+				<hr>
+				<jsp:include page="/front-end/bookshop-eshop/productSlider.jsp">
+					<jsp:param name="title" value="${celebrityName}的私房書單" />
+					<jsp:param name="type" value="celebrityFavoriteBooks" />
+				</jsp:include>
+			</c:if>
 			<!-- End of Celebrity Books -->
 			<hr>
 			<br>

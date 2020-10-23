@@ -32,8 +32,8 @@ public class Celebrity_BookService {
 		
 		return celebrity_Book;
 	}
-	public List<Celebrity_Book> getAll(String mem){
-		return dao.getAll(mem);
+	public List<Celebrity_Book> getAll(String mem_ID){
+		return dao.getAll(mem_ID);
 	}
 	public void deleteCelBook(String book_ID,String mem_ID) {
 		dao.delete(book_ID, mem_ID);
@@ -41,4 +41,6 @@ public class Celebrity_BookService {
 	public Celebrity_Book getOneCelBook(String book_ID, String mem_ID) {
 		return dao.findByPrimaryKey(book_ID, mem_ID);
 	}
+	
+	
 }

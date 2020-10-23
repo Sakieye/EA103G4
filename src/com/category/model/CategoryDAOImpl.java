@@ -27,6 +27,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	private static final String FIND_CUR_LV_MAX_CATEGORY_ID_STMT2 = "SELECT MAX(CATEGORY_ID) FROM CATEGORIES WHERE PARENT_CATEGORY_ID IS NULL";
 	private static final String UPDATE_STMT = "UPDATE CATEGORIES SET CATEGORY_NAME = ?, PARENT_CATEGORY_ID =? WHERE CATEGORY_ID = ?";
 	private static final String DELETE_STMT = "DELETE FROM CATEGORIES WHERE CATEGORY_ID = ?";
+	private static final String GET_COUNT_STMT = "SELECT COUNT(1) FROM BOOKS WHERE CATEGORY_ID LIKE ? || '%'";
 
 	@Override
 	public void insert(Category category) {
@@ -390,6 +391,54 @@ public class CategoryDAOImpl implements CategoryDAO {
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<Integer> getBookNumByCategoryIDs(List<String> categoryIDs) {
+		List<Integer> categoryCounts = new ArrayList<Integer>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_COUNT_STMT);
+			for (String categoryID : categoryIDs) {
+				pstmt.setString(1, categoryID);
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					categoryCounts.add(rs.getInt(1));
+				}
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return categoryCounts;
 	}
 
 }

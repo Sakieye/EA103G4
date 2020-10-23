@@ -66,7 +66,7 @@
 								<td>${book.listPrice}</td>
 								<td>${book.salePrice}</td>
 								<td>${book.salePricePromo eq Double.NaN ? "" : book.salePricePromo}</td>
-								<td>${book.bookBP}</td>
+								<td>${book.bookBP  eq 0.0 ? "" : book.bookBP}</td>
 								<td>${book.bookBPPromo eq Double.NaN ? "" : book.bookBPPromo}</td>
 								<td>${book.publicationDate}</td>
 								<td>${book.isSold eq 1 ? "上架" : "下架"}</td>

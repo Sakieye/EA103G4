@@ -25,6 +25,7 @@
             <h1>行銷管理首頁</h1>
             <p></p>
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='${pageContext.request.contextPath}/PromoManagement'">促銷折扣管理</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='${pageContext.request.contextPath}/RecommManagement'">推薦系統管理</button>
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='http://www.google.com'">廣告管理</button>
         </main>
         <%@include file="/back-end/sidebar/sidebar.jsp" %>

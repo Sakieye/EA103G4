@@ -9,6 +9,7 @@ public interface CategoryDAO {
 	Optional<Category> findByCategoryName(String categoryName);
 	List<Category> findByParentCategoryID(String parentCategoryID);
 	List<Category> getAll();
+	List<Integer> getBookNumByCategoryIDs(List<String> categoryIDs);
 	Optional<Category> findCurrentLevelMaxCategoryID(String parentCategoryID, int categoryLevel);
 	void update(Category category);
 	void delete(String categoryID);
