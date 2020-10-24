@@ -45,6 +45,8 @@ public class BookDAOImpl implements BookDAO {
 	private static final String FIND_BY_RANDOM_STMT = "SELECT * FROM(SELECT * FROM BOOKS ORDER BY dbms_random.value) WHERE ROWNUM <= ?";
 	private static final String FIND_BY_RANDOM_STMT_FRONT = "SELECT * FROM(SELECT * FROM BOOKS WHERE IS_SOLD = 1 ORDER BY dbms_random.value) WHERE ROWNUM <= ?";
 	private static final String FIND_NEW_STMT = "SELECT * FROM(SELECT * FROM BOOKS ORDER BY PUBLICATION_DATE DESC NULLS LAST) WHERE ROWNUM <= ?";
+	private static final String GET_COUNT_STMT = "SELECT COUNT(1) FROM BOOKS";
+	private static final String FIND_BY_BOOK_ID_LIKE_STMT = "SELECT BOOK_ID FROM BOOKS WHERE BOOK_ID LIKE (upper(?) || '%') AND ROWNUM <= 20";
 
 	@Override
 	public void insert(Book book) {
@@ -854,7 +856,7 @@ public class BookDAOImpl implements BookDAO {
 
 		try {
 			con = ds.getConnection();
-			
+
 			if (isFront) {
 				pstmt = con.prepareStatement(FIND_BY_RANDOM_STMT_FRONT);
 			} else {
@@ -917,5 +919,90 @@ public class BookDAOImpl implements BookDAO {
 			}
 		}
 		return listBook;
+	}
+
+	@Override
+	public int findBookNum() {
+		int num = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_COUNT_STMT);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				num = rs.getInt(1);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return num;
+	}
+
+	@Override
+	public List<String> findByBookIDLike(String bookID) {
+		List<String> bookIDs = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_BOOK_ID_LIKE_STMT);
+			pstmt.setString(1, bookID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookIDs.add(rs.getString("BOOK_ID"));
+			}
+
+		} catch (
+
+		SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return bookIDs;
 	}
 }

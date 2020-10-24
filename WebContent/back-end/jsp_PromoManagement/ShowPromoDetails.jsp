@@ -79,7 +79,7 @@ session.setAttribute("books", books);
                 <%@ include file='/back-end/jsp_Common/PromoDetailTableHead.jsp' %>
                 <tbody>
                     <c:if test="${not empty books}">
-                        <%@ include file='/back-end/pages_BookManagement/page1.file' %><%-- 查詢筆數和現在頁數的顯示 --%>
+                        <%@ include file='/back-end/pages_BookManagement/page1.file' %>
 	                    <c:forEach var="book" items="${books}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		                    <%  
                                 Book book = (Book) pageContext.getAttribute("book");

@@ -1,6 +1,7 @@
 package com.promo.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.book.model.Book;
-import com.promo.model.*;
+import com.promo.model.Promo;
+import com.promo.model.PromoService;
 
 @WebServlet("/PromoManagement")
 public class PromoManagement extends HttpServlet {
@@ -46,9 +47,30 @@ public class PromoManagement extends HttpServlet {
 			map.put("promoName", request.getParameter("promoName").trim());
 			map.put("promoStartTime", request.getParameter("promoStartTime"));
 			map.put("promoEndTime", request.getParameter("promoEndTime"));
-			System.out.println(request.getParameter("promoEndTime"));
-			List<Promo> promotions = promoService.getByAdvSearch(map);
-			request.setAttribute("promotions", promotions);
+			List<Promo> promotionsTemp = promoService.getByAdvSearch(map);
+			List<Promo> promotions = new ArrayList<Promo>();
+
+			String isValid = request.getParameter("isValid");
+
+			if (isValid != null) {
+				if ("1".equals(isValid)) {
+					promotionsTemp.forEach(promo -> {
+						if (promo.isValid()) {
+							promotions.add(promo);
+						}
+					});
+					request.setAttribute("promotions", promotions);
+				} else if ("0".equals(isValid)) {
+					promotionsTemp.forEach(promo -> {
+						if (!promo.isValid()) {
+							promotions.add(promo);
+						}
+					});
+					request.setAttribute("promotions", promotions);
+				} else {
+					request.setAttribute("promotions", promotionsTemp);
+				}
+			}
 		}
 
 		request.getRequestDispatcher("/back-end/jsp_PromoManagement/PromoManagement.jsp").forward(request, response);

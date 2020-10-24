@@ -509,4 +509,12 @@ public class BookService {
 	public List<Book> getNewBooks(int num) {
 		return bookDAO.findNewBooks(num, true);
 	}
+	
+	public int getBookNum() {
+		return bookDAO.findBookNum();
+	}
+	
+	public List<String> getByBookIDLike(String bookID){
+		return bookDAO.findByBookIDLike(bookID);
+	}
 }

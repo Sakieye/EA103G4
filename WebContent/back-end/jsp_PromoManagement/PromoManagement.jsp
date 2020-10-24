@@ -27,7 +27,7 @@
 		<main id="center" class="column">
 			<!-- search form -->
 			<form method='post' action='${pageContext.request.contextPath}/PromoManagement'>
-				<%@include file="/back-end/jsp_Common/PromoForm.jsp"%>
+				<%@include file="/back-end/jsp_Common/PromoForm2.jsp"%>
 				<input type="hidden" name="action" value="getAdvSearch">
 				<button class="btn btn-primary" type="submit">送出查詢</button>
 				<button type="button" class="btn btn-primary" id="AddPromo" onclick="javascript:location.href='${pageContext.request.contextPath}/AddPromo'">新增促銷事件</button>

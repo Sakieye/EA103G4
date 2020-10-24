@@ -53,7 +53,7 @@ public class StatisticsTimerTask extends TimerTask {
 		Map<String, Double> viewedCount = new HashMap<String, Double>();
 
 		// 換日後，從昨天開始統計7天
-		for (int i = 1; i < 8; i++) {
+		for (int i = 0; i < 7; i++) {
 			Date date = new Date(new Date().getTime() - i * 24 * 60 * 60 * 1000);
 			String keyName = DATE_FORMATTER.format(date) + "viewed";
 			Set<Tuple> res = jedis.zrangeWithScores(keyName, 0, -1);

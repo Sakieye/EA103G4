@@ -40,6 +40,8 @@ public class ShowPromoDetails extends HttpServlet {
 
 		// 從管理促銷事件頁面首次拜訪，而非從換頁操作
 		if (promoID != null) {
+			long s = System.currentTimeMillis();
+
 			PromoDetailService promoDetailService = (PromoDetailService) getServletContext()
 					.getAttribute("promoDetailService");
 			PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
@@ -51,13 +53,15 @@ public class ShowPromoDetails extends HttpServlet {
 			promoDetails.forEach(PD -> {
 				bookIDs.add(PD.getBookID());
 			});
+			
 			// 以bookIDs一次批量查詢多個Book物件出來
 			List<Book> promoBooks = bookService.getByBookIDList(bookIDs);
-
+			
 			// 將get表單傳來的隱藏參數promoID轉發給下一個頁面，
 			request.setAttribute("promo", promoService.getByPromoID(promoID).get());
 			request.setAttribute("promoDetails", promoDetails);
 			request.setAttribute("promoBooks", promoBooks);
+
 		} else {
 			HttpSession session = request.getSession();
 			String whichPage = request.getParameter("whichPage");
