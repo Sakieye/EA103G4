@@ -19,23 +19,6 @@
 		<res-auth>Container</res-auth>
 		<res-sharing-scope>Shareable</res-sharing-scope>
 	</resource-ref>
-	
-<!-- 	<filter> -->
-<!-- 		<filter-name>backLoginFilter</filter-name> -->
-<!-- 		<filter-class>filters.BackEndLoginFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>backLoginFilter</filter-name> -->
-<!-- 		<url-pattern>/back-end/login/loginSucess.jsp</url-pattern> -->
-<!-- 		<url-pattern>/back-end/admins/*</url-pattern> -->
-<!-- 		<url-pattern>/back-end/member/*</url-pattern> -->
-<!-- 		<dispatcher>REQUEST</dispatcher> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 		<dispatcher>INCLUDE</dispatcher> -->
-<!-- 		<dispatcher>ERROR</dispatcher> -->
-<!-- 		<dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
-	
 	<servlet>
 		<servlet-name>Celebrity_BookServlet</servlet-name>
 		<servlet-class>com.celebrity_book.controller.Celebrity_BookServlet</servlet-class>

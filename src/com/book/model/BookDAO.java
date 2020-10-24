@@ -20,4 +20,6 @@ public interface BookDAO {
 	void updateIsSoldBatch(List<String> bookIDs, Integer isSold);
 	void updateEffPromos(String effectivePromos);
 	void updateBatch(List<Book> books);
+	int findBookNum();
+	List<String> findByBookIDLike(String bookID);
 }

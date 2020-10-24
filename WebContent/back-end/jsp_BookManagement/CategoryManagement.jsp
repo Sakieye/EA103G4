@@ -45,6 +45,7 @@
 					<th scope="col">商品類別編號</th>
 					<th scope="col">商品類別名稱</th>
 					<th scope="col">母類別編號</th>
+					<th scope="col">商品個數</th>
 					<th scope="col">操作</th>
 				</tr>
 			</thead>
@@ -66,6 +67,7 @@
 							<a href="${pageContext.request.contextPath}/Search?categoryID=<%=categoryID%>">${category.categoryName}</a>
 						</td>
 						<td>${category.parentCategoryID}</td>
+						<td><%=categoryCountMap.get(categoryID)%></td>
 						<td>
 							<c:choose>
 								<c:when test="${showCat}">
