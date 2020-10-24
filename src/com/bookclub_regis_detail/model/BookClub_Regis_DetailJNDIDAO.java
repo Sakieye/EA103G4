@@ -36,7 +36,7 @@ public class BookClub_Regis_DetailJNDIDAO implements BookClub_Regis_DetailDAO_in
 	private static final String FIND_BY_VERIFY = "SELECT BRD_ID, BC_ID, MEM_ID, BRD_STATUS, BRD_DATE FROM BOOKCLUB_REGIS_DETAIL WHERE BC_ID = ? AND BRD_STATUS = 1";
 	private static final String UPDATE_STATUS = "UPDATE BOOKCLUB_REGIS_DETAIL SET BRD_STATUS = ? WHERE BC_ID = ? AND MEM_ID = ?";
 	private static final String FIND_BY_MYSELF = "SELECT BRD_ID, BC_ID, MEM_ID, BRD_STATUS, BRD_DATE FROM BOOKCLUB_REGIS_DETAIL WHERE MEM_ID = ? ORDER BY BRD_DATE DESC";
-	
+	private static final String FIND_BY_BC_ID = "SELECT BRD_ID, BC_ID, MEM_ID, BRD_STATUS, BRD_DATE FROM BOOKCLUB_REGIS_DETAIL WHERE BC_ID = ? AND BRD_STATUS = 2";
 	
 	@Override
 	public String insert(BookClub_Regis_DetailVO bookClub_Regis_DetailVO) {
@@ -343,6 +343,57 @@ public class BookClub_Regis_DetailJNDIDAO implements BookClub_Regis_DetailDAO_in
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_MYSELF);
 			pstmt.setString(1, mem_id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookClub_Regis_DetailVO = new BookClub_Regis_DetailVO();
+				bookClub_Regis_DetailVO.setBrd_id(rs.getString("brd_id"));
+				bookClub_Regis_DetailVO.setMem_id(rs.getString("mem_id"));
+				bookClub_Regis_DetailVO.setBc_id(rs.getString("bc_id"));
+				bookClub_Regis_DetailVO.setBrd_status(rs.getInt("brd_status"));
+				bookClub_Regis_DetailVO.setBrd_date(rs.getTimestamp("brd_date"));
+				list.add(bookClub_Regis_DetailVO);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("A database error occured. " + e.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<BookClub_Regis_DetailVO> findByBc_id(String bc_id) {
+		List<BookClub_Regis_DetailVO> list = new ArrayList<BookClub_Regis_DetailVO>();
+		BookClub_Regis_DetailVO bookClub_Regis_DetailVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_BC_ID);
+			pstmt.setString(1, bc_id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				bookClub_Regis_DetailVO = new BookClub_Regis_DetailVO();

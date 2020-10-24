@@ -152,22 +152,8 @@ public class BookClub_Regis_DetailServlet extends HttpServlet {
 				bookClub_Regis_DetailSvc.update_Status(bc_id, mem_id, new Integer(2));
 				BookClubVO bookClubVO = bookClubSvc.getOneBookClub(bc_id);
 				
-				MemVO memVO = new MemVO(); 
-				MemService memSvc = new MemService();
-				memVO = memSvc.getOneMem(mem_id);
-				
 				req.setAttribute("listOneBookClub", bookClubVO);
 				req.setAttribute("verifySuccess", "verifySuccess");
-				
-				String to = memVO.getMem_email();
-			      
-			      String subject = bookClubVO.getBc_name() + "審核通知";
-			      
-			      String ch_name = memVO.getMem_nickname();
-			      String messageText = "Hello! " + ch_name + "\n您報名" + bookClubVO.getBc_name() + "讀書會，審核已通過囉"; 
-			       
-			      MailService mailService = new MailService();
-			      mailService.sendMail(to, subject, messageText);
 				
 
 				RequestDispatcher rd = req.getRequestDispatcher("/front-end/bookclub/listOneBookClub.jsp");

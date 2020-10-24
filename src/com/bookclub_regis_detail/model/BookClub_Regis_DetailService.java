@@ -57,4 +57,7 @@ public class BookClub_Regis_DetailService {
 		   .forEach(bookClub_Regis_DetailVO -> memberList.add(bookClub_Regis_DetailVO));
 		return memberList;
 	}
+	public List<BookClub_Regis_DetailVO> getByBc_id(String bc_id) {
+		return dao.findByBc_id(bc_id);
+	}
 }

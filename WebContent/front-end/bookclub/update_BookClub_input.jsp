@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.util.*"%>
 <%@ page import="com.bookclub.model.*"%>
 
 <%
@@ -16,7 +17,6 @@
 }
 </style>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>讀書會資料修改</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
@@ -24,8 +24,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet"	href="<%=request.getContextPath()%>/css/bookclub_update_input.css" />
 </head>
-<body bgcolor='white'>
-
+<body >
 	<div class="container">
 		<div class="row">
 			<jsp:include page="/front-end/header/header.jsp" />
@@ -33,7 +32,7 @@
 	</div>
 	<div class="container">
 		<div class="row" id="container">
-			<div class="col-12">
+			<div class="col-12" style="background-color: whitesmoke">
 				
 				<div style="font-size: 40px">
 					<b>讀書會資料修改</b>
@@ -110,7 +109,7 @@
 					</table>
 					<br> <input type="hidden" name="action" value="update">
 					<input type="hidden" name="bc_id" value="${bookClubVO.bc_id}">
-					<input type="submit" value="送出修改">
+					<input type="submit" class="btn-success" value="送出修改">
 				</FORM>
 			</div>
 		</div>
@@ -143,7 +142,7 @@
 		</div>
 	</div>
 	<!--------------------------------------------------- 地址地圖跳窗 --------------------------------------------------->
-</body>
+
 
 
 
@@ -157,7 +156,7 @@
 
 
 <script src='<%=request.getContextPath()%>/js/jquery.min.js'></script>
-<script	src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <script	src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
@@ -355,12 +354,7 @@
                 
             })
         
-//         $("#address_out").click(function(event)
-// 			{
-//         	console.log("aa");
-//     	//終止預設行為
-//     		event.preventDefault();
-// 			});
     </script>
-<script	src=<%=magicKey%> async defer></script>
+	<script	src=<%=magicKey%> async defer></script>
+</body>
 </html>

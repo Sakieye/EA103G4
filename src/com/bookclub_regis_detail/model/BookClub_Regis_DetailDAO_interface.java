@@ -13,4 +13,5 @@ public interface BookClub_Regis_DetailDAO_interface {
     public List<BookClub_Regis_DetailVO> getAll();
     public List<BookClub_Regis_DetailVO> findByVerify(String bc_id);
     public List<BookClub_Regis_DetailVO> findByMyself(String mem_id);
+    public List<BookClub_Regis_DetailVO> findByBc_id(String bc_id);
 }

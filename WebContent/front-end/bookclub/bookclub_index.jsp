@@ -26,6 +26,7 @@
 </head>
 
 <body>
+	<jsp:include page="/front-end/bookclub/bookClubNotice.jsp" />
 	<jsp:include page="/front-end/header/header.jsp" />
 	
 

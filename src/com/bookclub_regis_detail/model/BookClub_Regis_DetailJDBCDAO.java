@@ -345,4 +345,10 @@ public class BookClub_Regis_DetailJDBCDAO implements BookClub_Regis_DetailDAO_in
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<BookClub_Regis_DetailVO> findByBc_id(String bc_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

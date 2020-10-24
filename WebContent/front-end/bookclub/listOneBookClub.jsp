@@ -23,6 +23,7 @@
 
 <html lang="zh">
 <head>
+<title>瀏覽讀書會</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,6 +34,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bookclub_listone.css">
 <body>
+	<jsp:include page="/front-end/bookclub/bookClubNotice.jsp" />
 	<jsp:include page="/front-end/header/header.jsp" />
 	
 	<!-- 點擊置頂按鈕 -->
@@ -271,19 +273,23 @@
 												</tr>
 											</c:forEach>
 										</table>
-
-
-
 									</td>
-									<td><button type="button"
+									<td>
+									<input type="hidden" value="${memSvc.getOneMem(bookClub_Regis_DetailVO.mem_id).mem_id}">
+									<button type="button"
 											class="btn btn-success successVerify"
 											value="${listOneBookClub.bc_id}"
-											id="${bookClub_Regis_DetailVO.mem_id}">允許</button>
-										</button></td>
-									<td><button type="button"
+											id="${bookClub_Regis_DetailVO.mem_id}"
+											onclick="successVerify(this);">允許</button>
+									</td>
+									<td>
+									<input type="hidden" value="${memSvc.getOneMem(bookClub_Regis_DetailVO.mem_id).mem_id}">
+									<button type="button"
 											class="btn btn-danger failVerify"
 											value="${listOneBookClub.bc_id}"
-											id="${bookClub_Regis_DetailVO.mem_id}">拒絕</button></td>
+											id="${bookClub_Regis_DetailVO.mem_id}"
+											onclick="failVerify(this);">拒絕</button>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
