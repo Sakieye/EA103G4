@@ -80,7 +80,8 @@
 	        </div>
         </c:if>
         <!-- Comments List -->
-        <c:forEach var="revVO" items="${list}" varStatus="revNO">
+        <%@ include file="page1.file" %>
+        <c:forEach var="revVO" items="${list}" varStatus="revNO" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 	        <div class="comments">
 	            <!-- Comment -->
 	            <div class="comment">
@@ -165,6 +166,7 @@
 				</div>
 		<!-- madal -->
         </c:forEach>
+        <%@ include file="page2.file" %>
     </div>
 		
 	

@@ -30,7 +30,7 @@ public class SignInFilter implements Filter {
 		HttpSession session = req.getSession();
 		MemVO memVO = (MemVO)session.getAttribute("memVO");
 		
-		if(memVO.getMem_id() == null) {
+		if(memVO == null || memVO.getMem_id() == null) {
 			session.setAttribute("location", req.getRequestURI());
 			res.sendRedirect(req.getContextPath() + "/front-end/member/signIn.jsp");
 			return;

@@ -78,6 +78,8 @@
 		<url-pattern>/front-end/forum/addFmPage.jsp</url-pattern>
 		<url-pattern>/front-end/forum/addFarPage.jsp</url-pattern>
 		<url-pattern>/front-end/forum/addFmrPage.jsp</url-pattern>
+		<url-pattern>/front-end/member/selectOrder.jsp</url-pattern>
+		<url-pattern>/front-end/member/selectOrderByBtn.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

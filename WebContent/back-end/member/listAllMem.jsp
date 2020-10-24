@@ -97,16 +97,17 @@
         	<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" enctype="multipart/form-data">
         		<div class="inputBlock">			
         			<label>姓名查詢</label>
-	        		<input type="text" name="mem_name" class="form-control myInput" />
+	        		<input type="text" name="mem_name" class="form-control myInput" placeholder="姓名(選填,可模糊查詢)" />
         		</div>
         		
         		<div class="inputBlock">
         			<label>E-Mail查詢</label>
-	        		<input type="text" name="mem_email" class="form-control myInput" />
+	        		<input type="text" name="mem_email" class="form-control myInput" placeholder="MAIL(選填,可模糊查詢)"/>
         		</div>
         		<div class="inputBlock">
         			<label>帳號狀態查詢</label>
 	        		<select size="1" name="mem_status">
+	        				<option value="" disabled selected hidden>選擇帳號狀態(選填)</option>
 							<option value="0">正常</option>
 							<option value="2">被註銷</option>
 					</select>
@@ -114,6 +115,7 @@
         		<div class="inputBlock">
         			<label>身分查詢</label>
 	        		<select size="1" name="mem_iskol">
+	        				<option value="" disabled selected hidden>選擇會員身分(選填)</option>
 							<option value="0">普通會員</option>
 							<option value="1">公眾人物</option>
 					</select>

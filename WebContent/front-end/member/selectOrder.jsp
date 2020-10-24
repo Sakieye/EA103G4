@@ -51,8 +51,7 @@
 					</div></li>
 				<li class="itembox drop-down"><a class="item">訂單管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="#">訂單修改/取消</a> <a
-							class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/selectOrder.jsp">訂單查詢</a>
+					<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/selectOrder.jsp">訂單查詢</a>
 					</div></li>
 				<li class="itembox drop-down"><a class="item">二手書訂單管理</a>
 					<div class="submenu">
@@ -62,8 +61,7 @@
 				<li class="itembox drop-down"><a class="item">互動紀錄</a>
 					<div class="submenu">
 						<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">討論區發文紀錄</a> <a
-							class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">討論區留言紀錄</a> <a class="submenu-item"
-							href="#">書評發表紀錄</a>
+							class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">收藏文章</a>
 					</div></li>
 				<li class="itembox drop-down"><a class="item">讀書會管理</a>
 					<div class="submenu">
@@ -76,8 +74,10 @@
 					</div></li>
 				<li class="itembox drop-down"><a class="item">收藏的書單管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">已收藏書單</a> <a class="submenu-item"
-							href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">收藏書單分享</a>
+						<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">已收藏書單</a> 
+						<c:if test="${sessionScope.memVO.mem_iskol == 1}">
+			            	<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">收藏書單分享</a>
+			        	</c:if>
 					</div></li>
 			</ul>
 				<div class="container" id="myContainer">
@@ -162,6 +162,7 @@
 													  <thead>
 													    <tr>
 													      <th scope="col">商品名稱</th>
+													      <th scope="col"></th>
 													      <th scope="col">數量</th>
 													      <th scope="col">商品金額</th>
 													      <th scope="col">紅利</th>
@@ -171,8 +172,10 @@
 														  <tbody>
 														    <tr>
 														      <th scope="row">${detailVO.items_name}</th>
+														      <td><img style="width: 120px;" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${detailVO.book_id}" alt="Product"></td>
 														      <td>${detailVO.comm_qty}</td>
-														      <td>$${detailVO.comm_price}</td>
+														      <td>$<fmt:formatNumber type="number" value="${detailVO.comm_price}" maxFractionDigits="0"/></td>
+														      
 														      <td>${detailVO.comm_bonus}</td>
 														    </tr>
 														  </tbody>
@@ -230,7 +233,7 @@
 	       timepicker:false,       //timepicker:true,
 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
-		   value: new Date() 
+		   //value: new Date() 
 		   // value:   new Date(),
 	       //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
 	       //startDate:	            '2017/07/10',  // 起始日
