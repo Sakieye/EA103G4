@@ -33,7 +33,7 @@ public class RevDAO implements RevDAO_interface{
 	private static final String GET_BY_MEMID = "SELECT * FROM REVIEW_RECORD WHERE MEM_ID = ?";
 	private static final String DELETE = "DELETE FROM REVIEW_RECORD WHERE REV_ID = ?";
 	private static final String UPDATE_STATUS = "UPDATE REVIEW_RECORD SET REV_STATUS=? WHERE REV_ID=?";
-	private static final String GET_BY_BOOK_ID = "SELECT * FROM REVIEW_RECORD WHERE BOOK_ID = ?";
+	private static final String GET_BY_BOOK_ID = "SELECT * FROM REVIEW_RECORD WHERE BOOK_ID = ? ORDER BY REV_ID DESC";
 	private static final String GET_RATING_AVG = "select avg(rating)*0.2 from review_record where rating != 0 and book_id = ?";
 	
 	@Override

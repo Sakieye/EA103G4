@@ -137,7 +137,7 @@
 								</c:if>
 							</div>
 							<div class="input-div">
-							<input type="text" name="mem_birth" value="<%=(memVO == null) ? "" : memVO.getMem_birth()%>" id="f_date1" />
+							<input type="text" name="mem_birth" value="<%=(memVO == null) ? "" : memVO.getMem_birth()%>" id="f_date1" placeholder="請輸入日期" />
 							<c:if test="${not empty errorMsgs.birth}">
 								<div class="errorMsg">${errorMsgs.birth}</div>
 							</c:if>
@@ -313,7 +313,7 @@
 			timepicker : false, //timepicker:true,
 			step : 1, //step: 60 (這是timepicker的預設間隔60分鐘)
 			format : 'Y-m-d', //format:'Y-m-d H:i:s',
-			value : new Date()
+			//value : new Date()
 		// value:   new Date(),
 		//disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
 		//startDate:	            '2017/07/10',  // 起始日

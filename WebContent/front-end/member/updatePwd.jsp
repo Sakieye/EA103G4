@@ -34,16 +34,15 @@
 			    <li class="itembox drop-down">
 			        <a class="item">會員資料管理</a>
 			        <div class="submenu">
-			            <a class="submenu-item" href="#">修改密碼</a>
+			            <a class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/updatePwd.jsp">修改密碼</a>
 			            <a class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/memberSpace.jsp">會員資料更新</a>
-			            <a class="submenu-item" href="#">支付管理</a>
+			            <a class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/payMethod.jsp">支付管理</a>
 			        </div>
 			    </li>
 			    <li class="itembox drop-down">
 			        <a class="item">訂單管理</a>
 			        <div class="submenu">
-			            <a class="submenu-item" href="#">訂單修改/取消</a>
-			            <a class="submenu-item" href="#">訂單查詢</a>
+			            <a class="submenu-item" href="<%= request.getContextPath()%>/front-end/member/selectOrder.jsp">訂單查詢</a>
 			        </div>
 			    </li>
 			    <li class="itembox drop-down">
@@ -56,16 +55,15 @@
 			    <li class="itembox drop-down">
 			        <a class="item">互動紀錄</a>
 			        <div class="submenu">
-			            <a class="submenu-item" href="#">討論區發文紀錄</a>
-			            <a class="submenu-item" href="#">討論區留言紀錄</a>
-			            <a class="submenu-item" href="#">書評發表紀錄</a>
+			            <a class="submenu-item" href="request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">討論區發文紀錄</a>
+			            <a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">收藏文章</a>
 			        </div>
 			    </li>
 			    <li class="itembox drop-down">
 			        <a class="item">讀書會管理</a>
 			        <div class="submenu">
-			            <a class="submenu-item" href="#">我的讀書會</a>
-			            <a class="submenu-item" href="#">讀書會報名紀錄</a>
+			            <a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/myBookClub.jsp">我的讀書會</a>
+			            <a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/review_BookClub.jsp">讀書會報名紀錄</a>
 			        </div>
 			    </li>
 			    <li class="itembox drop-down">
@@ -77,8 +75,10 @@
 			    <li class="itembox drop-down">
 			        <a class="item">收藏的書單管理</a>
 			        <div class="submenu">
-			            <a class="submenu-item" href="#">已收藏書單</a>
-			            <a class="submenu-item" href="#">收藏書單分享</a>
+			            <a class="submenu-item" href="<%= request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">已收藏書單</a>
+			            <c:if test="${sessionScope.memVO.mem_iskol == 1}">
+			            	<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">收藏書單分享</a>
+			        	</c:if>
 			        </div>
 			    </li>
 			</ul>
