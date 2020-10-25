@@ -71,13 +71,14 @@
 									</div>
 									<div class="col-md-4">
 										<div class="reportBtn">
+										<c:if test="${sessionScope.memVO != null && sessionScope.memVO.mem_id != faVO.memId}">
 											<form method="post" action="<%=request.getContextPath()%>/front-end/forum/far.do">
 												<input type="submit" value="檢舉">
 												<input type="hidden" name="action" value="getOne_Fa_Report">
 												<input type="hidden" name="faId" value="${faVO.faId}">
 											</form>
 											<input type="submit" value="追蹤">
-											<c:if test="${sessionScope.memVO != null}">
+											
 												<div id="starImg">
 													<img src="<%=request.getContextPath()%>/images/forum/1.png">
 													<input type="hidden" name="faId" value="${faVO.faId}">
@@ -121,7 +122,7 @@
 									</div>
 								</div>
 							</div>
-
+							<c:if test="${sessionScope.memVO.mem_id != fmVO.memId}">
 							<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fmr.do">
 								<div class="reportBtn">
 									<input type="submit" value="檢舉">
@@ -130,6 +131,7 @@
 									<input type="hidden" name="fmId" value="${fmVO.fmId}">
 								</div>
 							</form>
+							</c:if>
 							<div class="clear"></div>
 							<hr>
 						</c:forEach>
