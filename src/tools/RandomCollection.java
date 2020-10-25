@@ -1,11 +1,14 @@
 package tools;
 
+import java.util.AbstractMap;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class RandomCollection<E> {
-	private final NavigableMap<Double, E> map = new TreeMap<Double, E>();
+public class RandomCollection {
+	// Double(total): <String bookID : Double weight>
+	private final NavigableMap<Double, Map.Entry<String, Double>> map = new TreeMap<Double, Map.Entry<String, Double>>();
 	private final Random random;
 	private double total = 0;
 
@@ -17,19 +20,21 @@ public class RandomCollection<E> {
 		this.random = random;
 	}
 
-	public RandomCollection<E> add(double weight, E result) {
+	public RandomCollection add(double weight, String bookID) {
 		if (weight <= 0)
 			return this;
 		total += weight;
-		map.put(total, result);
+		Map.Entry<String, Double> entry = new AbstractMap.SimpleEntry<String, Double>(bookID, weight);
+		map.put(total, entry);
 		return this;
 	}
 
-	public E next() {
-		// 隨機取出特定key之後，將total扣除其權重，remove才不會失敗，可取出不重複的元素
+	public String next() {
+		// 隨機取出特定key之後，將total扣除其weight，remove才不會失敗，可取出不重複的元素
 		double value = random.nextDouble() * total;
 		double key = map.higherKey(value);
-		total -= key;
-		return map.remove(key);
+		double weight = map.get(key).getValue();
+		total -= weight;
+		return map.remove(key).getKey();
 	}
 }

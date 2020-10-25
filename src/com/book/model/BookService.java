@@ -301,23 +301,14 @@ public class BookService {
 		// 歸還連線資源到Jedis連線池
 		JedisUtil.closeJedis(jedis);
 
-		RandomCollection<String> rc = new RandomCollection<>();
+		RandomCollection rc = new RandomCollection();
 
-//		List<Pair<String, Double>> bookWeights = new ArrayList<Pair<String, Double>>();
 		res.forEach(tuple -> {
 			String bookID = tuple.getElement();
 			double viewedCount = tuple.getScore();
-//			bookWeights.add(new Pair<String, Double>(bookID, viewedCount));
-
 			rc.add(viewedCount, bookID);
 		});
 
-		// 使用apache.commons.math3.distribution.EnumeratedDistribution.EnumeratedDistribution對有權重的bookWeights抽樣
-//		Object[] objs = new EnumeratedDistribution<String>(bookWeights).sample(bookNum);
-//
-//		for (Object bookID : objs) {
-//			bookIDs.add(bookID.toString());
-//		}
 		String bookID;
 		while ((bookID = rc.next()) != null && bookIDs.size() < bookNum) {
 			bookIDs.add(bookID);
