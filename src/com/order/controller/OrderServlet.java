@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.detail.model.DetailVO;
 import com.mem.model.MemService;
@@ -30,6 +31,7 @@ public class OrderServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
 
 		if ("PAY".equals(action)) {
 
@@ -42,53 +44,44 @@ public class OrderServlet extends HttpServlet {
 				String rec_name = req.getParameter("rec_Name").trim();
 				if (rec_name == null || rec_name.trim().length() == 0) {
 				}
-
 				String rec_tel = null;
 				try {
 					rec_tel = new String(req.getParameter("rec_Tel"));
 				} catch (NumberFormatException e) {
 				}
-
 				String rec_add = req.getParameter("rec_Add").trim();
 				if (rec_add == null || rec_add.trim().length() == 0) {
 				}
-
 				Integer order_qty = null;
 				try {
 					order_qty = new Integer(req.getParameter("order_Qty").trim());
 				} catch (NumberFormatException e) {
 				}
-
 				Integer order_total = null;
 				try {
 					order_total = new Integer(req.getParameter("order_Total").trim());
 				} catch (NumberFormatException e) {
 				}
-
 				Integer order_pay = null;
 				try {
 					order_pay = new Integer(req.getParameter("order_Pay").trim());
 				} catch (NumberFormatException e) {
 				}
-
 				Integer delivery = null;
 				try {
 					delivery = new Integer(req.getParameter("delivery").trim());
 				} catch (NumberFormatException e) {
 				}
-
 				Integer get_bonus = null;
 				try {
 					get_bonus = new Integer(req.getParameter("get_Bonus").trim());
 				} catch (NumberFormatException e) {
 				}
-
 				Integer use_bonus = null;
 				try {
 					use_bonus = new Integer(req.getParameter("use_Bonus").trim());
 				} catch (NumberFormatException e) {
 				}
-
 				String mem_note = null;
 				try {
 					mem_note = new String(req.getParameter("mem_Note").trim());
@@ -126,8 +119,8 @@ public class OrderServlet extends HttpServlet {
 					dtCartVO.setComm_qty(new Integer(comm_qty[i]));
 					dtCartVO.setComm_price(new Double(comm_price[i]));
 					dtCartVO.setComm_bonus(new Integer(comm_bonus[i]));
-					System.out.println(book_id[i] + "、" + items_name[i] + "、" + comm_qty[i] + "、" + comm_price[i] + "、"
-							+ comm_bonus[i]);
+//					System.out.println(book_id[i] + "、" + items_name[i] + "、" + comm_qty[i] + "、" + comm_price[i] + "、"
+//							+ comm_bonus[i]);
 
 					cartlist.add(dtCartVO);
 				}
@@ -143,11 +136,15 @@ public class OrderServlet extends HttpServlet {
 				memVO = memSvc.getOneMem(memVO.getMem_id());
 				req.getSession().setAttribute("memVO", memVO);
 
-				String url = "/back-end/order/listAll_order.jsp";
+				HttpSession session = req.getSession();
+				session.removeAttribute("shpingcart");
+				session.removeAttribute("getTotal");
+				
+				String url = "/front-end/shopping/finished.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
-				System.out.println("▲Error： [訂單傳送失敗!]" + e.getMessage());
+				System.out.println("▲Error： [訂單失敗!]" + e.getMessage());
 				e.printStackTrace();
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/shopping/cart.jsp");
 				failureView.forward(req, res);

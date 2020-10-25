@@ -57,7 +57,7 @@
 								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="<%=request.getContextPath()%>/back-end/order/order.do">
+									ACTION="<%=request.getContextPath()%>/order/order.do">
 									<input class="form-control mr-sm-2" type="text"
 										placeholder="輸入訂單編號 (共12碼)" aria-label="Search" name=order_id>
 									<input type="hidden" name="action" value="selOneOd">

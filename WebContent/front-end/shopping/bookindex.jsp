@@ -90,11 +90,11 @@
 								<div class="card" id="booklist"
 									onclick="<%=request.getContextPath()%> ">
 									<div class="card-top">
-										<FORM class="form-inline" name="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
+										<FORM class="form-inline" name="detailFrom" method="GET" action="<%=request.getContextPath()%>/Shopping.html">
 <%-- 											<img class="card-img-top" alt="404 NOT FOUND" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}"> --%>
-											<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}"
-													src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
 											<input type="hidden" name="action" value="BOOKDETAIL">
+											<input type="image" class="card-img-top" alt="404 NOT FOUND" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
+											<input type="hidden" name="book_id" value="${book.bookID}">
 										</FORM>
 									</div>
 									<div class="card-body">
@@ -118,7 +118,6 @@
 												數量： <input type="number" name="comm_Qty" step="1" min="1"
 													max="50" value="1" style="width: 35%; height: 10%;">
 											</h5>
-											<input type="hidden" name="mem_Id" value="visitors">
 											<input type="hidden" name="book_Name"
 												value="${book.bookName}"> <input type="hidden"
 												name="book_Id" value="${book.bookID}"> <input

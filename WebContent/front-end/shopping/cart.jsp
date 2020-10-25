@@ -38,15 +38,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
 
-<script>
-	window.console = window.console || function(t) {
-	};
-</script>
-<script>
-	if (document.location.search.match(/type=embed/gi)) {
-		window.parent.postMessage("resize", "*");
-	}
-</script>
+
 
 </head>
 
@@ -68,7 +60,7 @@
 
 						<div class="container-fluid">
 							<nav class="navbar navbar-light bg-light">
-								<h2><font>│ 鑲 金 購 物 車</font></h2>
+								<h2><font>│ 購 物 車</font></h2>
 
 								<hr size="10px" align="center" width="100%">
 
@@ -104,8 +96,6 @@
 												<h6>ISBN：${cart.isbn}</h6> 
 												<!--商品名稱  -->
 												<h5>${cart.book_Name}</h5> 
-												<!--出版社  -->
-<%-- 												<h6>${cart.publisher_Id}</h6></td> --%>
 											<!--購買數量  -->
 											<td style="vertical-align:middle;"><h5>${cart.comm_Qty}本</h5></td>
 											<!--價錢小計  -->
@@ -136,7 +126,7 @@
 								</table>
 									<div id=chelisBtn>
 										<button class="btn btn-sm btn-outline-secondary"
-											onClick="self.location.href='index.jsp'">繼續選購</button>
+											onClick="href='${pageContext.request.contextPath}/front-end/bookshop-eshop/index.jsp'">繼續選購</button>
 									</div>
 									<div id=chelisInf>
 										<p>
@@ -174,8 +164,6 @@
 		</main>
 	</div>
 	</section>
-	
-		<jsp:include page="/front-end/footer/footer.jsp" />
 	<script
 		src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
@@ -185,4 +173,5 @@
 
 
 </body>
+<jsp:include page="/front-end/footer/footer.jsp" />
 </html>

@@ -65,7 +65,7 @@
 				<div class="container-fluid">
 					<nav class="navbar navbar-light bg-light">
 						<h2>
-							<font>│ 結帳流程</font>
+							<font>│ 結帳</font>
 						</h2>
 
 						<hr size="10px" align="center" width="100%">
@@ -92,7 +92,7 @@
 
 						</nav>
 						<FORM class="form-inline" name="checkFrom" method="POST"
-							action="<%=request.getContextPath()%>/back-end/order/order.do">
+							action="<%=request.getContextPath()%>/order/order.do">
 
 							<div class="accordion" id="accordionExample" style="width: 100%;">
 								<!-- 購物清單 -->
@@ -188,19 +188,19 @@
 													<label for="inputEmail4">收&nbsp;件&nbsp;人&nbsp;：&nbsp;</label><input
 														type="text" class="form-control" id="rec_Name"
 														name="rec_Name" size="10" value="${memSvcVO.mem_name}"
-														placeholder="請填寫正確全名">
+														placeholder="請填寫正確全名" required>
 												</div>
 												<div class="form-group col-md-6">
 													<label for="inputPassword4">連絡電話：&nbsp;</label> <input
 														type="Text" class="form-control" id="rec_Tel"
 														name="rec_Tel" size="10" value="${memSvcVO.mem_tel}"
-														placeholder="請填寫正確號碼">
+														placeholder="請填寫正確號碼" required>
 												</div>
 
 												<label for="inputAddress">收件地址：&nbsp;</label> <input
 													type="text" class="form-control" id="rec_Add"
 													name="rec_Add" size="50" value="${memSvcVO.mem_addr}"
-													placeholder="請填寫正確地址">
+													placeholder="請填寫正確地址" required>
 											</div>
 										</div>
 									</div>
@@ -224,8 +224,8 @@
 												<div class="input-group-prepend">
 													<label class="input-group-text" for="inputGroupSelect01">收貨方式</label>
 												</div>
-												<select class="custom-select" name="delivery" id="delivery">
-													<option selected>請選擇...</option>
+												<select class="custom-select" name="delivery" id="delivery" required placeholder="請填寫正確全名">
+													<option selected value="">請選擇...</option>
 													<option value="1">宅配</option>
 													<option value="2">超商取貨</option>
 												</select>
@@ -235,9 +235,8 @@
 												<div class="input-group-prepend">
 													<label class="input-group-text" for="inputGroupSelect01">付款方式</label>
 												</div>
-												<select class="custom-select" name="order_Pay"
-													id="order_Pay">
-													<option selected>請選擇...</option>
+												<select class="custom-select" name="order_Pay" id="order_Pay" required>
+													<option selected value="">請選擇...</option>
 													<option value="1">信用卡(一次付清)</option>
 													<option value="2">貨到付款(運費100)</option>
 												</select>

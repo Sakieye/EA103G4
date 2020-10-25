@@ -224,6 +224,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>OrderServlet</servlet-name>
-		<url-pattern>/back-end/order/order.do</url-pattern>
+		<url-pattern>/order/order.do</url-pattern>
 	</servlet-mapping>
 </web-app>
