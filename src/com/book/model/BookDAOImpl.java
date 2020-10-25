@@ -47,6 +47,8 @@ public class BookDAOImpl implements BookDAO {
 	private static final String FIND_NEW_STMT = "SELECT * FROM(SELECT * FROM BOOKS ORDER BY PUBLICATION_DATE DESC NULLS LAST) WHERE ROWNUM <= ?";
 	private static final String GET_COUNT_STMT = "SELECT COUNT(1) FROM BOOKS";
 	private static final String FIND_BY_BOOK_ID_LIKE_STMT = "SELECT BOOK_ID FROM BOOKS WHERE BOOK_ID LIKE (upper(?) || '%') AND ROWNUM <= 20";
+	private static final String FIND_BY_BOOK_NAME_LIKE_STMT = "SELECT BOOK_NAME FROM BOOKS WHERE UPPER(BOOK_NAME) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
+	private static final String FIND_BY_AUTHOR_LIKE_STMT = "SELECT AUTHOR FROM BOOKS WHERE UPPER(AUTHOR) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
 
 	@Override
 	public void insert(Book book) {
@@ -979,7 +981,7 @@ public class BookDAOImpl implements BookDAO {
 			pstmt.setString(1, bookID);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				bookIDs.add(rs.getString("BOOK_ID"));
+				bookIDs.add(rs.getString(1));
 			}
 
 		} catch (
@@ -1004,5 +1006,85 @@ public class BookDAOImpl implements BookDAO {
 			}
 		}
 		return bookIDs;
+	}
+
+	@Override
+	public List<String> findByBookNameLike(String bookName) {
+		List<String> bookNames = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_BOOK_NAME_LIKE_STMT);
+			pstmt.setString(1, bookName);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookNames.add(rs.getString(1));
+			}
+
+		} catch (
+
+		SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return bookNames;
+	}
+
+	@Override
+	public List<String> findByAuthorLike(String author) {
+		List<String> authors = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_AUTHOR_LIKE_STMT);
+			pstmt.setString(1, author);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				authors.add(rs.getString(1));
+			}
+
+		} catch (
+
+		SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return authors;
 	}
 }

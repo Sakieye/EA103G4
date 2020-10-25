@@ -32,6 +32,12 @@
 <!--下拉式書籍類別選單-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
+<!-- jQuery AutoCompelete -->
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css">
+<script src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.auto-complete.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.auto-complete.css" />
 
 </head>
 
@@ -156,7 +162,7 @@
 	<!-- Footer -->
 	<%@include file="/front-end/footer/footer.jsp"%>
 	<!-- Scripts -->
-	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
@@ -179,6 +185,8 @@
 			alert("${errorMsgs}");
 		</script>
 	</c:if>
+	<!--Header Search Autocompelete-->
+	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
 </body>
 
 </html>

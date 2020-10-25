@@ -33,6 +33,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
 
+<!-- jQuery AutoCompelete -->
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css">
+<script src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.auto-complete.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.auto-complete.css" />
+
 </head>
 
 <body>
@@ -115,7 +122,6 @@
 	</section>
 	<jsp:include page="/front-end/footer/footer.jsp" />
 	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
 
@@ -139,6 +145,7 @@
 
 	</script>
 	 -->
-
+    <!--Header Search Autocompelete-->
+    <%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
 </body>
 </html>

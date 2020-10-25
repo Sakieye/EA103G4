@@ -62,7 +62,7 @@
 <!--Search-->
 <form method='get' action='<%=request.getContextPath()%>/Search' class="col-md-3" id='normal-search-form'>
 	<div class="search-bar col-md-10">
-		<input type="text" id="normal-search-bookName" name="bookName" placeholder="搜尋書名" class="form-control" required>
+		<input type="text" id="bookName" name="bookName" placeholder="搜尋書名" class="form-control" required>
 		<input type="hidden" name="action" value="search">
 	</div>
 	<!--Search Icon-->
@@ -83,9 +83,9 @@
 <div class="advanced-search-form">
 	<form method='get' action='<%=request.getContextPath()%>/Search'>
 		<div class="row advanced-search-form-row">
-			<label for="bookName" class="col-form-label">書名&emsp;&emsp;&emsp;</label>
+			<label for="advanced-search-bookName" class="col-form-label">書名&emsp;&emsp;&emsp;</label>
 			<div>
-				<input type="text" id="bookName" name="bookName">
+				<input type="text" id="advanced-search-bookName" name="bookName">
 			</div>
 		</div>
 		<div class="row advanced-search-form-row">

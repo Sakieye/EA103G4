@@ -517,4 +517,12 @@ public class BookService {
 	public List<String> getByBookIDLike(String bookID) {
 		return bookDAO.findByBookIDLike(bookID);
 	}
+
+	public List<String> getByBookNameLike(String bookName) {
+		return bookDAO.findByBookNameLike(bookName);
+	}
+
+	public List<String> getByAuthorLike(String author) {
+		return bookDAO.findByAuthorLike(author);
+	}
 }

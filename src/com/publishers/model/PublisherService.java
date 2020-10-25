@@ -52,4 +52,7 @@ public class PublisherService {
 		return dao.findOneByPublisherName(publisher_Name);
 	}
 
+	public List<String> getByPublisherNameLike(String publisherName) {
+		return dao.findByPublisherNameLike(publisherName);
+	}
 }

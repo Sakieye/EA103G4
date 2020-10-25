@@ -22,4 +22,6 @@ public interface BookDAO {
 	void updateBatch(List<Book> books);
 	int findBookNum();
 	List<String> findByBookIDLike(String bookID);
+	List<String> findByBookNameLike(String bookName);
+	List<String> findByAuthorLike(String author);
 }

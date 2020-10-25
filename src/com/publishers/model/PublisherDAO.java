@@ -25,6 +25,7 @@ public class PublisherDAO implements PublisherDAO_interface {
 	private static final String GET_PUBLISHER_BY_NAME = "SELECT * FROM PUBLISHERS WHERE upper(PUBLISHER_NAME) = ?";
 	private static final String GET_PUBLISHERS_BY_NAME = "SELECT * FROM PUBLISHERS WHERE upper(PUBLISHER_NAME) LIKE '%'|| upper(?) || '%'";
 	private static final String UPDATE_PUBLISHER = "UPDATE PUBLISHERS SET publisher_NAME =?, publisher_phone =?, publisher_address = ? ,publisher_email = ? WHERE publisher_id = ?";
+	private static final String GET_PUBLISHER_BY_NAME_LIKE = "SELECT PUBLISHER_NAME FROM PUBLISHERS WHERE UPPER(PUBLISHER_NAME) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
 
 	@Override
 	public void update(Publisher publisher) {
@@ -306,6 +307,46 @@ public class PublisherDAO implements PublisherDAO_interface {
 			}
 		}
 		return publisher;
+	}
+
+	@Override
+	public List<String> findByPublisherNameLike(String publisherName) {
+		List<String> publisherNames = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_PUBLISHER_BY_NAME_LIKE);
+			pstmt.setString(1, publisherName);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				publisherNames.add(rs.getString(1));
+			}
+
+		} catch (
+
+		SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return publisherNames;
 	}
 
 }

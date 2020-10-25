@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import com.book.model.Book;
 import com.book.model.BookService;
 import com.category.model.CategoryService;
+import com.google.gson.Gson;
+import com.publishers.model.PublisherService;
 
 @WebServlet("/Search")
 public class Search extends HttpServlet {
@@ -118,7 +120,7 @@ public class Search extends HttpServlet {
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 			CategoryService categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
 			List<Book> books = bookService.getByParentCategoryID(categoryID, categoryService, true);
-			
+
 			request.setAttribute("books", books);
 			request.setAttribute("catLevelMap", categoryService.getCatLevelMap(categoryID));
 			request.getRequestDispatcher(SUCESS_URL).forward(request, response);
@@ -133,6 +135,34 @@ public class Search extends HttpServlet {
 				}
 				request.getRequestDispatcher(SUCESS_URL).forward(request, response);
 			}
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookName = request.getParameter("bookName");
+		String author = request.getParameter("author");
+		String publisherName = request.getParameter("publisherName");
+
+		// AJAX自動補字
+		if (bookName != null) {
+			response.setContentType("application/json");
+			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
+			List<String> bookNames = bookService.getByBookNameLike(bookName);
+			String searchList = new Gson().toJson(bookNames);
+			response.getWriter().write(searchList);
+		} else if (author != null) {
+			response.setContentType("application/json");
+			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
+			List<String> authors = bookService.getByAuthorLike(author);
+			String searchList = new Gson().toJson(authors);
+			response.getWriter().write(searchList);
+		} else if (publisherName != null) {
+			response.setContentType("application/json");
+			PublisherService publisherService = (PublisherService) getServletContext().getAttribute("publisherService");
+			List<String> publisherNames = publisherService.getByPublisherNameLike(publisherName);
+			String searchList = new Gson().toJson(publisherNames);
+			response.getWriter().write(searchList);
 		}
 	}
 }
