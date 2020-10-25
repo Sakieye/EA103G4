@@ -28,6 +28,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Tuple;
 import tools.CountComparator;
 import tools.JedisUtil;
+import tools.RandomCollection;
 
 public class BookService {
 	private final BookDAO bookDAO;
@@ -259,7 +260,7 @@ public class BookService {
 		books.forEach(book -> bookIDs.add(book.getBookID()));
 		return getByBookIDList(bookIDs);
 	}
-	
+
 	// 前端專用方法
 	public List<Book> getPopularBooks(int bookNum, int sampleNum) {
 		// 取得Jedis連線資源
@@ -267,7 +268,7 @@ public class BookService {
 		Jedis jedis = pool.getResource();
 		jedis.auth("123456");
 
-		List<String> bookIDs = new ArrayList<String>();
+		Set<String> bookIDs = new HashSet<String>();
 		List<Book> books = new ArrayList<Book>();
 
 		String keyName;
@@ -300,18 +301,26 @@ public class BookService {
 		// 歸還連線資源到Jedis連線池
 		JedisUtil.closeJedis(jedis);
 
-		List<Pair<String, Double>> bookWeights = new ArrayList<Pair<String, Double>>();
+		RandomCollection<String> rc = new RandomCollection<>();
+
+//		List<Pair<String, Double>> bookWeights = new ArrayList<Pair<String, Double>>();
 		res.forEach(tuple -> {
 			String bookID = tuple.getElement();
 			double viewedCount = tuple.getScore();
-			bookWeights.add(new Pair<String, Double>(bookID, viewedCount));
+//			bookWeights.add(new Pair<String, Double>(bookID, viewedCount));
+
+			rc.add(viewedCount, bookID);
 		});
 
 		// 使用apache.commons.math3.distribution.EnumeratedDistribution.EnumeratedDistribution對有權重的bookWeights抽樣
-		Object[] objs = new EnumeratedDistribution<String>(bookWeights).sample(bookNum);
-
-		for (Object bookID : objs) {
-			bookIDs.add(bookID.toString());
+//		Object[] objs = new EnumeratedDistribution<String>(bookWeights).sample(bookNum);
+//
+//		for (Object bookID : objs) {
+//			bookIDs.add(bookID.toString());
+//		}
+		String bookID;
+		while ((bookID = rc.next()) != null && bookIDs.size() < bookNum) {
+			bookIDs.add(bookID);
 		}
 
 		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
@@ -324,7 +333,7 @@ public class BookService {
 
 		return books;
 	}
-	
+
 	// 前端專用方法
 	public Set<Book> getRecommendedBooks(List<Book> recentViewedBooks, String thisBookID) {
 		// 取得Jedis連線資源
@@ -504,17 +513,17 @@ public class BookService {
 
 		return randPromo;
 	}
-	
+
 	// 前端專用方法
 	public List<Book> getNewBooks(int num) {
 		return bookDAO.findNewBooks(num, true);
 	}
-	
+
 	public int getBookNum() {
 		return bookDAO.findBookNum();
 	}
-	
-	public List<String> getByBookIDLike(String bookID){
+
+	public List<String> getByBookIDLike(String bookID) {
 		return bookDAO.findByBookIDLike(bookID);
 	}
 }
