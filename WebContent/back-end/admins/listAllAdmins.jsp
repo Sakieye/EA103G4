@@ -34,23 +34,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- 自訂CSS -->
     <style type="text/css">
-        .main-container {
+        .container_l {
             padding-left: 270px;
-            padding-top: 80px;
+            padding-top:80px;
             padding-right: 30px;
         }
     </style>
 </head>
 <body>
 <jsp:include page="/back-end/header/header.jsp" />
-    <div class="main-container">
-        <main>
-        <div class="pd-20 card-box mb-30">
+    <div class="container_l" >
+        
+        <div class=" card-box ">
             <div class="clearfix mb-20">
                 <div class="pull-left">
                     <h1 class="text-blue h1">員工列表</h1>
                     <div>
-                        <a href="<%=request.getContextPath()%>/back-end/admins/addAdmins.jsp"><img type="button" id="button" src="<%=request.getContextPath()%>/images/admins/user_add.png" height="50px" width="50px"></a>
+                        <a href="<%=request.getContextPath()%>/back-end/admins/addAdmins.jsp"><img id="button" src="<%=request.getContextPath()%>/images/admins/user_add.png" height="50px" width="50px"></a>
                     </div>              
                 </div>
                 <jsp:useBean id="adminsSvc1" scope="page" class="com.admins.model.AdminsService" />
@@ -65,6 +65,7 @@
                                 </c:forEach>
                             </select>
                             <div class="input-group-append">
+                                <input type="hidden" name="po_no" value="${udbtxVO.po_no}">
                                 <input type="hidden" name="action" value="getOne_For_Display">
                                 <input type="submit" value="送出" class="btn btn-dark btn-sm">
                             </div>                           
@@ -72,7 +73,7 @@
                     </form>
                     </div>
                      <div class = "pull-right" style="padding-top:15px">
-                        <a href="<%=request.getContextPath()%>/back-end/login/loginSuccess.jsp"><img type="button" id="button" src="<%=request.getContextPath()%>/images/admins/home.png" height="45px" width="45px"></a>
+                        <a href="<%=request.getContextPath()%>/back-end/login/loginSuccess.jsp"><img src="<%=request.getContextPath()%>/images/admins/home.png" height="45px" width="45px"></a>
                     </div>
                 </div>
                 
@@ -89,22 +90,24 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
+                <%@ include file="page1.file" %> 
+	<c:forEach var="adminsVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                 <tbody>
-                    <c:forEach var="adminsVO" items="${list}">
+
                         <tr>
                             <td>${adminsVO.admin_id}</td>
                             <td>
                                 <div id="img">
-                                    <img width="100px" heigh="100px" src="${pageContext.request.contextPath}/ShowAdminPic?admin_id=${adminsVO.admin_id}" />
+                                    <img width="100px" height="100px" src="${pageContext.request.contextPath}/ShowAdminPic?admin_id=${adminsVO.admin_id}" />
                                 </div>
                             </td>
                             <td>${adminsVO.admin_name}</td>
                             <td>${adminsVO.admin_mail}</td>
                             <td>${adminsVO.admin_jobstate == 1?"在職":"離職"}</td>
-                            </td>
+                            
                             <td>
                                 <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do">
-                                    <input type="image" name="submitPng" src="<%=request.getContextPath()%>/images/admins/edit.png" onclick="submit()" border="0">
+                                    <input type="image" name="submitPng" src="<%=request.getContextPath()%>/images/admins/edit.png" onclick="submit()">
                                     <input type="hidden" name="admin_id" value="${adminsVO.admin_id}">
                                     <input type="hidden" name="admin_id" value="${adminpermissionVO.admin_id}">
                                     <input type="hidden" name="action" value="getOne_For_Update">
@@ -112,7 +115,7 @@
                             </td>
                             <td>
                                 <form class="pull-left" method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do">
-                                    <input type="image" name="viewPng" src="<%=request.getContextPath()%>/images/admins/view.png" onclick="submit()" border="0">
+                                    <input type="image" name="viewPng" src="<%=request.getContextPath()%>/images/admins/view.png" onclick="submit()">
                                     <input type="hidden" name="admin_id" value="${adminsVO.admin_id}">
                                     <input type="hidden" name="admin_id" value="${adminpermissionVO.admin_id}">
                                     <input type="hidden" name="action" value="getOne_For_Display">
@@ -122,9 +125,9 @@
                     </c:forEach>
                 </tbody>
             </table>
+            <%@ include file="page2.file" %>
         </div>
-      </div>
-     </main>
+      </div>   
   <jsp:include page="/back-end/sidebar/sidebar.jsp" />									
 </body>
 </html>

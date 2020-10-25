@@ -1,6 +1,5 @@
 package com.permissiondelimit.model;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,6 +20,7 @@ public class PermissionDelimitJDBCDAO implements PermissionDelimitDAO_interface 
 	private static final String DELETE = "DELETE FROM PERMISSION_DELIMIT WHERE PER_ID = ?";
 	private static final String FIND_BY_PER_ID = "SELECT PER_NAME FROM PERMISSION_DELIMIT WHERE PER_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM PERMISSION_DELIMIT ORDER BY PER_ID";
+	private static final String FIND_BY_PER_URI = "SELECT * FROM PERMISSION_DELIMIT WHERE PER_URI = ?";
 
 	@Override
 	public void insert(PermissionDelimitVO permissiondelimitVO) {
@@ -36,7 +36,7 @@ public class PermissionDelimitJDBCDAO implements PermissionDelimitDAO_interface 
 			pstmt.setString(1, permissiondelimitVO.getPer_name());
 
 			pstmt.executeUpdate();
-			System.out.println("新增成功");
+//			System.out.println("新增成功");
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -78,7 +78,7 @@ public class PermissionDelimitJDBCDAO implements PermissionDelimitDAO_interface 
 			pstmt.setString(1, permissiondelimitVO.getPer_name());
 			pstmt.setString(2, permissiondelimitVO.getPer_id());
 			pstmt.executeUpdate();
-			System.out.println("per_name update ok");
+//			System.out.println("per_name update ok");
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -118,7 +118,7 @@ public class PermissionDelimitJDBCDAO implements PermissionDelimitDAO_interface 
 			
 			pstmt.setString(1, per_id);
 			pstmt.executeUpdate();
-			System.out.println("per_id delete ok");
+//			System.out.println("per_id delete ok");
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -257,19 +257,77 @@ public class PermissionDelimitJDBCDAO implements PermissionDelimitDAO_interface 
 		return list;
 	}
 
+	@Override
+	public PermissionDelimitVO findByUri(String per_uri) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		PermissionDelimitVO permissiondelimitVO = null;
+
+		try {
+			
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_PER_URI);
+
+			pstmt.setString(1, per_uri);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				
+				permissiondelimitVO = new PermissionDelimitVO();
+
+				permissiondelimitVO.setPer_uri(per_uri);
+				permissiondelimitVO.setPer_id(rs.getString("per_id"));
+				permissiondelimitVO.setPer_name(rs.getString("per_name"));
+
+				System.out.println("(FIND_BY_PER_URI ok)");
+			}
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return permissiondelimitVO;
+	}
 //	public static void main(String[] args) throws IOException {
 //
 //		PermissionDelimitJDBCDAO dao = new PermissionDelimitJDBCDAO();
 //
 //		// add
 //		PermissionDelimitVO permissiondelimitVO1 = new PermissionDelimitVO();
-//		permissiondelimitVO1.setPer_name("��s�޲z");
+//		permissiondelimitVO1.setPer_name("測試管理");
 //
 //		dao.insert(permissiondelimitVO1);
 //		System.out.println("add ok");
-//		// update��
+//		// update
 //		PermissionDelimitVO permissiondelimitVO2 = new PermissionDelimitVO();
-//		permissiondelimitVO2.setPer_name("�w���޲z");
+//		permissiondelimitVO2.setPer_name("測試測試管理");
 //		permissiondelimitVO2.setPer_id("PER0003");
 //
 //		dao.update(permissiondelimitVO2);

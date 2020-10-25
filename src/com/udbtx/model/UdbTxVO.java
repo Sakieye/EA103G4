@@ -1,8 +1,8 @@
-package com.usedbooktransaction.model;
+package com.udbtx.model;
 
 import java.sql.*;
 
-public class UsedbookTransactionVO implements java.io.Serializable {
+public class UdbTxVO implements java.io.Serializable {
 	private String po_no;
 	private String book_id;
 	private String seller_mem_id;
@@ -16,10 +16,10 @@ public class UsedbookTransactionVO implements java.io.Serializable {
 	private Integer prod_state;
 	private Integer payment_state;
 
-	public UsedbookTransactionVO() {
+	public UdbTxVO() {
 	}
 
-	public UsedbookTransactionVO(String po_no, String book_id, String seller_mem_id, String buyer_mem_id,
+	public UdbTxVO(String po_no, String book_id, String seller_mem_id, String buyer_mem_id,
 			String book_state, byte[] book_state_pic, Integer udb_sale_price, Timestamp release_date,
 			Integer udb_order_state_no, Timestamp udb_order_date, Integer prod_state, Integer payment_state) {
 		this.po_no = po_no;

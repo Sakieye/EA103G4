@@ -12,8 +12,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.admins.model.AdminsVO;
-
 public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 
 	private static DataSource ds = null;
@@ -31,8 +29,8 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 	private static final String DELETE = "DELETE FROM PERMISSION_DELIMIT WHERE PER_ID = ?";
 	private static final String FIND_BY_PER_ID = "SELECT * FROM PERMISSION_DELIMIT WHERE PER_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM PERMISSION_DELIMIT ORDER BY PER_ID";
+	private static final String FIND_BY_PER_URI = "SELECT * FROM PERMISSION_DELIMIT WHERE PER_URI = ?";
 
-	
 	@Override
 	public void insert(PermissionDelimitVO permissiondelimitVO) {
 		Connection con = null;
@@ -71,8 +69,10 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 
 	@Override
 	public void update(PermissionDelimitVO permissiondelimitVO) {
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		
 		try {
 
 			con = ds.getConnection();
@@ -81,7 +81,7 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 			pstmt.setString(1, permissiondelimitVO.getPer_name());
 			pstmt.setString(2, permissiondelimitVO.getPer_id());
 			pstmt.executeUpdate();
-			System.out.println("update ok");
+//			System.out.println("update ok");
 
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -101,8 +101,7 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 					e.printStackTrace(System.err);
 				}
 			}
-		}
-		
+		}		
 	}
 
 	@Override
@@ -143,6 +142,7 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 
 	@Override
 	public PermissionDelimitVO findByPrimaryKey(String per_id) {
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -160,7 +160,7 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 				
 				permissiondelimitVO.setPer_id(per_id);
 				permissiondelimitVO.setPer_name(rs.getString("per_name"));
-				System.out.println("(FIND_BY_PER_ID)");
+//				System.out.println("(FIND_BY_PER_ID)");
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -212,7 +212,7 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 				permissiondelimitVO.setPer_id(rs.getString("per_id"));
 				permissiondelimitVO.setPer_name(rs.getString("per_name"));
 				list.add(permissiondelimitVO); // Store the row in the list
-				System.out.println("(GET_ALL_STMT)");
+//				System.out.println("(GET_ALL_STMT)");
 			}
 
 			// Handle any driver errors
@@ -244,5 +244,59 @@ public class PermissionDelimitDAO implements PermissionDelimitDAO_interface{
 		}
 		return list;
 	}
+	@Override
+	public PermissionDelimitVO findByUri(String per_uri) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		PermissionDelimitVO permissiondelimitVO = null;
 
+		try {
+						
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_PER_URI);
+
+			pstmt.setString(1, per_uri);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				
+				permissiondelimitVO = new PermissionDelimitVO();
+
+				permissiondelimitVO.setPer_uri(per_uri);
+				permissiondelimitVO.setPer_id(rs.getString("per_id"));
+				permissiondelimitVO.setPer_name(rs.getString("per_name"));
+
+				System.out.println("(FIND_BY_PER_URI ok)");
+			}
+		}  catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return permissiondelimitVO;
+	}	
 }
+

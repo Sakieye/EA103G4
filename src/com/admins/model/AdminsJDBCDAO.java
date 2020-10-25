@@ -2,12 +2,6 @@ package com.admins.model;
 
 import java.util.*;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +18,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 	private static final String INSERT_STMT = "INSERT INTO ADMINS (ADMIN_ID, ADMIN_NAME, ADMIN_ID_NO, ADMIN_PSWD, ADMIN_MOBILE, ADMIN_ADDRESS, ADMIN_DUTYDATE, ADMIN_JOBSTATE, ADMIN_PIC, ADMIN_MAIL)"
 			+ "VALUES ('ADM' || LPAD(ADMIN_SEQ.NEXTVAL, 4, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE ADMINS SET ADMIN_NAME=?, ADMIN_MOBILE=?, ADMIN_ADDRESS=?, ADMIN_JOBSTATE=?, ADMIN_PIC=?, ADMIN_MAIL=? WHERE ADMIN_ID = ?";
-	//private static final String DELETE = "DELETE FROM ADMINS WHERE ADMIN_ID = ?";
 	private static final String FIND_BY_ADMIN_ID = "SELECT * FROM ADMINS WHERE ADMIN_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM ADMINS ORDER BY ADMIN_ID";
 	//update password
@@ -135,46 +128,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 		}
 	}
 
-//	@Override
-//	public void delete(String admin_id) {
-//
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//
-//		try {
-//
-//			Class.forName(DRIVER);
-//			con = DriverManager.getConnection(URL, USER, PASSWORD);
-//			pstmt = con.prepareStatement(DELETE);
-//			
-//			pstmt.setString(1, admin_id);
-//			pstmt.executeUpdate();
-//			System.out.println("delete ok");
-//			// Handle any driver errors
-//		} catch (ClassNotFoundException e) {
-//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-//			// Handle any SQL errors
-//		} catch (SQLException se) {
-//			throw new RuntimeException("A database error occured. " + se.getMessage());
-//			// Clean up JDBC resources
-//		} finally {
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (con != null) {
-//				try {
-//					con.close();
-//				} catch (Exception e) {
-//					e.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//	}
-
 	@Override
 	public AdminsVO findByPrimaryKey(String admin_id) { //先將係向全寫出 不想顯示再刪除
 		Connection con = null;
@@ -194,7 +147,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 			while (rs.next()) {
 				
 				adminsVO = new AdminsVO();
-
 				adminsVO.setAdmin_id(admin_id);
 				adminsVO.setAdmin_name(rs.getString("admin_name"));
 				adminsVO.setAdmin_id_no(rs.getString("admin_id_no"));
@@ -318,7 +270,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 		fis.close();
 
 		return baos.toByteArray(); 
-
 	}
 	
 	@Override
@@ -334,7 +285,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 			pstmt = con.prepareStatement(FIND_BY_ADMIN_ID);
 			pstmt.setString(1, admin_id);
 			
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -391,7 +341,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 			
 //			System.out.println("updatePswd ok");
 			
-
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
@@ -415,7 +364,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 			}
 		}
 	}
-
 	
 
 //		public static void main(String[] args) throws IOException {
@@ -502,6 +450,6 @@ public class AdminsJDBCDAO implements AdminsDAO_interface {
 //	System.out.println("adminsVO6.getAdmin_pswd"+ adminsVO6.getAdmin_pswd());
 //		}
 
-				}
+}
 
 		

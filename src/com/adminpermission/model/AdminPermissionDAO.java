@@ -5,18 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.admins.model.AdminsVO;
-import com.permissiondelimit.model.PermissionDelimitVO;
 
 public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 
@@ -31,7 +26,6 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 	}
 
 	private static final String INSERT_STMT = "INSERT INTO ADMIN_PERMISSION (ADMIN_ID, PER_ID) VALUES (?, ?)";
-//	private static final String UPDATE = "UPDATE ADMIN_PERMISSION SET PER_ID = ? WHERE ADMIN_ID = ?";
 	private static final String DELETE = "DELETE FROM ADMIN_PERMISSION WHERE ADMIN_ID = ?";
 	private static final String FIND_BY_ADMIN_ID = "SELECT * FROM ADMIN_PERMISSION WHERE ADMIN_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM ADMIN_PERMISSION ORDER BY ADMIN_ID";
@@ -50,7 +44,7 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 			pstmt.setString(1, adminpermissionVO.getAdmin_id());
 			pstmt.setString(2, adminpermissionVO.getPer_id());
 			pstmt.executeUpdate();
-			System.out.println("權限新增成功");
+//			System.out.println("權限新增成功");
 
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -74,43 +68,6 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 		}
 	}
 
-//	@Override
-//	public void update(AdminPermissionVO adminpermissionVO) {
-//		
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		
-//		try {
-//
-//			con = ds.getConnection();
-//			pstmt = con.prepareStatement(UPDATE);
-//
-//			pstmt.setString(1, adminpermissionVO.getPer_id());
-//			pstmt.setString(2, adminpermissionVO.getAdmin_id());
-//			pstmt.executeUpdate();
-//			System.out.println("權限更新成功");
-//
-//		} catch (SQLException se) {
-//			throw new RuntimeException("A database error occured. " + se.getMessage());
-//			// Clean up JDBC resources
-//		} finally {
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (con != null) {
-//				try {
-//					con.close();
-//				} catch (Exception e) {
-//					e.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//	}
-
 	@Override
 	public void delete(String admin_id) {
 
@@ -124,7 +81,7 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 
 			pstmt.setString(1, admin_id);
 			pstmt.executeUpdate();
-			System.out.println("用admin_id刪除成功");
+			//System.out.println("用admin_id刪除成功");
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -146,7 +103,6 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 			}
 		}
 	}
-
 	
 	@Override
 	public List<AdminPermissionVO> findByPrimaryKey(String admin_id) {
@@ -169,7 +125,7 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 				adminpermissionVO.setAdmin_id(admin_id);
 				adminpermissionVO.setPer_id(rs.getString("per_id"));// 從欄位把資料取出再放進物件裡
 				list.add(adminpermissionVO);
-				System.out.println("查詢成功(FIND_BY_ADMIN_ID)");
+//				System.out.println("查詢成功(FIND_BY_ADMIN_ID)");
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -222,7 +178,7 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 				adminpermissionVO.setAdmin_id(rs.getString("admin_id"));
 				adminpermissionVO.setPer_id(rs.getString("per_id"));
 				list.add(adminpermissionVO); // Store the row in the list
-				System.out.println("查詢成功(GET_ALL_STMT)");
+//				System.out.println("查詢成功(GET_ALL_STMT)");
 			}
 
 			// Handle any driver errors
@@ -254,64 +210,4 @@ public class AdminPermissionDAO implements AdminPermissionDAO_interface {
 		}
 		return list;
 	}
-
-	//@Override????
-//	public List<AdminPermissionVO> getAll(Map<String, String[]> map) {
-//		List<AdminPermissionVO> list = new ArrayList<AdminPermissionVO>();
-//		AdminPermissionVO adminpermissionVO = null;
-//	
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//	
-//		try {
-//			
-//			con = ds.getConnection();
-//			String finalSQL = "SELECT * FROM ADMIN_PERMISSION "
-//		          + jdbcUtil_CompositeQuery_.get_WhereCondition(map)
-//		          + "ORDER BY ADMIN_ID";
-//			pstmt = con.prepareStatement(finalSQL);
-//			System.out.println("**finalSQL(by DAO) = "+finalSQL);
-//			rs = pstmt.executeQuery();
-//	
-//			while (rs.next()) {
-//				adminpermissionVO = new AdminPermissionVO();
-//				adminpermissionVO.setAdmin_id(rs.getString("admin_id"));
-//				adminpermissionVO.setPer_id(rs.getString("per_id"));
-//				
-//				list.add(adminpermissionVO); // Store the row in the List
-//			}
-//	
-//			// Handle any SQL errors
-//		} catch (SQLException se) {
-//			throw new RuntimeException("A database error occured. "
-//					+ se.getMessage());
-//		} finally {
-//			if (rs != null) {
-//				try {
-//					rs.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (con != null) {
-//				try {
-//					con.close();
-//				} catch (Exception e) {
-//					e.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//		return list;
-//	}
-
-
-	
 }

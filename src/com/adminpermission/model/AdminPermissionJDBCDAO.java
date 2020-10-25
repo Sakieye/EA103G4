@@ -6,12 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-
-import com.admins.model.AdminsVO;
-import com.permissiondelimit.model.PermissionDelimitVO;
 
 public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 
@@ -21,7 +16,6 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 	String PASSWORD = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO ADMIN_PERMISSION (ADMIN_ID, PER_ID) VALUES (?, ?)";
-//	private static final String UPDATE = "UPDATE ADMIN_PERMISSION SET PER_ID = ? WHERE ADMIN_ID = ?";
 	private static final String DELETE = "DELETE FROM ADMIN_PERMISSION WHERE ADMIN_ID = ?";
 	private static final String FIND_BY_ADMIN_ID = "SELECT * FROM ADMIN_PERMISSION WHERE ADMIN_ID = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM ADMIN_PERMISSION ORDER BY ADMIN_ID";
@@ -39,7 +33,7 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 			pstmt.setString(1, adminpermissionVO.getAdmin_id());
 			pstmt.setString(2, adminpermissionVO.getPer_id());
 			pstmt.executeUpdate();
-			System.out.println("權限新增成功");
+//			System.out.println("權限新增成功");
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -66,45 +60,6 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 		}
 	}
 
-//	@Override
-//	public void update(AdminPermissionVO adminpermissionVO) {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		try {
-//
-//			Class.forName(DRIVER);
-//			con = DriverManager.getConnection(URL, USER, PASSWORD);
-//			pstmt = con.prepareStatement(UPDATE);
-//
-//			pstmt.setString(1, adminpermissionVO.getPer_id());
-//			pstmt.setString(2, adminpermissionVO.getAdmin_id());
-//			pstmt.executeUpdate();
-//			System.out.println("權限更新成功");
-//
-//		} catch (ClassNotFoundException e) {
-//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-//			// Handle any SQL errors
-//		} catch (SQLException se) {
-//			throw new RuntimeException("A database error occured. " + se.getMessage());
-//			// Clean up JDBC resources
-//		} finally {
-//			if (pstmt != null) {
-//				try {
-//					pstmt.close();
-//				} catch (SQLException se) {
-//					se.printStackTrace(System.err);
-//				}
-//			}
-//			if (con != null) {
-//				try {
-//					con.close();
-//				} catch (Exception e) {
-//					e.printStackTrace(System.err);
-//				}
-//			}
-//		}
-//	}
-
 	@Override
 	public void delete(String admin_id) {
 
@@ -119,7 +74,7 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 
 			pstmt.setString(1, admin_id);
 			pstmt.executeUpdate();
-			System.out.println("用admin_id刪除成功");
+//			System.out.println("用admin_id刪除成功");
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -168,7 +123,7 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 				adminpermissionVO = new AdminPermissionVO();
 				adminpermissionVO.setPer_id(rs.getString("per_id"));
 				list.add(adminpermissionVO); // Store the row in the list
-				System.out.println("查詢成功(FIND_ONE_ADMINPER)");
+//				System.out.println("查詢成功(FIND_ONE_ADMINPER)");
 			}
 
 			// Handle any driver errors
@@ -226,7 +181,7 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 				adminpermissionVO.setAdmin_id(rs.getString("admin_id"));
 				adminpermissionVO.setPer_id(rs.getString("per_id"));
 				list.add(adminpermissionVO); // Store the row in the list
-				System.out.println("查詢成功(GET_ALL_STMT)");
+//				System.out.println("查詢成功(GET_ALL_STMT)");
 			}
 
 			// Handle any driver errors
@@ -261,10 +216,11 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 		}
 		return list;
 	}
+}
 	
-	public static void main(String[] args){
-
-		AdminPermissionJDBCDAO dao = new AdminPermissionJDBCDAO();
+//	public static void main(String[] args){
+//
+//		AdminPermissionJDBCDAO dao = new AdminPermissionJDBCDAO();
 		// 新增OK
 //				AdminPermissionVO adminpermissionVO1 = new AdminPermissionVO();
 //				adminpermissionVO1.setAdmin_id("ADM0004");
@@ -285,11 +241,11 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 
 //				
 		// 查詢by admin_id OK 只能查一個會員的多個權限
-			List<AdminPermissionVO> list = dao.findByPrimaryKey("ADM0001");
-		for (AdminPermissionVO aadminpermissionVO : list) {
-			System.out.print(aadminpermissionVO.getPer_id());
-			System.out.println();
-		}
+//			List<AdminPermissionVO> list = dao.findByPrimaryKey("ADM0001");
+//		for (AdminPermissionVO aadminpermissionVO : list) {
+//			System.out.print(aadminpermissionVO.getPer_id());
+//			System.out.println();
+//		}
 
 		// 查詢OK
 //				List<AdminPermissionVO> list = dao.getAll();
@@ -299,6 +255,3 @@ public class AdminPermissionJDBCDAO implements AdminPermissionDAO_interface {
 //					System.out.println();
 //				}
 
-	}
-
-}

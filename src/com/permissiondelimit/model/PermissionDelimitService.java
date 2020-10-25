@@ -42,5 +42,9 @@ public class PermissionDelimitService {
 	public List<PermissionDelimitVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public PermissionDelimitVO getOneUri(String per_uri) {
+		return dao.findByUri(per_uri);
+	}
 
 }

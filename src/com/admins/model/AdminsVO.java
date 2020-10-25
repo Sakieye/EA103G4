@@ -2,8 +2,6 @@ package com.admins.model;
 
 import java.sql.Date;
 
-import javax.servlet.http.Part;
-
 public class AdminsVO {
 	
 	private String admin_id;

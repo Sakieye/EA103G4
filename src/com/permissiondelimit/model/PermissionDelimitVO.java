@@ -4,6 +4,7 @@ public class PermissionDelimitVO implements java.io.Serializable {
 
 	private String per_id;
 	private String per_name;
+	private String per_uri;
 
 	public PermissionDelimitVO() {
 	}
@@ -27,6 +28,13 @@ public class PermissionDelimitVO implements java.io.Serializable {
 
 	public void setPer_name(String per_name) {
 		this.per_name = per_name;
+	}
+	
+	public String getPer_uri() {
+		return per_uri;
+	}
 
+	public void setPer_uri(String per_uri) {
+		this.per_uri = per_uri;
 	}
 }

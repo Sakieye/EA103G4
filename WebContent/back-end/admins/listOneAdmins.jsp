@@ -41,11 +41,12 @@
                     <div class="pd-20 card-box mb-30">
                         <div class="clearfix">
                             <h2 class="text-dark h2">員工資料詳情</h2>
-                            <div class = "pull-right" >
+                            <div class = "pull-right" style="padding:0 0 5px 0">
                                  <a href="<%=request.getContextPath()%>/back-end/login/loginSuccess.jsp"><img src="<%=request.getContextPath()%>/images/admins/home.png" height="45px" width="45px"></a>
                             </div>
-							<div class="pull-right" style="padding:0 20px 5px 0" id="goList">
-								<a href="<%=request.getContextPath()%>/back-end/admins/listAllAdmins.jsp" class="goList"><img src="<%=request.getContextPath()%>/images/admins/list.png" height="45px" width="40px"></a>
+							<div class="pull-right" style="padding:15px 30px 0 0">
+							<input type="image" src="<%=request.getContextPath()%>/images/admins/back.png" width="30px" height="30px" onClick="history.go(-1)">
+								
 							</div>
 						</div>
                     </div>
@@ -146,7 +147,7 @@
         </main>
     </div>
      <jsp:include page="/back-end/sidebar/sidebar.jsp" />
-         
+           
     <!-- js -->
     <script src="<%=request.getContextPath()%>/vendors/scripts/core.js"></script>
     <script src="<%=request.getContextPath()%>/vendors/scripts/script.min.js"></script>
@@ -156,5 +157,4 @@
     <script src="<%=request.getContextPath()%>/vendors/scripts/steps-setting.js"></script>
     
 </body>
-
 </html>

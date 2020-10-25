@@ -5,7 +5,6 @@ import java.util.*;
 public interface AdminsDAO_interface {
 	public Object insert(AdminsVO adminsVO);
 	public void update(AdminsVO adminsVO);
-	//public void delete(String admin_id);
 	public AdminsVO findByPrimaryKey(String admin_id);
 	public List<AdminsVO> getAll();
 	Optional<AdminsVO> findAdminPicByAdminId(String admin_id);//show圖片

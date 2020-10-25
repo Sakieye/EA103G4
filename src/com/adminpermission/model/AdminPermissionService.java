@@ -21,17 +21,6 @@ public class AdminPermissionService {
 		return adminpermissionVO;
 	}
 
-//	public AdminPermissionVO updateAdminPermission(String admin_id, String per_id) {
-//
-//		AdminPermissionVO adminpermissionVO = new AdminPermissionVO();
-//		
-//		adminpermissionVO.setAdmin_id(admin_id);
-//		adminpermissionVO.setPer_id(per_id);
-//		dao.update(adminpermissionVO);
-//
-//		return adminpermissionVO;
-//	}
-
 	public void deleteAdminPermission(String admin_id) {
 		dao.delete(admin_id);
 	}

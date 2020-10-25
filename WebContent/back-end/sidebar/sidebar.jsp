@@ -22,7 +22,8 @@
 
 <nav id="left" class="column">
     <div id="controlbar" class="position-fixed">
-        <div class="auth">
+<!--         <div class="auth"> -->
+        <div>
             <br>
             <h5><b>&nbsp;書城<span>Bookshop</span></b></h5>
             <ul>         
@@ -30,25 +31,29 @@
             <li>&nbsp;&nbsp;<span class="auth2"><a href="#">訂單管理</a></span></li>                 
             </ul>
         </div>
-        <div class="auth">
+<!--         <div class="auth"> -->
+        <div>
             <h5><b>&nbsp;講座<span>Lecture</span></b></h5>
             <ul>
             <li>&nbsp;&nbsp;<span class="auth2"><a href="#">講座管理</a></span></li>            
             </ul>
         </div>
-        <div class="auth">
+<!--         <div class="auth"> -->
+        <div>
             <h5><b>&nbsp;討論區<span>Forum</span></b></h5>
             <ul>
             <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/forum/forumBack_forums.jsp">討論區檢舉管理</a></span></li>             
             </ul>
         </div>
-        <div class="auth">
+<!--         <div class="auth"> -->
+        <div>
             <h5><b>&nbsp;讀書會<span>Book Club</span></b></h5>
             <ul>           
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/bookclub_report/listAllBookClub_Report.jsp">讀書會檢舉管理</a></span></li>             
             </ul>
         </div>
-        <div class="auth">
+<!--         <div class="auth"> -->
+        <div>
             <h5><b>&nbsp;管理<span>Manegement</span></b></h5>
             <ul>       
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/member/listAllMem.jsp">會員管理</a></span></li>                      
@@ -56,7 +61,8 @@
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/MarketingManagementIndex">行銷管理</a></span></li>                                 
             </ul>
         </div>
-        <div class="auth">
+<!--         <div class="auth"> -->
+        <div>
             <h5><b>&nbsp;客服<span>Customer Service</span></b></h5>
             <ul>           
          <li>&nbsp;&nbsp;<span class="auth2"><a href="#">客服回覆</a></span></li>           
@@ -105,13 +111,13 @@
                     break;
                 }
             }
-//             if (allow) {
-//             	 auth2[i].classList.add("unshow");
-//             	 console.log('auth2')
-//             }
-				if (allow) {
-            	 auth2[i].closest('.auth').classList.add("unshow");
+            if (allow) {
+            	 auth2[i].classList.add("unshow");
             	 console.log('auth2')
             }
+// 				if (allow) {
+//             	 auth2[i].closest('.auth').classList.add("unshow");
+//             	 console.log('auth2')
+//             }
         }
     </script>

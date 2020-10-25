@@ -80,10 +80,10 @@
                                             </ul>
                                         </c:if>
                                         <div class="form-group">
-                                            <input type="text" name="admin_id" class="form-control form-control-user" id="exampleInputAccount" aria-describedby="accountHelp" placeholder="請輸入帳號...">
+                                            <input type="text" name="admin_id" class="form-control form-control-user" id="exampleInputAccount" aria-describedby="accountHelp" placeholder="請輸入帳號..." required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="admin_pswd" class="form-control form-control-user" id="exampleInputPassword" placeholder="密碼">
+                                            <input type="password" name="admin_pswd" class="form-control form-control-user" id="exampleInputPassword" placeholder="密碼" required>
                                         </div>
                                         <input type="hidden" name="action" value="login">
                                         <input type="submit" value="登入" class="btn btn-user btn-block" id="login">
@@ -93,7 +93,7 @@
                                         <p class="m-0">2020 &copy; Bookshop admin</p>
                                     </div>
                                     <div>
-                                        <img type="button" id="button" src="<%=request.getContextPath()%>/images/login/8.png" height="60px" width="60px" align="right">
+                                        <img style="cursor: pointer" id="button" src="<%=request.getContextPath()%>/images/login/8.png" height="60px" width="60px" align="right">
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
     <!-- js-->
     <script src="<%=request.getContextPath()%>/js/sb-admin-2.min.js"></script>
     <script type="text/javascript">
-    function init() {
+  
         var button = document.getElementById("button");
         var exampleInputAccount = document
             .getElementById("exampleInputAccount");
@@ -117,8 +117,7 @@
             exampleInputAccount.value = "ADM0007";
             exampleInputPassword.value = "000000";
         });
-    }
-    window.onload = init;
+
     </script>
 </body>
 

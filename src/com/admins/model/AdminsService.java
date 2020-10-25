@@ -2,7 +2,6 @@ package com.admins.model;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class AdminsService {
@@ -50,19 +49,13 @@ public class AdminsService {
 		adminsVO.setAdmin_mail(admin_mail);
 		
 		dao.update(adminsVO);
-		return adminsVO;		
-		
+		return adminsVO;				
 	}
-	
-//	public void deleteAdmins(String admin_id) {
-//		dao.delete(admin_id);
-//	}
 
 	public AdminsVO getOneAdmin(String admin_id) {
 		return dao.findByPrimaryKey(admin_id);
 	}
-	
-	
+		
 	public List<AdminsVO> getAll() {
 		return dao.getAll();
 	}

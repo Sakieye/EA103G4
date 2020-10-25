@@ -82,32 +82,28 @@ String admin_id_s = (String)session.getAttribute("admin_id_s");
                                         </c:if>
                                         
                                         <%-- 正確表列 --%>
-                                        <c:if test="${not empty rightMsgs}">
-                                            <ul>
-                                                <c:forEach var="r_message" items="${rightMsgs}">
-                                                    <li style="color: blue">${r_message}</li>
-                                                </c:forEach>
-                                            </ul>
-                                        </c:if>
+<%--                                         <c:if test="${not empty rightMsgs}"> --%>
+<!--                                             <ul> -->
+<%--                                                 <c:forEach var="r_message" items="${rightMsgs}"> --%>
+<%--                                                     <li style="color: blue">${r_message}</li> --%>
+<%--                                                 </c:forEach> --%>
+<!--                                             </ul> -->
+<%--                                         </c:if> --%>
                                         <span id="word"></span>
                                         <div class="form-group">
-                                            <input type="text" name="pswd" class="form-control form-control-user" id="exampleInputAccount" aria-describedby="accountHelp" placeholder="請輸入新密碼...">
+                                            <input type="text" name="pswd" class="form-control form-control-user" id="exampleInputAccount" aria-describedby="accountHelp" placeholder="請輸入新密碼..." required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="pswd_again" class="form-control form-control-user" id="exampleInputPassword" placeholder="確認密碼">
+                                            <input type="password" name="pswd_again" class="form-control form-control-user" id="exampleInputPassword" placeholder="確認密碼" required>
                                         </div>       
                                         <input type="hidden" name="action" value="update_pswd"> 
                                         <input type="hidden" name="admin_id" value="<%=admin_id_s%>">
                                         <input type="submit" value="確認" class="btn btn-user btn-block" id="confirm" />
-                                    </form>                                    
+                                   </form>                                                                        
                                     <hr>
-                                    <div class="text-center">
-                                        <a href="<%=request.getContextPath()%>/back-end/login/login.jsp"><img src="<%=request.getContextPath()%>/images/login/logo2.png" width="150 px" height="50px"></a>
-                                    </div>                                   
-                                </div>
+                                 </div>
                             </div>
-                            <div class="col-lg-6 d-none d-lg-block" style="background-color: #222222"><img src= "<%=request.getContextPath()%>/images/login/logo.png" width="456 px" height="500px"></div>
-                            
+                            <div class="col-lg-6 d-none d-lg-block" style="background-color: #222222"><img src= "<%=request.getContextPath()%>/images/login/logo.png" width="456 px" height="500px"></div>                            
                         </div>
                     </div>
                 </div>
@@ -116,6 +112,35 @@ String admin_id_s = (String)session.getAttribute("admin_id_s");
     </div>
     <!-- js-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>    
+    <script type="text/javascript">
+    
+    var confirm = document.getElementById("confirm");
+    var exampleInputAccount = document.getElementById("exampleInputAccount");
+    var exampleInputPassword = document.getElementById("exampleInputPassword");
+    
+    confirm.addEventListener("click", function(e){
+    	
+   if(exampleInputAccount.value !== "" && exampleInputPassword.value !== "" && exampleInputAccount.value === exampleInputPassword.value){
+	   alert("修改完成！將自動轉至登入頁面。");
+    swal({
+    	  title: "修改完成！",
+    	  text: "5秒後自動轉至登入頁面。",	  
+    	  icon: "success",
+    	  timer: 5000,
+    	  showConfirmButton: false
+    	})
+    	
+   }else{
+	   swal({
+	    	  title: "修改失敗！",
+	    	  icon: "warning",
+	    	  timer: 1500,
+	    	  showConfirmButton: false
+	    	})
+	   e.preventDefault();
+   }
+    });
+    </script>
 </body>
 
 </html>

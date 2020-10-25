@@ -138,6 +138,33 @@
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>backPermissionFilter</filter-name>
+		<filter-class>filters.BackEndPermissionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>backPermissionFilter</filter-name>
+		<url-pattern>/back-end/admins/*</url-pattern>
+		<url-pattern>/back-end/advertising/*</url-pattern>
+		<url-pattern>/back-end/bookclub_report/*</url-pattern>
+		<url-pattern>/back-end/forum/*</url-pattern>
+		<url-pattern>/back-end/jsp_BookManagement/*</url-pattern>
+		<url-pattern>/back-end/jsp_Common/*</url-pattern>
+		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
+		<url-pattern>/back-end/jsp_PromoManagement/*</url-pattern>
+		<url-pattern>/back-end/member/*</url-pattern>
+		<url-pattern>/back-end/order/*</url-pattern>
+		<url-pattern>/back-end/pages_BookManagement/*</url-pattern>
+		<url-pattern>/back-end/pages_PromoManagement/*</url-pattern>
+		<url-pattern>/back-end/back-index.jsp/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>FaServlet</servlet-name>
 		<servlet-class>com.Fa.controller.FaServlet</servlet-class>
