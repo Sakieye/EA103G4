@@ -46,11 +46,11 @@ public class PromoTimer extends HttpServlet {
 //				TimeUnit.MILLISECONDS);
 
 		// 啟動起算下一輪時間開始每30分一次
-//		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-//		Date nextRun = new Date(initDelay + System.currentTimeMillis());
-//		System.out.println("促銷事件更新器啟動時間: " + formatter.format(nextRun));
-//		service.scheduleAtFixedRate(new PromoTimerTask(promoService, promoDetailService, bookService), initDelay,
-//				1000 * 60 * 30, TimeUnit.MILLISECONDS);
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		Date nextRun = new Date(initDelay + System.currentTimeMillis());
+		System.out.println("促銷事件更新器啟動時間: " + formatter.format(nextRun));
+		service.scheduleAtFixedRate(new PromoTimerTask(promoService, promoDetailService, bookService), initDelay,
+				1000 * 60 * 30, TimeUnit.MILLISECONDS);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -14,9 +14,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.apache.commons.math3.distribution.EnumeratedDistribution;
-import org.apache.commons.math3.util.Pair;
-
 import com.category.model.Category;
 import com.category.model.CategoryService;
 import com.promo.model.Promo;

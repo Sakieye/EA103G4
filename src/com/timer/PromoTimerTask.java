@@ -18,7 +18,11 @@ import com.promo.model.PromoService;
 import com.promodetail.model.PromoDetail;
 import com.promodetail.model.PromoDetailService;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import tools.Arith;
+import tools.JedisUtil;
+import tools.SimpleRedisLogger;
 
 public class PromoTimerTask extends TimerTask {
 	private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
@@ -37,7 +41,7 @@ public class PromoTimerTask extends TimerTask {
 	@Override
 	public void run() {
 		// 執行時間資訊
-		long start = System.currentTimeMillis();
+		Long start = System.currentTimeMillis();
 		Date date = new Date(start);
 		String threadName = Thread.currentThread().getName();
 		StringBuffer sb = new StringBuffer("\n" + threadName + "促銷事件更新執行時間:\t");
@@ -89,7 +93,17 @@ public class PromoTimerTask extends TimerTask {
 
 		bookService.updateEffPromos(currentValidPromos.toString());
 		long spendTime = System.currentTimeMillis() - start;
-		System.out.printf("\n完成更新，本輪有效的促銷事件: %s\n花費: %d ms\n", currentValidPromos, spendTime);
+		String msg = String.format("完成更新，本輪有效的促銷事件: %s，花費: %d ms", currentValidPromos, spendTime);
+		System.out.println(msg);
+		
+		SimpleRedisLogger logger = new SimpleRedisLogger();
+		// 取得Jedis連線資源
+		JedisPool pool = JedisUtil.getJedisPool();
+		Jedis jedis = pool.getResource();
+		jedis.auth("123456");
+		logger.setInfo(jedis, "TimerLog", msg, start.doubleValue());
+		// 歸還連線資源到Jedis連線池
+		JedisUtil.closeJedis(jedis);
 	}
 
 	private Double calculateSalePricePromoOrBookBPPromo(double listPrice, int max) {

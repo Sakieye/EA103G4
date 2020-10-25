@@ -1,5 +1,6 @@
 package tools;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -14,11 +15,12 @@ public class SimpleRedisLogger {
 		jedis.zremrangeByRank(key, 1, -21);
 	}
 
-	public LinkedHashMap<String, Double> getInfo(Jedis jedis, String key) {
-		Set<Tuple> res = jedis.zrangeWithScores(key, 1, -1);
-		LinkedHashMap<String, Double> msgs = new LinkedHashMap<String, Double>();
+	public LinkedHashMap<String, Date> getInfo(Jedis jedis, String key) {
+		Set<Tuple> res = jedis.zrevrangeWithScores(key, 1, -1);
+		LinkedHashMap<String, Date> msgs = new LinkedHashMap<String, Date>();
 		res.forEach(tuple -> {
-			msgs.put(tuple.getElement(), tuple.getScore());
+			Double score = (Double) tuple.getScore();
+			msgs.put(tuple.getElement(), new Date(score.longValue()));
 		});
 		return msgs;
 	}

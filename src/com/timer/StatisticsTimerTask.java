@@ -16,6 +16,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Tuple;
 import tools.JedisUtil;
+import tools.SimpleRedisLogger;
 
 public class StatisticsTimerTask extends TimerTask {
 	private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
@@ -30,7 +31,7 @@ public class StatisticsTimerTask extends TimerTask {
 	@Override
 	public void run() {
 		// 執行時間資訊
-		long start = System.currentTimeMillis();
+		Long start = System.currentTimeMillis();
 		Date d = new Date(start);
 		String threadName = Thread.currentThread().getName();
 		StringBuffer sb = new StringBuffer("\n" + threadName + "瀏覽/銷售統計執行時間:\t");
@@ -105,7 +106,11 @@ public class StatisticsTimerTask extends TimerTask {
 		
 		jedis.expire(popularBookKey, (int) (25 * 60 * 60)); // 25小時過期
 
-		System.out.printf("瀏覽/銷售統計更新完成，花費: %d ms\n", System.currentTimeMillis() - start2);
+		String msg = String.format("瀏覽/銷售統計更新完成，花費: %d ms", System.currentTimeMillis() - start2);
+		System.out.println(msg);
+		
+		SimpleRedisLogger logger = new SimpleRedisLogger();
+		logger.setInfo(jedis, "TimerLog", msg, start.doubleValue());
 
 		// 歸還Redis連線資源
 		JedisUtil.closeJedis(jedis);
