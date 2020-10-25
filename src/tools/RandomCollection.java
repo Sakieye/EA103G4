@@ -1,6 +1,9 @@
 package tools;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Random;
@@ -24,17 +27,44 @@ public class RandomCollection {
 		if (weight <= 0)
 			return this;
 		total += weight;
-		Map.Entry<String, Double> entry = new AbstractMap.SimpleEntry<String, Double>(bookID, weight);
-		map.put(total, entry);
+		map.put(total, new AbstractMap.SimpleEntry<String, Double>(bookID, weight));
 		return this;
 	}
 
 	public String next() {
-		// 隨機取出特定key之後，將total扣除其weight，remove才不會失敗，可取出不重複的元素
+		// 隨機取出特定key之後，將total扣除其weight，並把所有total比他高的元素total扣除其weight，remove才不會失敗，可取出不重複的元素
 		double value = random.nextDouble() * total;
 		double key = map.higherKey(value);
 		double weight = map.get(key).getValue();
+//		System.out.println("=====\n前一輪total: " + total);
+		
 		total -= weight;
-		return map.remove(key).getKey();
+
+//		System.out.println("本次抽中value: " + value);
+//		System.out.println("本次抽中key: " + key);
+//		System.out.println("本次抽中書: " + map.get(key).getKey() + " - " + weight);
+//		System.out.println("本輪total: " + total);
+
+		Iterator<Double> iterator = map.navigableKeySet().iterator();
+		List<Map.Entry<Double, Map.Entry<String, Double>>> temp = new ArrayList<Map.Entry<Double, Map.Entry<String, Double>>>();
+
+		while (iterator.hasNext()) {
+			double otherKey = iterator.next();
+			if (otherKey > key) {
+				temp.add(new AbstractMap.SimpleEntry<Double, Map.Entry<String, Double>>(otherKey - weight,
+						map.get(otherKey)));
+				iterator.remove();
+			}
+		}
+
+		temp.forEach(tempEntry -> {
+			map.put(tempEntry.getKey(), tempEntry.getValue());
+		});
+
+//		for (Double total : map.navigableKeySet()) {
+//			System.out.println(total + " - " + map.get(total).getKey() + " - " + map.get(total).getValue());
+//		}		
+
+		return map.get(key).getKey();
 	}
 }

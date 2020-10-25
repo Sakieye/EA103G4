@@ -374,7 +374,7 @@ public class BookService {
 
 		Set<Book> recommBooks = new HashSet<Book>();
 		Set<String> recommBookIDs = new HashSet<String>();
-		List<Pair<String, Double>> bookWeights = new ArrayList<Pair<String, Double>>();
+		RandomCollection rc = new RandomCollection();
 
 		for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
 			String categoryID = entry.getKey();
@@ -420,19 +420,14 @@ public class BookService {
 			res.forEach(tuple -> {
 				String bookID = tuple.getElement();
 				double viewedCount = tuple.getScore();
-				bookWeights.add(new Pair<String, Double>(bookID, viewedCount * weight));
+				rc.add(viewedCount * weight, bookID);
 			});
 		}
-
-		// 使用apache.commons.math3.distribution.EnumeratedDistribution.EnumeratedDistribution對有權重的bookWeights抽樣
-		Object[] objs = new EnumeratedDistribution<String>(bookWeights).sample(30);
-
-		for (Object bookID : objs) {
-			recommBookIDs.add(bookID.toString());
+		
+		String bookID;
+		while ((bookID = rc.next()) != null && recommBookIDs.size() < 30) {
+			recommBookIDs.add(bookID);
 		}
-
-		// 觀察權重分布
-//		favoriteCategoryIDs.forEach(entry -> System.out.println(entry));
 
 		recommBooks.addAll(getByBookIDList(new ArrayList<String>(recommBookIDs)));
 		recommBooks.forEach(b -> {
