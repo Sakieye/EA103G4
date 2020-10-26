@@ -21,8 +21,11 @@ public class Favorite_BookServlet extends HttpServlet {
 		
 		if ("deleteFavBook".equals(action)) { // 來自favorite_BookListAll.jsp
 
+			//蒐集新增成功資訊
+			List<String> messages = new LinkedList<String>();
+			req.setAttribute("messages", messages);
+			//蒐集異常情況例外處理
 			List<String> errorMsgs = new LinkedList<String>();
-			
 			req.setAttribute("errorMsgs", errorMsgs);
 	
 			try {
@@ -43,16 +46,18 @@ public class Favorite_BookServlet extends HttpServlet {
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
-				errorMsgs.add("刪除資料失敗:"+e.getMessage());
+				errorMsgs.add("刪除資料失敗:");
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/favorite_book/favoriteBook.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		if("insertFavBook".equals(action)) {
+			//蒐集新增成功資訊
+			List<String> messages = new LinkedList<String>();
+			req.setAttribute("messages", messages);
+			//蒐集異常情況例外處理
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 	
 			try {

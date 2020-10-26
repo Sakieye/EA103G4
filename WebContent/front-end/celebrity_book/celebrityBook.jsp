@@ -1,67 +1,34 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.celebrity_book.model.*,com.mem.model.*,com.book.model.*"%>
-
+<%@ page import="com.celebrity_book.model.*,com.mem.model.*,com.book.model.*,com.bookpic.model.*"%>
+<script type="text/javascript"  src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>bookshopFavorite_Books</title>
+	<title>bookshopCelebrity_Books</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	
 	<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
     <link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
-	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    
     <style>
-    	table td{
-    		font-size: 20px;
-    		font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
-    		font-weight: 900;
-    		border: 0;
-    		color: black;
-   		}
-   		table input{
-   			font-size: 12px;
-    		font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
-    		font-weight: 900;
-   		}
-    </style>
-	
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
-
-<style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-</style>
-
+      table td{
+         font-size: 16px;
+         font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+         text-align: center;
+      }
+      table th{
+      	text-align: center;
+      }
+   </style>
 </head>
 <body class="subpage">
     <jsp:include page="/front-end/header/header.jsp" />
@@ -80,14 +47,22 @@
             <div class="box">
                 <div class="content">
 				    <div id="formdiv">
-						<c:if test="${not empty errorMsgs}">												
-								<c:forEach var="message" items="${errorMsgs}">
+						<c:if test="${not empty messages}">												
+								<c:forEach var="message" items="${messages}">
 									<script>
-										alert("${message}");
+										swal("${message}","","success");
 									</script>									
 								</c:forEach>
 						</c:if>
-						<table>
+						<c:if test="${not empty errorMsgs}">			
+						<c:forEach var="errorMsgs" items="${errorMsgs}">
+									<script>
+										swal("${errorMsgs}","分享書單已有此商品","error");
+									</script>
+								</c:forEach>
+						</c:if>
+						<table class="table table-hover">
+							<thead>
 							<tr>
 								<%
 									MemVO memVO = (MemVO)session.getAttribute("memVO");
@@ -96,22 +71,35 @@
 									pageContext.setAttribute("list", list);
 									BookService bookService = (BookService) getServletContext().getAttribute("bookService");							
 								%>
-								<th class="align-center">書名</th>						
-								<th class="align-center">分享狀態</th>
-								<th class="align-center">狀態修改</th>
-								<th class="align-center">刪除</th>						
+								<th>商品圖</th>						
+								<th>書名</th>
+								<th>作者</th>
+								<th>狀態</th>
+								
+								<th></th>
+								<th></th>						
 							</tr>
+							</thead>
 							<%@ include file="page1.file" %> 
 							<c:forEach var="celebrity_Book" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 								<% 
 								Celebrity_Book celebrity_book = (Celebrity_Book) pageContext.getAttribute("celebrity_Book");
 								String bookID = celebrity_book.getBook_ID();
 								String bookName = bookService.getByBookID(bookID).get().getBookName();
+								String author = bookService.getByBookID(bookID).get().getAuthor();
+								
+								BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
+								Optional<BookPicture> bookPicture = bookPicService.getFirstPicByBookID(bookID);
+								String bookPicName = bookPicture.get().getBookPicName();
 								%>
-							
-								<tr>				
+							<tbody>
+								<tr>
+									
+									<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="100"></td>				
 									<td><%=bookName%></td>
+									<td><%=author%></td>
 									<td>${celebrity_Book.share_State eq 1 ? "分享中" : "未分享"}</td>	 
+									
 									<td>
 									  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/celebrity_book/celebrity_book.do" style="margin-bottom: 0px;">
 									     
@@ -129,6 +117,7 @@
 									     <input type="hidden" name="action" value="deleteCelBook"></FORM>
 									</td>
 								</tr>
+							</tbody>	
 							</c:forEach>							            
 						</table>
 						<%@ include file="page2.file" %>
@@ -137,13 +126,5 @@
            </div>
        </div>
     </section>
-    
-    
-    <script src='<%= request.getContextPath()%>/js/jquery.min.js'></script>
-    <script src="<%= request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
-    <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
-    <script src="<%= request.getContextPath()%>/js/util.js"></script>
-    <script src="<%= request.getContextPath()%>/js/main.js"></script>
-    
 </body>
 </html>
