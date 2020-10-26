@@ -29,16 +29,19 @@ public class RevServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		
 		if ("insert".equals(action)) {
-			
-			String revContent = req.getParameter("rev_content").trim();
-			String memId = req.getParameter("mem_id");
-			String bookId = req.getParameter("book_id");
+			String revContent = req.getParameter("revContent").trim();
+		
+			String memId = req.getParameter("memId");
+		
+			String bookId = req.getParameter("bookId");
+	
 			Integer rating = new Integer(req.getParameter("rating"));
 			
 			RevService revSvc = new RevService();
 			revSvc.addRev(revContent, memId, bookId, rating);
 			
-			RequestDispatcher successView = req.getRequestDispatcher("/front-end/review_record/test.jsp"); // 新增成功後轉交insertSuccess.jsp
+			
+			RequestDispatcher successView = req.getRequestDispatcher("/front-end/review_record/test.jsp");
 			successView.forward(req, res);
 		}
 	}

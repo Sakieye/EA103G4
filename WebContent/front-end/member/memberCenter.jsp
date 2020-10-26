@@ -127,11 +127,8 @@
 					</tr>
 				</table>
 			</div>
-		</div>
-		
-		
+		</div>	
 	</div>
-	
 
 <jsp:include page="/front-end/footer/footer.jsp"/>
 
