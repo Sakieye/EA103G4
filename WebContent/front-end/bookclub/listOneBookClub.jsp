@@ -215,7 +215,7 @@
 						type="hidden" name="bc_id" value="<%=bookClubVO.getBc_id()%>">
 					<input type="hidden" name="mem_id" value="${memVO.mem_id}">
 					<input type="hidden" name='requestURL' value='<%=request.getServletPath() %>'>
-					<button type="submit" class="btn btn-primary">送出</button>
+					<button type="submit" class="btn btn-primary" onclick="sendAddBookClubMessage(this);">送出</button>
 				</div>
 				</form>
 			</div>

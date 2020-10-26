@@ -58,6 +58,10 @@
 		       		webSocketNotice.onopen = (e) => {
 		        	}
 		       		webSocketNotice.onmessage = (e) => {
+		       			var jobj = JSON.parse(e.data);
+		       			if("signIn" === jobj.situtaion){
+		       				signIn(jobj);
+		       			}
 		        	}
 		        	webSocketNotice.onclose = (e) => {
 		        	}
@@ -68,9 +72,6 @@
 		        	}
 		       		webSocketNotice.onmessage = (e) => {
 		       			var jobj = JSON.parse(e.data);
-		       			if("all" === jobj.type){
-		       				forAll(jobj);
-		       			}
 		       			if("successVerify" === jobj.situtaion){
 		       				successNotice(jobj);
 		       			}
@@ -86,16 +87,17 @@
 		    function disconnect() {
 		        webSocketNotice.close();
 		    }
-		    function sendBookClubMessage() {
-		    	
+		    function sendAddBookClubMessage(e) {
 		    	var jobj = {
-		                bc_id: '${bookClubVO.bc_id}',
-		                bc_name: '${bookClubVO.bc_name}',
-		                message: "讀書會修改",
-		                type: "all"
+		                bc_id: '${listOneBookClub.bc_id}',
+		                bc_name: '${listOneBookClub.bc_name}',
+		                message: "讀書會報名",
+		                received: '${listOneBookClub.mem_id}',
+		                mem_name: '${memVO.mem_name}',
+		                situtaion: 'signIn',
+		                type: "private"
 		            };
 		        webSocketNotice.send(JSON.stringify(jobj));
-		        alert("安安");
 	   		}
 			function successVerify(e){
 				var jobj = {
@@ -133,10 +135,10 @@
 	       		      timeout: 'keep',
 	       		    })
 		    }
-		    function forAll (e){
+		    function signIn (e){
 		    	naranja()['log']({
-	       		      title: e.bc_name + '修改通知',
-	       		      text: "主辦人有對內容做修正，請盡快查看",
+	       		      title: e.bc_name + '加入通知',
+	       		      text: e.mem_name + "報名了此讀書會，請盡快審核",
 	       		      timeout: 'keep',
 	       		    })
 		    }
