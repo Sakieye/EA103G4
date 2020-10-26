@@ -72,7 +72,6 @@
 		        	}
 		       		webSocketNotice.onmessage = (e) => {
 		       			var jobj = JSON.parse(e.data);
-		       			
 		       			if("successVerify" === jobj.situtaion){
 		       				successNotice(jobj);
 		       			}
