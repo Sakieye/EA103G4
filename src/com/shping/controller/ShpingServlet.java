@@ -1,6 +1,7 @@
 package com.shping.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
@@ -12,15 +13,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.shping.model.Cart;
 import com.book.model.Book;
 import com.book.model.BookService;
+import com.bookpic.model.BookPicService;
+import com.bookpic.model.BookPicture;
 
 @WebServlet("/Shopping.html")
 public class ShpingServlet extends HttpServlet {
 	private static final long serialVersionUID = 06L;
+
 	public ShpingServlet() {
 		super();
+	}
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String detailURL = "/front-end/shopping/prddetail.jsp";
+		String indexURL = "/front-end/shopping/bookindex.jsp";
+
+		System.out.println("inBOOKDETAIL");
+		String book_id = req.getParameter("book_id");
+		BookService bkSvc = (BookService) getServletContext().getAttribute("bookService");
+		BookPicService bkpicSvc = (BookPicService) getServletContext().getAttribute("bookPicService");
+		Optional<Book> prddetail = bkSvc.getByBookID(book_id);
+		List<BookPicture> bookPiclist = bkpicSvc.getByBookID(book_id);
+		if (prddetail.isPresent()) {
+			req.setAttribute("prddetail", prddetail.get());
+			req.setAttribute("bookPiclist", bookPiclist);
+			req.getRequestDispatcher(detailURL).forward(req, res);
+		}else {
+			req.getRequestDispatcher(indexURL).forward(req, res);
+		}
+		
+
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -28,7 +57,7 @@ public class ShpingServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		String indexURL = "/front-end/shopping/bookindex.jsp";
-		String detailURL = "/front-end/shopping/prddetail.jsp";
+		String detailURL = "http://localhost:8081/EA103G4/Shopping.html?book_id=B00000020741";
 		String cartURL = "/front-end/shopping/cart.jsp";
 		String delURL = "http://localhost:8081/BookShop1014(2202)/front-end/shopping/cart.jsp";
 		String payURL = "/front-end/shopping/pay.jsp";
@@ -39,10 +68,11 @@ public class ShpingServlet extends HttpServlet {
 		List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
 		String action = req.getParameter("action");
 		ShpingServlet shping = new ShpingServlet();
-
-		if (!action.equals("PAY")) {
+		
+		if (!action.equals("BOOKDETAIL")) {
+			JSONArray careFormJSON = new JSONArray();
 			// 加入購物車
-			if (action.equals("ADD")) {
+			if (action.equals("ADD") || action.equals("DETAILADD")) {
 				Cart cart1 = getPrd(req);
 
 				if (cartlist == null) {
@@ -56,10 +86,35 @@ public class ShpingServlet extends HttpServlet {
 						cartlist.add(cart1);
 					}
 				}
+				for(Cart cart:cartlist) {
+					JSONObject obj = new JSONObject();
+					try {
+						obj.put("mem_id", cart.getMem_Id());
+						obj.put("isbn", cart.getIsbn());
+						obj.put("book_id", cart.getBook_Id());
+						obj.put("book_name", cart.getBook_Name());
+						obj.put("publisher_id", cart.getPublisher_Id());
+						obj.put("price", cart.getPrice());
+						obj.put("book_bp", cart.getBook_BP());
+						obj.put("comm_qty", cart.getComm_Qty());
+						careFormJSON.put(obj);
+					} catch (JSONException e) {
+						throw new RuntimeException("▲Error： [加入JSON失敗!]" + e.getMessage());
+					}
+					
+				}
+				
 				String[] getTotal = shping.gettotal(cartlist);
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
-				req.getRequestDispatcher(indexURL).forward(req, res);
+				
+				res.setContentType("text/plain");
+				res.setCharacterEncoding("UTF-8");
+				PrintWriter out = res.getWriter();
+				out.write(careFormJSON.toString());
+				out.flush();
+				out.close();
+				
 			}
 			// 刪除商品
 			if (action.contentEquals("DEL")) {
@@ -71,10 +126,10 @@ public class ShpingServlet extends HttpServlet {
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
 
-				 req.getRequestDispatcher(cartURL).forward(req, res);
+				req.getRequestDispatcher(cartURL).forward(req, res);
 //				res.sendRedirect(delURL);
 			}
-			//付款確認
+			// 付款確認
 			if (action.equals("PAYCHECK")) {
 				String[] getTotal = shping.gettotal(cartlist);
 				session.setAttribute("getTotal", getTotal);
@@ -85,15 +140,6 @@ public class ShpingServlet extends HttpServlet {
 
 			}
 
-		}else if(action.equals("BOOKDETAIL")) {
-			String book_Id = req.getParameter("book_Id");
-			BookService bkSvc = (BookService) getServletContext().getAttribute("bookService");
-			Optional<Book> prddetail = bkSvc.getByBookID(book_Id);
-			
-			req.setAttribute("bkdetail", prddetail);
-			req.getRequestDispatcher(detailURL).forward(req, res);
-			
-			
 		}
 
 		// 頁面session
@@ -106,7 +152,6 @@ public class ShpingServlet extends HttpServlet {
 		}
 
 	}
-	
 
 	private Cart getPrd(HttpServletRequest req) throws ServletException, IOException {
 		String mem_Id = req.getParameter("mem_Id");
@@ -122,20 +167,19 @@ public class ShpingServlet extends HttpServlet {
 		Cart cart = new Cart();
 		try {
 
-		cart.setMem_Id(mem_Id);
-		cart.setIsbn(isbn);
-		cart.setBook_Id(book_Id);
-		cart.setBook_Name(book_Name);
-		cart.setPublisher_Id(publisher_Id);
-		cart.setPrice(new Double(price));
-		cart.setBook_BP(new Double(book_BP));
-		cart.setComm_Qty(new Integer(comm_Qty));
-		}catch(Exception e) {
+			cart.setMem_Id(mem_Id);
+			cart.setIsbn(isbn);
+			cart.setBook_Id(book_Id);
+			cart.setBook_Name(book_Name);
+			cart.setPublisher_Id(publisher_Id);
+			cart.setPrice(new Double(price));
+			cart.setBook_BP(new Double(book_BP));
+			cart.setComm_Qty(new Integer(comm_Qty));
+		} catch (Exception e) {
 			throw new RuntimeException("▲Error： [加入購物車失敗!]" + e.getMessage());
 		}
 		return cart;
 	}
-
 
 	private String[] gettotal(List<Cart> cartlist) {
 

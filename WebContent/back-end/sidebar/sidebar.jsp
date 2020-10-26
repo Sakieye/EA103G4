@@ -28,7 +28,7 @@
             <h5><b>&nbsp;書城<span>Bookshop</span></b></h5>
             <ul>         
            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/BookManagementIndex">商品管理</a></span></li>             
-            <li>&nbsp;&nbsp;<span class="auth2"><a href="#">訂單管理</a></span></li>                 
+            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/order/select_order.jsp">">訂單管理</a></span></li>                 
             </ul>
         </div>
 <!--         <div class="auth"> -->
