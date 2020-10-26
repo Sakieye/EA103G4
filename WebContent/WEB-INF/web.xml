@@ -214,6 +214,14 @@
 		<url-pattern>/front-end/forum/fc.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
+ 		<servlet-name>FollowServlet</servlet-name>
+  		<servlet-class>com.Follow.controller.FollowServlet</servlet-class>
+ 	</servlet>
+ 	<servlet-mapping>
+  		<servlet-name>FollowServlet</servlet-name>
+  		<url-pattern>/front-end/forum/follow.do</url-pattern>
+ 	</servlet-mapping>
+	<servlet>
 		<servlet-name>LecturesServlet</servlet-name>
 		<servlet-class>com.lecture.controller.LecturesServlet</servlet-class>
 	</servlet>
