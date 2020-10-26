@@ -25,6 +25,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/rev.css">
 
 
+
+
 </head>
 <body>
 	<h1>${revSvc2.getRatingAvg(bookId)}</h1>
@@ -36,12 +38,13 @@
 	
         <!-- From -->
         <c:if test="${sessionScope.memVO.mem_id != null}">
-	        <div class="comment-form">
+	        <div class="comment-form" >
 	            <!-- Comment Avatar -->
 	            <div class="comment-avatar">
 	                <img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${sessionScope.memVO.mem_id}">
 	            </div>
-	            <form class="form" METHOD="post" ACTION="<%=request.getContextPath()%>/rev/rev.do">
+	            <div class="form" id="form">  
+<%-- 	            METHOD="post" ACTION="<%=request.getContextPath()%>/rev/rev.do" --%>
 	                <div class="form-row">
 	                    <textarea class="input" name="rev_content" placeholder="寫書評..." required></textarea>
 	                </div>
@@ -73,16 +76,15 @@
 	                	<input type="hidden" name="book_id" value="B00000000001">
 						<input type="hidden" name="mem_id" value="${sessionScope.memVO.mem_id}">
 						<input type="hidden" name="action" value="insert">
-	                    <input type="submit" value="Add Comment">
+	                    <input type="submit" id="pushRev" value="Add Comment">
 	                </div>
-
-	            </form>
+	            </div>
 	        </div>
         </c:if>
         <!-- Comments List -->
         <%@ include file="page1.file" %>
         <c:forEach var="revVO" items="${list}" varStatus="revNO" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-	        <div class="comments">
+	        <div class="comments" style="width: 700px;">
 	            <!-- Comment -->
 	            <div class="comment">
 	                <!-- Comment Avatar -->
@@ -168,7 +170,6 @@
         </c:forEach>
         <%@ include file="page2.file" %>
     </div>
-		
 	
 	
 	<script src='<%= request.getContextPath()%>/js/jquery.min.js'></script>
@@ -176,13 +177,41 @@
     <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
     <script src="<%= request.getContextPath()%>/js/util.js"></script>
     <script src="<%= request.getContextPath()%>/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     
     <script>
-	  
+    $(document).ready(function(){
+//     	$.ajax({
+// 			type:"POST",
+<%-- 			url:"<%=request.getContextPath()%>/rev/rev.do?action=insert", --%>
+// 			data:{
+// 				"memId":$("#form").find('input[name = "mem_id"]').val(),
+// 				"revContent" :$("#form").find('textarea[name = "rev_content"]').text(),
+// 				"bookId" :$("#form").find('input[name = "book_id"]').val(),
+// 				"rating" :$("#form").find('input[name = "rating"]').val()
+// 			},
+// 			success:function(){
+// 				alert("good");
+// 			}
+// 		})
+		
+		$("#pushRev").click(function(){
+			$.post(
+					"<%=request.getContextPath()%>/rev/rev.do?action=insert", 
+					{
+						"memId":$("#form").find('input[name = "mem_id"]').val(),
+						"revContent" :$("#form").find('textarea').val(),
+						"bookId" :$("#form").find('input[name = "book_id"]').val(),
+						"rating" :$("#form").find('input[name = "rating"]').val(),		
+					}
+					
+			)
+			
+		})
+    })
     </script>
 	
 </body>

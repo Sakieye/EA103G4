@@ -79,7 +79,6 @@ body{
   display: block;
   margin-left: auto;
   outline: none;
-  padding: 6px 15px;
   font-weight: 700;
 
   -webkit-transition: 350ms box-shadow;
