@@ -11,8 +11,8 @@ public class SimpleRedisLogger {
 
 	public void setInfo(Jedis jedis, String key, String msg, Double time) {
 		jedis.zadd(key, time, msg);
-		// 只留最近的20則訊息
-		jedis.zremrangeByRank(key, 1, -21);
+		// 只留最近的100則訊息
+		jedis.zremrangeByRank(key, 1, -100);
 	}
 
 	public LinkedHashMap<String, Date> getInfo(Jedis jedis, String key) {
