@@ -7,6 +7,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -312,12 +313,12 @@ public class BookService {
 		}
 
 		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
-
-		books.forEach(b -> {
-			if (b.getIsSold() == 0) {
-				books.remove(b);
-			}
-		});
+		for (Iterator<Book> iterator = books.iterator(); iterator.hasNext();) {
+		    Book b = iterator.next();
+		    if(b.getIsSold() == 0) {
+		        iterator.remove();
+		    }
+		}
 
 		return books;
 	}
@@ -427,11 +428,12 @@ public class BookService {
 		}
 
 		recommBooks.addAll(getByBookIDList(new ArrayList<String>(recommBookIDs)));
-		recommBooks.forEach(b -> {
-			if (b.getIsSold() == 0) {
-				recommBooks.remove(b);
-			}
-		});
+		for (Iterator<Book> iterator = recommBooks.iterator(); iterator.hasNext();) {
+		    Book b = iterator.next();
+		    if(b.getIsSold() == 0) {
+		        iterator.remove();
+		    }
+		}
 		return recommBooks;
 	}
 
