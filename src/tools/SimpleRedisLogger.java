@@ -2,6 +2,7 @@ package tools;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import redis.clients.jedis.Jedis;
@@ -9,18 +10,20 @@ import redis.clients.jedis.Tuple;
 
 public class SimpleRedisLogger {
 
-	public void setInfo(Jedis jedis, String key, String msg, Double time) {
-		jedis.zadd(key, time, msg);
+	public void setInfo(Jedis jedis, String key, String msg, long time) {
+		jedis.lpush(key, time + "_" + msg);
 		// 只留最近的100則訊息
-		jedis.zremrangeByRank(key, 1, -100);
+		jedis.ltrim(key, 0, 99);
 	}
 
 	public LinkedHashMap<String, Date> getInfo(Jedis jedis, String key) {
-		Set<Tuple> res = jedis.zrevrangeWithScores(key, 1, -1);
+		List<String> res = jedis.lrange(key, 0, -1);
 		LinkedHashMap<String, Date> msgs = new LinkedHashMap<String, Date>();
-		res.forEach(tuple -> {
-			Double score = (Double) tuple.getScore();
-			msgs.put(tuple.getElement(), new Date(score.longValue()));
+		res.forEach(s -> {
+			String[] temp = s.split("_");
+			long time = Long.parseLong(temp[0]);
+			String msg = temp[1];
+			msgs.put(msg, new Date(time));
 		});
 		return msgs;
 	}

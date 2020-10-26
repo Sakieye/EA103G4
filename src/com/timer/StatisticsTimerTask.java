@@ -31,7 +31,7 @@ public class StatisticsTimerTask extends TimerTask {
 	@Override
 	public void run() {
 		// 執行時間資訊
-		Long start = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		Date d = new Date(start);
 		String threadName = Thread.currentThread().getName();
 		StringBuffer sb = new StringBuffer("\n" + threadName + "瀏覽/銷售統計執行時間:\t");
@@ -110,7 +110,7 @@ public class StatisticsTimerTask extends TimerTask {
 		System.out.println(msg);
 		
 		SimpleRedisLogger logger = new SimpleRedisLogger();
-		logger.setInfo(jedis, "TimerLog", msg, start.doubleValue());
+		logger.setInfo(jedis, "TimerLog", msg, start);
 
 		// 歸還Redis連線資源
 		JedisUtil.closeJedis(jedis);

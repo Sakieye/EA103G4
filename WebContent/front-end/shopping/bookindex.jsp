@@ -151,5 +151,9 @@
      -->
 	<!--Header Search Autocompelete-->
 	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
+	<script src="<%=request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/util.js"></script>
+    <script src="<%=request.getContextPath()%>/js/main.js"></script>
 </body>
 </html>

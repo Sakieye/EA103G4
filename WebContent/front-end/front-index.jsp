@@ -75,7 +75,7 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic02.jpg" alt="Bookshop Logo" />
+							<img src="<%=request.getContextPath()%>/front-end/images/Bookshop-eshop.jpg" alt="Bookshop Logo" />
 						</div>
 						<div class="content">
 							<header class="align-center">
@@ -138,54 +138,6 @@
 								<a href="<%=request.getContextPath()%>/front-end/bookclub/bookclub_index.jsp" class="button alt">Learn More</a>
 							</footer>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Two -->
-	<section id="two" class="wrapper style3">
-		<div class="inner">
-			<header class="align-center">
-				<p>Nam vel ante sit amet libero scelerisque facilisis eleifend vitae urna</p>
-				<h2>Morbi maximus justo</h2>
-			</header>
-		</div>
-	</section>
-	<!-- Three -->
-	<section id="three" class="wrapper style2">
-		<div class="inner">
-			<header class="align-center">
-				<p class="special">Nam vel ante sit amet libero scelerisque facilisis eleifend vitae urna</p>
-				<h2>Morbi maximus justo</h2>
-			</header>
-			<div class="gallery">
-				<div>
-					<div class="image fit">
-						<a href="#">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic01.jpg" alt="" />
-						</a>
-					</div>
-				</div>
-				<div>
-					<div class="image fit">
-						<a href="#">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic02.jpg" alt="" />
-						</a>
-					</div>
-				</div>
-				<div>
-					<div class="image fit">
-						<a href="#">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic03.jpg" alt="" />
-						</a>
-					</div>
-				</div>
-				<div>
-					<div class="image fit">
-						<a href="#">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic04.jpg" alt="" />
-						</a>
 					</div>
 				</div>
 			</div>

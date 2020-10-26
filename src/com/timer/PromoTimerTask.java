@@ -41,7 +41,7 @@ public class PromoTimerTask extends TimerTask {
 	@Override
 	public void run() {
 		// 執行時間資訊
-		Long start = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		Date date = new Date(start);
 		String threadName = Thread.currentThread().getName();
 		StringBuffer sb = new StringBuffer("\n" + threadName + "促銷事件更新執行時間:\t");
@@ -101,7 +101,7 @@ public class PromoTimerTask extends TimerTask {
 		JedisPool pool = JedisUtil.getJedisPool();
 		Jedis jedis = pool.getResource();
 		jedis.auth("123456");
-		logger.setInfo(jedis, "TimerLog", msg, start.doubleValue());
+		logger.setInfo(jedis, "TimerLog", msg, start);
 		// 歸還連線資源到Jedis連線池
 		JedisUtil.closeJedis(jedis);
 	}
