@@ -77,8 +77,9 @@
 												<input type="hidden" name="action" value="getOne_Fa_Report">
 												<input type="hidden" name="faId" value="${faVO.faId}">
 											</form>
-											<input type="submit" value="追蹤">
-											
+											<form method="post" action="<%=request.getContextPath()%>/front-end/forum/follow.do">
+												<input type="submit" value="追蹤">
+											</form>
 												<div id="starImg">
 													<img src="<%=request.getContextPath()%>/images/forum/1.png">
 													<input type="hidden" name="faId" value="${faVO.faId}">
@@ -268,8 +269,7 @@
 							"faId" :$("#starImg").find('input[name = "faId"]').val(),
 						}
 				)
-				$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/1.png");
-												}
+				$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/1.png");}
 											})
 						});
 	</script>

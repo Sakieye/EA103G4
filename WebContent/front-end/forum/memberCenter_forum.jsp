@@ -167,7 +167,6 @@
 	$(document).ready(function() {
 		if(${not empty errorMsgs}){
 			toastr['error']('主題或內容請勿空白!!!', '修改文章失敗');
-			
 		}
 	})
 	
