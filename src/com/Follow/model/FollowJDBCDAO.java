@@ -3,13 +3,16 @@ package com.Follow.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FollowJDBCDAO implements FollowDAO_interface{
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "BOOKSHOPG4";
-	String passwd = "BOOKSHOPG4";
+	String userid = "BOOKSHOP";
+	String passwd = "123456";
 	
 	//新增追蹤
 	private static final String INSERT_STMT = 
@@ -18,9 +21,9 @@ public class FollowJDBCDAO implements FollowDAO_interface{
 	private static final String DELETE_STMT =
 			"DELETE FROM FOLLOW_LIST WHERE MEMID = ? AND AMEMID = ?";
 	
-	//確認是否有追蹤
+	//追蹤清單
 	private static final String GET_ALL_SUBSCRIBE =
-			"SELECT AMEMID FROM FOLLOW_LIST WHERE MEMID = ?";
+			"SELECT * FROM FOLLOW_LIST WHERE AMEMID = ?";
 
 	
 	@Override
@@ -108,5 +111,63 @@ public class FollowJDBCDAO implements FollowDAO_interface{
 		}
 		
 	}
+
+	@Override
+	public List<FollowVO> followList(String aMemId) {
+		List<FollowVO> list = new ArrayList<FollowVO>();
+		FollowVO followVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url,userid,passwd);
+			pstmt = con.prepareStatement(GET_ALL_SUBSCRIBE);
+		
+			pstmt.setString(1, aMemId);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				followVO = new FollowVO();
+				followVO.setMemId(rs.getString("MEMID"));
+				followVO.setaMemId(rs.getString("AMEMID"));
+				list.add(followVO);
+			}
+			
+			
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors  ( SQL 除錯 )
+		} catch (SQLException e) {
+			throw new RuntimeException("Couldn't load database driver. " +
+					e.getMessage());
+			// Clean up JDBC resources ( 關閉資源 )
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				}catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 	
+	public static void main(String[] args) {
+		FollowJDBCDAO dao = new FollowJDBCDAO();
+		for(FollowVO followVO : dao.followList("M0001")) {
+			System.out.println(followVO.getaMemId());
+			System.out.println(followVO.getMemId());
+		}
+	}
 }

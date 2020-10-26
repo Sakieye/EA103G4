@@ -33,7 +33,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 
-<body class="subpage">
+<body class="subpage" >
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
 	
@@ -140,11 +140,48 @@
   	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
   	<!-- toastr v2.1.4 -->
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-  
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			var MyPoint = "/SubscribeNotifyWs/${memVO.mem_id}";
+			var host = window.location.host;
+			var path = window.location.pathname;
+			var webCtx = path.substring(0, path.indexOf('/', 1));
+			var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+			var webSocket;
+			
+			
+			connect();
+			function connect(){
+				webSocket = new WebSocket(endPointURL);
+				
+				webSocket.onopen = function(event){
+					console.log("Connect Success!");
+					if(`${exp}` !== ""){
+						var jsonObj = {
+							"memId" : `${memVO.mem_id}`,
+							"message" : '${memVO.mem_name} 新增文章嘍～'
+						}
+						webSocket.send(JSON.stringify(jsonObj));
+					}
+				}
+				
+				webSocket.onmessage = function(event){
+					var jsonObj = JSON.parse(event.data);
+					toastr['success']('追蹤通知',jsonObj.message);
+				}
+				
+				webSocket.onclose = function(event) {
+					console.log("Disconnected")
+				}
+				
+			}
+			if(`${exp}` !== ""){
+				toastr['success']('新增文章成功啦！', '${exp}');
+			}
+			
+			
 			if (location.href.indexOf("forumIndex.jsp") !== -1) {
 				$("#heading2>a>b").css("color", "red");
 			} else if (location.href.indexOf("forumIndex_hot.jsp") !== -1) {
@@ -153,9 +190,6 @@
 				$("#heading2>a>b").css("color", "red");
 				$("#heading1>a>b").css("color", "green");
 			}
-			if(`${exp}` !== ""){
-				toastr['success']('新增文章成功啦！', '${exp}');
-			}
 			
 			$(".row.search_hot > span").click(function(){
 				var searchKey = $(this).text();		
@@ -163,8 +197,20 @@
 				$("#searcForm").submit();
 			})
 			
-			
 		})
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		toastr.options = {
   				closeButton: true,
   				debug: false,

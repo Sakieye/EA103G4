@@ -1,5 +1,7 @@
 package com.Follow.model;
 
+import java.util.List;
+
 public class FollowService {
 	private FollowJDBCDAO dao;
 	
@@ -26,5 +28,8 @@ public class FollowService {
 		dao.delete(followVO);
 	}
 	
+	public List<FollowVO> getFollowList(String aMemId){
+		return dao.followList(aMemId);
+	}
 	
 }

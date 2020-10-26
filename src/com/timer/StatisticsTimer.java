@@ -45,10 +45,10 @@ public class StatisticsTimer extends HttpServlet {
 //				TimeUnit.MILLISECONDS);
 
 		// 啟動起算下一輪時間開始每天23:59:59執行一次
-		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-		Date nextRun = new Date(initDelay + System.currentTimeMillis());
-		System.out.println("瀏覽/銷售統計更新器下一輪執行時間: " + formatter.format(nextRun));
-		service.scheduleAtFixedRate(new StatisticsTimerTask(bookService), initDelay, 1000 * 60 * 60 * 24, TimeUnit.MILLISECONDS);
+//		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+//		Date nextRun = new Date(initDelay + System.currentTimeMillis());
+//		System.out.println("瀏覽/銷售統計更新器下一輪執行時間: " + formatter.format(nextRun));
+//		service.scheduleAtFixedRate(new StatisticsTimerTask(bookService), initDelay, 1000 * 60 * 60 * 24, TimeUnit.MILLISECONDS);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
