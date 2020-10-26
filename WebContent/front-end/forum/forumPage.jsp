@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumPage.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body class="subpage">
@@ -77,11 +79,13 @@
 												<input type="hidden" name="action" value="getOne_Fa_Report">
 												<input type="hidden" name="faId" value="${faVO.faId}">
 											</form>
-											<form method="post" action="<%=request.getContextPath()%>/front-end/forum/follow.do">
-												<input type="submit" value="追蹤">
-											</form>
+												<div id="subscribe">
+													<i class="far fa-bell fa-3x"></i>
+													<input type="hidden" name="aMemId" value="${faVO.memId}">
+													<input type="hidden" name="memId" value="${sessionScope.memVO.mem_id}">
+												</div>
 												<div id="starImg">
-													<img src="<%=request.getContextPath()%>/images/forum/1.png">
+													<i class="far fa-star fa-3x"></i>
 													<input type="hidden" name="faId" value="${faVO.faId}">
 													<input type="hidden" name="memId" value="${sessionScope.memVO.mem_id}">
 												</div>
@@ -150,8 +154,12 @@
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 
+	<script src="https://kit.fontawesome.com/21e3918c11.js"></script>
+	<!-- toastr v2.1.4 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -243,9 +251,11 @@
 			},
 			success:function(count){
 				if(count != 0){
-					$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/2.png");
+					$('#starImg i').attr('class',"fas fa-star fa-3x");
+					$('#starImg').css('color','#C4C400');
 				} else if(count == 0){
-					$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/1.png");
+					$('#starImg img').attr('class',"far fa-star fa-3x");
+					$('#starImg').css('color','#000');
 				}
 			}
 		})
@@ -253,25 +263,107 @@
 		
 		$("#starImg").click(function(){
 			
-			if($('#starImg img').attr('src') == "<%=request.getContextPath()%>/images/forum/1.png"){
+			if($('#starImg i').attr('class') === "far fa-star fa-3x"){
 				$.post(
 						"<%=request.getContextPath()%>/front-end/forum/fc.do?action=collect",
 						{
 							"memId":$("#starImg").find('input[name = "memId"]').val(),
 							"faId" :$("#starImg").find('input[name = "faId"]').val(),
+						},
+						function(){
+							$('#starImg i').attr('class',"fas fa-star fa-3x");
+							$('#starImg').css('color','#C4C400');
+							toastr.success("已收藏");
 						}
+						
 				)
-				$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/2.png");
+				
 			}else{
-				$.post("<%=request.getContextPath()%>/front-end/forum/fc.do?action=cancelCollect",
+				$.post(
+						"<%=request.getContextPath()%>/front-end/forum/fc.do?action=cancelCollect",
 						{
 							"memId":$("#starImg").find('input[name = "memId"]').val(),
 							"faId" :$("#starImg").find('input[name = "faId"]').val(),
+						},
+						function(){
+							$('#starImg i').attr('class',"far fa-star fa-3x");
+							$('#starImg').css('color','#000');
 						}
 				)
-				$('#starImg img').attr('src',"<%=request.getContextPath()%>/images/forum/1.png");}
-											})
-						});
+				
+			}
+				
+		})
+		/*通知*/				
+		$.ajax({
+			type:"POST",
+			url:"<%=request.getContextPath()%>/front-end/forum/follow.do?action=checkSubscribe",
+			data:{
+				"memId": $("#subscribe").find('input[name = "memId"]').val(),
+				"aMemId": $("#subscribe").find('input[name = "aMemId"]').val(),
+			},
+			success:function(count){
+				if(count != 0){
+					$("#subscribe i").attr("class","fas fa-bell fa-3x");
+					$("#subscribe").css("color","#743A3A");
+				}else{
+					$("#subscribe i").attr("class","far fa-bell fa-3x");
+					$("#subscribe").css("color","#000");
+				}
+			}
+		})
+		
+		$("#subscribe").click(function(){
+			if($("#subscribe i").attr("class") === "far fa-bell fa-3x"){
+				$.post(
+						"<%=request.getContextPath()%>/front-end/forum/follow.do?action=Subscribe",
+						{
+							"memId" : $("#subscribe").find('input[name = "memId"]').val(),
+							"aMemId" : $("#subscribe").find('input[name = "aMemId"]').val(),
+						},
+						function(){
+							$("#subscribe i").attr("class","fas fa-bell fa-3x");
+							$("#subscribe").css("color","#743A3A");
+							toastr.info("已開啟通知");
+						}
+				)
+			}else{
+				$.post(
+						"<%=request.getContextPath()%>/front-end/forum/follow.do?action=unSubscribe",
+						{
+							"memId" : $("#subscribe").find('input[name = "memId"]').val(),
+							"aMemId" : $("#subscribe").find('input[name = "aMemId"]').val(),
+						},
+						function(){
+							$("#subscribe i").attr("class","far fa-bell fa-3x");
+							$("#subscribe").css("color","#000");
+						}
+						
+				)
+			}
+		})	
+		
+		toastr.options = {
+				closeButton: true,
+				debug: false,
+				newestOnTop: false,
+				progressBar: true,
+				positionClass: "toast-top-right",
+				preventDuplicates: false,
+				onclick: null,
+				showDuration: "300",
+				hideDuration: "1000",
+				timeOut: "5000",
+				extendedTimeOut: "1000",
+				showEasing: "swing",
+				hideEasing: "linear",
+				showMethod: "fadeIn",
+				hideMethod: "fadeOut"
+	};
+											
+			
+			
+	});
 	</script>
 
 </body>

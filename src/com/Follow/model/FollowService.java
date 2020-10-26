@@ -9,7 +9,6 @@ public class FollowService {
 		dao = new FollowJDBCDAO();
 	}
 	
-	
 	//追蹤
 	public void subscribe(String memId,String aMemId) {
 		FollowVO followVO = new FollowVO();
@@ -20,16 +19,20 @@ public class FollowService {
 	}
 	
 	//退追蹤
-	public void unsubscribe(String memId,String aMemId) {
+	public void unSubscribe(String memId,String aMemId) {
 		FollowVO followVO = new FollowVO();
 		followVO.setMemId(memId);
 		followVO.setaMemId(aMemId);
 		
 		dao.delete(followVO);
 	}
-	
+	//通知
 	public List<FollowVO> getFollowList(String aMemId){
 		return dao.followList(aMemId);
+	}
+	
+	public Integer checkSubscribe(String memId,String aMemId) {
+		return dao.checkSubscribe(memId, aMemId);
 	}
 	
 }

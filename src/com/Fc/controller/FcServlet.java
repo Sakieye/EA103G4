@@ -75,11 +75,11 @@ public class FcServlet extends HttpServlet {
 				String faId = req.getParameter("faId");
 				FcService fcSvc = new FcService();
 				pw.print(fcSvc.checkCollection(memId, faId));
-				
+				pw.flush();
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("");
+						.getRequestDispatcher("/front-end/forum/forumPage.jsp");
 				failureView.forward(req, res);
 			}finally {
 				pw.close();

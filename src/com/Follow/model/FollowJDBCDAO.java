@@ -20,11 +20,12 @@ public class FollowJDBCDAO implements FollowDAO_interface{
 	//刪除追蹤
 	private static final String DELETE_STMT =
 			"DELETE FROM FOLLOW_LIST WHERE MEMID = ? AND AMEMID = ?";
-	
 	//追蹤清單
 	private static final String GET_ALL_SUBSCRIBE =
 			"SELECT * FROM FOLLOW_LIST WHERE AMEMID = ?";
-
+	//確認是否已追蹤
+	private static final String CHECK_SUBSCRIBE =
+			"SELECT COUNT(1) FROM FOLLOW_LIST WHERE MEMID = ? AND AMEMID = ?";
 	
 	@Override
 	public void insert(FollowVO followVO) {
@@ -162,12 +163,49 @@ public class FollowJDBCDAO implements FollowDAO_interface{
 		}
 		return list;
 	}
-	
-	public static void main(String[] args) {
-		FollowJDBCDAO dao = new FollowJDBCDAO();
-		for(FollowVO followVO : dao.followList("M0001")) {
-			System.out.println(followVO.getaMemId());
-			System.out.println(followVO.getMemId());
+
+	@Override
+	public Integer checkSubscribe(String memId, String aMemId) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer count = 0;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url,userid,passwd);
+			pstmt = con.prepareStatement(CHECK_SUBSCRIBE);
+			pstmt.setString(1, memId);
+			pstmt.setString(2, aMemId);
+			rs = pstmt.executeQuery();
+			rs.next();
+			count = rs.getInt("COUNT(1)");
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors  ( SQL 除錯 )
+		} catch (SQLException e) {
+			throw new RuntimeException("Couldn't load database driver. " +
+					e.getMessage());
+			// Clean up JDBC resources ( 關閉資源 )
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				}catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch(Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
 		}
+		
+		return count;
 	}
+	
+
 }

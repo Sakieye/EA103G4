@@ -1,9 +1,11 @@
 package com.Follow.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +17,8 @@ import com.Follow.model.*;
 
 @WebServlet("/FollowServlet")
 public class FollowServlet extends HttpServlet {
- 
+	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -24,22 +27,41 @@ public class FollowServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		
 		if("Subscribe".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
+			//使用者會員
 			String memId = req.getParameter("memId");
-			// memId 要改取session,若沒有取到session 要登入
-			
+			//追蹤的作者會員
 			String aMemId = req.getParameter("aMemId");
-			
-			FollowVO followVO = new FollowVO();
-			followVO.setaMemId(aMemId);
-			followVO.setMemId(memId);
-			
 			FollowService followSvc = new FollowService();
 			followSvc.subscribe(memId, aMemId);
+		}
+		
+		if("unSubscribe".equals(action)) {
+			String memId = req.getParameter("memId");
+			String aMemId = req.getParameter("aMemId");
+			FollowService followSvc = new FollowService();
+			followSvc.unSubscribe(memId, aMemId);
+		}
+		
+		if("checkSubscribe".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			PrintWriter pw = res.getWriter();
+			try {
+			String memId = req.getParameter("memId");
+			String aMemId = req.getParameter("aMemId");
+			
+			FollowService followSvc = new FollowService();
+			pw.print(followSvc.checkSubscribe(memId, aMemId));
+			pw.flush();
+			} catch(Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/forum/forumPage.jsp");
+				failureView.forward(req, res);
+			} finally {
+				pw.close();
+			}
 			
 		}
 		

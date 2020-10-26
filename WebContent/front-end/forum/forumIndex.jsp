@@ -29,8 +29,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumIndex.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body class="subpage" >
@@ -154,9 +154,11 @@
 			
 			connect();
 			function connect(){
+				
 				webSocket = new WebSocket(endPointURL);
 				
 				webSocket.onopen = function(event){
+					console.log(endPointURL);
 					console.log("Connect Success!");
 					if(`${exp}` !== ""){
 						var jsonObj = {
@@ -169,7 +171,7 @@
 				
 				webSocket.onmessage = function(event){
 					var jsonObj = JSON.parse(event.data);
-					toastr['success']('追蹤通知',jsonObj.message);
+					toastr['success'](jsonObj.message,'追蹤通知');
 				}
 				
 				webSocket.onclose = function(event) {
@@ -198,18 +200,6 @@
 			})
 			
 		})
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		toastr.options = {
   				closeButton: true,
