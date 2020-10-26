@@ -5,11 +5,12 @@
 <%@ page import="java.util.*"%>
 
 <% 
-	RevService revSvc = new RevService();
-    List<RevVO> list = revSvc.getByBookId("B00000000001");
-    pageContext.setAttribute("list", list);
-    String bookId = "B00000000001";
-    pageContext.setAttribute("bookId", bookId);
+RevService revSvc = new RevService();
+String bookId = (String)request.getAttribute("bookID");
+List<RevVO> list = revSvc.getByBookId(bookId);
+pageContext.setAttribute("list", list);
+
+pageContext.setAttribute("bookId", bookId);
 %>
 <jsp:useBean id="memSvc" scope="page" class="com.mem.model.MemService"/>
 <jsp:useBean id="revSvc2" scope="page" class="com.rev.model.RevService"/>
@@ -70,7 +71,7 @@
 					    </div>
 					</div>
 	                <div class="form-row">
-	                	<input type="hidden" name="book_id" value="B00000000001">
+	                	<input type="hidden" name="book_id" value="${bookId}">
 						<input type="hidden" name="mem_id" value="${sessionScope.memVO.mem_id}">
 						<input type="hidden" name="action" value="insert">
 	                    <input type="submit" value="Add Comment">

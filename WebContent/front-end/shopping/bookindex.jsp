@@ -77,9 +77,14 @@
 									<div class="cardTOP">
 										<div class="card" id="booklist" onclick="<%=request.getContextPath()%> ">
 											<div class="card-top">
-												<form class="form-inline" name="cartFrom" method="get" action="${pageContext.request.contextPath}/Product/${book.bookID}">
-													<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}"> <input type="hidden" name="action" value="BOOKDETAIL">
-												</form>
+<%-- 												<form class="form-inline" name="cartFrom" method="get" action="${pageContext.request.contextPath}/Product/${book.bookID}"> --%>
+<%-- 													<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}"> <input type="hidden" name="action" value="BOOKDETAIL"> --%>
+<!-- 												</form> -->
+										<FORM class="form-inline" name="detailFrom" method="GET" action="<%=request.getContextPath()%>/Shopping.html">
+											<input type="hidden" name="action" value="BOOKDETAIL">
+											<input type="image" class="card-img-top" alt="404 NOT FOUND" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}">
+											<input type="hidden" name="book_id" value="${book.bookID}">
+										</FORM>
 											</div>
 											<div class="card-body">
 												<div class="card-body-prdName" style="width: 120px; height: 50px; text-align: center;">

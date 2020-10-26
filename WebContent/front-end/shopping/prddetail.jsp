@@ -309,6 +309,15 @@
 		</div>
 	</section>
 	
+	<!-- 書評 -->
+	<section class="sec-relate-product bg0 p-t-45 p-b-105">
+		<div class="container">
+			<div class="p-b-45">
+			<%@include file="/front-end/review_record/test.jsp" %>
+			</div>
+		</div>
+	</section>
+	
 
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">

@@ -44,6 +44,7 @@ public class ShpingServlet extends HttpServlet {
 		if (prddetail.isPresent()) {
 			req.setAttribute("prddetail", prddetail.get());
 			req.setAttribute("bookPiclist", bookPiclist);
+			req.setAttribute("bookID", book_id);
 			req.getRequestDispatcher(detailURL).forward(req, res);
 		}else {
 			req.getRequestDispatcher(indexURL).forward(req, res);
