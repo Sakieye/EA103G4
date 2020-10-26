@@ -413,7 +413,7 @@
                 format: 'Y-m-d ',
                 onShow: function() {
                     this.setOptions({
-
+                    	minDate: new Date() ? new Date() : false,
                         maxDate: $('#bc_time_start').val() ? $('#bc_time_start').val() : false
                     })
                 },
