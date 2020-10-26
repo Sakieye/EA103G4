@@ -87,7 +87,7 @@ button{
 												pattern="yyyy-MM-dd HH:mm" /></td>
 										<td><form
 												action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
-												class="m-0">
+												class="m-0" target="_blank">
 												<button type="submit" class="reviewGroupBtn btn btn-info"
 													name="action" value="getOne_For_Display">詳情</button>
 												<input type="hidden" name="bc_id"
