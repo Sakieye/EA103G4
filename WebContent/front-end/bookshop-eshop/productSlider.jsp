@@ -41,13 +41,13 @@
 						<c:forEach var="book" items="${books}" begin="0" end="<%=firstSlideItems-1%>">
 							<div class="col-md-2" id="product-slider-div">
 								<div class="product-block">
-									<a href='${pageContext.request.contextPath}/Product/${book.bookID}'>
+									<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}'>
 										<img class="d-block w-100" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}" alt="Product">
 									</a>
 									<div class="product-infomation">
 										<ul>
 											<li class="product-name">
-												<a href='${pageContext.request.contextPath}/Product/${book.bookID}'>${book.bookName}</a>
+												<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}'>${book.bookName}</a>
 											</li>
 											<li class="product-author">
 												<a href='${pageContext.request.contextPath}/front-end/shopping/bookindex.jsp?author=${book.author}'>作者:&nbsp;${book.author}</a>
@@ -88,13 +88,13 @@
 								<c:forEach var="book" items="${books}" begin="<%=cnt-6%>" end="<%=cnt-1%>">
 									<div class="col-md-2" id="product-slider-div">
 										<div class="product-block">
-											<a href='${pageContext.request.contextPath}/Product/${book.bookID}'>
+											<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}'>
 												<img class="d-block w-100" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}" alt="Product">
 											</a>
 											<div class="product-infomation">
 												<ul>
 													<li class="product-name">
-														<a href='${pageContext.request.contextPath}/Product/${book.bookID}'>${book.bookName}</a>
+														<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}'>${book.bookName}</a>
 													</li>
 													<li class="product-author">
 														<a href='${pageContext.request.contextPath}/front-end/shopping/bookindex.jsp?author=${book.author}'>作者:&nbsp;${book.author}</a>

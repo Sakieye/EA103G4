@@ -69,7 +69,7 @@ String publisherName = publisherService.getOnePublisher(book.getPublisherID()).g
             </thead>
             <tbody>
 	            <tr>
-	                <td><a href="${pageContext.request.contextPath}/Product/${book.bookID}">${book.bookName}</a>
+	                <td><a href="${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}">${book.bookName}</a>
 	                    <p>${book.bookNameOriginal}</p>
 	                </td>
 	                <td>${book.author}</td>

@@ -39,7 +39,7 @@
 				<span style="float: right; color: red; font-size: 12px">
 					*售價是指當下定價、預設售價、促銷售價之中最低者
 					<br>
-					*折扣是以預設售價為準
+					*折扣是以定價為準
 				</span>
 			</form>
 			<!-- Table - Hoverable rows -->
@@ -64,7 +64,7 @@
 									<input type="checkbox" value="${book.bookID}">
 								</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/Product/${book.bookID}">${book.bookName}</a>
+									<a href="${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}">${book.bookName}</a>
 									<p>${book.bookNameOriginal}</p>
 								</td>
 								<td>${book.isbn}</td>

@@ -40,10 +40,7 @@ import tools.JedisUtil;
 @WebServlet("/Product/*")
 public class Product extends HttpServlet {
 
-	public Product() {
-		super();
-	}
-
+	/********************************此為測試用舊頁面**********************************/
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 測試Redis瀏覽紀錄系統

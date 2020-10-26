@@ -96,7 +96,7 @@ session.setAttribute("books", books);
                             %> 
 		                    <tr>
 		                        <td><input type="checkbox" value="${book.bookID}"></td>
-		                        <td><a href="${pageContext.request.contextPath}/Product/${book.bookID}">${book.bookName}</a>
+		                        <td><a href="${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}">${book.bookName}</a>
 		                            <p>${book.bookNameOriginal}</p>
 		                        </td>
 		                        <td>${book.author}</td>

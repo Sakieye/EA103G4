@@ -77,7 +77,7 @@
 									<div class="cardTOP">
 										<div class="card" id="booklist" onclick="<%=request.getContextPath()%> ">
 											<div class="card-top">
-<%-- 												<form class="form-inline" name="cartFrom" method="get" action="${pageContext.request.contextPath}/Product/${book.bookID}"> --%>
+<%-- 												<form class="form-inline" name="cartFrom" method="get" action="${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}"> --%>
 <%-- 													<input type="image" class="card-img-top" alt="404 NOT FOUND" name="book_id" value="${book.bookID}" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${book.bookID}"> <input type="hidden" name="action" value="BOOKDETAIL"> --%>
 <!-- 												</form> -->
 										<FORM class="form-inline" name="detailFrom" method="GET" action="<%=request.getContextPath()%>/Shopping.html">
@@ -88,7 +88,7 @@
 											</div>
 											<div class="card-body">
 												<div class="card-body-prdName" style="width: 120px; height: 50px; text-align: center;">
-													<a href="${pageContext.request.contextPath}/Product/${book.bookID}">
+													<a href="${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}">
 														<h3 class="prdName">${book.bookName}</h3>
 													</a>
 												</div>

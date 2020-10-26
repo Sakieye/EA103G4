@@ -15,6 +15,11 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <title>行銷管理首頁</title>
+<style type="text/css">
+.jumbotron {
+	padding: 3rem 2rem !important;
+}
+</style>
 </head>
 
 <body>
@@ -23,10 +28,30 @@
 		<main id="center" class="column">
 			<h1>行銷管理首頁</h1>
 			<p></p>
-			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='${pageContext.request.contextPath}/PromoManagement'">促銷折扣管理</button>
-			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='${pageContext.request.contextPath}/RecommManagement'">推薦系統管理</button>
-			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='${pageContext.request.contextPath}/ShowTimerLog'">排程事件紀錄</button>
-			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='http://www.google.com'">廣告管理</button>
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container" style="padding: 0; margin: 0;">
+					<a href='${pageContext.request.contextPath}/PromoManagement'>
+						<h3 class="display-6">促銷折扣管理</h3>
+					</a>
+					<p class="lead">查看、新增、修改促銷事件與其明細</p>
+				</div>
+			</div>
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container" style="padding: 0; margin: 0;">
+					<a href='${pageContext.request.contextPath}/RecommManagement'>
+						<h3 class="display-6">推薦系統管理</h3>
+					</a>
+					<p class="lead">查看、新增、修改推薦系統參照的統計數據</p>
+				</div>
+			</div>
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container" style="padding: 0; margin: 0;">
+					<a href='${pageContext.request.contextPath}/ShowTimerLog'>
+						<h3 class="display-6">排程事件紀錄</h3>
+					</a>
+					<p class="lead">查看促銷事件與統計排程器歷史紀錄</p>
+				</div>
+			</div>
 		</main>
 		<%@include file="/back-end/sidebar/sidebar.jsp"%>
 		<!-- Optional JavaScript -->
