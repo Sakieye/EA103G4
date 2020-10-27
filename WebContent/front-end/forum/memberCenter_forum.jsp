@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/memSpace_forum.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 <body>
@@ -25,43 +26,43 @@
 	<section id="One" class="wrapper style3">
 		<div class="inner">
 			<header class="align-center">
-				<p>���ȧXBookShop</p>
-				<h2>�|������MemberCenter</h2>
+				<p>部客匣BookShop</p>
+				<h2>會員中心MemberCenter</h2>
 			</header>
 		</div>
 	</section>
 	<div class="content">
 		<div class="menuDiv">
 			<ul class="myMenu">
-				<li class="itembox drop-down"><a class="item">�|����ƺ޲z</a>
+				<li class="itembox drop-down"><a class="item">會員資料管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/updatePwd.jsp">�ק�K�X</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/memberSpace.jsp">�|����Ƨ�s</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/payMethod.jsp">��I�޲z</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/updatePwd.jsp">修改密碼</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/memberSpace.jsp">會員資料更新</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/payMethod.jsp">支付管理</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">�q��޲z</a>
+				<li class="itembox drop-down"><a class="item">訂單管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/selectOrder.jsp">�q��d��</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/selectOrder.jsp">訂單查詢</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">���ʬ���</a>
+				<li class="itembox drop-down"><a class="item">互動紀錄</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">�Q�װϵo�����</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">���ä峹</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">討論區發文紀錄</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">收藏文章</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">Ū�ѷ|�޲z</a>
+				<li class="itembox drop-down"><a class="item">讀書會管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/myBookClub.jsp">�ڪ�Ū�ѷ|</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/review_BookClub.jsp">Ū�ѷ|���W����</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/myBookClub.jsp">我的讀書會</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/review_BookClub.jsp">讀書會報名紀錄</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">���y</a>
+				<li class="itembox drop-down"><a class="item">講座</a>
 					<div class="submenu">
-						<a class="submenu-item" href="#">���y���W����</a>
+						<a class="submenu-item" href="#">講座報名紀錄</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">���ê��ѳ�޲z</a>
+				<li class="itembox drop-down"><a class="item">收藏的書單管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">�w���îѳ�</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">已收藏書單</a>
 						<c:if test="${sessionScope.memVO.mem_iskol == 1}">
-			            	<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">���îѳ����</a>
+			            	<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">收藏書單分享</a>
 			        	</c:if>
 					</div></li>
 			</ul>
@@ -69,8 +70,8 @@
 			<div class="mem-info">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-8">�D�D</div>
-						<div class="col-md-2">�ɶ�</div>
+						<div class="col-md-8">主題</div>
+						<div class="col-md-2">時間</div>
 						<div class="col-md-1"></div>
 						<div class="col-md-1"></div>
 					</div>
@@ -86,13 +87,13 @@
 								<fmt:formatDate value="${faVO.faDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 							</div>
 							<div class="col-md-1">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${update.index}">�ק�峹</button>
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${update.index}">修改文章</button>
 
 								<div class="modal fade" id="exampleModal${update.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog modal-lg" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">�ק�峹</h5>
+												<h5 class="modal-title" id="exampleModalLabel">修改文章</h5>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -100,7 +101,7 @@
 											<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
 												<div class="modal-body">
 													<c:if test="${not empty errorMsgs}">
-														<font style="color: red">�Эץ��H�U���~:</font>
+														<font style="color: red">請修正以下錯誤:</font>
 														<ul>
 															<c:forEach var="message" items="${errorMsgs}">
 																<li style="color: red">${message}</li>
@@ -108,16 +109,16 @@
 														</ul>
 													</c:if>
 													<p>
-														<label for="topic">�D�D :</label>
+														<label for="topic">主題 :</label>
 														<input type="text" name="faTopic" value="${faVO.faTopic}" id="faTopic" required="required">
 													</p>
 													<p>
-														<label for="content">���e :</label>
+														<label for="content">內容 :</label>
 														<textarea id="summernote${update.index}" name="faContent" id="faContent" >${faVO.faContent}</textarea>
 													</p>
 													<p style="display: inline-flex;">
 														<input type="submit" >
-														<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="����">
+														<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="取消">
 														<input type="hidden" name="action" value="update">
 														<input type="hidden" name="memId" value="${memVO.mem_id}">
 														<input type="hidden" name="faId" value="${faVO.faId}">
@@ -130,11 +131,12 @@
 								</div>
 							</div>
 							<div class="col-md-1">
-								<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
-									<input type="submit" value="�R��">
+								<form id="deleteForm${update.index}" method="post" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
+<!-- 									<input type="submit" value="刪除"> -->
 									<input type="hidden" name="action" value="delete">
 									<input type="hidden" name="faId" value="${faVO.faId}">
 								</form>
+									<input id="delete${update.index}" type="submit" value="刪除">
 							</div>
 						</div>
 						<hr>
@@ -150,8 +152,11 @@
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
+	
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	
+	<script src="https://kit.fontawesome.com/21e3918c11.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
@@ -163,11 +168,27 @@
 	<script src="<%=request.getContextPath()%>/js/summernote_updateFa.js"></script>
 	<!-- toastr v2.1.4 -->
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  	<!-- sweetalert -->
+  	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  	
 	<script>
 	$(document).ready(function() {
 		if(${not empty errorMsgs}){
-			toastr['error']('�D�D�Τ��e�ФŪť�!!!', '�ק�峹����');
+			toastr['error']('主題或內容請勿空白!!!', '修改文章失敗');
 		}
+		
+		for(let i = 0; i < ${faSvc.getOneMemFa(memVO.getMem_id()).size()} ; i++){
+			$("#delete" + i).click(() => {
+				swal({
+					title: "Are you sure ?",
+					icon: "warning",
+					buttons: true
+				}).then((value) => {
+					$("#deleteForm" + i).submit();
+				});
+			})
+		}
+		
 	})
 	
 	toastr.options = {

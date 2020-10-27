@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumIndex.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 
@@ -130,6 +131,7 @@
     <script src="<%= request.getContextPath()%>/js/util.js"></script>
     <script src="<%= request.getContextPath()%>/js/main.js"></script>
     
+    <script src="https://kit.fontawesome.com/21e3918c11.js"></script>
     <!-- jQuery v1.9.1 -->
   	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<!-- toastr v2.1.4 -->

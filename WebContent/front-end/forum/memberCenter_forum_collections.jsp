@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
@@ -18,6 +18,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/memSpace_forum.css" />
 
@@ -29,43 +30,43 @@
 	<section id="One" class="wrapper style3">
 		<div class="inner">
 			<header class="align-center">
-				<p>���ȧXBookShop</p>
-				<h2>�|������MemberCenter</h2>
+				<p>部客匣BookShop</p>
+				<h2>會員中心MemberCenter</h2>
 			</header>
 		</div>
 	</section>
 	<div class="content">
 		<div class="menuDiv">
 			<ul class="myMenu">
-				<li class="itembox drop-down"><a class="item">�|����ƺ޲z</a>
+				<li class="itembox drop-down"><a class="item">會員資料管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/updatePwd.jsp">�ק�K�X</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/memberSpace.jsp">�|����Ƨ�s</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/payMethod.jsp">��I�޲z</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/updatePwd.jsp">修改密碼</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/memberSpace.jsp">會員資料更新</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/payMethod.jsp">支付管理</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">�q��޲z</a>
+				<li class="itembox drop-down"><a class="item">訂單管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/selectOrder.jsp">�q��d��</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/member/selectOrder.jsp">訂單查詢</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">���ʬ���</a>
+				<li class="itembox drop-down"><a class="item">互動紀錄</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">�Q�װϵo�����</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">���ä峹</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum.jsp">討論區發文紀錄</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/forum/memberCenter_forum_collections.jsp">收藏文章</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">Ū�ѷ|�޲z</a>
+				<li class="itembox drop-down"><a class="item">讀書會管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/myBookClub.jsp">�ڪ�Ū�ѷ|</a>
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/review_BookClub.jsp">Ū�ѷ|���W����</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/myBookClub.jsp">我的讀書會</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/bookclub/review_BookClub.jsp">讀書會報名紀錄</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">���y</a>
+				<li class="itembox drop-down"><a class="item">講座</a>
 					<div class="submenu">
-						<a class="submenu-item" href="#">���y���W����</a>
+						<a class="submenu-item" href="#">講座報名紀錄</a>
 					</div></li>
-				<li class="itembox drop-down"><a class="item">���ê��ѳ�޲z</a>
+				<li class="itembox drop-down"><a class="item">收藏的書單管理</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">�w���îѳ�</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/favorite_book/favoriteBook.jsp">已收藏書單</a>
 						<c:if test="${sessionScope.memVO.mem_iskol == 1}">
-			            	<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">���îѳ����</a>
+			            	<a class="submenu-item" href="<%= request.getContextPath()%>/front-end/celebrity_book/celebrityBook.jsp">收藏書單分享</a>
 			        	</c:if>
 					</div></li>
 			</ul>
@@ -73,14 +74,14 @@
 			<div class="mem-info">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-8">�峹</div>
-						<div class="col-md-2">�o��ɶ�</div>
+						<div class="col-md-8">文章</div>
+						<div class="col-md-2">發文時間</div>
 						<div class="col-md-1"></div>
 						<div class="col-md-1"></div>
 					</div>
 					<hr>
 					<%@ include file="pageForMemberCenter_forum_collections.file"%>
-					<c:forEach var="faVO" items="${fcsvc.getOneMemCollection(memVO.mem_id)}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+					<c:forEach var="faVO" items="${fcsvc.getOneMemCollection(memVO.mem_id)}" varStatus="collections" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 						<div class="row" id=forum_record>
 							<div class="col-md-8">
 								<a href="<%=request.getContextPath() %>/front-end/forum/fa.do?action=getOne_For_Display&faId=${faVO.faId}" target="_blank">${fasvc.getOneFa(faVO.faId).faTopic}</a>
@@ -89,12 +90,12 @@
 								<fmt:formatDate value="${fasvc.getOneFa(faVO.faId).faDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 							</div>
 							<div class="col-md-2">
-								<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fc.do">
-									<input type="submit" value="��������">
+								<form id="cancelCollect${collections.index}" method="post" action="<%=request.getContextPath()%>/front-end/forum/fc.do">
 									<input type="hidden" name="faId" value="${faVO.faId}">
 									<input type="hidden" name="memId" value="${memVO.mem_id}">
 									<input type="hidden" name="action" value="cancelCollect">
 								</form>
+								<input id="cancelBtn${collections.index}"type="submit" value="取消收藏">
 							</div>
 
 						</div>
@@ -111,7 +112,28 @@
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
+	
+	<script src="https://kit.fontawesome.com/21e3918c11.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	
+	<!-- sweetalert -->
+  	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  	
+  	<script>
+	$(document).ready(()=>{
+		for(let i = 0; i < ${fcsvc.getOneMemCollection(memVO.mem_id).size()} ; i++){
+			$("#cancelBtn" + i).click(() => {
+				swal({
+					title: "Are you sure ?",
+					icon: "warning",
+					buttons: true
+				}).then((value) => {
+					$("#cancelCollect" + i).submit();
+				});
+			})
+		}
+	})  	
+  	</script>
 </body>
 </html>

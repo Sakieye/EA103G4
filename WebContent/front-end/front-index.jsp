@@ -82,7 +82,7 @@
 								<p>部客匣網路書城</p>
 								<h2>BOOKSHOP</h2>
 							</header>
-							<p>Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada.</p>
+							<p></p>
 							<footer class="align-center">
 								<a href="<%=request.getContextPath()%>/front-end/bookshop-eshop/index.jsp" class="button alt">Learn More</a>
 							</footer>
@@ -92,14 +92,14 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic03.jpg" alt="" />
+							<img src="<%=request.getContextPath()%>/front-end/images/lecture_index.jpg" alt="" />
 						</div>
 						<div class="content">
 							<header class="align-center">
-								<p>mattis elementum sapien pretium tellus</p>
+								<p>部客匣講座</p>
 								<h2>LECTURE</h2>
 							</header>
-							<p>Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada.</p>
+							<p></p>
 							<footer class="align-center">
 								<a href="#" class="button alt">Learn More</a>
 							</footer>
@@ -109,14 +109,14 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic03.jpg" alt="" />
+							<img src="<%=request.getContextPath()%>/front-end/images/pic3.jpg" alt="" />
 						</div>
 						<div class="content">
 							<header class="align-center">
-								<p>mattis elementum sapien pretium tellus</p>
+								<p>部客匣討論區</p>
 								<h2>FORUM</h2>
 							</header>
-							<p>Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada.</p>
+							<p></p>
 							<footer class="align-center">
 								<a href="<%=request.getContextPath()%>/front-end/forum/forumIndex.jsp" class="button alt">Learn More</a>
 							</footer>
@@ -126,14 +126,14 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic03.jpg" alt="" />
+							<img src="<%=request.getContextPath()%>/front-end/images/bookClub_index.jpg" alt="" />
 						</div>
 						<div class="content">
 							<header class="align-center">
-								<p>mattis elementum sapien pretium tellus</p>
+								<p>部客匣讀書會</p>
 								<h2>BOOKCLUB</h2>
 							</header>
-							<p>Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada.</p>
+							<p></p>
 							<footer class="align-center">
 								<a href="<%=request.getContextPath()%>/front-end/bookclub/bookclub_index.jsp" class="button alt">Learn More</a>
 							</footer>
