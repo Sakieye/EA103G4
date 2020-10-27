@@ -105,12 +105,16 @@
 		<url-pattern>/back-end/admin/admins.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>UsedbookTransactionServlet</servlet-name>
-		<servlet-class>com.usedbooktransaction.controller.UsedbookTransactionServlet</servlet-class>
+		<servlet-name>UdbTxServlet</servlet-name>
+		<servlet-class>com.udbtx.controller.UdbTxServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>UsedbookTransactionServlet</servlet-name>
-		<url-pattern>/back-end/usedbooktransaction/usedbooktransaction.do</url-pattern>
+		<servlet-name>UdbTxServlet</servlet-name>
+		<url-pattern>/front-end/udbtx/udbtx.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UdbTxServlet</servlet-name>
+		<url-pattern>/back-end/udbtx/udbtx.do</url-pattern>
 	</servlet-mapping>
 	<filter>
 		<filter-name>backLoginFilter</filter-name>
@@ -127,11 +131,9 @@
 		<url-pattern>/back-end/jsp_Common/*</url-pattern>
 		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_PromoManagement/*</url-pattern>
+		<url-pattern>/back-end/jsp_RecommManagement/*</url-pattern>
 		<url-pattern>/back-end/member/*</url-pattern>
 		<url-pattern>/back-end/order/*</url-pattern>
-		<url-pattern>/back-end/pages_BookManagement/*</url-pattern>
-		<url-pattern>/back-end/pages_PromoManagement/*</url-pattern>
-		<url-pattern>/back-end/back-index.jsp/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -153,11 +155,9 @@
 		<url-pattern>/back-end/jsp_Common/*</url-pattern>
 		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_PromoManagement/*</url-pattern>
+		<url-pattern>/back-end/jsp_RecommManagement/*</url-pattern>
 		<url-pattern>/back-end/member/*</url-pattern>
 		<url-pattern>/back-end/order/*</url-pattern>
-		<url-pattern>/back-end/pages_BookManagement/*</url-pattern>
-		<url-pattern>/back-end/pages_PromoManagement/*</url-pattern>
-		<url-pattern>/back-end/back-index.jsp/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
