@@ -259,9 +259,6 @@ public class AdminsServlet extends HttpServlet {
 				// 以上為未修改但要顯示的資料
 				
 				AdminsVO adminsVO = new AdminsVO();
-				adminsVO.setAdmin_id_no(admin_id_no);
-				adminsVO.setAdmin_dutydate(admin_dutydate);
-				adminsVO.setAdmin_jobstate(admin_jobstate);
 
 //				System.out.println("@update輸入3," + admin_id);
 				/** 管理員名稱 **/
@@ -331,7 +328,9 @@ public class AdminsServlet extends HttpServlet {
 				}
 //				System.out.println("@update輸入9," + admin_mail);
 
-//				AdminsVO adminsVO = new AdminsVO();
+				adminsVO.setAdmin_id_no(admin_id_no);
+				adminsVO.setAdmin_dutydate(admin_dutydate);
+				adminsVO.setAdmin_jobstate(admin_jobstate);
 				adminsVO.setAdmin_id(admin_id);
 				adminsVO.setAdmin_name(admin_name);
 				adminsVO.setAdmin_mobile(admin_mobile);
@@ -351,6 +350,8 @@ public class AdminsServlet extends HttpServlet {
 				AdminsService adminsSvc = new AdminsService();
 				adminsVO = adminsSvc.updateAdmins(admin_id, admin_name, admin_mobile, admin_address, admin_jobstate,
 						admin_pic, admin_mail);
+				adminsVO.setAdmin_id_no(admin_id_no);
+				adminsVO.setAdmin_dutydate(admin_dutydate);
 //				System.out.println("@AdminsServlet開始修改");
 //				System.out.println("@AdminsServlet修改後,有取到Admin_id_no" + admin_id_no);
 //				System.out.println("@AdminsServlet修改後,有取到Admin_dutydate" + admin_dutydate);
