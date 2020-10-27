@@ -125,8 +125,10 @@
 		<url-pattern>/back-end/login/loginSucess.jsp</url-pattern>
 		<url-pattern>/back-end/admins/*</url-pattern>
 		<url-pattern>/back-end/advertising/*</url-pattern>
-		<url-pattern>/back-end/bookclub_report/*</url-pattern>
-		<url-pattern>/back-end/forum/*</url-pattern>
+		<url-pattern>/back-end/bookclub_report/listAllBookClub_Report.jsp</url-pattern>
+		<url-pattern>/back-end/forum/forumBack_forums.jsp</url-pattern>
+		<url-pattern>/back-end/forum/forumBack_messages.jsp</url-pattern>
+		<url-pattern>/back-end/forum/reviewBack.jsp</url-pattern>
 		<url-pattern>/back-end/jsp_BookManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_Common/*</url-pattern>
 		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
