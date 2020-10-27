@@ -97,7 +97,7 @@
         }
         .card {
 
-            box-shadow: 3px 3px 5px #CCC;
+            box-shadow: 3px 3px 5px 6px #CCC;
         }
         .btn-success {
             /* border: 3px solid #CCC; */
@@ -135,7 +135,7 @@
             text-align: center;
             font-size: 18px;
         }
-        /* 點擊置頂按鈕 css  */
+        /* 暺�蔭����� css  */
         .toTop-arrow {
             width: 3rem;
             height: 3rem;
@@ -214,7 +214,10 @@
         }
         .img-thumbnail {
             margin: 15px;
+            margin-top: 30px;
             margin-left: 0;
+            height: 15rem;
+    		max-width: none;
         }
         #look {
             border-radius: 20px;
@@ -345,4 +348,12 @@
             .style-de5806aa-tab-label {
                 font-size: 24px
             }
+        }
+        input[type="submit"]{
+        	background-color: #aeaecb !important;
+        	border-radius:100px;
+        	box-shadow:2px 2px 4px 2px #bbbbbb;
+        }
+        input[type="submit"]:hover {
+        	background-color: #d67777 !important;
         }
