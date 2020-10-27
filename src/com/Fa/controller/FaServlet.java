@@ -117,7 +117,7 @@ public class FaServlet extends HttpServlet {
 				memSvc.updateExp(memVO);
 				
 				
-				
+				//會員中心 同步更新會員經驗值
 				HttpSession session = req.getSession();
 				session.setAttribute("memVO", memVO);
 				req.setAttribute("faVO", faVO);

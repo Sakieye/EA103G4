@@ -34,7 +34,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 	
 	
 	@Override
-	public void insert(FaVO faVO) {
+	public String insert(FaVO faVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -73,7 +73,7 @@ public class FaJDBCDAO implements FaDAO_interface {
 				}
 			}
 		}
-
+		return null;
 	}
 
 	@Override

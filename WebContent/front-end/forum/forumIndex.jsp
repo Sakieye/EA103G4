@@ -30,7 +30,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body class="subpage" >
@@ -143,83 +142,85 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script>
-		$(document).ready(function() {
-			var MyPoint = "/SubscribeNotifyWs/${memVO.mem_id}";
-			var host = window.location.host;
-			var path = window.location.pathname;
-			var webCtx = path.substring(0, path.indexOf('/', 1));
-			var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
-			var webSocket;
-			
-			
-			connect();
-			function connect(){
-				
-				webSocket = new WebSocket(endPointURL);
-				
-				webSocket.onopen = function(event){
-					console.log(endPointURL);
-					console.log("Connect Success!");
-					if(`${exp}` !== ""){
-						var jsonObj = {
-							"memId" : `${memVO.mem_id}`,
-							"message" : '${memVO.mem_name} 新增文章嘍～'
-						}
-						webSocket.send(JSON.stringify(jsonObj));
-					}
-				}
-				
-				webSocket.onmessage = function(event){
-					var jsonObj = JSON.parse(event.data);
-					toastr['success'](jsonObj.message,'追蹤通知');
-				}
-				
-				webSocket.onclose = function(event) {
-					console.log("Disconnected")
-				}
-				
-			}
-			if(`${exp}` !== ""){
-				toastr['success']('新增文章成功啦！', '${exp}');
-			}
-			
-			
-			if (location.href.indexOf("forumIndex.jsp") !== -1) {
-				$("#heading2>a>b").css("color", "red");
-			} else if (location.href.indexOf("forumIndex_hot.jsp") !== -1) {
-				$("#heading1>a>b").css("color", "green");
-			} else {
-				$("#heading2>a>b").css("color", "red");
-				$("#heading1>a>b").css("color", "green");
-			}
-			
-			$(".row.search_hot > span").click(function(){
-				var searchKey = $(this).text();		
-				$("#searchText").val(searchKey.substring(1));
-				$("#searcForm").submit();
-			})
-			
-		})
-		
-		toastr.options = {
-  				closeButton: true,
-  				debug: false,
-  				newestOnTop: false,
-  				progressBar: true,
-  				positionClass: "toast-top-right",
-  				preventDuplicates: false,
-  				onclick: null,
-  				showDuration: "300",
-  				hideDuration: "1000",
-  				timeOut: "5000",
-  				extendedTimeOut: "1000",
-  				showEasing: "swing",
-  				hideEasing: "linear",
-  				showMethod: "fadeIn",
-  				hideMethod: "fadeOut"
-		};
-		
-		
+    $(document).ready(function() {
+        var MyPoint = "/SubscribeNotifyWs/${memVO.mem_id}";
+        var host = window.location.host;
+        var path = window.location.pathname;
+        var webCtx = path.substring(0, path.indexOf('/', 1));
+        var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+        var webSocket;
+
+        if (`${memVO}` !== "") {
+            connect();
+        }
+
+        function connect() {
+
+            webSocket = new WebSocket(endPointURL);
+
+            webSocket.onopen = function(event) {
+                console.log(endPointURL);
+                console.log("Connect Success!");
+                if (`${exp}` !== "") {
+                    var jsonObj = {
+                        "memId": `${memVO.mem_id}`,
+                        "message": '${memVO.mem_name}' + " 上傳新文章 : " +
+                        "<a href=" + `<%=request.getContextPath() %>` + "/front-end/forum/fa.do?action=getOne_For_Display&faId=${faVO.faId}"+">${faVO.faTopic}</a>"
+                    }
+                    webSocket.send(JSON.stringify(jsonObj));
+                }
+            }
+
+            webSocket.onmessage = function(event) {
+                var jsonObj = JSON.parse(event.data);
+                console.log(jsonObj);
+                toastr['success'](jsonObj.message, '追蹤通知');
+            }
+
+            webSocket.onclose = function(event) {
+                console.log("Disconnected")
+            }
+
+        }
+        if (`${exp}` !== "") {
+            toastr['success']('新增文章成功啦！', '${exp}');
+        }
+
+
+        if (location.href.indexOf("forumIndex.jsp") !== -1) {
+            $("#heading2>a>b").css("color", "red");
+        } else if (location.href.indexOf("forumIndex_hot.jsp") !== -1) {
+            $("#heading1>a>b").css("color", "green");
+        } else {
+            $("#heading2>a>b").css("color", "red");
+            $("#heading1>a>b").css("color", "green");
+        }
+
+        $(".row.search_hot > span").click(function() {
+            var searchKey = $(this).text();
+            $("#searchText").val(searchKey.substring(1));
+            $("#searcForm").submit();
+        })
+
+    })
+
+    toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: false,
+        progressBar: true,
+        positionClass: "toast-top-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "15000",
+        extendedTimeOut: "10000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
 	</script>
 </body>
 

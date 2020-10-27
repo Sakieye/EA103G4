@@ -26,10 +26,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumIndex_hot.css">
-<link rel="stylesheet"
-    href="<%=request.getContextPath()%>/css/header.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 
 <body class="subpage">
@@ -132,11 +132,48 @@
     <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
     <script src="<%= request.getContextPath()%>/js/util.js"></script>
     <script src="<%= request.getContextPath()%>/js/main.js"></script>
-<!-- 	<!-- Bootstrap --> -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+	<!-- jQuery v1.9.1 -->
+  	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<!-- toastr v2.1.4 -->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<script>
 	$(document).ready(function(){
+		  var MyPoint = "/SubscribeNotifyWs/${memVO.mem_id}";
+	        var host = window.location.host;
+	        var path = window.location.pathname;
+	        var webCtx = path.substring(0, path.indexOf('/', 1));
+	        var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+	        var webSocket;
+
+	        if (`${memVO}` !== "") {
+	            connect();
+	        }
+
+	        function connect() {
+
+	            webSocket = new WebSocket(endPointURL);
+
+	            webSocket.onopen = function(event) {
+	                console.log(endPointURL);
+	                console.log("Connect Success!");
+	            }
+
+	            webSocket.onmessage = function(event) {
+	                var jsonObj = JSON.parse(event.data);
+	                console.log(jsonObj);
+	                toastr['success'](jsonObj.message, '追蹤通知');
+	            }
+
+	            webSocket.onclose = function(event) {
+	                console.log("Disconnected")
+	            }
+
+	        }
+	        if (`${exp}` !== "") {
+	            toastr['success']('新增文章成功啦！', '${exp}');
+	        }
 		if(location.href.indexOf("forumIndex.jsp") !== -1){
 			$("#heading2>a>b").css("color","red");
 		}else if(location.href.indexOf("forumIndex_hot.jsp") !== -1){

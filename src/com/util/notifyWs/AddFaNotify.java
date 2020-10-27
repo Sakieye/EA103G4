@@ -1,4 +1,4 @@
-package tools;
+package com.util.notifyWs;
 
 public class AddFaNotify {
 	private String memId ;

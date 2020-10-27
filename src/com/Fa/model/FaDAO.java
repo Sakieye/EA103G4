@@ -44,21 +44,26 @@ public class FaDAO implements FaDAO_interface {
 	
 	
 	@Override
-	public void insert(FaVO faVO) {
+	public String insert(FaVO faVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
-		
+		ResultSet rs = null;
+		String faId = null;
 		try {
 			con = ds.getConnection();
-			
-			pstmt = con.prepareStatement(INSERT_STMT);
+			String[] col = {"FAID"};
+			pstmt = con.prepareStatement(INSERT_STMT , col);
 
 			pstmt.setString(1, faVO.getMemId());
 			pstmt.setString(2, faVO.getFaTopic());
 			pstmt.setString(3, faVO.getFaContent());
 			
 			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			
+			rs.next();
+			faId = rs.getString(1);
+			System.out.println("FAID : " + faId);
 			
 		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -79,7 +84,7 @@ public class FaDAO implements FaDAO_interface {
 				}
 			}
 		}
-
+		return faId;
 	}
 
 	@Override

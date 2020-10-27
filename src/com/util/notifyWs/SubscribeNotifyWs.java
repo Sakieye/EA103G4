@@ -1,4 +1,4 @@
-package tools;
+package com.util.notifyWs;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -31,6 +31,10 @@ public class SubscribeNotifyWs {
 	@OnOpen
 	public void onOpen(@PathParam("memId") String memId, Session userSession) throws IOException {
 		sessionsMap.put(memId, userSession);
+		Set<String> members = sessionsMap.keySet();
+		
+		System.out.println("members : " + members);
+		
 	}
 	
 	@OnMessage
@@ -39,10 +43,8 @@ public class SubscribeNotifyWs {
 		String amemId = addFaNotify.getMemId();
 		FollowService folSvc = new FollowService();
 		List<FollowVO> list = folSvc.getFollowList(amemId);
-//		if(list.size() == 0) {
-//			return;
-//		}
 		for(FollowVO followVO : list) {
+			System.out.println("reveivers :" + followVO.getMemId());
 			Session receiverSession = sessionsMap.get(followVO.getMemId());
 			if(receiverSession != null && receiverSession.isOpen()) {
 				receiverSession.getAsyncRemote().sendText(message);
@@ -52,7 +54,8 @@ public class SubscribeNotifyWs {
 	}
 	
 	@OnClose
-	public void onClose(Session userSession, CloseReason reason) {
+	public void onClose(@PathParam("memId")String memId,Session userSession, CloseReason reason) {
+		sessionsMap.remove(memId);
 	}
 	
 	@OnError

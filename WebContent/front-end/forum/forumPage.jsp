@@ -19,8 +19,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forumPage.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
 </head>
 
 <body class="subpage">
@@ -155,14 +155,50 @@
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 
 	<script src="https://kit.fontawesome.com/21e3918c11.js"></script>
+	<!-- jQuery v1.9.1 -->
+  	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<!-- toastr v2.1.4 -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
+		  var MyPoint = "/SubscribeNotifyWs/${sessionScope.memVO.mem_id}";
+	        var host = window.location.host;
+	        var path = window.location.pathname;
+	        var webCtx = path.substring(0, path.indexOf('/', 1));
+	        var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+	        var webSocket;
+			console.log(`${sessionScope.memVO}` !== "");
+	        if (`${sessionScope.memVO}` !== "") {
+	            connect();
+	        }
+
+	        function connect() {
+
+	            webSocket = new WebSocket(endPointURL);
+
+	            webSocket.onopen = function(event) {
+	                console.log(endPointURL);
+	                console.log("Connect Success!");
+	            }
+
+	            webSocket.onmessage = function(event) {
+	                var jsonObj = JSON.parse(event.data);
+	                console.log(jsonObj);
+	                toastr['success'](jsonObj.message, '追蹤通知');
+	            }
+
+	            webSocket.onclose = function(event) {
+	                console.log("Disconnected")
+	            }
+
+	        }
+	        if (`${exp}` !== "") {
+	            toastr['success']('新增文章成功啦！', '${exp}');
+	        }
 		/*等級*/
 			if((parseInt($("#AmemExp").text())) <= 1000){
 				$("#AmemExp").text("Lv.1");
@@ -353,8 +389,8 @@
 				onclick: null,
 				showDuration: "300",
 				hideDuration: "1000",
-				timeOut: "5000",
-				extendedTimeOut: "1000",
+				timeOut: "15000",
+				extendedTimeOut: "10000",
 				showEasing: "swing",
 				hideEasing: "linear",
 				showMethod: "fadeIn",

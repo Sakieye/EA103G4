@@ -19,7 +19,7 @@ public class FaService {
 		faVO.setMemId(memId);
 		faVO.setFaTopic(faTopic);
 		faVO.setFaContent(faContent);
-		dao.insert(faVO);
+		faVO.setFaId(dao.insert(faVO));
 		
 		return faVO;
 		

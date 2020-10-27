@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public interface FaDAO_interface {
-	public void insert(FaVO faVO);
+	public String insert(FaVO faVO);
 	public void update(FaVO faVO);
 	public void delete(String faId);
 	public void addFaViews(FaVO faVO);
