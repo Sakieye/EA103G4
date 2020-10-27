@@ -4,7 +4,7 @@
 
 <c:if test="${not empty catLevelMap}">
 	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb" style="padding: 0; background-color: #EBE5D8; font-size: 2em;'">
+		<ol class="breadcrumb" style="padding: 0; background-color: #FFF; font-size: 1.5em;'">
 			<c:forEach var="entry" varStatus="loop" items="${catLevelMap}" begin="0" end="${catLevelMap.size()-1}">
 				<c:choose>
 					<c:when test="${!loop.last}">

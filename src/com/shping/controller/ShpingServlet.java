@@ -2,12 +2,17 @@ package com.shping.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +22,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.shping.model.Cart;
 import com.book.model.Book;
 import com.book.model.BookService;
 import com.bookpic.model.BookPicService;
 import com.bookpic.model.BookPicture;
+import com.category.model.CategoryService;
+import com.shping.model.Cart;
 
 @WebServlet("/Shopping.html")
 public class ShpingServlet extends HttpServlet {
@@ -42,14 +48,31 @@ public class ShpingServlet extends HttpServlet {
 		Optional<Book> prddetail = bkSvc.getByBookID(book_id);
 		List<BookPicture> bookPiclist = bkpicSvc.getByBookID(book_id);
 		if (prddetail.isPresent()) {
-			req.setAttribute("prddetail", prddetail.get());
-			req.setAttribute("bookPiclist", bookPiclist);
-			req.setAttribute("bookID", book_id);
-			req.getRequestDispatcher(detailURL).forward(req, res);
-		}else {
+			Book book = prddetail.get();
+			if (book.getIsSold() == 1) {
+				req.setAttribute("prddetail", book);
+				req.setAttribute("bookPiclist", bookPiclist);
+				req.setAttribute("bookID", book_id);
+
+				// 利用cookie取得/更新近期瀏覽書籍(30本)
+				List<Book> recentViewedBooks = bkSvc.getByBookIDList(UpdateRecentViewedBooksCookie(book_id, req, res));
+				// 利用近期瀏覽書籍(30本)計算出推薦書籍
+				Set<Book> recommBooks = bkSvc.getRecommendedBooks(recentViewedBooks, book_id);
+				// 瀏覽次數+1
+				bkSvc.UpdateRedisViewCount(book_id);
+
+				CategoryService categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
+				req.setAttribute("recentViewedBooks", recentViewedBooks);
+				req.setAttribute("recommBooks", new ArrayList<Book>(recommBooks));
+				req.setAttribute("catLevelMap", categoryService.getCatLevelMap(book.getCategoryID()));
+
+				req.getRequestDispatcher(detailURL).forward(req, res);
+			} else {
+				req.getRequestDispatcher("/front-end/shopping/notSold.jsp").forward(req, res);
+			}
+		} else {
 			req.getRequestDispatcher(indexURL).forward(req, res);
 		}
-		
 
 	}
 
@@ -69,7 +92,7 @@ public class ShpingServlet extends HttpServlet {
 		List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
 		String action = req.getParameter("action");
 		ShpingServlet shping = new ShpingServlet();
-		
+
 		if (!action.equals("BOOKDETAIL")) {
 			JSONArray careFormJSON = new JSONArray();
 			// 加入購物車
@@ -87,7 +110,7 @@ public class ShpingServlet extends HttpServlet {
 						cartlist.add(cart1);
 					}
 				}
-				for(Cart cart:cartlist) {
+				for (Cart cart : cartlist) {
 					JSONObject obj = new JSONObject();
 					try {
 						obj.put("mem_id", cart.getMem_Id());
@@ -102,20 +125,20 @@ public class ShpingServlet extends HttpServlet {
 					} catch (JSONException e) {
 						throw new RuntimeException("▲Error： [加入JSON失敗!]" + e.getMessage());
 					}
-					
+
 				}
-				
+
 				String[] getTotal = shping.gettotal(cartlist);
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
-				
+
 				res.setContentType("text/plain");
 				res.setCharacterEncoding("UTF-8");
 				PrintWriter out = res.getWriter();
 				out.write(careFormJSON.toString());
 				out.flush();
 				out.close();
-				
+
 			}
 			// 刪除商品
 			if (action.contentEquals("DEL")) {
@@ -209,6 +232,66 @@ public class ShpingServlet extends HttpServlet {
 
 		return totalArray;
 
+	}
+
+	private List<String> UpdateRecentViewedBooksCookie(String bookID, HttpServletRequest request,
+			HttpServletResponse response) {
+		Cookie recentViewedBooksCookie = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if ("recentViewedBookIDs".equals(cookie.getName())) {
+					recentViewedBooksCookie = cookie;
+				}
+			}
+		}
+
+		String recentViewedBookIDs = UpdateRecentViewedBookIDs(bookID, recentViewedBooksCookie);
+		List<String> bookIDs = Arrays.asList(recentViewedBookIDs.split("_"));
+
+		if (recentViewedBooksCookie != null) {
+			recentViewedBooksCookie.setValue(recentViewedBookIDs);
+		} else {
+			recentViewedBooksCookie = new Cookie("recentViewedBookIDs", recentViewedBookIDs);
+		}
+		recentViewedBooksCookie.setMaxAge(60 * 60 * 24 * 365); // 365天效期cookie
+		response.addCookie(recentViewedBooksCookie);
+
+		return bookIDs;
+	}
+
+	private String UpdateRecentViewedBookIDs(String bookID, Cookie cookie) {
+		LinkedList<String> bookIDList = new LinkedList<String>();
+		StringBuffer recentViewedBookIDs = new StringBuffer();
+
+		if (cookie != null) {
+			String bookIDs = cookie.getValue();
+			if (bookIDs != null) {
+				bookIDList = new LinkedList<String>(Arrays.asList(bookIDs.split("_")));
+			}
+
+			// 只保留30個近期瀏覽記錄
+			if (bookIDList.size() < 30) {
+				// 去除重複
+				if (bookIDList.contains(bookID)) {
+					bookIDList.remove(bookID);
+				}
+			} else {
+				// 去除重複
+				if (bookIDList.contains(bookID)) {
+					bookIDList.remove(bookID);
+				} else {
+					bookIDList.removeLast();
+				}
+			}
+		}
+
+		bookIDList.addFirst(bookID);
+		bookIDList.forEach(viewedBookID -> {
+			recentViewedBookIDs.append(viewedBookID).append("_");
+		});
+
+		return recentViewedBookIDs.toString();
 	}
 
 }

@@ -17,16 +17,9 @@ pageContext.setAttribute("bookId", bookId);
 <!DOCTYPE html>
 <html>
 <head>
-<title>BOOKSHOP部客匣</title>
 
-<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
-<link rel="stylesheet" href="<%= request.getContextPath()%>/css/header.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.datetimepicker.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/rev.css">
-
-
-
 
 </head>
 <body>
@@ -171,18 +164,7 @@ pageContext.setAttribute("bookId", bookId);
         </c:forEach>
         <%@ include file="page2.file" %>
     </div>
-	
-	
-	<script src='<%= request.getContextPath()%>/js/jquery.min.js'></script>
-    <script src="<%= request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
-    <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
-    <script src="<%= request.getContextPath()%>/js/util.js"></script>
-    <script src="<%= request.getContextPath()%>/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-    
+	    
     <script>
     $(document).ready(function(){
 //     	$.ajax({

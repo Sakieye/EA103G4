@@ -37,7 +37,8 @@ public class Search extends HttpServlet {
 
 		// 使用一般搜尋
 		if ("search".equals(action)) {
-			String bookName = request.getParameter("bookName").trim();
+			String bookName = request.getParameter("bookName");
+			bookName = tryToTrim(bookName);
 
 			if ("".equals(bookName) || bookName == null) {
 				errorMsgs.add("請輸入至少一項搜尋條件");
@@ -50,9 +51,12 @@ public class Search extends HttpServlet {
 			request.setAttribute("books", books);
 			request.getRequestDispatcher(SUCESS_URL).forward(request, response);
 		} else if ("advSearch".equals(action)) { // 使用進階搜尋
-			String bookName = request.getParameter("bookName").trim();
-			String author = request.getParameter("author").trim();
-			String publisherName = request.getParameter("publisherName").trim();
+			String bookName = request.getParameter("bookName");
+			bookName = tryToTrim(bookName);
+			String author = request.getParameter("author");
+			author = tryToTrim(author);
+			String publisherName = request.getParameter("publisherName");
+			publisherName = tryToTrim(publisherName);
 			String salePriceMinStr = request.getParameter("realPriceMin");
 			String salePriceMaxStr = request.getParameter("realPriceMax");
 			String discountMinStr = request.getParameter("discountMin");
@@ -163,6 +167,14 @@ public class Search extends HttpServlet {
 			List<String> publisherNames = publisherService.getByPublisherNameLike(publisherName);
 			String searchList = new Gson().toJson(publisherNames);
 			response.getWriter().write(searchList);
+		}
+	}
+
+	private String tryToTrim(String str) {
+		if (str != null) {
+			return str.trim();
+		} else {
+			return str;
 		}
 	}
 }

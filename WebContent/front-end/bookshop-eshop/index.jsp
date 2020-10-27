@@ -16,12 +16,12 @@
 
 <head>
 <meta charset="UTF-8">
-<title>部客匣Bookshop</title>
+<title>部客匣網路書城</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main-front.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
 <!--書城首頁CSS-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookshop-eshop-index.css" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <!--商品展示Slider CSS與字體-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/product-slider.css">
@@ -32,7 +32,7 @@
 <!--下拉式書籍類別選單-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
-<!-- jQuery AutoCompelete -->
+<!--jQuery AutoCompelete -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css">
 <script src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
@@ -111,7 +111,7 @@
 				// 新書
 				List<Book> newBooks = bookService.getNewBooks(30);
 
-				// 將bestsellers等slider需要的物件設定在request scope，使productSlider.jsp取出
+				// 將popularBooks等slider需要的物件設定在request scope，使productSlider.jsp取出
 				request.setAttribute("popularBooks", popularBooks);
 				request.setAttribute("promoBooks", promoBooks);
 				request.setAttribute("newBooks", newBooks);
@@ -162,9 +162,8 @@
 	<!-- Footer -->
 	<%@include file="/front-end/footer/footer.jsp"%>
 	<!-- Scripts -->
-	
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	<script src="${pageContext.request.contextPath}/vendor/shop/bootstrap/js/popper.js"></script>
+	<script src="${pageContext.request.contextPath}/vendor/shop/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/skel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/util.js"></script>
@@ -175,6 +174,9 @@
 	<script src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
 	<!--Header下拉式書籍類別選單-->
 	<script src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
+	<!--Header Search Autocompelete-->
+	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
+	
 	<!--錯誤訊息提示-->
 	<%
 		List<String> errorMsgs = (ArrayList<String>) request.getAttribute("errorMsgs");
@@ -185,8 +187,6 @@
 			alert("${errorMsgs}");
 		</script>
 	</c:if>
-	<!--Header Search Autocompelete-->
-	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
 </body>
 
 </html>

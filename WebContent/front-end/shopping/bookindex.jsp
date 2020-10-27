@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>BOOKSHOP書香天地</title>
+<title>部客匣網路書城</title>
 <meta charset="UTF-8">
 
 
@@ -44,7 +44,7 @@
 
 <body>
 	<jsp:include page="/front-end/header/header-with-cart.jsp" />
-	<section id="One" class="wrapper style4">
+	<section id="One" class="wrapper style4" style="background-color: #FFF;">
 		<!-- Eshop Header -->
 		<div id="logoDiv">
 			<%@include file="/front-end/header/eshop-header.jsp"%>

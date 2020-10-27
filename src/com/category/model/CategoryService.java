@@ -105,12 +105,13 @@ public class CategoryService {
 		Optional<Category> originalCat = getByCategoryID(categoryID);
 
 		if (originalCat.isPresent()) {
-			Category category = originalCat.get();
+			Category originalCategory = originalCat.get();
+			String originalParentCategoryID = originalCategory.getParentCategoryID();
 			// 更新後分類不變，只變最後的名稱
-			if (category.getParentCategoryID().equals(parentCategoryID)) {
-				category.setCategoryName(categoryName);
-				categoryDAO.update(category);
-				return Optional.of(category);
+			if (originalParentCategoryID != null && originalParentCategoryID.equals(parentCategoryID)) {
+				originalCategory.setCategoryName(categoryName);
+				categoryDAO.update(originalCategory);
+				return Optional.of(originalCategory);
 			} else {
 				// 編輯後類別有變，需刪掉重加
 				deleteCategory(categoryID);
