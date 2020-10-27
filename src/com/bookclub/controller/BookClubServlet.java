@@ -352,6 +352,7 @@ public class BookClubServlet extends HttpServlet {
 				
 
 				BookClubVO bookClubVO = new BookClubVO();
+				bookClubVO.setBc_id(bc_id);
 				bookClubVO.setBc_name(bc_name);
 				bookClubVO.setBc_place(bc_place);
 				bookClubVO.setBc_time_start(bc_time_start);
