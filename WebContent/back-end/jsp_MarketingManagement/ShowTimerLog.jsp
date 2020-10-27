@@ -26,7 +26,7 @@ table {
 </head>
 <body>
 	<!-- header -->
-	<%@include file="/back-end/header/headerYH.jsp"%>
+	<%@include file="/back-end/header/header.jsp"%>
 	<div id="container">
 		<main id="center" class="column">
 			<h1>排程事件紀錄</h1>
@@ -36,13 +36,13 @@ table {
 				JedisPool pool = JedisUtil.getJedisPool();
 				Jedis jedis = pool.getResource();
 				jedis.auth("123456");
-				LinkedHashMap<String, Date> map = logger.getInfo(jedis, "TimerLog");
+				List<Map.Entry<String, Date>> msgs = logger.getInfo(jedis, "TimerLog");
 				// 歸還連線資源到Jedis連線池
 				JedisUtil.closeJedis(jedis);
-				pageContext.setAttribute("map", map);
+				pageContext.setAttribute("msgs", msgs);
 			%>
 			<c:choose>
-				<c:when test="${map.size() > 0}">
+				<c:when test="${msgs.size() > 0}">
 					<!-- Table - Hoverable rows -->
 					<table class="table table-hover">
 						<thead>
@@ -53,7 +53,7 @@ table {
 						</thead>
 						<tbody>
 
-							<c:forEach var="entry" items="${map}">
+							<c:forEach var="entry" items="${msgs}">
 								<tr>
 									<td><fmt:formatDate value="${entry.value}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 									<td>${entry.key}</td>

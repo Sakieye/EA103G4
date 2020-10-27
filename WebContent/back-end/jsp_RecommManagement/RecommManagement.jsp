@@ -17,7 +17,7 @@
 <title>推薦系統管理</title>
 </head>
 <body>
-	<%@include file="/back-end/header/headerYH.jsp"%>
+	<%@include file="/back-end/header/header.jsp"%>
 	<div id="container">
 		<main id="center" class="column">
 			<h1>推薦系統管理</h1>

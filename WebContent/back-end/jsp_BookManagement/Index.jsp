@@ -23,7 +23,7 @@
 </head>
 
 <body>
-	<%@include file="/back-end/header/headerYH.jsp"%>
+	<%@include file="/back-end/header/header.jsp"%>
 	<div id="container">
 		<main id="center" class="column">
 			<h1>商品管理首頁</h1>

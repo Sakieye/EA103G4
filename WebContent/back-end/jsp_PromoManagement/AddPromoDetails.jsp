@@ -45,7 +45,7 @@ session.setAttribute("categories", categories);
 
 <body>
     <!-- header -->
-    <%@include file="/back-end/header/headerYH.jsp"%>
+    <%@include file="/back-end/header/header.jsp"%>
     <div id="container">
         <main id="center" class="column">
             <%@include file="/back-end/jsp_Common/PromoInfo.jsp"%>

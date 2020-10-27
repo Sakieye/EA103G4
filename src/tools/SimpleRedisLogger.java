@@ -1,12 +1,12 @@
 package tools;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Tuple;
 
 public class SimpleRedisLogger {
 
@@ -16,14 +16,14 @@ public class SimpleRedisLogger {
 		jedis.ltrim(key, 0, 99);
 	}
 
-	public LinkedHashMap<String, Date> getInfo(Jedis jedis, String key) {
+	public List<Map.Entry<String, Date>> getInfo(Jedis jedis, String key) {
 		List<String> res = jedis.lrange(key, 0, -1);
-		LinkedHashMap<String, Date> msgs = new LinkedHashMap<String, Date>();
+		List<Map.Entry<String, Date>> msgs = new ArrayList<Map.Entry<String, Date>>();
 		res.forEach(s -> {
 			String[] temp = s.split("_");
 			long time = Long.parseLong(temp[0]);
 			String msg = temp[1];
-			msgs.put(msg, new Date(time));
+			msgs.add(new AbstractMap.SimpleEntry<String,Date>(msg, new Date(time)));
 		});
 		return msgs;
 	}

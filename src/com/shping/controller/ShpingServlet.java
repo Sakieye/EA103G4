@@ -41,7 +41,6 @@ public class ShpingServlet extends HttpServlet {
 		String detailURL = "/front-end/shopping/prddetail.jsp";
 		String indexURL = "/front-end/shopping/bookindex.jsp";
 
-		System.out.println("inBOOKDETAIL");
 		String book_id = req.getParameter("book_id");
 		BookService bkSvc = (BookService) getServletContext().getAttribute("bookService");
 		BookPicService bkpicSvc = (BookPicService) getServletContext().getAttribute("bookPicService");
