@@ -2,15 +2,12 @@ package filters;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.adminpermission.model.AdminPermissionVO;
-import com.permissiondelimit.model.PermissionDelimitService;
-import com.permissiondelimit.model.PermissionDelimitVO;
 
 public class BackEndPermissionFilter implements Filter {
 
@@ -42,7 +39,7 @@ public class BackEndPermissionFilter implements Filter {
 //	    System.out.println("list"+ list);
 	    	    
 	    String uri = req.getRequestURI();
-//	    System.out.println("uri "+ uri);
+	    System.out.println("uri "+ uri);
 	    
 	    List<String> PER0001 = new ArrayList<>();
 	    PER0001.add(req.getContextPath()+"/back-end/jsp_BookManagement/Index.jsp");
@@ -82,6 +79,7 @@ public class BackEndPermissionFilter implements Filter {
 	   
 
 	    List<String> PER0007 = new ArrayList<>();
+	    PER0007.add(req.getContextPath()+"/back-end/mem/mem.do");
 	    PER0007.add(req.getContextPath()+"/back-end/member/listAllMem.jsp");
 	    PER0007.add(req.getContextPath()+"/back-end/member/listMems.jsp");
 	    PER0007.add(req.getContextPath()+"/back-end/member/update_mem.jsp");

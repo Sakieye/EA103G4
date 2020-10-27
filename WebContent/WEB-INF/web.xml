@@ -158,7 +158,7 @@
 		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_PromoManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_RecommManagement/*</url-pattern>
-		<url-pattern>/back-end/member/*</url-pattern>
+ 		<url-pattern>/back-end/member/*</url-pattern>
 		<url-pattern>/back-end/order/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
