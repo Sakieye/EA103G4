@@ -84,13 +84,14 @@
 						</tr>
 						<tr>
 							<td>讀書會介紹:</td>
-							<td><div class="erroMsgs">${errorMsgs.bc_intro}</div> <textarea
+							<td ><div class="erroMsgs">${errorMsgs.bc_intro}</div> <textarea
 									name="bc_intro">${bookClubVO.bc_intro}</textarea></td>
 						</tr>
 						<tr>
 							<td>讀書會圖片:</td>
-							<td><div class="erroMsgs">${errorMsgs.bc_cover_pic}</div> <input
-								type="file" name="bc_cover_pic" /></td>
+							<td style="position:relative"><div class="erroMsgs">${errorMsgs.bc_cover_pic}</div> <img src="<%= request.getContextPath()%>/front-end/bookclub/bookclub.do?getImg=${bookClubVO.bc_id}" id="img_before">
+							<label id="img_upload" >
+							<input type="file" name="bc_cover_pic" onchange="img_load(this);" id="img_loadInput"/></label></td>
 						</tr>
 						<tr>
 							<td>報名開始時間:</td>
@@ -356,5 +357,22 @@
         
     </script>
 	<script	src=<%=magicKey%> async defer></script>
+	<script>
+	function img_load(img) {
+		$("#img_before").css('display','none');
+        if (img.files && img.files[0]) {
+            console.log(img.files);
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                $('#img_upload').css('background-image', 'url(' + event.target.result + ')');
+            }
+            reader.readAsDataURL(img.files[0]);
+        }
+    }
+	
+	$("#img_before").on("click",function(){
+		$('#img_upload').click();
+	})
+	</script>
 </body>
 </html>
