@@ -142,7 +142,7 @@
 				<c:forEach var="BookClubVO" items="${list}" begin="<%= index %>"
 					end="<%= index + rowsNum -1 %>">
 					<div class="row">
-						<div class="card mb-3" style="max-width: 100%;">
+						<div class="card mb-3" style="max-width: 100%;border: 15px #d1ebe3 solid;">
 							<div class="row no-gutters">
 								<div class="col-md-4">
 									<img
@@ -150,7 +150,7 @@
 										class="img-thumbnail">
 								</div>
 								<div class="col-md-8">
-									<div class="card-body">
+									<div class="card-body" style="padding-top: 25px;padding-left: 175px;">
 										<h3 class="card-title" style="color:black">${BookClubVO.bc_name}</h3>
 										<div class="date">
 											<img
