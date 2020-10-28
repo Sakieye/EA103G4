@@ -15,8 +15,8 @@
 </head>
 
 <div class="bg"></div>
-<div class="bg1"></div>
-<div class="bg2"></div>
+<div class="bg bg1"></div>
+<div class="bg bg2"></div>
 
 <body onload="connect();" onunload="disconnect();">
 	<jsp:useBean id="bookclub_regis_detailsvc" class="com.bookclub_regis_detail.model.BookClub_Regis_DetailService" />

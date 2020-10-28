@@ -29,8 +29,8 @@
 	<jsp:include page="/front-end/bookclub/bookClubNotice.jsp" />
 	<jsp:include page="/front-end/header/header.jsp" />
 	<div class="bg"></div>
-	<div class="bg2"></div>
-	<div class="bg3"></div>
+	<div class="bg bg2"></div>
+	<div class="bg bg3"></div>
 
 	<!-- 點擊置頂按鈕 -->
 	<button type="button" id="BackTop" class="toTop-arrow"></button>
