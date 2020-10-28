@@ -6,6 +6,8 @@
 [ Bootstrap ]*/
 .container {max-width: 1380px;}
 
+.container-cart{max-width: 1400px !important;}
+
 @media (max-width: 1600px) {
   .container {max-width: 1200px;}
 }
@@ -2554,11 +2556,11 @@ input.num-product::-webkit-inner-spin-button {
 .bg0 {background-color: #fff;}
 .bg1 {background-color: #c2e8e9;}
 .bg2 {background-color: #e6e6e6;}
-.bg3 {background-color: #ff44a2;}
+.bg3 {background-color: #D09C8E;}
 .bg5 {background-color: rgba(0,0,0,0.5);}
 .bg6 {background-color: #f2f2f2;}
 .bg7 {background-color: #333;}
-.bg8 {background-color: #f3f3f3;}
+.bg8 {background-color: #e4f5f5;}
 .bg9 {background-color: rgba(255,255,255,0.9);}
 
 /*---------------------------------------------*/
@@ -3008,8 +3010,8 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .hov-btn3:hover {
-  border-color: #7acbcd;
-  background-color: #7acbcd;
+  border-color: #e9d1cb;
+  background-color: #e9d1cb;
   color: #000;
 }
 

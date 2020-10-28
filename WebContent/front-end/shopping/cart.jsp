@@ -80,7 +80,7 @@
 	
 	<!-- Shoping Cart -->
 	<div class="bg0 p-t-75 p-b-85">
-		<div class="container">
+		<div class="container container-cart">
 			<c:set var="count" scope="session"/>
 			<div class="row">
 			<%	
