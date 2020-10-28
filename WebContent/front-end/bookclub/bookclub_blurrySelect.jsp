@@ -25,7 +25,9 @@
 <body>
 	<jsp:include page="/front-end/bookclub/bookClubNotice.jsp" />
 	<jsp:include page="/front-end/header/header.jsp" />
-	
+	<div class="bg"></div>
+	<div class="bg bg2"></div>
+	<div class="bg bg3"></div>
 
 	<!-- 點擊置頂按鈕 -->
 	<button type="button" id="BackTop" class="toTop-arrow"></button>
@@ -150,7 +152,7 @@
 										class="img-thumbnail">
 								</div>
 								<div class="col-md-8">
-									<div class="card-body">
+									<div class="card-body" style="padding-top: 25px;padding-left: 175px;">
 										<h3 class="card-title" style="color:black">${BookClubVO.bc_name}</h3>
 										<div class="date">
 											<img

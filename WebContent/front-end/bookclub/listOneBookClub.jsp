@@ -114,16 +114,12 @@
 						總是不厭其煩舉例說明，總是為同學提綱挈領，總是<b>超越時數</b>限制地傳授，歡迎「與神同行」！
 					</div>
 					<c:if test="${memVO.mem_id ne listOneBookClub.mem_id}">
-						<button class="style-6e8fa4a0-register-button" type="button"
-							data-toggle="modal" data-target="#mymodal-data" onclick="login()">
-							立即報名<i class="right"></i>
-						</button>
+					<button class="style-6e8fa4a0-register-button checkMem" >立即報名<i class="right"></i></button>
+					<button  type="button" data-toggle="modal" data-target="#mymodal-data" style="display:none"></button>
 					</c:if>
 					<c:if test="${memVO.mem_id ne listOneBookClub.mem_id}">
-						<button class="style-6e8fa4a0-register-button" type="button"
-							data-toggle="modal" data-target="#report-bookclub" onclick="login()">
-							檢舉讀書會<i class="right"></i>
-						</button>
+					<button class="style-6e8fa4a0-register-button checkMem" >檢舉讀書會<i class="right"></i></button>
+					<button type="button" data-toggle="modal" data-target="#report-bookclub" style="display:none"></button>
 					</c:if>
 					<c:if test="${memVO.mem_id eq listOneBookClub.mem_id}">
 						<button type="button" class="style-6e8fa4a0-register-button"
@@ -131,7 +127,7 @@
 							審核成員
 						</button>
 					</c:if>
-					
+					<button type="button" data-toggle="modal" data-target="#logInn" id="123" style="display:none"></button>
 					<c:if test="${memVO.mem_id eq listOneBookClub.mem_id}">
 						<FORM METHOD="post" ACTION="bookclub.do">
 							<button type="submit" class="style-6e8fa4a0-register-button">修改讀書會</button>
@@ -147,17 +143,16 @@
 		<div class="row">
 			<h3>活動地圖</h3>
 			<div id="map">
-			
-<!-- 				<iframe width="100%" height="360px" frameborder="0" -->
-<!-- 					src="https://maps.google.com.tw/maps?f=q&amp;z=15&amp;output=embed&amp;q=24.9656967,121.1922173"></iframe> -->
+
 			</div>
 			<div class="bookclub_address">
 				<p class="address"><%=bookClubVO.getBc_place()%></p>
 			</div>
 		</div>
 	</div>
-	
+	<button type="button" class="checkMem" >132</button>
 	<jsp:include page="/front-end/footer/footer.jsp" />
+	
 	<!---------------------------------------------------檢舉讀書會跳窗 --------------------------------------------------->
 	<div class="modal" id="report-bookclub" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -190,6 +185,7 @@
 		</div>
 	</div>
 	<!--------------------------------------------------- 檢舉讀書會跳窗 --------------------------------------------------->
+	
 	<!--------------------------------------------------報名問卷跳窗 --------------------------------------------------->
 	<div class="modal" id="mymodal-data" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -308,6 +304,41 @@
 	<input type="hidden" value="${memVO.mem_id}" id="memcheck">
 	<input type="hidden" value="<%=request.getContextPath() %>" id="url">
 	<!--------------------------------------------------- 審核跳窗 --------------------------------------------------->
+	<!---------------------------------------------------檢舉讀書會跳窗 --------------------------------------------------->
+	<div class="modal" id="logInn" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">你還沒登入哦~</h4>
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form ACTION="<%=request.getContextPath()%>/mem/mem.do" METHOD="post">
+				<div class="modal-body">
+					<div id="input-div">
+					帳號:
+				<label for="inputEmail" class="sr-only">Account</label> 
+				<input type="text" id="inputEmail" class="form-control"
+					placeholder="Account" required autofocus name="mem_account"
+					value="" />
+					密碼: 
+				<label for="inputPassword" class="sr-only">Password</label> 
+				<input type="password" id="inputPassword" class="form-control"
+					placeholder="Password" required name="mem_password" value="" />
+			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						關閉</button>
+					<button type="submit" name="action" value="signin" class="btn btn-primary">登入</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------- 檢舉讀書會跳窗 --------------------------------------------------->
 	<%
 		ServletContext context = getServletContext();
 		String key = context.getInitParameter("key");
@@ -397,13 +428,18 @@
 			$('#form_input').attr("value", action);
 			$('#form').submit();
 		}
-		function login(){
-			var memcheck = document.getElementById("memcheck").value;
-			var url = document.getElementById("url").value;
-			
-			if(memcheck === ""){
-				window.location.replace(url +"/front-end/member/signIn.jsp");
-			};
+		
+		var checkMem = document.getElementsByClassName('checkMem');
+		for (var i = 0; i < checkMem.length; i++) {
+			checkMem[i].addEventListener('click', function(e){
+				var memVO = '${memVO.mem_id}';
+				if(memVO === ''){
+					$('#123').click();
+					e.stopPropagation();
+				}else{
+					$(this).next().click();
+				}
+			});
 		}
 	</script>
 	<script type="text/javascript">
@@ -543,10 +579,6 @@
               infowindow.open(map, marker);
             });
         }
-
-        
-        
-       
     </script>
 	<script	src=<%=magicKey%> async defer></script>
 </body>

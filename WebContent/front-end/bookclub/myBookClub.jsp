@@ -100,13 +100,14 @@
 									</form>
 								</td>
 								<td>
+									
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
 										class="m-0" id="myBookClubimg">
-										<button type="submit" class="btn chat" name="action"
-											value="bookClubChat" style="border: none">
-											<img
-												src="<%=request.getContextPath()%>/images/bookclub/chat.png">
+										<img src="<%=request.getContextPath()%>/images/bookclub/chat.png" id="chatpic" class="btn chat">
+										
+										<button type="submit" class="btn chat" name="action" id="chatbtn"
+										 	value="bookClubChat" style="border: none;display: none">
 										</button>
 										<input type="hidden" name="bc_id" value="${bookClubVO.bc_id}">
 										<input type="hidden" name="mem_id"
@@ -181,6 +182,11 @@
 	});
 	<%request.removeAttribute("disband");%>
 	</c:if>
+	
+	$('#chatpic').on('click',function(){
+		$('#chatbtn').click();
+	});
+	$('td').css('vertical-align','middle');
 	</script>
 	
 </body>
