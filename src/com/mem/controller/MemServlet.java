@@ -213,6 +213,7 @@ public class MemServlet extends HttpServlet {
 					req.setAttribute("listMems",list); //  複合查詢, 資料庫取出的list物件,存入request
 				}
 				
+				System.out.println(requestURL);
 				String url = requestURL;
 				RequestDispatcher successView = req.getRequestDispatcher(url);   // 修改成功後,轉交回送出修改的來源網頁
 				successView.forward(req, res);
@@ -222,7 +223,7 @@ public class MemServlet extends HttpServlet {
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSpace.jsp");// 後台
 					failureView.forward(req, res);
 				} else {// 後台
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/member/update_mem.jsp");// 後台
+					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);// 後台
 					failureView.forward(req, res);
 				}
 			}
@@ -334,14 +335,14 @@ public class MemServlet extends HttpServlet {
 		if ("updatePwdFromForgetPwd".equals(action)) {
 			Map<String, String> errorMsgs = new HashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-
+			Jedis jedis = new Jedis("localhost", 6379);
+			jedis.auth("123456");
 			try {
 				
 				String mem_id = (String) req.getSession().getAttribute("mem_id");
 				MemService memSvc = new MemService();
 				MemVO memVO = memSvc.getOneMem(mem_id);
-				Jedis jedis = new Jedis("localhost", 6379);
-				jedis.auth("123456");
+				
 
 				String newPwd = req.getParameter("newPwd").trim();
 				if (newPwd == null || newPwd.trim().length() == 0)
@@ -379,7 +380,7 @@ public class MemServlet extends HttpServlet {
 				successView.forward(req, res);
 
 			} catch (Exception e) {
-
+				jedis.close();
 			}
 		}
 

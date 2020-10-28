@@ -10,6 +10,9 @@ public class RevVO implements java.io.Serializable {
 	private String book_id;
 	private Integer rating;
 	private Integer rev_status;
+	private String mem_name;
+	
+	private String timeForJson;
 	
 	
 	public Integer getRating() {
@@ -56,5 +59,17 @@ public class RevVO implements java.io.Serializable {
 	}
 	public void setRev_status(Integer rev_status) {
 		this.rev_status = rev_status;
+	}
+	public String getMem_name() {
+		return mem_name;
+	}
+	public void setMem_name(String mem_name) {
+		this.mem_name = mem_name;
+	}
+	public String getTimeForJson() {
+		return timeForJson;
+	}
+	public void setTimeForJson(String timeForJson) {
+		this.timeForJson = timeForJson;
 	}
 }
