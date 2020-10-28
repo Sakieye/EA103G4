@@ -63,12 +63,12 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div id="heading1">
-									<a href="forumIndex.jsp"><b>最新文章</b></a>
+									<a href="forumIndex.jsp"><b>最新文章</b><i class="fas fa-book"></i></a>
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div id="heading2">
-									<a href="forumIndex_hot.jsp"><b>熱門文章</b></a>
+									<a href="forumIndex_hot.jsp"><b>熱門文章</b><i class="fas fa-fire-alt"></i></a>
 								</div>
 							</div>
 							<div class="col-md-4" id="search">
@@ -85,7 +85,7 @@
 							</div>
 						</div>
 						<div class="row search_hot">
-						熱門搜尋:
+						<div><i class="fab fa-searchengin"></i>熱門搜尋:</div>
 						<c:forEach var="hotKeyWords" items="${searchHotKeys}">
 							<span>♯${hotKeyWords}</span>
 						</c:forEach>
@@ -96,9 +96,9 @@
 			
 					<div class="container">
 						<div class="row">
-							<div class="col-md-8" id="title" style="font-weight:bold;">主題</div>
-							<div class="col-md-2" style="font-weight:900;">發佈時間</div>
-							<div class="col-md-2" style="font-weight:900;">回應數</div>
+							<div class="col-md-8" id="title" style="font-weight:bold;"><i class="fas fa-newspaper"></i>主題</div>
+							<div class="col-md-2" style="font-weight:900;"><i class="fas fa-calendar-alt"></i>發佈時間</div>
+							<div class="col-md-2" style="font-weight:900;"><i class="fas fa-comments"></i>回應數</div>
 						</div>
 						<hr>
 						<%@ include file="page1.file" %>

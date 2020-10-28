@@ -10,14 +10,16 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/addFmPage.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+<!-- bootstrap(4.2.1) -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<!-- summernote(0.8.18) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css">
 </head>
 
 <body class="subpage">
 	<!-- Header -->
 	<jsp:include page="/front-end/header/header.jsp" />
-	<!-- Two -->
+	<!-- Header -->
 	<section id="two" class="wrapper style2">
 		<div class="inner">
 			<div class="box">
@@ -48,7 +50,6 @@
 									<input type="hidden" name="faId" value="${fmVO.faId}">
 									<input type="hidden" name="fmId" value="${fmVO.fmId}">
 									<input type="hidden" name="memId" value="${memVO.mem_id}">
-
 								</p>
 							</fieldset>
 						</form>

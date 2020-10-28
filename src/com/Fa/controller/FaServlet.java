@@ -32,25 +32,22 @@ public class FaServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-				//取得 文章編號(faId)
 				String faId = req.getParameter("faId");
-				//取得此文章編號資訊
 				FaService faSvc = new FaService();
 				FaVO faVO = faSvc.getOneFa(faId);
-				//文章瀏覽數 +1
 				int faViews = faVO.getFaViews() + 1;
 				faSvc.addFaViews(faId, faViews);
-				//取得此文章編號下的留言
 			 	FmService fmSvc = new FmService();
 			 	List<FmVO> list = fmSvc.getOneFAFm(faVO.getFaId());
-			 	//取得發布此文章的會員資料
 			 	MemService memSvc = new MemService();
 			 	MemVO memVO = memSvc.getOneMem(faVO.getMemId());
 			 	
-				//req.setAttribute("faVO", faVO);
 			 	HttpSession session = req.getSession();
+			 	//樓主文章
 			 	session.setAttribute("faVO", faVO);
+			 	//取得文章下留言
 			 	req.setAttribute("list", list);
+			 	//樓主資料
 				req.setAttribute("memVO", memVO);
 				
 				String url = "/front-end/forum/forumPage.jsp";

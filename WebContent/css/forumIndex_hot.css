@@ -53,11 +53,14 @@
 /*         	background-attachment: fixed; */
 /*     		background-position: center; */
 /*         } */
-        
-        .container .row .col-md-3 a:hover{
-        	text-decoration:none;
-        	color:#006400;
+          .container .row .col-md-3 a{
+        	color:#007bff !important;
         }
+        .container .row .col-md-3 #heading1 a:hover{
+         	text-decoration:none;
+        	color:green !important;;
+        }
+        
         .content .container .row {
             text-align: center;
             vertical-align: middle;
@@ -68,6 +71,7 @@
 
         .content .container .row #title {
             text-align: center;
+            font-size:16px;
         }
         .content .container .row .col-md-8 {
             text-align: left;

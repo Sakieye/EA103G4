@@ -10,7 +10,9 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/addFaPage.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+<!-- bootstrap(4.2.1) -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<!-- summernote(0.8.18) -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 </head>
 
