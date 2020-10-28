@@ -17,7 +17,8 @@ public class RevService {
 		revVO.setMem_id(mem_id);
 		revVO.setBook_id(book_id);
 		revVO.setRating(rating);
-		dao.insert(revVO);
+		revVO = dao.insert(revVO);
+		revVO = getOneRev(revVO.getRev_id());
 		
 		return revVO;
 	}

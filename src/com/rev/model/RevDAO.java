@@ -37,13 +37,14 @@ public class RevDAO implements RevDAO_interface{
 	private static final String GET_RATING_AVG = "select avg(rating)*0.2 from review_record where rating != 0 and book_id = ?";
 	
 	@Override
-	public void insert(RevVO revVO) {
+	public RevVO insert(RevVO revVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT_STMT);
+			String cols[] = {"REV_ID"};
+			pstmt = con.prepareStatement(INSERT_STMT, cols);
 
 			pstmt.setString(1, revVO.getRev_content());
 			pstmt.setString(2, revVO.getMem_id());
@@ -51,6 +52,16 @@ public class RevDAO implements RevDAO_interface{
 			pstmt.setInt(4, revVO.getRating());
 			
 			pstmt.executeUpdate();
+			
+			String rev_id = null;
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				rev_id = rs.getString(1);
+				revVO.setRev_id(rev_id);
+			} else {
+				System.out.println("error:沒取到ID");
+			}
+			rs.close();
 
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -72,7 +83,7 @@ public class RevDAO implements RevDAO_interface{
 				}
 			}
 		}
-
+		return revVO;
 	}
 
 	public void updateStatus(RevVO revVO) {

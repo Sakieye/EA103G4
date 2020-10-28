@@ -22,7 +22,7 @@
 	}
 %>
 
-
+<jsp:useBean id="revSvc2" scope="page" class="com.rev.model.RevService"/>
 <!DOCTYPE html>
 <html lang="zh-tw">
 <head>
@@ -51,6 +51,8 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shoputil.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shopmain.css">
 <!--===============================================================================================-->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/rev.css">
+
 
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main-front.css" />
@@ -117,6 +119,10 @@
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<%@ include file="/front-end/bookshop-eshop/breadcrumb.jsp"%>
+						<div class="star-ratings-css">
+							  <div class="star-ratings-css-top" style="width: ${revSvc2.getRatingAvg(book.bookID)*100}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+							  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+						</div>
 						<span class="mt-0" style="font-size: 8px;">
 							<b>ISBN：${prddetail.isbn}</b>
 						</span>
@@ -162,11 +168,11 @@
 							</b>
 							元
 						</span>
-
+						
 						<!--  -->
 						<div class="p-t-33">
 							<!-- 此區可補充 -->
-
+							
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<FORM class="form-inline" name="cartFrom" id="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
@@ -308,7 +314,7 @@
 		<!-- 書評 -->
 		<div class="container">
 			<div class="p-b-45">
-				<%-- 				<%@include file="/front-end/review_record/test.jsp"%> --%>
+				<%@include file="/front-end/review_record/bookPost.jsp"%>
 			</div>
 		</div>
 
@@ -330,7 +336,7 @@
 	<!--Scripts-->
 	<%-- 	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script> --%>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+<%-- 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script> --%>
 
 	<!-- pic -->
 	<script src="js/smoothproducts.min.js"></script>

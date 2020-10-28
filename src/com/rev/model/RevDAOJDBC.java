@@ -19,7 +19,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 	private static final String GET_RATING_AVG = "select avg(rating)*0.2 from review_record where rating != 0 and book_id = ?";
 
 	@Override
-	public void insert(RevVO revVO) {
+	public RevVO insert(RevVO revVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -56,7 +56,7 @@ public class RevDAOJDBC implements RevDAO_interface {
 				}
 			}
 		}
-
+		return revVO;
 	}
 
 	@Override

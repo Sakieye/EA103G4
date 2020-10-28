@@ -39,7 +39,7 @@ body{
   background-color: #fcfcfc;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
   color: #555f77;
   font-family: inherit;
   font-size: 14px;
@@ -58,7 +58,7 @@ body{
   height: 100px;
   padding: 15px;
   background-color: #dee1e3;
-  box-shadow: 0 0 8px black;
+  box-shadow: 0 0 3px black;
   font-weight: 700;
   color: black;
 }
@@ -73,7 +73,7 @@ body{
   background-color: #555f77;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
   color: #fff !important;
   cursor: pointer;
   display: block;
@@ -136,7 +136,7 @@ body{
 .comment .comment-box{
   background-color: #dee1e3;
   border-radius: 4px;
-  box-shadow: 0 0 9px black;
+  box-shadow: 0 0 3px black;
   margin-left: 100px;
   min-height: 60px;
   position: relative;
@@ -277,6 +277,8 @@ label:before{
   position: relative;
   padding: 0;
   text-shadow: 0px 1px 0 #a2a2a2;
+  margin-left: 0;
+  margin-bottom: 20px;
 }
 .star-ratings-css-top {
   color: #e7711b;
@@ -287,6 +289,7 @@ label:before{
   top: 0;
   left: 0;
   overflow: hidden;
+  
 }
 .star-ratings-css-bottom {
   padding: 0;

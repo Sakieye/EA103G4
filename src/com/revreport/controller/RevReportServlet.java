@@ -31,15 +31,13 @@ public class RevReportServlet extends HttpServlet {
 		//新增書評檢舉
 		if ("insert".equals(action)) {
 			
-			String revReportReason = req.getParameter("rev_rep_reason").trim();
-			String memId = req.getParameter("mem_id");
-			String revId = req.getParameter("rev_id");
-			
+			String revReportReason = req.getParameter("reason").trim();
+			String memId = req.getParameter("memId");
+			String revId = req.getParameter("revId");
+
 			RevReportService revReportSvc = new RevReportService();
 			revReportSvc.addRevReport(revReportReason, revId, memId);
 			
-			RequestDispatcher successView = req.getRequestDispatcher("/front-end/review_record/test.jsp");
-			successView.forward(req, res);
 		}
 		
 		//後台審核檢舉
