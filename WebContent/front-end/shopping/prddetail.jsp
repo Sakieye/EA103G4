@@ -78,7 +78,7 @@
 </head>
 <body class="animsition">
 
-	<!-- Header With Cart-->
+	<!-- Header With Cart -->
 	<%@include file="/front-end/header/header-with-cart.jsp"%>
 	<section id="One" class="wrapper style4" style="padding: 3.25rem 0 0rem 0;">
 		<!-- Eshop Header -->
@@ -86,6 +86,7 @@
 			<%@include file="/front-end/header/eshop-header.jsp"%>
 		</div>
 	</section>
+
 
 	<!-- Product Detail -->
 	<section class="sec-product-detail bg0 p-t-65 p-b-60">
@@ -199,7 +200,7 @@
 										<input type='hidden' name='book_ID' value='${book.bookID}'>
 										<input type='hidden' name='mem_ID' value='${memVO.mem_id}'>
 										<input type='hidden' name='action' value='insertFavBook'>
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" type="submit" name="action" value="ADD">加入收藏書單</button>
+										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addwish-detail" type="submit" name="action" value="ADD">加入收藏書單</button>
 									</form>
 								</div>
 							</div>
@@ -231,7 +232,7 @@
 								</div>
 								<span>
 									<br>
-									<pre style="background-color: #FFF; white-space: pre-wrap; font-size: 100%;">${book.bookIntro}</pre>
+									<psn style="background-color: #FFF; white-space: pre-wrap; font-size: 100%;">${book.bookIntro}</pre>
 								</span>
 							</div>
 						</div>
@@ -258,7 +259,35 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
+			<span class="stext-107 cl6 p-lr-25">
+				《&nbsp;退換貨說明&nbsp;》
+			</span>
+															
+													   
+				 
 
+			<span class="stext-107 cl6 p-lr-25">
+				會員均享有10天的商品猶豫期（含例假日）。若您欲辦理退換貨，請於取得該商品10日內寄回。<br>
+				辦理退換貨時，請保持商品全新狀態與完整包裝（商品本身、贈品、贈票、附件、內外包裝、保證書、隨貨文件等）一併寄回。<br>
+				若退回商品無法回復原狀者，可能影響退換貨權利之行使或須負擔部分費用。<br>
+				訂購本商品前請務必詳閱退換貨原則。
+			</span>
+		</div>
+		<div class="flex-c-m flex-w size-302 m-t-73 ">
+		<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail"
+				type="submit" name="action" value="ADD">放入購物車
+		</button>
+		</div>
+</section>
+		
+
+
+	
+
+
+	<section class="sec-relate-product bg0 p-t-45 p-b-105">
 		<div class="container">
 			<!--近期瀏覽書籍-->
 			<br>
@@ -274,12 +303,8 @@
 				<jsp:param name="type" value="recommBooks" />
 			</jsp:include>
 		</div>
-
-
-	</section>
-
-
-	<section class="sec-relate-product bg0 p-t-45 p-b-105">
+	
+	
 		<!-- 書評 -->
 		<div class="container">
 			<div class="p-b-45">
@@ -287,19 +312,11 @@
 			</div>
 		</div>
 
-		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-			<span class="stext-107 cl6 p-lr-25"> 《&nbsp;退換貨說明&nbsp;》 </span>
-			<span class="stext-107 cl6 p-lr-25">
-				會員均享有10天的商品猶豫期（含例假日）。若您欲辦理退換貨，請於取得該商品10日內寄回。
-				<br>
-				辦理退換貨時，請保持商品全新狀態與完整包裝（商品本身、贈品、贈票、附件、內外包裝、保證書、隨貨文件等）一併寄回。
-				<br>
-				若退回商品無法回復原狀者，可能影響退換貨權利之行使或須負擔部分費用。
-				<br>
-				訂購本商品前請務必詳閱退換貨原則。
-			</span>
-		</div>
 	</section>
+	
+
+
+
 
 
 	<!-- Back to top -->
@@ -396,7 +413,7 @@
 								$.ajax({
 									type : "POST",
 									url : localhost + '/EA103G4/Shopping.html',
-									data : careFormJSON($('#action').val(), $(
+									data : cartFormJSON($('#action').val(), $(
 											'#book_Name').val(), $('#book_Id')
 											.val(), $('#isbn').val(), $(
 											'#book_BP').val(), $(
@@ -422,9 +439,9 @@
 		function go() {
 			history.go(0);
 		}
-		function careFormJSON(action, book_Name, book_Id, isbn, book_BP,
+		function cartFormJSON(action, book_Name, book_Id, isbn, book_BP,
 				publisher_Id, price, comm_Qty) {
-			var careFormJSON = {
+			var cartFormJSON = {
 				"action" : action,
 				"book_Name" : book_Name,
 				"book_Id" : book_Id,
@@ -434,7 +451,7 @@
 				"price" : price,
 				"comm_Qty" : comm_Qty
 			};
-			return careFormJSON;
+			return cartFormJSON;
 		}
 	</script>
 	<!--===============================================================================================-->

@@ -6,6 +6,15 @@
 <%@ page import="com.shping.model.*"%>
 <%@ page import="com.mem.model.*"%>
 
+<%
+	@SuppressWarnings("unchecked")
+	List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
+	String[] totalPrice = (String[]) session.getAttribute("getTotal");
+	pageContext.setAttribute("totalPrice", totalPrice);
+	pageContext.setAttribute("cartlist", cartlist);
+	MemVO memVO = (MemVO)session.getAttribute("memVO");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +24,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- 	購物車每分鐘刷新一次 -->
-<meta http-equiv="refresh" content="60">
-
+<!-- <meta http-equiv="refresh" content="60"> -->
 
 
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
@@ -37,139 +45,201 @@
 <!--下拉式書籍類別選單-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
+<!-- jQuery AutoCompelete -->
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css">
+<script src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.auto-complete.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.auto-complete.css" />
+
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/cliff/png" href="<%=request.getContextPath()%>/image/cliff/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shoputil.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shopmain.css">
+<!--===============================================================================================-->
 
 
 
 </head>
 
-<body style="background-color: #EBE5D9;">
-<%-- 	統一版<jsp:include page="/front-end/header/header.jsp" /> --%>
-	<jsp:include page="/front-end/header/header-with-cart.jsp" />
-	<section id="One" class="wrapper style4">
-	<!-- Eshop Header -->
-	<div id="logoDiv">
-		<%@include file="/front-end/header/eshop-header.jsp"%>
-	</div>
+<body class="animsition">
+	
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar">
+				<jsp:include page="/front-end/header/header-with-cart.jsp"/>
+			</div>
 
-	<div class="container">
-		<main id="center" class="column">
-			<div class="container-fluid">
-				<div class="row">
-					<!-- multistep form -->
-					<div class=" col-md-12" id="main_in">
+			<!-- 搜尋bar 可放可不放 -->
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+						<!--  Eshop Header -->
+					<div id="logoDiv">
+						<%@include file="/front-end/header/eshop-header.jsp"%>
+					</div>
+				</nav>
+			</div>	
+		</div>
+	</header>
+	
+	<!-- Shoping Cart -->
+	<div class="bg0 p-t-75 p-b-85">
+		<div class="container">
+			<c:set var="count" scope="session"/>
+			<div class="row">
+			<%	
+				if (cartlist != null && cartlist.size() > 0) {
+			%>
+				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<div class="wrap-table-shopping-cart">
+						
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="column-1">參考圖</th>
+									<th class="column-2">書名</th>
+									<th class="column-3">單價</th>
+									<th class="column-4">數量</th>
+									<th class="column-5">小計</th>
+									<th class="column-3">刪除</th>
+								</tr>
 
-						<div class="container-fluid">
-							<nav class="navbar navbar-light bg-light">
-								<h2><font>│ 購 物 車</font></h2>
-
-								<hr size="10px" align="center" width="100%">
-
-								<%
-									@SuppressWarnings("unchecked")
-									List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
-									String[] totalPrice = (String[]) session.getAttribute("getTotal");
-									pageContext.setAttribute("totalPrice", totalPrice);
-									pageContext.setAttribute("cartlist", cartlist);
-									MemVO memVO = (MemVO)session.getAttribute("memVO");
-								%>
-									
-								<%	
-									if (cartlist != null && cartlist.size() > 0) {
-								%>
-								<c:set var="count" scope="session"/>
-
-								<table class="cartprd">
-									
-									<c:forEach var="cart" items="${cartlist}"
-										varStatus="cartstatus" >
-										
-										<tr >
-											<!--項目 -->
-											<td style="vertical-align:middle;"><h5>${count=count+1}</h5></td>
-											<!--商品圖 -->
-											<td id="imgTd" style="vertical-align:middle;">
-									<img class="prdimgTd" alt="404 NOT FOUND"
-										src="${pageContext.request.contextPath}/ShowBookPic?bookID=${cart.book_Id}">
-								</td>
-											<!--ISBN -->
-											<td style="vertical-align:middle;">
-												<h6>ISBN：${cart.isbn}</h6> 
-												<!--商品名稱  -->
-												<h5>${cart.book_Name}</h5> 
-											<!--購買數量  -->
-											<td style="vertical-align:middle;"><h5>${cart.comm_Qty}本</h5></td>
-											<!--價錢小計  -->
-											<td style="vertical-align:middle;"><h5>
-													TWD$
-													<fmt:formatNumber type="number"
-														value="${cart.price*cart.comm_Qty}" maxFractionDigits="0" />
-												</h5></td>
-											<!--單項獲得紅利  -->
-											<td style="vertical-align:middle;"><h5>+ 
-											<fmt:formatNumber type="number"
-																value="${cart.book_BP*cart.comm_Qty}"
-																maxFractionDigits="0" />點</h5></td>
-																
-											<!--刪除商品  -->
-											<td style="vertical-align:middle;"><div class="cardright">
-													<FORM class="form-inline" name="delFrom" method="POST"
-														action="<%=request.getContextPath()%>/Shopping.html">
-														<input type="hidden" name="action" value="DEL"> <input
-															type="hidden" name="del" value="${cartstatus.index}">
-														<button class="btn btn-sm btn-outline-secondary"
-															type="submit" style="width: 25px; height: 25px;">X</button>
-													</FORM>
-												</div></td>
-										</tr>
-
-									</c:forEach>
-								</table>
-									<div id=chelisBtn>
-										<button class="btn btn-sm btn-outline-secondary"
-											onClick="href='${pageContext.request.contextPath}/front-end/bookshop-eshop/index.jsp'">繼續選購</button>
-									</div>
-									<div id=chelisInf>
-										<p>
-											總金額(活動優惠已折扣)：<span id="prdtotal">${totalPrice[0]}</span>
-										</p>
-									</div>
-									<!-- 結帳 -->
-									<div id=chelisBtn>
-										<FORM class="form-inline" name="checkFrom" method="POST"
-											action="<%=request.getContextPath()%>/Shopping.html">
-											<!-- 訂單資訊 -->
-											
-											<input type="hidden" name="action" value="PAYCHECK">
-												
-											<button class="btn btn-sm btn-outline-secondary"
-												type="submit">下一步</button>
-										</FORM>
-									</div>
-
-
-								<%
-									} else {
-								%>
-								<a style="color: #668787; font-size: 20px; text-aglin: center;">
-								<c:out value="購物車空空der...與您的腦一樣ＱＱ" /></a>
-								<div style="height:80%; width:100%;"></div>
-								
-								
-								<%} %>
-							</nav>
+							<c:forEach var="cart" items="${cartlist}" varStatus="cartstatus" >
+								<tr class="table_row">
+									<td class="column-1">
+										<div class="how-itemcart1">
+											<img src="${pageContext.request.contextPath}/ShowBookPic?bookID=${cart.book_Id}" alt="暫時無法顯示圖片">
+										</div>
+									</td>
+									<td class="column-2">
+										<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${cart.book_Id}'>
+											${cart.book_Name}
+										</a>
+									</td>
+									<td class="column-3">$
+										<fmt:formatNumber type="number" value="${cart.price}" maxFractionDigits="0" />
+									</td>
+									<td class="column-4">
+										${cart.comm_Qty}本
+									</td>
+									<td class="column-5">TWD$
+										<fmt:formatNumber type="number" value="${cart.price*cart.comm_Qty}" maxFractionDigits="0" />
+										<p style="font-size:10px;">(+ <fmt:formatNumber type="number" value="${cart.book_BP*cart.comm_Qty}" maxFractionDigits="0" />點)</p>
+									</td>
+									<td class="column-4">
+									<FORM class="form-inline" name="delFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
+										<input type="hidden" name="action" value="DEL"> 
+										<input type="hidden" name="del" value="${cartstatus.index}">
+										<button class="flex-c-m stext-101 cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" type="submit" style="width: 25px; height: 25px;">X</button>
+									</FORM>
+									</td>
+								</tr>
+							</c:forEach>
+							</table>
 						</div>
+						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+							<a class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10 js-goindex"
+								href='${pageContext.request.contextPath}/front-end/bookshop-eshop/index.jsp'>
+								繼續購物
+							</a>
+						</div>
+						
 					</div>
 				</div>
+
+				<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
+					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+						<h4 class="mtext-109 cl2 p-b-30">
+							Cart Totals
+						</h4>
+
+						<div class="flex-w flex-t bor12 p-b-13">
+							<div class="size-208">
+								<span class="stext-110 cl2">
+									Subtotal:
+								</span>
+							</div>
+
+							<div class="size-209">
+								<span class="mtext-110 cl2" id="prdtotal">
+									${totalPrice[0]}
+								</span>
+							</div>
+						</div>
+
+						<div class="flex-w flex-t p-t-27 p-b-33">
+							<div class="size-208">
+								<span class="mtext-101 cl2">
+									Total:
+								</span>
+							</div>
+
+							<div class="size-209 p-t-1">
+								<span class="mtext-110 cl2">
+									TWD$ ${totalPrice[0]}
+								</span>
+							</div>
+						</div>
+						<FORM class="form-inline" name="checkFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
+							<input type="hidden" name="action" value="PAYCHECK">
+							<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+								<b>結　帳</b>
+							</button>
+					</FORM>
+					</div>
 				</div>
-		</main>
+				<%
+					} else {
+				%>
+					<a style="color: #668787; font-size: 20px; text-aglin: center;">
+					<c:out value="購物車空空der...與您的腦一樣ＱＱ" /></a>
+					<!-- 	<div style="height:80%; width:100%;"></div> -->
+								
+				<%} %>
+			</div>
+		</div>
 	</div>
-	</section>
-	<script
-		src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
+
+
+
+	
+		
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+	
+	
+<!--===============================================================================================-->	
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+	<!--Header進階搜尋toggle顯示/隱藏表單、一般搜尋按鈕註冊-->
 	<script
-		src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+		src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
+	<!--Header下拉式書籍類別選單-->
+	<script
+		src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
+	<!-- pic -->
+	<script src="<%=request.getContextPath()%>/js/smoothproducts.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/vendor/shop/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/popper.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
 
 
 </body>
