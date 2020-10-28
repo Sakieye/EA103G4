@@ -79,7 +79,6 @@ public class BackEndPermissionFilter implements Filter {
 	   
 
 	    List<String> PER0007 = new ArrayList<>();
-	    PER0007.add(req.getContextPath()+"/back-end/mem/mem.do");
 	    PER0007.add(req.getContextPath()+"/back-end/member/listAllMem.jsp");
 	    PER0007.add(req.getContextPath()+"/back-end/member/listMems.jsp");
 	    PER0007.add(req.getContextPath()+"/back-end/member/update_mem.jsp");
@@ -103,7 +102,6 @@ public class BackEndPermissionFilter implements Filter {
 	    List<String> PER0010 = new ArrayList<>();
 	    PER0010.add(req.getContextPath()+"/back-end/admins/listAllAdmins.jsp");
 	    PER0010.add(req.getContextPath()+"/back-end/admins/addAdmins.jsp");
-	    PER0010.add(req.getContextPath()+"/back-end/admins/listOneAdmins.jsp");
 	    PER0010.add(req.getContextPath()+"/back-end/admins/update_admins.jsp");
 	    PER0010.add(req.getContextPath()+"/back-end/admins/update_pswd.jsp");
 	    

@@ -135,8 +135,15 @@
 		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_PromoManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_RecommManagement/*</url-pattern>
-		<url-pattern>/back-end/member/*</url-pattern>
-		<url-pattern>/back-end/order/*</url-pattern>
+		<url-pattern>/back-end/member/listAllMem.jsp</url-pattern>
+		<url-pattern>/back-end/member/listMems.jsp</url-pattern>
+		<url-pattern>/back-end/member/update_mem.jsp</url-pattern>		
+		<url-pattern>/back-end/order/cancel_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/create_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/listAll_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/listOne_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/select_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/update_order.jsp</url-pattern>		
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -150,17 +157,29 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>backPermissionFilter</filter-name>
-		<url-pattern>/back-end/admins/*</url-pattern>
+		<url-pattern>/back-end/admins/listAllAdmins.jsp</url-pattern>
+		<url-pattern>/back-end/admins/addAdmins.jsp</url-pattern>
+		<url-pattern>/back-end/admins/update_admins.jsp</url-pattern>	
+		<url-pattern>/back-end/admins/update_pswd.jsp</url-pattern>	
 		<url-pattern>/back-end/advertising/*</url-pattern>
-		<url-pattern>/back-end/bookclub_report/*</url-pattern>
-		<url-pattern>/back-end/forum/*</url-pattern>
+		<url-pattern>/back-end/bookclub_report/listAllBookClub_Report.jsp</url-pattern>
+		<url-pattern>/back-end/forum/forumBack_forums.jsp</url-pattern>
+		<url-pattern>/back-end/forum/forumBack_messages.jsp</url-pattern>
+		<url-pattern>/back-end/forum/reviewBack.jsp</url-pattern>
 		<url-pattern>/back-end/jsp_BookManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_Common/*</url-pattern>
 		<url-pattern>/back-end/jsp_MarketingManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_PromoManagement/*</url-pattern>
 		<url-pattern>/back-end/jsp_RecommManagement/*</url-pattern>
- 		<url-pattern>/back-end/member/*</url-pattern>
-		<url-pattern>/back-end/order/*</url-pattern>
+ 		<url-pattern>/back-end/member/listAllMem.jsp</url-pattern>
+		<url-pattern>/back-end/member/listMems.jsp</url-pattern>
+		<url-pattern>/back-end/member/update_mem.jsp</url-pattern>		
+		<url-pattern>/back-end/order/cancel_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/create_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/listAll_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/listOne_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/select_order.jsp</url-pattern>
+		<url-pattern>/back-end/order/update_order.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
