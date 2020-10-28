@@ -426,7 +426,7 @@
 												"success");
 										setTimeout(function() {
 											go();
-										}, 2000);
+										}, 850);
 									},
 									error : function(data) {
 										swal(nameProduct, "此商品無法加入購物車 Q_Q。",

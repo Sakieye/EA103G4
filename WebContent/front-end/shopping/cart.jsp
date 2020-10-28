@@ -69,26 +69,14 @@
 
 <body class="animsition">
 	
-	<!-- Header -->
-	<header class="header-v4">
-		<!-- Header desktop -->
-		<div class="container-menu-desktop">
-			<!-- Topbar -->
-			<div class="top-bar">
-				<jsp:include page="/front-end/header/header-with-cart.jsp"/>
-			</div>
 
-			<!-- 搜尋bar 可放可不放 -->
-			<div class="wrap-menu-desktop how-shadow1">
-				<nav class="limiter-menu-desktop container">
-						<!--  Eshop Header -->
-					<div id="logoDiv">
-						<%@include file="/front-end/header/eshop-header.jsp"%>
-					</div>
-				</nav>
-			</div>	
+	<jsp:include page="/front-end/header/header-with-cart.jsp"/>
+	<section id="One" class="wrapper style4" style="padding: 3.25rem 0 0rem 0;">
+		<!-- Eshop Header -->
+		<div id="logoDiv">
+			<%@include file="/front-end/header/eshop-header.jsp"%>
 		</div>
-	</header>
+	</section>	
 	
 	<!-- Shoping Cart -->
 	<div class="bg0 p-t-75 p-b-85">
