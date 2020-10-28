@@ -395,12 +395,14 @@ public class BookService {
 				} else {
 					recommBooks.addAll(recommBookList);
 				}
-
-				recommBooks.forEach(b -> {
+				
+				for(Iterator<Book> iterator = recommBooks.iterator(); iterator.hasNext();) {
+					Book b = iterator.next();
 					if (b.getIsSold() == 0) {
-						recommBooks.remove(b);
+						iterator.remove();
 					}
-				});
+				}
+				
 				return recommBooks;
 			}
 
