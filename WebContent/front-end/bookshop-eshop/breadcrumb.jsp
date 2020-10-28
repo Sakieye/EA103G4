@@ -11,7 +11,7 @@
 						<li class="breadcrumb-item" style="padding-left: 0;"><a href="${pageContext.request.contextPath}/Search?categoryID=${entry.key}">${entry.value}</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="breadcrumb-item active" aria-current="page">${entry.value}</li>
+						<li class="breadcrumb-item active" aria-current="page"><a href="${pageContext.request.contextPath}/Search?categoryID=${entry.key}">${entry.value}</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
