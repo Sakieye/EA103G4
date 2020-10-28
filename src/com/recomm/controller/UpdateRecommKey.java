@@ -16,6 +16,7 @@ import com.redis.model.RedisKey;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisException;
 import tools.JedisUtil;
 
 /**
@@ -26,30 +27,37 @@ public class UpdateRecommKey extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<String> errorMsgs = new ArrayList<String>();
-		request.setAttribute("errorMsgs", errorMsgs);
+		Jedis jedis = null;
+		try {
+			List<String> errorMsgs = new ArrayList<String>();
+			request.setAttribute("errorMsgs", errorMsgs);
 
-		String keyName = request.getParameter("keyName");
-		String bookID = request.getParameter("bookID");
+			String keyName = request.getParameter("keyName");
+			String bookID = request.getParameter("bookID");
 
-		// 取得Redis連線
-		JedisPool pool = JedisUtil.getJedisPool();
-		Jedis jedis = pool.getResource();
-		jedis.auth("123456");
-		long size = jedis.zcard(keyName);
-		// 歸還Redis連線資源
-		JedisUtil.closeJedis(jedis);
-		if (size > 0) {
-			request.setAttribute("recommKey", new RedisKey(keyName, jedis.ttl(keyName), size));
-			request.setAttribute("bookID", bookID);
+			// 取得Redis連線
+			JedisPool pool = JedisUtil.getJedisPool();
+			jedis = pool.getResource();
+			jedis.auth("123456");
+			long size = jedis.zcard(keyName);
+			// 歸還Redis連線資源
+			JedisUtil.closeJedis(jedis);
+			if (size > 0) {
+				request.setAttribute("recommKey", new RedisKey(keyName, jedis.ttl(keyName), size));
+				request.setAttribute("bookID", bookID);
 
-			if ("".equals(bookID) || bookID == null) {
-				request.setAttribute("count", 0);
+				if ("".equals(bookID) || bookID == null) {
+					request.setAttribute("count", 0);
+				} else {
+					request.setAttribute("count", jedis.zscore(keyName, bookID));
+				}
 			} else {
-				request.setAttribute("count", jedis.zscore(keyName, bookID));
+				errorMsgs.add("keyName不存在Redis資料庫中");
 			}
-		} else {
-			errorMsgs.add("keyName不存在Redis資料庫中");
+		} catch (JedisException e) {
+			// 歸還Redis連線資源
+			JedisUtil.closeJedis(jedis);
+			e.printStackTrace();
 		}
 
 		request.getRequestDispatcher("/back-end/jsp_RecommManagement/UpdateRecommKey.jsp").forward(request, response);
@@ -62,7 +70,7 @@ public class UpdateRecommKey extends HttpServlet {
 		BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 		List<String> errorMsgs = new ArrayList<String>();
 		request.setAttribute("errorMsgs", errorMsgs);
-		
+
 		// AJAX檢查bookID
 		if (checkBookID != null && !"".equals(checkBookID)) {
 			response.setContentType("application/json");
@@ -92,9 +100,9 @@ public class UpdateRecommKey extends HttpServlet {
 
 			String keyName = request.getParameter("keyName");
 			String bookID = request.getParameter("bookID");
-			
+
 //			System.out.println("Here: " + bookID);
-			
+
 			if (bookService.getByBookID(bookID).isPresent()) {
 				// 取得Redis連線
 				JedisPool pool = JedisUtil.getJedisPool();

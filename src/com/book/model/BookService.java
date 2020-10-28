@@ -24,6 +24,7 @@ import com.promodetail.model.PromoDetailService;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Tuple;
+import redis.clients.jedis.exceptions.JedisException;
 import tools.CountComparator;
 import tools.JedisUtil;
 import tools.RandomCollection;
@@ -262,158 +263,40 @@ public class BookService {
 	// 前端專用方法
 	public List<Book> getPopularBooks(int bookNum, int sampleNum) {
 		// 取得Jedis連線資源
-		JedisPool pool = JedisUtil.getJedisPool();
-		Jedis jedis = pool.getResource();
-		jedis.auth("123456");
-
-		Set<String> bookIDs = new HashSet<String>();
+		Jedis jedis = null;
 		List<Book> books = new ArrayList<Book>();
+		try {
+			JedisPool pool = JedisUtil.getJedisPool();
+			jedis = pool.getResource();
+			jedis.auth("123456");
 
-		String keyName;
-		String keyNameToday = "popularBooks" + LocalDate.now().toString();
-		String keyNameYesterday = "popularBooks"
-				+ DATE_FORMATTER.format(new Date(new java.util.Date().getTime() - 24 * 60 * 60 * 1000));
+			Set<String> bookIDs = new HashSet<String>();
 
-		// 計算今天或昨天的統計是否超過30筆
-		long sumToday = jedis.zcard(keyNameToday.toString());
-		long sumYesterday = jedis.zcard(keyNameYesterday.toString());
+			String keyName;
+			String keyNameToday = "popularBooks" + LocalDate.now().toString();
+			String keyNameYesterday = "popularBooks"
+					+ DATE_FORMATTER.format(new Date(new java.util.Date().getTime() - 24 * 60 * 60 * 1000));
 
-		// 預設用today當key(書籍數量必須超過30)，其次以昨日當key(須超過30本)，不然直接隨機取書並回傳
-		if (sumToday >= bookNum) {
-			keyName = keyNameToday;
-		} else if (sumYesterday >= bookNum) {
-			keyName = keyNameYesterday;
-		} else {
-			books.addAll(getByRandom(bookNum, true));
-			// 歸還連線資源到Jedis連線池
-			JedisUtil.closeJedis(jedis);
-			return books;
-		}
+			// 計算今天或昨天的統計是否超過30筆
+			long sumToday = jedis.zcard(keyNameToday.toString());
+			long sumYesterday = jedis.zcard(keyNameYesterday.toString());
 
-		// 查詢書籍統計資料並計算權重(只取總站熱門前sampleNum本)
-		Set<Tuple> res;
-		if (jedis.zcard(keyName.toString()) >= sampleNum) {
-			res = jedis.zrangeWithScores(keyName.toString(), -sampleNum, -1);
-		} else {
-			res = jedis.zrangeWithScores(keyName.toString(), 0, -1);
-		}
-
-		// 歸還連線資源到Jedis連線池
-		JedisUtil.closeJedis(jedis);
-
-		RandomCollection rc = new RandomCollection();
-
-		res.forEach(tuple -> {
-			String bookID = tuple.getElement();
-			double viewedCount = tuple.getScore();
-			rc.add(viewedCount, bookID);
-		});
-
-		String bookID;
-		while ((bookID = rc.next()) != null && bookIDs.size() < bookNum) {
-			bookIDs.add(bookID);
-		}
-
-		books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
-		for (Iterator<Book> iterator = books.iterator(); iterator.hasNext();) {
-		    Book b = iterator.next();
-		    if(b.getIsSold() == 0) {
-		        iterator.remove();
-		    }
-		}
-
-		return books;
-	}
-
-	// 前端專用方法
-	public Set<Book> getRecommendedBooks(List<Book> recentViewedBooks, String thisBookID) {
-		// 取得Jedis連線資源
-		JedisPool pool = JedisUtil.getJedisPool();
-		Jedis jedis = pool.getResource();
-		jedis.auth("123456");
-
-		String thisCategoryID = getByBookID(thisBookID).get().getCategoryID();
-
-		// 從cookie計算近期瀏覽記錄中占比最高的5個書籍類別(因傳入的近期瀏覽書籍可能是0~30本，favoriteCategoryIDs的可能長度為0~5)
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		recentViewedBooks.forEach(viwedBook -> {
-			String categoryID = viwedBook.getCategoryID();
-			int count = map.containsKey(categoryID) ? map.get(categoryID) : 0;
-			map.put(categoryID, count + 1);
-		});
-
-		List<Map.Entry<String, Integer>> favoriteCategoryIDs = CountComparator.entriesSortedByValues(map);
-		if (favoriteCategoryIDs.size() > 5) {
-			favoriteCategoryIDs = favoriteCategoryIDs.subList(0, 5);
-		}
-
-		if (favoriteCategoryIDs.size() == 0) {
-			// 從商品詳情頁面URL取的bookID，並加入此categoryID，令favoriteCategoryIDs長度在1~5之間。
-			Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<String, Integer>(thisCategoryID, 1);
-			favoriteCategoryIDs.add(entry);
-		}
-
-		int sumToday = 0;
-		int sumYesterday = 0;
-		String today = LocalDate.now().toString();
-		String yesterday = DATE_FORMATTER.format(new Date(new java.util.Date().getTime() - 24 * 60 * 60 * 1000));
-
-		// 計算今天或昨天的統計是否超過30筆
-		for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
-			String categoryID = entry.getKey();
-			StringBuilder keyName = new StringBuilder(categoryID).append(",").append(today).append("viewed");
-			StringBuilder keyNameYesterday = new StringBuilder(categoryID).append(",").append(yesterday)
-					.append("viewed");
-			sumToday += jedis.zcard(keyName.toString());
-			sumYesterday += jedis.zcard(keyNameYesterday.toString());
-
-			if (sumToday >= 30 || sumYesterday >= 30) {
-				break;
-			}
-		}
-
-		Set<Book> recommBooks = new HashSet<Book>();
-		Set<String> recommBookIDs = new HashSet<String>();
-		RandomCollection rc = new RandomCollection();
-
-		for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
-			String categoryID = entry.getKey();
-			double weight = entry.getValue();
-			StringBuilder keyName = new StringBuilder(categoryID).append(",");
-
-			// 預設用today當key(書籍數量必須超過30)，其次以昨日當key(須超過30本)，不然直接以該商品的categoryID隨機取書並回傳
-			if (sumToday >= 30) {
-				keyName.append(today).append("viewed");
-			} else if (sumYesterday >= 30) {
-				keyName.append(yesterday).append("viewed");
+			// 預設用today當key(書籍數量必須超過30)，其次以昨日當key(須超過30本)，不然直接隨機取書並回傳
+			if (sumToday >= bookNum) {
+				keyName = keyNameToday;
+			} else if (sumYesterday >= bookNum) {
+				keyName = keyNameYesterday;
 			} else {
+				books.addAll(getByRandom(bookNum, true));
 				// 歸還連線資源到Jedis連線池
 				JedisUtil.closeJedis(jedis);
-				List<Book> recommBookList = getByCategoryID(thisCategoryID);
-
-				if (recommBookList.size() >= 30) {
-					Random random = new Random();
-					while (recommBooks.size() < 30) {
-						recommBooks.add(recommBookList.get(random.nextInt(recommBookList.size())));
-					}
-				} else {
-					recommBooks.addAll(recommBookList);
-				}
-				
-				for(Iterator<Book> iterator = recommBooks.iterator(); iterator.hasNext();) {
-					Book b = iterator.next();
-					if (b.getIsSold() == 0) {
-						iterator.remove();
-					}
-				}
-				
-				return recommBooks;
+				return books;
 			}
 
-			// 查詢書籍統計資料並計算權重(只取該類別熱門前200本)
+			// 查詢書籍統計資料並計算權重(只取總站熱門前sampleNum本)
 			Set<Tuple> res;
-			if (jedis.zcard(keyName.toString()) >= 200) {
-				res = jedis.zrangeWithScores(keyName.toString(), -200, -1);
+			if (jedis.zcard(keyName.toString()) >= sampleNum) {
+				res = jedis.zrangeWithScores(keyName.toString(), -sampleNum, -1);
 			} else {
 				res = jedis.zrangeWithScores(keyName.toString(), 0, -1);
 			}
@@ -421,44 +304,184 @@ public class BookService {
 			// 歸還連線資源到Jedis連線池
 			JedisUtil.closeJedis(jedis);
 
+			RandomCollection rc = new RandomCollection();
+
 			res.forEach(tuple -> {
 				String bookID = tuple.getElement();
 				double viewedCount = tuple.getScore();
-				rc.add(viewedCount * weight, bookID);
+				rc.add(viewedCount, bookID);
 			});
-		}
-		
-		String bookID;
-		while ((bookID = rc.next()) != null && recommBookIDs.size() < 30) {
-			recommBookIDs.add(bookID);
+
+			String bookID;
+			while ((bookID = rc.next()) != null && bookIDs.size() < bookNum) {
+				bookIDs.add(bookID);
+			}
+
+			books.addAll(getByBookIDList(new ArrayList<String>(bookIDs)));
+			for (Iterator<Book> iterator = books.iterator(); iterator.hasNext();) {
+				Book b = iterator.next();
+				if (b.getIsSold() == 0) {
+					iterator.remove();
+				}
+			}
+		} catch (JedisException e) {
+			// 歸還連線資源到Jedis連線池
+			JedisUtil.closeJedis(jedis);
+			e.printStackTrace();
 		}
 
-		recommBooks.addAll(getByBookIDList(new ArrayList<String>(recommBookIDs)));
-		for (Iterator<Book> iterator = recommBooks.iterator(); iterator.hasNext();) {
-		    Book b = iterator.next();
-		    if(b.getIsSold() == 0) {
-		        iterator.remove();
-		    }
+		return books;
+	}
+
+	// 前端專用方法
+	public Set<Book> getRecommendedBooks(List<Book> recentViewedBooks, String thisBookID) {
+		Jedis jedis = null;
+		Set<Book> recommBooks = new HashSet<Book>();
+		try {
+
+			// 取得Jedis連線資源
+			JedisPool pool = JedisUtil.getJedisPool();
+			jedis = pool.getResource();
+			jedis.auth("123456");
+
+			String thisCategoryID = getByBookID(thisBookID).get().getCategoryID();
+
+			// 從cookie計算近期瀏覽記錄中占比最高的5個書籍類別(因傳入的近期瀏覽書籍可能是0~30本，favoriteCategoryIDs的可能長度為0~5)
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			recentViewedBooks.forEach(viwedBook -> {
+				String categoryID = viwedBook.getCategoryID();
+				int count = map.containsKey(categoryID) ? map.get(categoryID) : 0;
+				map.put(categoryID, count + 1);
+			});
+
+			List<Map.Entry<String, Integer>> favoriteCategoryIDs = CountComparator.entriesSortedByValues(map);
+			if (favoriteCategoryIDs.size() > 5) {
+				favoriteCategoryIDs = favoriteCategoryIDs.subList(0, 5);
+			}
+
+			if (favoriteCategoryIDs.size() == 0) {
+				// 從商品詳情頁面URL取的bookID，並加入此categoryID，令favoriteCategoryIDs長度在1~5之間。
+				Map.Entry<String, Integer> entry = new AbstractMap.SimpleEntry<String, Integer>(thisCategoryID, 1);
+				favoriteCategoryIDs.add(entry);
+			}
+
+			int sumToday = 0;
+			int sumYesterday = 0;
+			String today = LocalDate.now().toString();
+			String yesterday = DATE_FORMATTER.format(new Date(new java.util.Date().getTime() - 24 * 60 * 60 * 1000));
+
+			// 計算今天或昨天的統計是否超過30筆
+			for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
+				String categoryID = entry.getKey();
+				StringBuilder keyName = new StringBuilder(categoryID).append(",").append(today).append("viewed");
+				StringBuilder keyNameYesterday = new StringBuilder(categoryID).append(",").append(yesterday)
+						.append("viewed");
+				sumToday += jedis.zcard(keyName.toString());
+				sumYesterday += jedis.zcard(keyNameYesterday.toString());
+
+				if (sumToday >= 30 || sumYesterday >= 30) {
+					break;
+				}
+			}
+
+			Set<String> recommBookIDs = new HashSet<String>();
+			RandomCollection rc = new RandomCollection();
+
+			for (Map.Entry<String, Integer> entry : favoriteCategoryIDs) {
+				String categoryID = entry.getKey();
+				double weight = entry.getValue();
+				StringBuilder keyName = new StringBuilder(categoryID).append(",");
+
+				// 預設用today當key(書籍數量必須超過30)，其次以昨日當key(須超過30本)，不然直接以該商品的categoryID隨機取書並回傳
+				if (sumToday >= 30) {
+					keyName.append(today).append("viewed");
+				} else if (sumYesterday >= 30) {
+					keyName.append(yesterday).append("viewed");
+				} else {
+					// 歸還連線資源到Jedis連線池
+					JedisUtil.closeJedis(jedis);
+					List<Book> recommBookList = getByCategoryID(thisCategoryID);
+
+					if (recommBookList.size() >= 30) {
+						Random random = new Random();
+						while (recommBooks.size() < 30) {
+							recommBooks.add(recommBookList.get(random.nextInt(recommBookList.size())));
+						}
+					} else {
+						recommBooks.addAll(recommBookList);
+					}
+
+					for (Iterator<Book> iterator = recommBooks.iterator(); iterator.hasNext();) {
+						Book b = iterator.next();
+						if (b.getIsSold() == 0) {
+							iterator.remove();
+						}
+					}
+
+					return recommBooks;
+				}
+
+				// 查詢書籍統計資料並計算權重(只取該類別熱門前200本)
+				Set<Tuple> res;
+				if (jedis.zcard(keyName.toString()) >= 200) {
+					res = jedis.zrangeWithScores(keyName.toString(), -200, -1);
+				} else {
+					res = jedis.zrangeWithScores(keyName.toString(), 0, -1);
+				}
+
+				// 歸還連線資源到Jedis連線池
+				JedisUtil.closeJedis(jedis);
+
+				res.forEach(tuple -> {
+					String bookID = tuple.getElement();
+					double viewedCount = tuple.getScore();
+					rc.add(viewedCount * weight, bookID);
+				});
+			}
+
+			String bookID;
+			while ((bookID = rc.next()) != null && recommBookIDs.size() < 30) {
+				recommBookIDs.add(bookID);
+			}
+
+			recommBooks.addAll(getByBookIDList(new ArrayList<String>(recommBookIDs)));
+			for (Iterator<Book> iterator = recommBooks.iterator(); iterator.hasNext();) {
+				Book b = iterator.next();
+				if (b.getIsSold() == 0) {
+					iterator.remove();
+				}
+			}
+		} catch (JedisException e) {
+			// 歸還連線資源到Jedis連線池
+			JedisUtil.closeJedis(jedis);
+			e.printStackTrace();
 		}
 		return recommBooks;
 	}
 
 	public void UpdateRedisViewCount(String bookID) {
-		// 取得Jedis連線資源
-		JedisPool pool = JedisUtil.getJedisPool();
-		Jedis jedis = pool.getResource();
-		jedis.auth("123456");
+		Jedis jedis = null;
+		try {
+			// 取得Jedis連線資源
+			JedisPool pool = JedisUtil.getJedisPool();
+			jedis = pool.getResource();
+			jedis.auth("123456");
 
-		// 本書當日瀏覽次數+1，key為當天日期 + "viwed"，score為當天被瀏覽次數，value為bookID。
-		// Redis過期是以key為單位移除資料，為實現動態的7天統計，key設定和當天日期有關，而另一邊需設計排程器，每天計算仍有效的(7天內)瀏覽次數。
-		LocalDate date = LocalDate.now();
-		long current = System.currentTimeMillis();// 當前時間毫秒數
-		long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();// 今天零點零分零秒的毫秒數
-		jedis.zincrby(date + "viewed", 1, bookID);
-		jedis.expire(date + "viewed", 7 * 24 * 60 * 60 - (int) ((current - zero) / 1000)); // 7天過期
+			// 本書當日瀏覽次數+1，key為當天日期 + "viwed"，score為當天被瀏覽次數，value為bookID。
+			// Redis過期是以key為單位移除資料，為實現動態的7天統計，key設定和當天日期有關，而另一邊需設計排程器，每天計算仍有效的(7天內)瀏覽次數。
+			LocalDate date = LocalDate.now();
+			long current = System.currentTimeMillis();// 當前時間毫秒數
+			long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();// 今天零點零分零秒的毫秒數
+			jedis.zincrby(date + "viewed", 1, bookID);
+			jedis.expire(date + "viewed", 7 * 24 * 60 * 60 - (int) ((current - zero) / 1000)); // 7天過期
 
-		// 歸還連線資源到Jedis連線池
-		JedisUtil.closeJedis(jedis);
+			// 歸還連線資源到Jedis連線池
+			JedisUtil.closeJedis(jedis);
+		} catch (JedisException e) {
+			// 歸還連線資源到Jedis連線池
+			JedisUtil.closeJedis(jedis);
+			e.printStackTrace();
+		}
 	}
 
 	public List<Book> getByRandom(int num, boolean isFront) {

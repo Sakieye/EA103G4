@@ -5,6 +5,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.mem.model.*"%>
 <%@ page import="redis.clients.jedis.*"%>
+<%@ page import="redis.clients.jedis.exceptions.JedisException"%>
 
 <!DOCTYPE html>
 <html>
@@ -31,15 +32,22 @@ table {
 		<main id="center" class="column">
 			<h1>排程事件紀錄</h1>
 			<%
+				Jedis jedis = null;
 				// 取得Jedis連線資源
-				SimpleRedisLogger logger = new SimpleRedisLogger();
-				JedisPool pool = JedisUtil.getJedisPool();
-				Jedis jedis = pool.getResource();
-				jedis.auth("123456");
-				List<Map.Entry<String, Date>> msgs = logger.getInfo(jedis, "TimerLog");
-				// 歸還連線資源到Jedis連線池
-				JedisUtil.closeJedis(jedis);
-				pageContext.setAttribute("msgs", msgs);
+				try {
+					SimpleRedisLogger logger = new SimpleRedisLogger();
+					JedisPool pool = JedisUtil.getJedisPool();
+					jedis = pool.getResource();
+					jedis.auth("123456");
+					List<Map.Entry<String, Date>> msgs = logger.getInfo(jedis, "TimerLog");
+					// 歸還連線資源到Jedis連線池
+					JedisUtil.closeJedis(jedis);
+					pageContext.setAttribute("msgs", msgs);
+				} catch (JedisException e) {
+					// 歸還Redis連線資源
+					JedisUtil.closeJedis(jedis);
+					e.printStackTrace();
+				}
 			%>
 			<c:choose>
 				<c:when test="${msgs.size() > 0}">
@@ -55,7 +63,9 @@ table {
 
 							<c:forEach var="entry" items="${msgs}">
 								<tr>
-									<td><fmt:formatDate value="${entry.value}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+									<td>
+										<fmt:formatDate value="${entry.value}" pattern="yyyy-MM-dd HH:mm:ss" />
+									</td>
 									<td>${entry.key}</td>
 								</tr>
 							</c:forEach>
