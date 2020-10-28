@@ -251,7 +251,7 @@ public class MemServlet extends HttpServlet {
 					session.setAttribute("memVO", memVO); // 將memVO存在session中
 
 					String location = (String) session.getAttribute("location");
-
+					
 					if (location == null) {
 						String url = "/front-end/front-index.jsp";
 						RequestDispatcher successView = req.getRequestDispatcher(url); // 登入後轉交/front-end/front-index.jsp

@@ -91,11 +91,10 @@
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
 										class="m-0">
-										<button type="submit" class="btn chat" name="action"
-											value="bookClubChat" style="border: none;"
+										<img src="<%=request.getContextPath()%>/images/bookclub/chat.png" class="btn chat" id="chatpic" >
+										<button type="submit" class="btn chat" name="action" id="chatbtn"
+											value="bookClubChat" style="border: none;display: none"
 											${(bookClub_Regis_DetailVO.brd_status ne 2)? 'disabled' : ''}>
-											<img
-												src="<%=request.getContextPath()%>/images/bookclub/chat.png">
 										</button>
 										<input type="hidden" name="bc_id"
 											value="${bookClub_Regis_DetailVO.bc_id}"> <input
@@ -260,6 +259,9 @@
 	</c:if>
 	$('#3').attr("disabled", true);
 	$('#4').attr("disabled", true);
+	$('#chatpic').on('click',function(){
+		$('#chatbtn').click();
+	});
 </script>
 
 </html>
