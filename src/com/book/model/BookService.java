@@ -285,6 +285,8 @@ public class BookService {
 			keyName = keyNameYesterday;
 		} else {
 			books.addAll(getByRandom(bookNum, true));
+			// 歸還連線資源到Jedis連線池
+			JedisUtil.closeJedis(jedis);
 			return books;
 		}
 
@@ -385,6 +387,8 @@ public class BookService {
 			} else if (sumYesterday >= 30) {
 				keyName.append(yesterday).append("viewed");
 			} else {
+				// 歸還連線資源到Jedis連線池
+				JedisUtil.closeJedis(jedis);
 				List<Book> recommBookList = getByCategoryID(thisCategoryID);
 
 				if (recommBookList.size() >= 30) {
