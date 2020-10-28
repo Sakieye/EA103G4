@@ -13,8 +13,6 @@
     <%}%>
   <%}%>  
 
-<br><br>
-
   <%if (pageNumber>1) {%>
     <FORM METHOD="post" ACTION="<%=request.getRequestURI()%>" class="pull-right d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">   
      <div class="input-group">
@@ -26,7 +24,8 @@
        <div class="input-group-append">
        <input type="submit" value="確定" class ="btn-dark">
        </div> 
-       </div> 
+     </div> 
     </FORM>  
   <%}%>
-  </div>
+</div>
+<br>

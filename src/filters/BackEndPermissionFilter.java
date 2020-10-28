@@ -103,7 +103,6 @@ public class BackEndPermissionFilter implements Filter {
 	    PER0010.add(req.getContextPath()+"/back-end/admins/listAllAdmins.jsp");
 	    PER0010.add(req.getContextPath()+"/back-end/admins/addAdmins.jsp");
 	    PER0010.add(req.getContextPath()+"/back-end/admins/update_admins.jsp");
-	    PER0010.add(req.getContextPath()+"/back-end/admins/update_pswd.jsp");
 	    
 	    if(list.contains("PER0001") && PER0001.contains(uri)) {
 	    	chain.doFilter(request, response);				    	

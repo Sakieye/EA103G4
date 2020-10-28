@@ -43,8 +43,7 @@
 </head>
 <body>
 <jsp:include page="/back-end/header/header.jsp" />
-    <div class="container_l" >
-        
+    <div class="container_l" >       
         <div class=" card-box ">
             <div class="clearfix mb-20">
                 <div class="pull-left">
@@ -75,8 +74,7 @@
                      <div class = "pull-right" style="padding-top:15px">
                         <a href="<%=request.getContextPath()%>/back-end/login/loginSuccess.jsp"><img src="<%=request.getContextPath()%>/images/admins/home.png" height="45px" width="45px"></a>
                     </div>
-                </div>
-                
+                </div>             
             </div>
             <table class="table">
                 <thead class="thead-dark">
@@ -125,9 +123,10 @@
                     </c:forEach>
                 </tbody>
             </table>
-            <%@ include file="page2.file" %>
+           <%@ include file="page2.file" %>
         </div>
-      </div>   
+      </div> 
+      <br>  
   <jsp:include page="/back-end/sidebar/sidebar.jsp" />									
 </body>
 </html>

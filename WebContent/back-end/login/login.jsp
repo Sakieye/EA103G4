@@ -50,6 +50,9 @@
         #login:not (:disabled):not (.disabled):active:focus, #login:not (:disabled):not (.disabled).active:focus, .show>#login.dropdown-toggle:focus {
             box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
         }
+        .container{
+            padding-top:150px;
+        }
 </style>
 </head>
 

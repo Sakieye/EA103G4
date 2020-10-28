@@ -160,7 +160,6 @@
 		<url-pattern>/back-end/admins/listAllAdmins.jsp</url-pattern>
 		<url-pattern>/back-end/admins/addAdmins.jsp</url-pattern>
 		<url-pattern>/back-end/admins/update_admins.jsp</url-pattern>	
-		<url-pattern>/back-end/admins/update_pswd.jsp</url-pattern>	
 		<url-pattern>/back-end/advertising/*</url-pattern>
 		<url-pattern>/back-end/bookclub_report/listAllBookClub_Report.jsp</url-pattern>
 		<url-pattern>/back-end/forum/forumBack_forums.jsp</url-pattern>
