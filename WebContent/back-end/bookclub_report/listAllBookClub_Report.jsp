@@ -77,7 +77,7 @@ button{
 										<td>${bookClub_ReportVO.bc_id}</td>
 										<td>${bookClub_ReportVO.bcr_reason}</td>
 										<td><button data-toggle="modal" data-target="#report-bookclub" class="pic" value="${bookClub_ReportVO.bcr_id}"><img
-											src="<%= request.getContextPath()%>/back-end/bookclub_report/bookclub_report.do?getImg=${bookClub_ReportVO.bcr_id}"
+											src="<%= request.getContextPath()%>/bookclub_report/bookclub_report.do?getImg=${bookClub_ReportVO.bcr_id}"
 											class="cover">
 											</button></td>
 										<c:set var='bc_status' value='${bookClubSvc.getOneBookClub(bookClub_ReportVO.bc_id).bc_status}'/>

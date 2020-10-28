@@ -10,9 +10,37 @@
         * {
             box-sizing: border-box;
         }
+        .bg {
+            animation: slide 5s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #ffefb6 50%, #9effe9 50%);
+            bottom: 0;
+            left: -50%;
+            opacity: .5;
+            position: fixed;
+            right: -50%;
+            top: 0;
+            z-index: -1;
+        }
+
+        .bg2 {
+            animation-direction: alternate-reverse;
+            animation-duration: 4s;
+        }
+
+        .bg3 {
+            animation-duration: 5s;
+        }
+        @keyframes slide {
+            0% {
+                transform: translateX(-25%);
+            }
+            100% {
+                transform: translateX(25%);
+            }
+        }
         body {
             min-height: 1440px;
-            background: url("../images/bookclub/background.png") center center fixed no-repeat;
+/*             background: url("../images/bookclub/background.png") center center fixed no-repeat; */
             background-size: cover;
             font-family: jf-openhuninn, arial;
         }
@@ -350,10 +378,10 @@
             }
         }
         input[type="submit"]{
-        	background-color: #aeaecb !important;
+        	background-color: #fff7da !important;
         	border-radius:100px;
         	box-shadow:2px 2px 4px 2px #bbbbbb;
         }
         input[type="submit"]:hover {
-        	background-color: #d67777 !important;
+        	background-color: #ffe791 !important;
         }

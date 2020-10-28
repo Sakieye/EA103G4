@@ -4,14 +4,14 @@
         }
         body {
             font-family: "Noto Bold", sans-serif;
-            background: url("../images/bookclub/background.png") center center fixed no-repeat;
+/*             background: url("../images/bookclub/background.png") center center fixed no-repeat; */
             color: #FFF;
             font-family: jf-openhuninn, arial;
         }
 
         .bg {
             animation: slide 3s ease-in-out infinite alternate;
-            background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+            background-image: linear-gradient(-60deg, #83f5e5 50%, #03A9F4 50%);
             bottom: 0;
             left: -50%;
             opacity: .5;
@@ -58,16 +58,16 @@
 
         #messagesArea {
             width: 800px;
-            height: 745px;
+            height: 670px;
             overFlow-y: auto;
 
         }
         #message {
             resize: none;
             display: inline;
-            width: 600px;
-            height: 38px;
-            margin-bottom: -15px;
+            width: 63%;
+            height: 40px;
+            vertical-align: middle;
         }
 
         .myMessage {

@@ -36,7 +36,9 @@
 <body>
 	<jsp:include page="/front-end/bookclub/bookClubNotice.jsp" />
 	<jsp:include page="/front-end/header/header.jsp" />
-	
+	<div class="bg"></div>
+	<div class="bg2"></div>
+	<div class="bg3"></div>
 	<!-- 點擊置頂按鈕 -->
 	<button type="button" id="BackTop" class="toTop-arrow"></button>
 	<div class="container">
@@ -168,7 +170,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form method="POST"	action="<%=request.getContextPath()%>/back-end/bookclub_report/bookclub_report.do" enctype="multipart/form-data">
+					<form method="POST"	action="<%=request.getContextPath()%>/bookclub_report/bookclub_report.do" enctype="multipart/form-data">
 						<label for="message-text" class="col-form-label" >原因</label>
 						<input type="text" name="bcr_reason">
 						<label for="message-text" class="col-form-label" >證明圖片</label>
