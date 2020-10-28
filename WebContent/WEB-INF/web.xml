@@ -83,6 +83,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BookClub_ReportServlet</servlet-name>
+		<url-pattern>/bookclub_report/bookclub_report.do</url-pattern>
 		<url-pattern>/back-end/bookclub_report/bookclub_report.do</url-pattern>
 	</servlet-mapping>
 	<servlet>

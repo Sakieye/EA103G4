@@ -13,11 +13,38 @@
         body {
             position: relative;
             min-height: 1440px;
-            background: url("../images/bookclub/background.png") center center fixed no-repeat;
+/*             background: url("../images/bookclub/background.png") center center fixed no-repeat; */
             background-size: cover;
             font-family: jf-openhuninn, arial;
         }
+		.bg {
+            animation: slide 5s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #c4fff4 50%, #ffe2f0 50%);
+            bottom: 0;
+            left: -50%;
+            opacity: .5;
+            position: fixed;
+            right: -50%;
+            top: 0;
+            z-index: -1;
+        }
 
+        .bg2 {
+            animation-direction: alternate-reverse;
+            animation-duration: 4s;
+        }
+
+        .bg3 {
+            animation-duration: 5s;
+        }
+        @keyframes slide {
+            0% {
+                transform: translateX(-25%);
+            }
+            100% {
+                transform: translateX(25%);
+            }
+        }
         .container {
             margin-top: 4%;
         }
@@ -88,7 +115,7 @@
             position: sticky;
             top: 10%;
             text-align: center;
-            border: 2px solid #2e8de8;
+            border: 2px solid #ababab;
     		border-radius: 30px;
             box-shadow: 4px 4px 5px #999;
             transition: all, 1.5s;

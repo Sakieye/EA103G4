@@ -14,6 +14,10 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bookclubChat.css">
 </head>
 
+<div class="bg"></div>
+<div class="bg1"></div>
+<div class="bg2"></div>
+
 <body onload="connect();" onunload="disconnect();">
 	<jsp:useBean id="bookclub_regis_detailsvc" class="com.bookclub_regis_detail.model.BookClub_Regis_DetailService" />
 	<jsp:useBean id="memsvc" class="com.mem.model.MemService" />	
@@ -73,11 +77,11 @@
 
 					<div class="col-12">
 						<hr
-							style="border: 2px solid #FFF; width: 57em; margin-bottom: 10px;">
+							style="border: 2px solid #FFF; width: 100%; margin-bottom: 10px;">
 
 						<div class="panel input-area">
 							<span id="userName" class="text-field" style="display: none">${requestScope.name}</span>
-							<select class="custom-select" id="type" style="width: 15em">
+							<select class="custom-select" id="type" style="width: 20%">
 								<option value="all" id="all" selected>給所有人:</option>
 								<option value="private" id="private">私訊:</option>
 							</select>
