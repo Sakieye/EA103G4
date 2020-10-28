@@ -47,8 +47,8 @@
 }
 
 #normal-search-form {
-    margin: 0;
-    left: 6.5%;
+	margin: 0;
+	left: 6.5%;
 }
 
 .search-bar input {
@@ -209,3 +209,6 @@ input[type=number]::-webkit-inner-spin-button {
 	background: #F2F2F2;
 }
 
+.breadcrumb-item+.breadcrumb-item::before {
+	content: ">";
+}
