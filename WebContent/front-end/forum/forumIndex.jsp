@@ -5,13 +5,20 @@
 <%@ page import="com.Fm.model.*"%>
 <%@ page import="com.mem.model.*"%>
 <%@ page import="redis.clients.jedis.Jedis"%>
+<%@ page import="redis.clients.jedis.exceptions.*" %>
 <%@ page import="java.util.*"%>
 
 <%
-	Jedis jedis = new Jedis("localhost", 6379);
-	jedis.auth("123456");
-	Set<String> searchHotKeys = jedis.zrevrange("searchKeywords", 0 ,7);
-	jedis.close();
+	Jedis jedis= null;
+	Set<String> searchHotKeys = null;
+	try{
+		jedis = new Jedis("localhost", 6379);
+		jedis.auth("123456");
+		searchHotKeys = jedis.zrevrange("searchKeywords", 0 ,7);
+	}catch(JedisException e){
+		jedis.close();
+		e.printStackTrace();
+	}
 	FaService faSvc = new FaService();
 	List<FaVO> list = faSvc.getAll_Index();
 	pageContext.setAttribute("list", list);
@@ -164,6 +171,7 @@
                 console.log("Connect Success!");
                 if (`${exp}` !== "") {
                     var jsonObj = {
+                    	"type":"addFaNotify",
                         "memId": `${memVO.mem_id}`,
                         "message": '${memVO.mem_name}' + " 上傳新文章 : " +
                         "<a href=" + `<%=request.getContextPath() %>` + "/front-end/forum/fa.do?action=getOne_For_Display&faId=${faVO.faId}"+">${faVO.faTopic}</a>"
@@ -174,8 +182,15 @@
 
             webSocket.onmessage = function(event) {
                 var jsonObj = JSON.parse(event.data);
-                console.log(jsonObj);
-                toastr['success'](jsonObj.message, '追蹤通知');
+                if(jsonObj.type === "addFaNotify"){
+                	 console.log(jsonObj);
+                     toastr['success'](jsonObj.message, '追蹤通知');
+                }
+                if(jsonObj.type === "notifyAuthor"){
+                	console.log(jsonObj);
+                	toastr['success'](jsonObj.message, '被追蹤通知');
+                }
+               
             }
 
             webSocket.onclose = function(event) {

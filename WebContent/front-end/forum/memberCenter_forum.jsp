@@ -120,6 +120,8 @@
 														<input type="submit" >
 														<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="取消">
 														<input type="hidden" name="action" value="update">
+														<input type="hidden" name="url" value="<%=request.getServletPath()%>">
+														<input type="hidden" name="whichPage" value="<%=whichPage%>">
 														<input type="hidden" name="memId" value="${memVO.mem_id}">
 														<input type="hidden" name="faId" value="${faVO.faId}">
 													</p>

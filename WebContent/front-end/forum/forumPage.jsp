@@ -186,9 +186,15 @@
 	            }
 
 	            webSocket.onmessage = function(event) {
-	                var jsonObj = JSON.parse(event.data);
-	                console.log(jsonObj);
-	                toastr['success'](jsonObj.message, '追蹤通知');
+	            	 var jsonObj = JSON.parse(event.data);
+	                 if(jsonObj.type === "addFaNotify"){
+	                 	 console.log(jsonObj);
+	                      toastr['success'](jsonObj.message, '追蹤通知');
+	                 }
+	                 if(jsonObj.type === "notifyAuthor"){
+	                 	console.log(jsonObj);
+	                 	toastr['success'](jsonObj.message, '被追蹤通知');
+	                 }
 	            }
 
 	            webSocket.onclose = function(event) {
@@ -361,6 +367,12 @@
 							$("#subscribe i").attr("class","fas fa-bell fa-3x");
 							$("#subscribe").css("color","#743A3A");
 							toastr.info("已開啟通知");
+							var jsonObj = {
+									"type":"notifyAuthor",
+									"memId":`${faVO.memId}`,
+									"message":`${sessionScope.memVO.mem_name}` + "已追蹤您"
+							}
+							webSocket.send(JSON.stringify(jsonObj));
 						}
 				)
 			}else{

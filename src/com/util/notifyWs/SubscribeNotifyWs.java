@@ -39,7 +39,36 @@ public class SubscribeNotifyWs {
 	
 	@OnMessage
 	public void onMessage(Session userSession, String message) {
-		AddFaNotify addFaNotify = gson.fromJson(message, AddFaNotify.class);
+		AddFaNotify Notify = gson.fromJson(message, AddFaNotify.class);
+		if(Notify.getType().equals("addFaNotify")) {
+			notifyAddFa(Notify,message);
+		}else {
+			beSubscribeNotify(Notify,message);
+		}
+//		String amemId = addFaNotify.getMemId();
+//		FollowService folSvc = new FollowService();
+//		List<FollowVO> list = folSvc.getFollowList(amemId);
+//		for(FollowVO followVO : list) {
+//			System.out.println("reveivers :" + followVO.getMemId());
+//			Session receiverSession = sessionsMap.get(followVO.getMemId());
+//			if(receiverSession != null && receiverSession.isOpen()) {
+//				receiverSession.getAsyncRemote().sendText(message);
+//			}
+//		}
+//		System.out.println("Message received: " + message);
+	}
+	
+	@OnClose
+	public void onClose(@PathParam("memId")String memId,Session userSession, CloseReason reason) {
+		sessionsMap.remove(memId);
+	}
+	
+	@OnError
+	public void onError(Session userSession, Throwable e) {
+		System.out.println("Error: " + e.toString());
+	}
+	
+	public void notifyAddFa(AddFaNotify addFaNotify,String message) {
 		String amemId = addFaNotify.getMemId();
 		FollowService folSvc = new FollowService();
 		List<FollowVO> list = folSvc.getFollowList(amemId);
@@ -53,13 +82,12 @@ public class SubscribeNotifyWs {
 		System.out.println("Message received: " + message);
 	}
 	
-	@OnClose
-	public void onClose(@PathParam("memId")String memId,Session userSession, CloseReason reason) {
-		sessionsMap.remove(memId);
-	}
-	
-	@OnError
-	public void onError(Session userSession, Throwable e) {
-		System.out.println("Error: " + e.toString());
+	public void beSubscribeNotify(AddFaNotify addFaNotify,String message) {
+		String amemId = addFaNotify.getMemId();
+		Session authorSession = sessionsMap.get(amemId);
+		if(authorSession != null && authorSession.isOpen()) {
+			authorSession.getAsyncRemote().sendText(message);
+		}
+		System.out.println("Author receives message :" + message);
 	}
 }

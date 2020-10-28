@@ -6,12 +6,19 @@
 <%@ page import="com.Fm.model.*"%>
 <%@ page import="com.mem.model.*"%>
 <%@ page import="redis.clients.jedis.Jedis"%>
+<%@ page import="redis.clients.jedis.exceptions.*" %>
 <%@ page import="java.util.*"%>
 <%
-	Jedis jedis = new Jedis("localhost", 6379);
-	jedis.auth("123456");
-	Set<String> searchHotKeys = jedis.zrevrange("searchKeywords", 0 ,7);
-	jedis.close();
+	Jedis jedis= null;
+	Set<String> searchHotKeys = null;
+	try{
+		jedis = new Jedis("localhost", 6379);
+		jedis.auth("123456");
+		searchHotKeys = jedis.zrevrange("searchKeywords", 0 ,7);
+	}catch(JedisException e){
+		jedis.close();
+		e.printStackTrace();
+	}
 	pageContext.setAttribute("searchHotKeys",searchHotKeys);
 %>
 <jsp:useBean id="list" scope="session" type="java.util.List<FaVO>"/>
@@ -162,8 +169,15 @@
 	            }
 
 	            webSocket.onmessage = function(event) {
-	                var jsonObj = JSON.parse(event.data);
-	                toastr['success'](jsonObj.message, '追蹤通知');
+	            	var jsonObj = JSON.parse(event.data);
+	                if(jsonObj.type === "addFaNotify"){
+	                  	 console.log(jsonObj);
+	                     toastr['success'](jsonObj.message, '追蹤通知');
+	                }
+	                if(jsonObj.type === "notifyAuthor"){
+	                  	console.log(jsonObj);
+	                   	toastr['success'](jsonObj.message, '被追蹤通知');
+	                }
 	            }
 
 	            webSocket.onclose = function(event) {
