@@ -99,7 +99,6 @@
 						<div class="wrap-slick3 flex-sb flex-w">
 							<div class="wrap-slick3-dots"></div>
 							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
 							<div class="slick3 gallery-lb">
 								<c:forEach var="pic" items="${bookPiclist}" varStatus="picindex">
 									<div class="item-slick3" data-thumb="${pageContext.request.contextPath}/ShowBookPic?bookID=${pic.bookID}&bookPicName=${pic.bookPicName}">
@@ -181,10 +180,8 @@
 							元
 						</span>
 
-						<!--  -->
+						<!-- 加入收藏及購物車 -->
 						<div class="p-t-33">
-							<!-- 此區可補充 -->
-
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<FORM class="form-inline" name="cartFrom" id="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
@@ -340,12 +337,10 @@
 
 	<jsp:include page="/front-end/footer/footer.jsp" />
 	<!--Scripts-->
-	<%-- 	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script> --%>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
-	<%-- 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script> --%>
-
+	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
 	<!-- pic -->
-	<script src="js/smoothproducts.min.js"></script>
+	<script src="<%=request.getContextPath()%>js/smoothproducts.min.js"></script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
@@ -357,11 +352,6 @@
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/slick/slick.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/shopslick-custom.js"></script>
-	<!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/vendor/shop/parallax100/parallax100.js"></script>
-	<script>
-		$('.parallax100').parallax100();
-	</script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script>
@@ -381,36 +371,6 @@
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.js-addwish-b2, .js-addwish-detail').on('click', function(e) {
-			e.preventDefault();
-		});
-
-		$('.js-addwish-b2').each(
-				function() {
-					var nameProduct = $(this).parent().parent().find(
-							'.js-name-b2').html();
-					$(this).on('click', function() {
-						swal(nameProduct, "is added to wishlist !", "success");
-
-						$(this).addClass('js-addedwish-b2');
-						$(this).off('click');
-					});
-				});
-
-		$('.js-addwish-detail').each(
-				function() {
-					var nameProduct = $(this).parent().parent().parent().find(
-							'.js-name-detail').html();
-
-					$(this).on('click', function() {
-						swal(nameProduct, "is added to wishlist !", "success");
-
-						$(this).addClass('js-addedwish-detail');
-						$(this).off('click');
-					});
-				});
-
-		/*---------------------------------------------*/
 		var PathURL = window.document.location.href;
 		var localhost = PathURL.substring(0, PathURL
 				.indexOf(window.document.location.pathname));
@@ -465,23 +425,6 @@
 			};
 			return cartFormJSON;
 		}
-	</script>
-	<!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/vendor/shop/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function() {
-			$(this).css('position', 'relative');
-			$(this).css('overflow', 'hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed : 1,
-				scrollingThreshold : 1000,
-				wheelPropagation : false,
-			});
-
-			$(window).on('resize', function() {
-				ps.update();
-			})
-		});
 	</script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/js/shopmain.js"></script>

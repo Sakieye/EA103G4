@@ -179,7 +179,7 @@
 						<FORM class="form-inline" name="checkFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
 							<input type="hidden" name="action" value="PAYCHECK">
 							<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-								<b>結　帳</b>
+								<b><font color=#000>結　帳</font></b>
 							</button>
 					</FORM>
 					</div>
@@ -187,18 +187,23 @@
 				<%
 					} else {
 				%>
-					<a style="color: #668787; font-size: 20px; text-aglin: center;">
-					<c:out value="購物車空空der...與您的腦一樣ＱＱ" /></a>
-					<!-- 	<div style="height:80%; width:100%;"></div> -->
-								
+					<div class="bg0 p-t-75 p-b-85">
+						<div class="container container-cart">
+							<div class="row">
+								<a style="color: #668787; font-size: 42px; text-aglin: center;">
+								<c:out value="購物車空空der... "/><br>
+								<c:out value="　　　　是否與你的皮夾一樣ＱＱ"/>
+								</a>
+								<input type="image"  class=""  src="<%=request.getContextPath()%>/images/cliff/ifine.png">
+							</div>
+						</div>
+					</div>								
 				<%} %>
 			</div>
 		</div>
 	</div>
 
 
-
-	
 		
 
 	<!-- Back to top -->
