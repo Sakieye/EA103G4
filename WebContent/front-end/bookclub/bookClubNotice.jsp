@@ -10,51 +10,25 @@
 <meta charset="UTF-8">
 <title>Notice Page</title>
 
-<%	
-	MemVO memVO = (MemVO) session.getAttribute("memVO");
-	if(session.getAttribute("memVO") != null){
-		BookClubService bookClubSvc = new BookClubService();
-		List<BookClubVO> listBook = bookClubSvc.getByMyself(memVO.getMem_id());
-		pageContext.setAttribute("listBook", listBook);
-		BookClub_Regis_DetailService bcdSvc = new BookClub_Regis_DetailService();
-		List<BookClub_Regis_DetailVO> listBookDetail = bcdSvc.getByMyself(memVO.getMem_id());
-		pageContext.setAttribute("listBookDetail", listBookDetail);
-	}
-%>
-
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/naranja.min.css">
 
 </head>
 <body onload="connect();" onunload="disconnect();">
 
-	<c:forEach var="bookClubVO" items="${listBook}">
-		<input class="bcGroup" type="hidden" value="${bookClubVO.bc_id}">
-	</c:forEach>
-	<c:forEach var="bookClub_Regis_DetailVO" items="${listBookDetail}">
-		<input class="bcGroupIn" type="hidden" value="${bookClub_Regis_DetailVO.bc_id}">
-	</c:forEach>
-
-
 <script src="<%=request.getContextPath()%>/js/naranja.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script>
-		var bcGroup = document.getElementsByClassName("bcGroup");
-		var bcGroupIn = document.getElementsByClassName("bcGroupIn");
-		
-		var MyPointNotice = "/NoticeWS/${memVO.mem_id}/${listOneBookClub.bc_id}";
+		var MyPointNotice = "/NoticeWS/${memVO.mem_id}";
 		var hostNotice = window.location.host;
 		var pathNotice = window.location.pathname;
 		var webCtxNotice = pathNotice.substring(0, pathNotice.indexOf('/', 1));
-		var endPointURLNotice = "ws://" + window.location.host + webCtxNotice;
+		var endPointURLNotice = "ws://" + window.location.host + webCtxNotice + MyPointNotice;
 
 		var webSocketNotice;
-
-		
 			 
 			function connect() {
+				webSocketNotice = new WebSocket(endPointURLNotice);
 				
-				for(var i = 0; i < bcGroup.length ; i++){
-		        	webSocketNotice = new WebSocket(endPointURLNotice + "/NoticeWS/${memVO.mem_id}/" + bcGroup[i].value);
 		       		webSocketNotice.onopen = (e) => {
 		        	}
 		       		webSocketNotice.onmessage = (e) => {
@@ -62,16 +36,6 @@
 		       			if("signIn" === jobj.situtaion){
 		       				signIn(jobj);
 		       			}
-		        	}
-		        	webSocketNotice.onclose = (e) => {
-		        	}
-				}
-				for(var i = 0; i < bcGroupIn.length ; i++){
-		        	webSocketNotice = new WebSocket(endPointURLNotice + "/NoticeWS/${memVO.mem_id}/" + bcGroupIn[i].value);
-		       		webSocketNotice.onopen = (e) => {
-		        	}
-		       		webSocketNotice.onmessage = (e) => {
-		       			var jobj = JSON.parse(e.data);
 		       			if("successVerify" === jobj.situtaion){
 		       				successNotice(jobj);
 		       			}
@@ -82,7 +46,7 @@
 		        	webSocketNotice.onclose = (e) => {
 		        	}
 				}
-		    }
+		    
 
 		    function disconnect() {
 		        webSocketNotice.close();
@@ -98,8 +62,8 @@
 		                type: "private"
 		            };
 		    	setTimeout(function(){
-		        webSocketNotice.send(JSON.stringify(jobj));
-		    	},2000)
+		    			webSocketNotice.send(JSON.stringify(jobj));
+		    	},1000)
 	   		}
 			function successVerify(e){
 				var jobj = {
