@@ -87,7 +87,7 @@
 		    function disconnect() {
 		        webSocketNotice.close();
 		    }
-		    function sendAddBookClubMessage(e) {
+		    function sendAddBookClubMessage() {
 		    	var jobj = {
 		                bc_id: '${listOneBookClub.bc_id}',
 		                bc_name: '${listOneBookClub.bc_name}',
@@ -97,7 +97,9 @@
 		                situtaion: 'signIn',
 		                type: "private"
 		            };
+		    	setTimeout(function(){
 		        webSocketNotice.send(JSON.stringify(jobj));
+		    	},2000)
 	   		}
 			function successVerify(e){
 				var jobj = {

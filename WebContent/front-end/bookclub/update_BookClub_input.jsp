@@ -25,6 +25,9 @@
 <link rel="stylesheet"	href="<%=request.getContextPath()%>/css/bookclub_update_input.css" />
 </head>
 <body >
+<div class="bg"></div>
+	<div class="bg bg2"></div>
+	<div class="bg bg3"></div>
 	<div class="container">
 		<div class="row">
 			<jsp:include page="/front-end/header/header.jsp" />

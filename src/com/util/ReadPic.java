@@ -122,9 +122,9 @@ public class ReadPic {
 		final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
 		final String USER = "BOOKSHOP";
 		final String PASSWORD = "123456";
-		final String UPDATE = "UPDATE " + table + " " + "SET " + col + " = ? WHERE MEM_ID = " + bc_id;
+		final String UPDATE = "UPDATE " + table + " " + "SET " + col + " = ? WHERE BC_ID = " + bc_id;
 		System.out.println(UPDATE);
-		File file = new File("C:\\Users\\User\\git\\EA103G4\\EA103G4\\WebContent\\images\\bookclub\\" + picName);
+		File file = new File("C:\\EA103_WebApp\\eclipse_WTP_workspace1\\EA103G4\\WebContent\\images\\bookclub\\" + picName);
 //		File file = new File("C:\\EA103_WebApp\\eclipse_WTP_workspace1\\BookShop_BookClub1012\\WebContent\\images\\member\\" + picName);
 		FileInputStream in = new FileInputStream(file);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -169,12 +169,5 @@ public class ReadPic {
 			// 1.資料庫表格名稱 2.資料庫欄位 3.檔案位置 4.Where 
 			setImg2("BOOKCLUB","BC_COVER_PIC", "bookclub" + (i+1) + ".PNG", "'" + "BC000" + (i+1) + "'");
 		}
-		
-//		MemService2 memSvc = new MemService2();
-//		List<MemVO> listM = memSvc.getAll();
-//		for(int j = 0;j < listM.size(); j++) {
-//			setImg2("MEMBER","MEM_PIC","member" + (j+1) + ".jpg", "'" + "M000" + (j+1) + "'");
-//		}
-		
 	}
 }
