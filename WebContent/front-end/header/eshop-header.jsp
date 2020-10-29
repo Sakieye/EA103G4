@@ -11,7 +11,7 @@
 %>
 
 <!--Logo-->
-<a href="${pageContext.request.contextPath}/front-end/bookshop-eshop/index.jsp" style="padding-left: 17.2vw;">
+<a href="${pageContext.request.contextPath}/front-end/bookshop-eshop/index.jsp" style="padding-left: 17.2vw !important;">
 	<img src="${pageContext.request.contextPath}/BookShopLogo/eshop-header.png">
 </a>
 
