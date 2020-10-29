@@ -20,7 +20,7 @@ public class SignupDAO implements SignupDAO_interface {
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BOOKSHOPG4");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/bookshop");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

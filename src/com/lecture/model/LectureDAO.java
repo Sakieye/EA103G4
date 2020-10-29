@@ -20,7 +20,7 @@ public class LectureDAO implements LectureDAO_interface {
 		try {
 			Context ctx = new InitialContext();
 //			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BOOKSHOP");
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BOOKSHOPG4");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/bookshop");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

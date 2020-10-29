@@ -15,13 +15,13 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class CategorieJNDIDAO implements CategorieDAO_interface{
-	// ¤@­ÓÀ³¥Îµ{¦¡¤¤,°w¹ï¤@­Ó¸ê®Æ®w ,¦@¥Î¤@­ÓDataSource§Y¥i
+	// ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Îµ{ï¿½ï¿½ï¿½ï¿½,ï¿½wï¿½ï¿½@ï¿½Ó¸ï¿½Æ®w ,ï¿½@ï¿½Î¤@ï¿½ï¿½DataSourceï¿½Yï¿½i
 		private static DataSource ds = null;
 		static {
 			try {
 				Context ctx = new InitialContext();
 				// ===fix===
-				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BOOKSHOPG4");
+				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/bookshop");
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
@@ -123,30 +123,30 @@ public class CategorieJNDIDAO implements CategorieDAO_interface{
 
 				con = ds.getConnection();
 
-				// 1¡´³]©w©ó pstm.executeUpdate()¤§«e
+				// 1ï¿½ï¿½ï¿½]ï¿½wï¿½ï¿½ pstm.executeUpdate()ï¿½ï¿½ï¿½e
 				con.setAutoCommit(false);
 
-				// ¥ý§R°£Á¿®y
+				// ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½y
 				pstmt = con.prepareStatement(DELETE_LECTURES);
 				pstmt.setString(1, lc_class_id);
 				pstmt.executeUpdate();
 				
-				// ¦A§R°£Ãþ§O
+				// ï¿½Aï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½O
 				pstmt = con.prepareStatement(DELETE_CATEGORIE);
 				pstmt.setString(1, lc_class_id);
 				pstmt.executeUpdate();
 
-				// 2¡´³]©w©ó pstm.executeUpdate()¤§«á
+				// 2ï¿½ï¿½ï¿½]ï¿½wï¿½ï¿½ pstm.executeUpdate()ï¿½ï¿½ï¿½ï¿½
 				con.commit();
 				con.setAutoCommit(true);
-				System.out.println("§R°£Á¿®yÃþ§O½s¸¹" + lc_class_id + "®É,¦@¦³" + updateCount_LECTURES
-						+ "­ÓÁ¿®y¦P®É³Q§R°£");
+				System.out.println("ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½Oï¿½sï¿½ï¿½" + lc_class_id + "ï¿½ï¿½,ï¿½@ï¿½ï¿½" + updateCount_LECTURES
+						+ "ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½Pï¿½É³Qï¿½Rï¿½ï¿½");
 				
 				// Handle any SQL errors
 			} catch (SQLException se) {
 				if (con != null) {
 					try {
-						// 3¡´³]©w©ó·í¦³exceptionµo¥Í®É¤§catch°Ï¶ô¤º
+						// 3ï¿½ï¿½ï¿½]ï¿½wï¿½ï¿½ï¿½exceptionï¿½oï¿½Í®É¤ï¿½catchï¿½Ï¶ï¿½ï¿½ï¿½
 						con.rollback();
 					} catch (SQLException excep) {
 						throw new RuntimeException("rollback error occured. "
@@ -192,7 +192,7 @@ public class CategorieJNDIDAO implements CategorieDAO_interface{
 				rs = pstmt.executeQuery();
 
 				while (rs.next()) {
-					// deptVO ¤]ºÙ¬° Domain objects
+					// deptVO ï¿½]ï¿½Ù¬ï¿½ Domain objects
 					categorieVO = new CategorieVO();
 					categorieVO.setLc_class_id(rs.getString("lc_class_id"));
 					categorieVO.setLc_class_name(rs.getString("lc_class_name"));
