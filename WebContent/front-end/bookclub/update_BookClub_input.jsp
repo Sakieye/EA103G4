@@ -124,7 +124,7 @@
 	<div class="modal" id="address-map" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content" style="width:1200px;">
 				<div class="modal-header">
 					<h4 class="modal-title">地址</h4>
 					<button type="button" class="close" data-dismiss="modal">
@@ -276,9 +276,10 @@
 						var modalDialog = $(this).find(".modal-dialog");
 
 						/* Applying the top margin on modal dialog to align it vertically center */
-
 						modalDialog.css("margin-top", Math.max(0, ($(window)
-								.height() - modalDialog.height()) / 4));
+								.height() - modalDialog.height()) / 8));
+						modalDialog.css("margin-left", Math.max(0, ($(window)
+								.width() - modalDialog.width()) / 4));
 
 					}
 
