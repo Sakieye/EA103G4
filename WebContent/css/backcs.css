@@ -1,0 +1,36 @@
+
+  table th{
+         font-size: 14px;
+         font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+         text-align: center;
+      }
+  label{
+  	font-size: 12px;
+    font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+  }
+  table#table-1 h4 {
+    color: red;
+    display: block;
+    margin-bottom: 1px;
+  }
+  h4 {
+    color: blue;
+    display: inline;
+  }
+
+
+
+  table {
+	width: 800px;
+	background-color: white;
+	margin-top: 5px;
+	margin-bottom: 5px;
+  }
+  
+  
+  .ellipsis {
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+  }
+  

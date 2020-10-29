@@ -22,13 +22,14 @@
     
     <style>
       table td{
-         font-size: 16px;
+         font-size: 20px;
          font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
          text-align: center;
       }
       table th{
       	text-align: center;
       }
+      
    </style>
 </head>
 <body class="subpage">
@@ -130,7 +131,7 @@
 									<tbody>
 										<tr>
 											
-											<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50"></td>				
+											<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*3;" onMouseOut="this.width=this.width/3;"></td>				
 											<td><%=bookName%></td>
 											<td><%=author%></td>
 											<td>${celebrity_Book.share_State eq 1 ? "分享中" : "未分享"}</td>	 
