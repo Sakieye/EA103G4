@@ -106,7 +106,7 @@ public class BookClub_Regis_DetailServlet extends HttpServlet {
 				
 				/*************************** 2.開始新增資料 ***************************************/
 			try {
-				situation.put("success", "通過");
+				
 				BookClub_Regis_DetailService bookClub_Regis_DetailSvc = new BookClub_Regis_DetailService();
 				Questionnair_AnswerService questionnair_AnswerSvc = new Questionnair_AnswerService();
 				
@@ -127,6 +127,7 @@ public class BookClub_Regis_DetailServlet extends HttpServlet {
 				/******************
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ****************************/
+				situation.put("success", "通過");
 				RequestDispatcher successView = req.getRequestDispatcher(requestURL);
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/
