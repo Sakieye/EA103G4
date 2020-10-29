@@ -30,6 +30,17 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/bookclub_insert.css" />
 
+<style>
+.vertical-align-center {
+	vertical-align: middle;
+}
+.modal-content {
+	/* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+	width:inherit;
+	height:inherit;
+	/* To center horizontally */
+	pointer-events:all;
+}
 
 </style>
 </head>
@@ -140,7 +151,7 @@
 	<div class="modal" id="address-map" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content" style="width:1200px;">
 				<div class="modal-header">
 					<h4 class="modal-title">地址</h4>
 					<button type="button" class="close" data-dismiss="modal">
@@ -485,33 +496,23 @@
     </script>
 <!--     modal 置中script -->
     <script type="text/javascript">
-		$(document).ready(
-				function() {
-
-					function alignModal() {
-
-						var modalDialog = $(this).find(".modal-dialog");
-
-						/* Applying the top margin on modal dialog to align it vertically center */
-
-						modalDialog.css("margin-top", Math.max(0, ($(window)
-								.height() - modalDialog.height()) / 2));
-
-					}
-
-					// Align modal when it is displayed
-
-					$(".modal").on("shown.bs.modal", alignModal);
-
-					// Align modal when user resize the window
-
-					$(window).on("resize", function() {
-
-						$(".modal:visible").each(alignModal);
-
-					});
-
+    $(document).ready(
+			function() {
+				function alignModal() {
+					var modalDialog = $(this).find(".modal-dialog");
+					/* Applying the top margin on modal dialog to align it vertically center */
+					modalDialog.css("margin-top", Math.max(0, ($(window)
+							.height() - modalDialog.height()) / 3));
+					modalDialog.css("margin-left", Math.max(0, ($(window)
+							.width() - modalDialog.width()) / 4));
+				}
+				// Align modal when it is displayed
+				$(".modal").on("shown.bs.modal", alignModal);
+				// Align modal when user resize the window
+				$(window).on("resize", function() {
+					$(".modal:visible").each(alignModal);
 				});
+			});
 	</script>
 	<!-- 地圖script -->
 	<script>
