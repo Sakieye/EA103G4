@@ -120,7 +120,6 @@
 														<input type="submit" >
 														<input type="button" type="button" class="btn btn-secondary" data-dismiss="modal" value="取消">
 														<input type="hidden" name="action" value="update">
-														<input type="hidden" name="url" value="<%=request.getServletPath()%>">
 														<input type="hidden" name="whichPage" value="<%=whichPage%>">
 														<input type="hidden" name="memId" value="${memVO.mem_id}">
 														<input type="hidden" name="faId" value="${faVO.faId}">
@@ -137,6 +136,7 @@
 <!-- 									<input type="submit" value="刪除"> -->
 									<input type="hidden" name="action" value="delete">
 									<input type="hidden" name="faId" value="${faVO.faId}">
+									<input type="hidden" name="whichPage" value="<%=whichPage%>">
 								</form>
 									<input id="delete${update.index}" type="submit" value="刪除">
 							</div>
@@ -144,6 +144,7 @@
 						<hr>
 					</c:forEach>
 					<%@ include file="page2.file"%>
+<%-- 					--${param.whichPage}--${param.memId} --%>
 				</div>
 			</div>
 		</div>
@@ -184,9 +185,21 @@
 				swal({
 					title: "Are you sure ?",
 					icon: "warning",
-					buttons: true
+					buttons: {
+						confirm:{
+							text:"OK",
+							value:true
+						},
+						danger:{
+							text:"cancel",
+							value:false
+						}
+					}
 				}).then((value) => {
-					$("#deleteForm" + i).submit();
+					if(value === true){
+						$("#deleteForm" + i).submit();
+					}
+					
 				});
 			})
 		}

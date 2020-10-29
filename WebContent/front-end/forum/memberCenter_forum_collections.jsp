@@ -94,6 +94,7 @@
 									<input type="hidden" name="faId" value="${faVO.faId}">
 									<input type="hidden" name="memId" value="${memVO.mem_id}">
 									<input type="hidden" name="action" value="cancelCollect">
+									<input type="hidden" name="whichPage" value="<%=whichPage%>">
 								</form>
 								<input id="cancelBtn${collections.index}"type="submit" value="取消收藏">
 							</div>
@@ -127,9 +128,20 @@
 				swal({
 					title: "Are you sure ?",
 					icon: "warning",
-					buttons: true
+					buttons: {
+						confirm:{
+							text:"OK",
+							value:true
+						},
+						danger:{
+							text:"cancel",
+							value:false
+						}
+					}
 				}).then((value) => {
-					$("#cancelCollect" + i).submit();
+					if(value === true){
+						$("#cancelCollect" + i).submit();
+					}
 				});
 			})
 		}
