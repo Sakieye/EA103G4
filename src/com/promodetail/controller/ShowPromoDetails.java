@@ -34,9 +34,9 @@ public class ShowPromoDetails extends HttpServlet {
 		}
 
 		// 重導回來清空session，讓GET方法重新查詢更新後的promoDetails
-		if ("1".equals(update)) {
-			request.getSession().invalidate();
-		}
+//		if ("1".equals(update)) {
+//			request.getSession().invalidate();
+//		}
 
 		// 從管理促銷事件頁面首次拜訪，而非從換頁操作
 		if (promoID != null) {
@@ -53,10 +53,10 @@ public class ShowPromoDetails extends HttpServlet {
 			promoDetails.forEach(PD -> {
 				bookIDs.add(PD.getBookID());
 			});
-			
+
 			// 以bookIDs一次批量查詢多個Book物件出來
 			List<Book> promoBooks = bookService.getByBookIDList(bookIDs);
-			
+
 			// 將get表單傳來的隱藏參數promoID轉發給下一個頁面，
 			request.setAttribute("promo", promoService.getByPromoID(promoID).get());
 			request.setAttribute("promoDetails", promoDetails);
@@ -115,8 +115,6 @@ public class ShowPromoDetails extends HttpServlet {
 			});
 
 			promoDetailService.updatePromoDetailBatch(promoDetails);
-			// 重導回來清空session，讓GET方法重新查詢更新後的promoDetails
-			request.getSession().invalidate();
 			response.sendRedirect(request.getContextPath() + "/ShowPromoDetails?promoID=" + promoID);
 		}
 	}
