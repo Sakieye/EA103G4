@@ -22,7 +22,7 @@
 	}
 %>
 
-<jsp:useBean id="revSvc2" scope="page" class="com.rev.model.RevService"/>
+<jsp:useBean id="revSvc2" scope="page" class="com.rev.model.RevService" />
 <!DOCTYPE html>
 <html lang="zh-tw">
 <head>
@@ -120,8 +120,20 @@
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<%@ include file="/front-end/bookshop-eshop/breadcrumb.jsp"%>
 						<div class="star-ratings-css">
-							  <div class="star-ratings-css-top" style="width: ${revSvc2.getRatingAvg(book.bookID)*100}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-							  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+							<div class="star-ratings-css-top" style="width: ${revSvc2.getRatingAvg(book.bookID)*100}%">
+								<span>★</span>
+								<span>★</span>
+								<span>★</span>
+								<span>★</span>
+								<span>★</span>
+							</div>
+							<div class="star-ratings-css-bottom">
+								<span>★</span>
+								<span>★</span>
+								<span>★</span>
+								<span>★</span>
+								<span>★</span>
+							</div>
 						</div>
 						<span class="mt-0" style="font-size: 8px;">
 							<b>ISBN：${prddetail.isbn}</b>
@@ -168,11 +180,11 @@
 							</b>
 							元
 						</span>
-						
+
 						<!--  -->
 						<div class="p-t-33">
 							<!-- 此區可補充 -->
-							
+
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<FORM class="form-inline" name="cartFrom" id="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
@@ -202,12 +214,7 @@
 							</div>
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
-									<form method='post' action='<%=request.getContextPath()%>/front-end/favorite_book/favorite_book.do' style='margin-bottom: 0px;'>
-										<input type='hidden' name='book_ID' value='${book.bookID}'>
-										<input type='hidden' name='mem_ID' value='${memVO.mem_id}'>
-										<input type='hidden' name='action' value='insertFavBook'>
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addwish-detail" type="submit" name="action" value="ADD">加入收藏書單</button>
-									</form>
+									<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04" id="favbookAjax">加入收藏書單</button>
 								</div>
 							</div>
 						</div>
@@ -265,32 +272,31 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-			<span class="stext-107 cl6 p-lr-25">
-				《&nbsp;退換貨說明&nbsp;》
-			</span>
-															
-													   
-				 
+			<span class="stext-107 cl6 p-lr-25"> 《&nbsp;退換貨說明&nbsp;》 </span>
+
+
+
 
 			<span class="stext-107 cl6 p-lr-25">
-				會員均享有10天的商品猶豫期（含例假日）。若您欲辦理退換貨，請於取得該商品10日內寄回。<br>
-				辦理退換貨時，請保持商品全新狀態與完整包裝（商品本身、贈品、贈票、附件、內外包裝、保證書、隨貨文件等）一併寄回。<br>
-				若退回商品無法回復原狀者，可能影響退換貨權利之行使或須負擔部分費用。<br>
+				會員均享有10天的商品猶豫期（含例假日）。若您欲辦理退換貨，請於取得該商品10日內寄回。
+				<br>
+				辦理退換貨時，請保持商品全新狀態與完整包裝（商品本身、贈品、贈票、附件、內外包裝、保證書、隨貨文件等）一併寄回。
+				<br>
+				若退回商品無法回復原狀者，可能影響退換貨權利之行使或須負擔部分費用。
+				<br>
 				訂購本商品前請務必詳閱退換貨原則。
 			</span>
 		</div>
 		<div class="flex-c-m flex-w size-302 m-t-73 ">
-		<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail"
-				type="submit" name="action" value="ADD">放入購物車
-		</button>
+			<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" type="submit" name="action" value="ADD">放入購物車</button>
 		</div>
-</section>
-		
+	</section>
 
 
-	
+
+
 
 
 	<section class="sec-relate-product bg0 p-t-45 p-b-105">
@@ -309,8 +315,8 @@
 				<jsp:param name="type" value="recommBooks" />
 			</jsp:include>
 		</div>
-	
-	
+
+
 		<!-- 書評 -->
 		<div class="container">
 			<div class="p-b-45">
@@ -319,7 +325,7 @@
 		</div>
 
 	</section>
-	
+
 
 
 
@@ -336,7 +342,7 @@
 	<!--Scripts-->
 	<%-- 	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script> --%>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
-<%-- 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script> --%>
+	<%-- 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script> --%>
 
 	<!-- pic -->
 	<script src="js/smoothproducts.min.js"></script>
@@ -492,5 +498,20 @@
 	<script src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
 	<!--Header Search Autocompelete-->
 	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
+	<script>
+		//註冊加入收藏書單
+		$('#favbookAjax').click(function() {
+			var bookID = '${book.bookID}';
+			var memID = '${memVO.mem_id}';
+				$.post('${pageContext.request.contextPath}/front-end/favorite_book/favorite_book.do',
+					{
+						book_ID : bookID,
+						mem_ID : memID,
+						action : 'insertFavBook',
+					}, function(data) {
+						swal('',"此商品成功加入收藏書單 !","success");
+					})
+			})
+	</script>
 </body>
 </html>

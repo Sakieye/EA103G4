@@ -28,6 +28,10 @@
 	      table th{
 	      	text-align: center;
 	      }
+	      .mem-info img {
+		    box-shadow: 0 0 15px #5B4B00;
+		    margin-left: 0px;
+			}
 	   </style>
 </head>
 <body class="subpage">
@@ -130,7 +134,7 @@
 								%>
 							<tbody>	
 								<tr>
-									<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50"></td>				
+									<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*5;" onMouseOut="this.width=this.width/5;"></td>				
 									<td><%=bookName%></td>
 									<td><%=author%></td>
 									<td>${favorite_Book.fav_Time}</td>

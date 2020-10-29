@@ -22,13 +22,20 @@
     
     <style>
       table td{
-         font-size: 20px;
-         font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
-         text-align: center;
-      }
-      table th{
-      	text-align: center;
-      }
+	         font-size: 16px;
+	         font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+	         text-align: center;
+	      }
+	      table th{
+	      	text-align: center;
+	      }
+	      .mem-info img {
+		    box-shadow: 0 0 15px #5B4B00;
+		    margin-left: 0px;
+			}
+		  span {
+		  	color:red;
+		  }
       
    </style>
 </head>
@@ -131,11 +138,15 @@
 									<tbody>
 										<tr>
 											
-											<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*3;" onMouseOut="this.width=this.width/3;"></td>				
+											<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*5;" onMouseOut="this.width=this.width/5;"></td>				
 											<td><%=bookName%></td>
 											<td><%=author%></td>
-											<td>${celebrity_Book.share_State eq 1 ? "分享中" : "未分享"}</td>	 
-											
+											<c:if test="${celebrity_Book.share_State==1}">
+												<td><span>分享中</span></td>	 
+											</c:if>
+											<c:if test="${celebrity_Book.share_State==0}">
+												<td>未分享</td>	 
+											</c:if>
 											<td>
 											  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/celebrity_book/celebrity_book.do" style="margin-bottom: 0px;">
 											     
