@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SignupDAO_interface {
 	public void insert(SignupVO signupVO);
-	public void update(SignupVO signupVO);
+//	public void update(SignupVO signupVO);
 	public void delete(String signup_id);
 	public SignupVO findByPrimaryKey(String signup_id);
 	public List<SignupVO> findByLecture(String lc_id);

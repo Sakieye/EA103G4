@@ -17,12 +17,7 @@ public class LectureVO implements java.io.Serializable{
 	private Integer lc_peo_up;
 	private String lc_info;
 	private byte[] lc_pic;
-	private Integer lc_free;
-	private Integer lc_price;
 	private Integer lc_state;
-	private Integer lc_seat_row;
-	private Integer lc_seat_colume;
-	private String lc_seat_state;
 	
 	public String getLc_id() {
 		return lc_id;
@@ -102,42 +97,11 @@ public class LectureVO implements java.io.Serializable{
 	public void setLc_pic(byte[] lc_pic) {
 		this.lc_pic = lc_pic;
 	}
-	public Integer getLc_free() {
-		return lc_free;
-	}
-	public void setLc_free(Integer lc_free) {
-		this.lc_free = lc_free;
-	}
-	public Integer getLc_price() {
-		return lc_price;
-	}
-	public void setLc_price(Integer lc_price) {
-		this.lc_price = lc_price;
-	}
 	public Integer getLc_state() {
 		return lc_state;
 	}
 	public void setLc_state(Integer lc_state) {
 		this.lc_state = lc_state;
 	}
-	public Integer getLc_seat_row() {
-		return lc_seat_row;
-	}
-	public void setLc_seat_row(Integer lc_seat_row) {
-		this.lc_seat_row = lc_seat_row;
-	}
-	public Integer getLc_seat_colume() {
-		return lc_seat_colume;
-	}
-	public void setLc_seat_colume(Integer lc_seat_colume) {
-		this.lc_seat_colume = lc_seat_colume;
-	}
-	public String getLc_seat_state() {
-		return lc_seat_state;
-	}
-	public void setLc_seat_state(String lc_seat_state) {
-		this.lc_seat_state = lc_seat_state;
-	}
-	
 	
 }

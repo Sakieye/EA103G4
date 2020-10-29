@@ -15,24 +15,24 @@ import javax.sql.DataSource;
 import com.signup.model.*;
 
 public class SignupDAO implements SignupDAO_interface {
-	// �@�����ε{����,�w��@�Ӹ�Ʈw ,�@�Τ@��DataSource�Y�i
+
 	private static DataSource ds = null;
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/bookshop");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BOOKSHOPG4");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static final String INSERT_STMT = "INSERT INTO SIGNUP_DETAIL (SIGNUP_ID, MEM_ID, LC_ID, SIGNUP_PAY, PAY_STATE, SIGNUP_TIME, PAY_TIME, SIGN_SEAT) VALUES ('S' || lpad(SIGNUP_SEQ.NEXTVAL, 4, '0'), ?, ?, ?, ?, DEFAULT, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO SIGNUP_DETAIL (SIGNUP_ID, MEM_ID, LC_ID, SIGNUP_TIME) VALUES ('S' || lpad(SIGNUP_SEQ.NEXTVAL, 4, '0'), ?, ?, DEFAULT)";
 	private static final String GET_ALL_STMT = "SELECT * FROM SIGNUP_DETAIL order by SIGNUP_ID";
 	private static final String GET_ONE_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE SIGNUP_ID = ?";
 	private static final String GET_LECTURE_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE LC_ID = ?";
 	private static final String GET_MEMBER_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE MEM_ID = ?";
 	private static final String DELETE = "DELETE FROM SIGNUP_DETAIL where SIGNUP_ID = ?";
-	private static final String UPDATE = "UPDATE SIGNUP_DETAIL set SIGNUP_PAY=?, PAY_STATE=?, PAY_TIME=?, SIGN_SEAT=? WHERE SIGNUP_ID = ?";
+//	private static final String UPDATE = "UPDATE SIGNUP_DETAIL set SIGNUP_PAY=?, PAY_STATE=?, PAY_TIME=?, SIGN_SEAT=? WHERE SIGNUP_ID = ?";
 
 	@Override
 	public void insert(SignupVO signupVO) {
@@ -47,11 +47,6 @@ public class SignupDAO implements SignupDAO_interface {
 
 			pstmt.setString(1, signupVO.getMem_id());
 			pstmt.setString(2, signupVO.getLc_id());
-			pstmt.setString(3, signupVO.getSignup_pay());
-			pstmt.setInt(4, signupVO.getPay_state());
-//			pstmt.setTimestamp(5, signupVO.getSignup_time());
-			pstmt.setTimestamp(5, signupVO.getPay_time());
-			pstmt.setString(6, signupVO.getSign_seat());
 
 			pstmt.executeUpdate();
 
@@ -78,46 +73,46 @@ public class SignupDAO implements SignupDAO_interface {
 
 	}
 
-	@Override
-	public void update(SignupVO signupVO) {
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(UPDATE);
-
-			pstmt.setString(1, signupVO.getSignup_pay());
-			pstmt.setInt(2, signupVO.getPay_state());
-			pstmt.setTimestamp(3, signupVO.getPay_time());
-			pstmt.setString(4, signupVO.getSign_seat());
-
-			pstmt.executeUpdate();
-
-			// Handle any driver errors
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-
-	}
+//	@Override
+//	public void update(SignupVO signupVO) {
+//
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//
+//		try {
+//
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(UPDATE);
+//
+//			pstmt.setString(1, signupVO.getSignup_pay());
+//			pstmt.setInt(2, signupVO.getPay_state());
+//			pstmt.setTimestamp(3, signupVO.getPay_time());
+//			pstmt.setString(4, signupVO.getSign_seat());
+//
+//			pstmt.executeUpdate();
+//
+//			// Handle any driver errors
+//		} catch (SQLException se) {
+//			throw new RuntimeException("A database error occured. " + se.getMessage());
+//			// Clean up JDBC resources
+//		} finally {
+//			if (pstmt != null) {
+//				try {
+//					pstmt.close();
+//				} catch (SQLException se) {
+//					se.printStackTrace(System.err);
+//				}
+//			}
+//			if (con != null) {
+//				try {
+//					con.close();
+//				} catch (Exception e) {
+//					e.printStackTrace(System.err);
+//				}
+//			}
+//		}
+//
+//	}
 
 	@Override
 	public void delete(String signup_id) {
@@ -180,11 +175,7 @@ public class SignupDAO implements SignupDAO_interface {
 				signupVO.setSignup_id(rs.getString("signup_id"));
 				signupVO.setMem_id(rs.getString("mem_id"));
 				signupVO.setLc_id(rs.getString("lc_id"));
-				signupVO.setSignup_pay(rs.getString("signup_pay"));
-				signupVO.setPay_state(rs.getInt("pay_state"));
 				signupVO.setSignup_time(rs.getTimestamp("signup_time"));
-				signupVO.setPay_time(rs.getTimestamp("pay_time"));
-				signupVO.setSign_seat(rs.getString("sign_seat"));
 			}
 
 			// Handle any driver errors
@@ -237,16 +228,11 @@ public class SignupDAO implements SignupDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// signupVO �]�٬� Domain objects
 				signupVO = new SignupVO();
 				signupVO.setSignup_id(rs.getString("signup_id"));
 				signupVO.setMem_id(rs.getString("mem_id"));
 				signupVO.setLc_id(rs.getString("lc_id"));
-				signupVO.setSignup_pay(rs.getString("signup_pay"));
-				signupVO.setPay_state(rs.getInt("pay_state"));
 				signupVO.setSignup_time(rs.getTimestamp("signup_time"));
-				signupVO.setPay_time(rs.getTimestamp("pay_time"));
-				signupVO.setSign_seat(rs.getString("sign_seat"));
 				list1.add(signupVO); // Store the row in the list
 			}
 
@@ -300,16 +286,11 @@ public class SignupDAO implements SignupDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// signupVO �]�٬� Domain objects
 				signupVO = new SignupVO();
 				signupVO.setSignup_id(rs.getString("signup_id"));
 				signupVO.setMem_id(rs.getString("mem_id"));
 				signupVO.setLc_id(rs.getString("lc_id"));
-				signupVO.setSignup_pay(rs.getString("signup_pay"));
-				signupVO.setPay_state(rs.getInt("pay_state"));
 				signupVO.setSignup_time(rs.getTimestamp("signup_time"));
-				signupVO.setPay_time(rs.getTimestamp("pay_time"));
-				signupVO.setSign_seat(rs.getString("sign_seat"));
 				list2.add(signupVO); // Store the row in the list
 			}
 
@@ -364,11 +345,7 @@ public class SignupDAO implements SignupDAO_interface {
 				signupVO.setSignup_id(rs.getString("signup_id"));
 				signupVO.setMem_id(rs.getString("mem_id"));
 				signupVO.setLc_id(rs.getString("lc_id"));
-				signupVO.setSignup_pay(rs.getString("signup_pay"));
-				signupVO.setPay_state(rs.getInt("pay_state"));
 				signupVO.setSignup_time(rs.getTimestamp("signup_time"));
-				signupVO.setPay_time(rs.getTimestamp("pay_time"));
-				signupVO.setSign_seat(rs.getString("sign_seat"));
 				list3.add(signupVO); // Store the row in the list
 			}
 

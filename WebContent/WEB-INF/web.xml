@@ -243,21 +243,32 @@
   		<url-pattern>/front-end/forum/follow.do</url-pattern>
  	</servlet-mapping>
 	<servlet>
-		<servlet-name>LecturesServlet</servlet-name>
-		<servlet-class>com.lecture.controller.LecturesServlet</servlet-class>
+		<servlet-name>LectureServlet</servlet-name>
+		<servlet-class>com.lecture.controller.LectureServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>LecturesServlet</servlet-name>
-		<url-pattern>/lecture/lecture.do</url-pattern>
+		<servlet-name>LectureServlet</servlet-name>
+		<url-pattern>/back-end/lecture/lecture.do</url-pattern>
 	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>CategorieServlet</servlet-name>
 		<servlet-class>com.categorie.controller.CategorieServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>CategorieServlet</servlet-name>
-		<url-pattern>/categorie/categorie.do</url-pattern>
+		<url-pattern>/back-end/categorie/categorie.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SignupServlet</servlet-name>
+		<servlet-class>com.signup.controller.SignupServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignupServlet</servlet-name>
+		<url-pattern>/back-end/signup/signup.do</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>OrderServlet</servlet-name>
 		<servlet-class>com.order.controller.OrderServlet</servlet-class>

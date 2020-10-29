@@ -12,7 +12,7 @@ import java.util.Set;
 public class CategorieJDBCDAO implements CategorieDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "BOOKSHOP";
+	String userid = "BOOKSHOPG4";
 	String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO LECTURE_CATEGORIES (LC_CLASS_ID,LC_CLASS_NAME) VALUES ('LC' || lpad(LC_CAT_SEQ.NEXTVAL, 3, '0'),?)";
@@ -116,23 +116,23 @@ public class CategorieJDBCDAO implements CategorieDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 
-			// 1ï¿½ï¿½ï¿½]ï¿½wï¿½ï¿½ pstm.executeUpdate()ï¿½ï¿½ï¿½e
+			// 1¡´³]©w©ó pstm.executeUpdate()¤§«e
 			con.setAutoCommit(false);
 
-			// ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½y
+			// ¥ý§R°£Á¿®y
 			pstmt = con.prepareStatement(DELETE_LECTURES);
 			pstmt.setString(1, lc_class_id);
 			pstmt.executeUpdate();
 
-			// ï¿½Aï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½O
+			// ¦A§R°£Ãþ§O
 			pstmt = con.prepareStatement(DELETE_CATEGORIE);
 			pstmt.setString(1, lc_class_id);
 			pstmt.executeUpdate();
 
-			// 2ï¿½ï¿½ï¿½]ï¿½wï¿½ï¿½ pstm.executeUpdate()ï¿½ï¿½ï¿½ï¿½
+			// 2¡´³]©w©ó pstm.executeUpdate()¤§«á
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½Oï¿½sï¿½ï¿½" + lc_class_id + "ï¿½ï¿½,ï¿½@ï¿½ï¿½" + updateCount_LECTURES + "ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½Pï¿½É³Qï¿½Rï¿½ï¿½");
+			System.out.println("§R°£Á¿®yÃþ§O½s¸¹" + lc_class_id + "®É,¦@¦³" + updateCount_LECTURES + "­ÓÁ¿®y¦P®É³Q§R°£");
 
 			// Handle any SQL errors
 		} catch (ClassNotFoundException e) {
@@ -140,7 +140,7 @@ public class CategorieJDBCDAO implements CategorieDAO_interface {
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
-					// 3ï¿½ï¿½ï¿½]ï¿½wï¿½ï¿½ï¿½exceptionï¿½oï¿½Í®É¤ï¿½catchï¿½Ï¶ï¿½ï¿½ï¿½
+					// 3¡´³]©w©ó·í¦³exceptionµo¥Í®É¤§catch°Ï¶ô¤º
 					con.rollback();
 				} catch (SQLException excep) {
 					throw new RuntimeException("rollback error occured. " + excep.getMessage());
@@ -185,7 +185,7 @@ public class CategorieJDBCDAO implements CategorieDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// categorieVO ï¿½]ï¿½Ù¬ï¿½ Domain objects
+				// categorieVO ¤]ºÙ¬° Domain objects
 				categorieVO = new CategorieVO();
 				categorieVO.setLc_class_id(rs.getString("lc_class_id"));
 				categorieVO.setLc_class_name(rs.getString("lc_class_name"));
@@ -280,27 +280,27 @@ public class CategorieJDBCDAO implements CategorieDAO_interface {
 	public static void main(String[] args) {
 		CategorieJDBCDAO dao = new CategorieJDBCDAO();
 
-		// ï¿½sï¿½W
+		// ·s¼W
 //		CategorieVO categorieVO1 = new CategorieVO();
-//		categorieVO1.setLc_class_name("ï¿½ï¿½ï¿½ï¿½2");
+//		categorieVO1.setLc_class_name("´ú¸Õ2");
 //		dao.insert(categorieVO1);
 
-		// ï¿½×§ï¿½
+		// ­×§ï
 //		CategorieVO categorieVO2 = new CategorieVO();
 //		categorieVO2.setLc_class_id("LC001");
-//		categorieVO2.setLc_class_name("ï¿½ï¿½ï¿½ï¿½3");
+//		categorieVO2.setLc_class_name("´ú¸Õ3");
 //		dao.insert(categorieVO2);
 
-		// ï¿½Rï¿½ï¿½
+		// §R°£
 //		dao.delete("LC001");
 
-		// ï¿½dï¿½ï¿½
+		// ¬d¸ß
 //		CategorieVO categorieVO3 = dao.findByPrimaryKey("LC001");
 //		System.out.print(categorieVO3.getLc_class_id() + ",");
 //		System.out.println(categorieVO3.getLc_class_name());	
 //		System.out.println("---------------------");
 
-		// ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½O
+		// ¬d¸ßÃþ§O
 		List<CategorieVO> list = dao.getAll();
 		for (CategorieVO aCategorie : list) {
 			System.out.print(aCategorie.getLc_class_id() + ",");
@@ -308,7 +308,7 @@ public class CategorieJDBCDAO implements CategorieDAO_interface {
 			System.out.println();
 		}
 
-		// ï¿½dï¿½ß¬Yï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½y
+		// ¬d¸ß¬YÃþ§OÁ¿®y
 //		Set<LecturesVO> set = dao.getLecturesByCategorieId("LC001");
 //		for (LecturesVO aLectures : set) {
 //			System.out.print(aLectures.getLc_id() + ",");
