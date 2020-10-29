@@ -127,7 +127,7 @@
 							審核成員
 						</button>
 					</c:if>
-					<button type="button" data-toggle="modal" data-target="#logInn" id="123" style="display:none"></button>
+					<button type="button" data-toggle="modal" data-target="#logInn" id="logInnn" style="display:none"></button>
 					<c:if test="${memVO.mem_id eq listOneBookClub.mem_id}">
 						<FORM METHOD="post" ACTION="bookclub.do">
 							<button type="submit" class="style-6e8fa4a0-register-button">修改讀書會</button>
@@ -150,9 +150,7 @@
 			</div>
 		</div>
 	</div>
-	<button type="button" class="checkMem" >132</button>
 	<jsp:include page="/front-end/footer/footer.jsp" />
-	
 	<!---------------------------------------------------檢舉讀書會跳窗 --------------------------------------------------->
 	<div class="modal" id="report-bookclub" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -185,7 +183,6 @@
 		</div>
 	</div>
 	<!--------------------------------------------------- 檢舉讀書會跳窗 --------------------------------------------------->
-	
 	<!--------------------------------------------------報名問卷跳窗 --------------------------------------------------->
 	<div class="modal" id="mymodal-data" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -247,7 +244,6 @@
 							</tr>
 						</thead>
 						<tbody>
-
 							<c:forEach var="bookClub_Regis_DetailVO"
 								items="<%=bookClub_Regis_DetailSvc.getVerify(bookClubVO.getBc_id())%>">
 								<tr>
@@ -259,7 +255,6 @@
 												<th>問題內容</th>
 												<th>回答編號</th>
 												<th>回答內容</th>
-
 											</tr>
 											<c:forEach var="questionVO" items="${listQ}"
 												varStatus="question">
@@ -434,7 +429,7 @@
 			checkMem[i].addEventListener('click', function(e){
 				var memVO = '${memVO.mem_id}';
 				if(memVO === ''){
-					$('#123').click();
+					$('#logInnn').click();
 					e.stopPropagation();
 				}else{
 					$(this).next().click();

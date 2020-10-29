@@ -144,7 +144,7 @@
 					end="<%= index + rowsNum -1 %>">
 
 					<div class="row">
-						<div class="card mb-3" style="max-width: 100%;">
+						<div class="card mb-3" style="max-width: 100%;border: 15px #d1ebe3 solid;">
 							<div class="row no-gutters">
 								<div class="col-md-4">
 									<img
