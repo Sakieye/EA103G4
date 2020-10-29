@@ -17,6 +17,8 @@
 	}catch(JedisException e){
 		jedis.close();
 		e.printStackTrace();
+	}finally{
+		jedis.close();
 	}
 	FaService faSvc = new FaService();
 	List<FaVO> list = faSvc.getAllHot();
@@ -81,7 +83,7 @@
 							
 							<div class="col-md-4">
 								<form method="post" id="searcForm" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
-									<input type="text" name="faTopic" id="searchText" > 
+									<input type="text" name="faTopic" id="searchText" required="required"> 
 									<input type="hidden" name="action" value="search">
 									<button type="submit">
 										<i class="fa fa-search"></i>

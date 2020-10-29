@@ -18,6 +18,8 @@
 	}catch(JedisException e){
 		jedis.close();
 		e.printStackTrace();
+	}finally{
+		jedis.close();
 	}
 	pageContext.setAttribute("searchHotKeys",searchHotKeys);
 %>
@@ -80,8 +82,8 @@
 							</div>
 							<div class="col-md-4" id="search">
 								<form method="post" id="searcForm" action="<%=request.getContextPath()%>/front-end/forum/fa.do">
-									<input type="text" name="faTopic" id="searchText" value="${faTopic}">
-									<input type="hidden" name="action" value="search">
+									<input type="text" name="faTopic" id="searchText" value="${faTopic}" required="required">
+									<input type="hidden" name="action" value="search" required="required">
 									<button type="submit">
 										<i class="fa fa-search"></i>
 									</button>
