@@ -84,7 +84,6 @@
 					placeholder="Password" required name="mem_password" value="" />
 			</div>
 
-
 			<input type="hidden" name="action" value="signin" />
 			<button class="btn btn-lg btn-primary btn-block my-btn" type="submit"
 				id="mybtn">Sign in</button>

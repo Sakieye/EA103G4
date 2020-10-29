@@ -9,6 +9,10 @@
 <%@ page import="java.util.*"%>
 
 <%
+	if((MemVO)request.getSession().getAttribute("MemVO") == null){
+		request.getSession().setAttribute("comefromPage", request.getRequestURI());
+	}
+	
 	Jedis jedis= null;
 	Set<String> searchHotKeys = null;
 	try{

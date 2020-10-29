@@ -252,16 +252,17 @@ public class MemServlet extends HttpServlet {
 					session.setAttribute("memVO", memVO); // 將memVO存在session中
 
 					String location = (String) session.getAttribute("location");
+					String comefromPage = (String) session.getAttribute("comefromPage");
+//					System.out.println(comefromPage);
 					
 					if (location == null) {
-						String url = "/front-end/front-index.jsp";
-						RequestDispatcher successView = req.getRequestDispatcher(url); // 登入後轉交/front-end/front-index.jsp
-						successView.forward(req, res);
+						
+						res.sendRedirect(comefromPage);	
 					} else {
 						res.sendRedirect(location); // 重導來源網頁
 //						System.out.println(location);
 					}
-
+					
 				} else {
 					errmsg = "此帳號已被註銷，無法登入";
 					req.setAttribute("errmsg", errmsg);
@@ -272,7 +273,7 @@ public class MemServlet extends HttpServlet {
 				req.setAttribute("memVO", memVO);
 				errmsg = "無此帳號或密碼，請重新輸入";
 				req.setAttribute("errmsg", errmsg);
-//				System.out.println("無此帳號密碼" + e.getMessage() + memVO);//尚未補上錯誤處理
+				System.out.println("無此帳號密碼" + e.getMessage() + memVO);//尚未補上錯誤處理
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
 				failureView.forward(req, res);
 			}
