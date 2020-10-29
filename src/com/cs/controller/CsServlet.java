@@ -64,7 +64,7 @@ public class CsServlet extends HttpServlet {
 			} catch (RuntimeException e) {
 				errorMsgs.add("傳送失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/cs/listAllCs.jsp");
+						.getRequestDispatcher("/back-end/cs/csindex.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -84,13 +84,13 @@ public class CsServlet extends HttpServlet {
 				csSvc.deleteCs(cs_ID);
 				
 				//刪除成功,開始轉交
-				String url = "/back-end/cs/listAllCs.jsp";
+				String url = "/back-end/cs/csindex.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/listAllCs.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
 				successView.forward(req, res);		
 			}			
 		}
@@ -110,12 +110,12 @@ public class CsServlet extends HttpServlet {
 				
 				//準備轉交
 				req.setAttribute("csVO", csVO);
-				String url = "/back-end/cs/listAllCs.jsp";
+				String url = "/back-end/cs/csindex.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res); 
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/listAllCs.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
 				successView.forward(req, res);		
 			}
 		}							

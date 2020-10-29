@@ -65,7 +65,7 @@
         <div>
             <h5><b>&nbsp;客服<span>Customer Service</span></b></h5>
             <ul>           
-         <li>&nbsp;&nbsp;<span class="auth2"><a href="#">客服回覆</a></span></li>           
+         <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/cs/csindex.jsp">客服回覆</a></span></li>           
             </ul>
         </div>
     </div>
