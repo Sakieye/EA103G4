@@ -19,6 +19,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/sweetalert.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bookclub_index.css">
@@ -187,6 +188,7 @@
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<jsp:include page="/front-end/footer/footer.jsp" />
+	<script src="<%=request.getContextPath()%>/js/sweetAlert2 9.5.2.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
@@ -232,6 +234,14 @@
 			$('#form_input').attr("value", action);
 			$('#form').submit();
 		}
+		<c:if test="${not empty situation.creat}">
+	    swal.fire({
+	        icon:'success',
+	        title:'YEAH',
+	        text:"創建讀書會成功"
+	    });
+	    	<% request.removeAttribute("creat"); %>
+	    </c:if>
 	</script>
 	<!-- 	分類換顏色 -->
 	<script>
