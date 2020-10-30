@@ -33,8 +33,10 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reviewBookClub.css">
 </head>
-<body bgcolor='white'>
-
+<body bgcolor='white' >
+	<div class="bg"></div>
+	<div class="bg bg2"></div>
+	<div class="bg bg3"></div>
 	<div class="container">
 		<div class="row">
 			<jsp:include page="/front-end/header/header.jsp" />
@@ -53,7 +55,7 @@
 		<div class="row" id="container">
 			<div class="col-12">
 				<table class="table reviewBody text-center table-striped">
-					<thead class="thead-light">
+					<thead class="thead-dark">
 						<tr>
 							<th scope="col" class="titleItem text-nowrap">讀書會名稱</th>
 							<th scope="col" class="titleItem text-nowrap">讀書會狀態</th>
@@ -81,7 +83,8 @@
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
 										class="m-0">
-										<button type="submit" class="reviewGroupBtn btn btn-info"
+										<input type="hidden" value="${bc_status}" class="statuss">
+										<button type="submit" class="reviewGroupBtn btn btn-info ${bookClub_Regis_DetailVO.brd_status} ${bc_status}"
 											name="action" value="getOne_For_Display">詳情</button>
 										<input type="hidden" name="bc_id"
 											value="${bookClub_Regis_DetailVO.bc_id}">
@@ -91,8 +94,8 @@
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
 										class="m-0">
-										<img src="<%=request.getContextPath()%>/images/bookclub/chat.png" class="btn chat" id="chatpic" >
-										<button type="submit" class="btn chat" name="action" id="chatbtn"
+										<img src="<%=request.getContextPath()%>/images/bookclub/chat.png" class="btn chat chatpic ">
+										<button type="submit" class="btn chat ${bc_status}" name="action" id="chatbtn"
 											value="bookClubChat" style="border: none;display: none"
 											${(bookClub_Regis_DetailVO.brd_status ne 2)? 'disabled' : ''}>
 										</button>
@@ -102,8 +105,8 @@
 									</form>
 								</td>
 								<td>
-									<button type="button" class="btn btn-danger quit"
-										id="${bookClub_Regis_DetailVO.brd_status}" data-toggle="modal"
+									<button type="button" class="btn btn-danger quit ${bookClub_Regis_DetailVO.brd_status} ${bc_status}"
+										data-toggle="modal"
 										data-target="#quitModal"
 										value="${bookClub_Regis_DetailVO.bc_id}">退出</button>
 								</td>
@@ -154,95 +157,12 @@
 
 <script src='<%=request.getContextPath()%>/js/jquery.min.js'></script>
 <script src="<%=request.getContextPath()%>/js/sweetAlert2 9.5.2.js"></script>
-<script	src='<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js'></script>
 <script src="<%= request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
 <script src="<%= request.getContextPath()%>/js/skel.min.js"></script>
 <script src="<%= request.getContextPath()%>/js/util.js"></script>
 <script src="<%= request.getContextPath()%>/js/main.js"></script>
 <script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<style>
-.xdsoft_datetimepicker .xdsoft_datepicker {
-	width: 300px; /* width:  300px; */
-}
-
-.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-	height: 151px; /* height:  151px; */
-}
-</style>
-
-<script id="datetimepicker">
-	//設定日曆語言為中文
-	$.datetimepicker.setLocale('zh');
-
-	$(function() {
-		$('#bc_time_start').datetimepicker(
-				{
-					format : 'Y-m-d H:i',
-					onShow : function() {
-						this.setOptions({
-							maxDate : $('#bc_time_end').val() ? $(
-									'#bc_time_end').val() : false
-						})
-					},
-					timepicker : true
-				});
-
-		$('#bc_time_end').datetimepicker(
-				{
-					format : 'Y-m-d H:i',
-					onShow : function() {
-						this.setOptions({
-							minDate : $('#bc_time_start').val() ? $(
-									'#bc_time_start').val() : false
-						})
-					},
-					timepicker : true
-				});
-		$('#bc_init').datetimepicker(
-				{
-					format : 'Y-m-d ',
-					onShow : function() {
-						this.setOptions({
-							maxDate : $('#bc_time_start').val() ? $(
-									'#bc_time_start').val() : false
-						})
-					},
-					timepicker : false
-				});
-		$('#bc_deadline').datetimepicker(
-				{
-					format : 'Y-m-d ',
-					onShow : function() {
-						this.setOptions({
-							minDate : $('#bc_init').val() ? $('#bc_init').val()
-									: false,
-							maxDate : $('#bc_time_start').val() ? $(
-									'#bc_time_start').val() : false
-						})
-					},
-					timepicker : false
-				});
-	});
-	//讀書會開始日期不能在今天之前
-	var somedate1 = new Date();
-	$('#bc_time_start')
-			.datetimepicker(
-					{
-						beforeShowDay : function(date) {
-							if (date.getYear() < somedate1.getYear()
-									|| (date.getYear() == somedate1.getYear() && date
-											.getMonth() < somedate1.getMonth())
-									|| (date.getYear() == somedate1.getYear()
-											&& date.getMonth() == somedate1
-													.getMonth() && date
-											.getDate() < somedate1.getDate())) {
-								return [ false, "" ]
-							}
-							return [ true, "" ];
-						}
-					});
-</script>
 
 <script>
 	$('.quit').click(function() {
@@ -257,10 +177,12 @@
 	});
 <%request.removeAttribute("quit");%>
 	</c:if>
-	$('#3').attr("disabled", true);
-	$('#4').attr("disabled", true);
-	$('#chatpic').on('click',function(){
-		$('#chatbtn').click();
+
+	
+	$('.3').attr("disabled", true);
+	$('.4').attr("disabled", true);
+	$('.chatpic').on('click',function(){
+		$(this).next().click();
 	});
 </script>
 

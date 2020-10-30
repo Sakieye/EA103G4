@@ -43,8 +43,7 @@
 
 				</div>
 				<div class="row align-items-start">
-					<c:forEach var="bookclub_regis_detailVO"
-						items="${bookclub_regis_detailsvc.getMember(param.bc_id)}">
+					
 						<div class="col-12">
 							<c:if test="${!empty MyMemVO.mem_id}">
 								<div id="${MyMemVO.mem_id}" class="private" data-on=''>
@@ -53,6 +52,10 @@
 										${MyMemVO.mem_nickname}
 										</div>
 							</c:if>
+							</div>
+							<c:forEach var="bookclub_regis_detailVO"
+						items="${bookclub_regis_detailsvc.getMember(param.bc_id)}">
+						<div class="col-12">
 							<div id="${bookclub_regis_detailVO.mem_id}" class="private"
 								data-on=''>
 								<img

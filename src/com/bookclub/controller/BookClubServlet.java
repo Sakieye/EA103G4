@@ -374,23 +374,7 @@ public class BookClubServlet extends HttpServlet {
 				/*************************** 2.開始修改資料 ***************************************/
 				BookClubService bookClubSvc = new BookClubService();
 				
-				BookClub_Regis_DetailService bookClub_Regis_DetailSvc = new BookClub_Regis_DetailService();
-				List<BookClub_Regis_DetailVO> listDetail = bookClub_Regis_DetailSvc.getByBc_id(bc_id);
-				MemVO memVO = new MemVO(); 
-				MemService memSvc = new MemService();
-				for(BookClub_Regis_DetailVO brdVO : listDetail) {
-					memVO = memSvc.getOneMem(brdVO.getMem_id());
-					
-					String to = memVO.getMem_email();
-				      
-				      String subject = bookClubVO.getBc_name() + "修改通知";
-				      
-				      String ch_name = memVO.getMem_nickname();
-				      String messageText = "Hello! " + ch_name + "\n您報名" + bookClubVO.getBc_name() + "讀書會，資訊有更改，請盡快查看"; 
-				       
-				      MailService mailService = new MailService();
-				      mailService.sendMail(to, subject, messageText);
-				}
+				
 				// 讀書會資料
 				bookClubVO = bookClubSvc.update(bc_id, bc_name, bc_place, bc_time_start, bc_time_end,
 						bc_peo_upper_limit, bc_peo_lower_limit, bc_intro, bc_cover_pic, bc_init, bc_deadline);
@@ -420,7 +404,26 @@ public class BookClubServlet extends HttpServlet {
 			
 			String bc_id = req.getParameter("bc_id");
 			BookClubService bookClubSvc = new BookClubService();
-			bookClubSvc.updateStatus(bc_id,2);
+			BookClubVO bookClubVO = bookClubSvc.getOneBookClub(bc_id);
+			bookClubSvc.updateStatus(bc_id,3);
+			
+			BookClub_Regis_DetailService bookClub_Regis_DetailSvc = new BookClub_Regis_DetailService();
+			List<BookClub_Regis_DetailVO> listDetail = bookClub_Regis_DetailSvc.getByBc_id(bc_id);
+			MemVO memVO = new MemVO(); 
+			MemService memSvc = new MemService();
+			for(BookClub_Regis_DetailVO brdVO : listDetail) {
+				memVO = memSvc.getOneMem(brdVO.getMem_id());
+				
+				String to = memVO.getMem_email();
+			      
+			      String subject = bookClubVO.getBc_name() + "解散通知";
+			      
+			      String ch_name = memVO.getMem_nickname();
+			      String messageText = "Hello! " + ch_name + "\n您報名" + bookClubVO.getBc_name() + "讀書會，已經解散囉"; 
+			       
+			      MailService mailService = new MailService();
+			      mailService.sendMail(to, subject, messageText);
+			}
 			
 			situation.put("disband", "解散");
 			String url = "/front-end/bookclub/myBookClub.jsp";
