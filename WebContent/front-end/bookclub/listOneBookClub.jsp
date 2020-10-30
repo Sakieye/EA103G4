@@ -9,8 +9,16 @@
 <%@ page import="com.questionnair_answer.model.*"%>
 
 <%
+	
 	BookClubVO bookClubVO = (BookClubVO) request.getAttribute("listOneBookClub");
 	request.setAttribute("listOneBookClub", bookClubVO);
+	if(bookClubVO == null){
+		String bc_id = (String) session.getAttribute("bc_id");
+		System.out.println(bc_id);
+		BookClubService bookClubService = new BookClubService();
+		bookClubVO =  bookClubService.getOneBookClub(bc_id);
+	}
+	
 %>
 <%
 	QuestionService questionSvc = new QuestionService();
