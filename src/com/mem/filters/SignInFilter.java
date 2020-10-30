@@ -27,6 +27,7 @@ public class SignInFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		
+			
 		HttpSession session = req.getSession();
 		MemVO memVO = (MemVO)session.getAttribute("memVO");
 		

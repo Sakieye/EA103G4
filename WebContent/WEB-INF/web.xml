@@ -63,6 +63,25 @@
 		<url-pattern>/front-end/forum/addFmrPage.jsp</url-pattern>
 		<url-pattern>/front-end/member/selectOrder.jsp</url-pattern>
 		<url-pattern>/front-end/member/selectOrderByBtn.jsp</url-pattern>
+		<url-pattern>/front-end/forum/memberCenter_forum.jsp</url-pattern>
+		<url-pattern>/front-end/forum/memberCenter_forum_collections.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter>
+		<filter-name>fromPageFilter</filter-name>
+		<filter-class>com.mem.filters.ComefromPage</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>fromPageFilter</filter-name>
+		<url-pattern>/front-end/front-index.jsp</url-pattern>
+		<url-pattern>/front-end/forum/forumIndex.jsp</url-pattern>
+		<url-pattern>/front-end/member/signUp.jsp</url-pattern>
+		<url-pattern>/front-end/member/confirmationCode.jsp</url-pattern>
+		<url-pattern>/front-end/bookclub/listOneBookClub.jsp</url-pattern> 
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

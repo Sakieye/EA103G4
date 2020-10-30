@@ -253,15 +253,18 @@ public class MemServlet extends HttpServlet {
 
 					String location = (String) session.getAttribute("location");
 					String comefromPage = (String) session.getAttribute("comefromPage");
-//					System.out.println(comefromPage);
+					System.out.println(comefromPage);
+
 					
-					if (location == null) {
-						
-						res.sendRedirect(comefromPage);	
+					if(comefromPage == null) {
+						req.getRequestDispatcher("/front-end/front-index.jsp").forward(req, res);
 					} else {
-						res.sendRedirect(location); // 重導來源網頁
-//						System.out.println(location);
+						session.removeAttribute("comefromPage");
+						req.getRequestDispatcher(comefromPage).forward(req, res);
+						return;
 					}
+					
+					res.sendRedirect(location); // 重導來源網頁	
 					
 				} else {
 					errmsg = "此帳號已被註銷，無法登入";

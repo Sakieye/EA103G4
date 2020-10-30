@@ -8,11 +8,6 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 
-<%
-	if(request.getSession().getAttribute("MemVO") == null){
-		request.getSession().setAttribute("comefromPage", request.getRequestURI());
-	}
-%>
 <html>
 
 <head>
