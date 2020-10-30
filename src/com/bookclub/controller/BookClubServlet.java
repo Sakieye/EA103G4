@@ -84,11 +84,10 @@ public class BookClubServlet extends HttpServlet {
 		if ("getOne_For_Display".equals(action)) {
 			try {
 				String bc_id = req.getParameter("bc_id");
-				Questionnair_AnswerService questionnair_AnswerSvc = new Questionnair_AnswerService();
 				BookClubService bookClubService = new BookClubService();
 				BookClubVO bookClubVO = bookClubService.getOneBookClub(bc_id);
+				
 				req.setAttribute("listOneBookClub", bookClubVO);
-				req.setAttribute("questionnair_AnswerSvc", questionnair_AnswerSvc);
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/bookclub/listOneBookClub.jsp");
 				successView.forward(req, res);
 				
@@ -124,6 +123,9 @@ public class BookClubServlet extends HttpServlet {
 		if ("insert".equals(action)) {
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			Map<String, String> situation = new LinkedHashMap<String, String>();
+			req.setAttribute("situation", situation);
+			
 			try {
 				/*********************** 從session取會員編號 *************************/
 				HttpSession session = req.getSession();
@@ -235,6 +237,7 @@ public class BookClubServlet extends HttpServlet {
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ****************************/
 				req.setAttribute("bookClubVO", bookClubVO);
+				situation.put("creat", "創建成功");
 				String url = "/front-end/bookclub/bookclub_index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -269,6 +272,8 @@ public class BookClubServlet extends HttpServlet {
 		if ("update".equals(action)) {
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			Map<String, String> situation = new LinkedHashMap<String, String>();
+			req.setAttribute("situation", situation);
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				/*********************** 讀書會編號 *************************/
@@ -381,8 +386,10 @@ public class BookClubServlet extends HttpServlet {
 				/*******************
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 ****************************/
-				req.setAttribute("bookClubVO", bookClubVO);
-				String url = "/front-end/bookclub/bookclub_index.jsp";
+				bookClubVO = bookClubSvc.getOneBookClub(bc_id);
+				req.setAttribute("listOneBookClub", bookClubVO);
+				situation.put("update", "修改成功");
+				String url = "/front-end/bookclub/listOneBookClub.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/
