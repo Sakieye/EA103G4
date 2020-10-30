@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,7 @@ public class FmServlet extends HttpServlet {
 				if(fmContent == null || fmContent.trim().length() == 0) {
 					errorMsgs.add("留言請勿空白");
 				}
-				
+				System.out.println(fmContent);
 				FmVO fmVO = new FmVO();
 				fmVO.setFaId(faId);
 				fmVO.setMemId(memId);
@@ -82,44 +81,6 @@ public class FmServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}			
 		}
-		//修改留言
-		if("update".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-			try {
-				String fmId = new String(req.getParameter("fmId"));
-				String fmContent = req.getParameter("fmContent"); 
-				if(fmContent == null || fmContent.trim().length() == 0) {
-					errorMsgs.add("內容請勿空白");
-				}
-				
-				FmVO fmVO = new FmVO();
-				
-				fmVO.setFmId(fmId);
-				fmVO.setFmContent(fmContent);
-				
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("fmVO", fmVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("");
-					failureView.forward(req, res);
-					return;
-				}
-				/*************************** 2.修改資料 ***************************************/
-				FmService fmSvc = new FmService();
-				fmVO = fmSvc.updateFm(fmId, fmContent);
-				
-				req.setAttribute("fmVO", fmVO);
-				String url = "";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("");
-				failureView.forward(req, res);
-			}
-			
-		}
 		//轉交到新增留言頁面
 		if("getOne_For_AddFm".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
@@ -149,56 +110,51 @@ public class FmServlet extends HttpServlet {
 		}
 		
 		//轉交到修改留言頁面
-		if("getOne_For_UpdateFm".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-			try {
-				String fmId = req.getParameter("fmId");
-				String fmContent = req.getParameter("fmContent");
-				
-				FmVO fmVO = new FmVO();
-				fmVO.setFmId(fmId);
-				fmVO.setFmContent(fmContent);
-				
-				req.setAttribute("fmVO", fmVO);
-				String url = "/fmUpdatePage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req,res);
-			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/fmUpdatePage.jsp");
-				failureView.forward(req, res);
-			}
-			
-			
-			
-		}
+//		if("getOne_For_UpdateFm".equals(action)) {
+//			List<String> errorMsgs = new LinkedList<String>();
+//			req.setAttribute("errorMsgs", errorMsgs);
+//			
+//			try {
+//				String fmId = req.getParameter("fmId");
+//				String fmContent = req.getParameter("fmContent");
+//				
+//				FmVO fmVO = new FmVO();
+//				fmVO.setFmId(fmId);
+//				fmVO.setFmContent(fmContent);
+//				
+//				req.setAttribute("fmVO", fmVO);
+//				String url = "/fmUpdatePage.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req,res);
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+//				RequestDispatcher failureView = req
+//						.getRequestDispatcher("/fmUpdatePage.jsp");
+//				failureView.forward(req, res);
+//			}
+//			
+//			
+//			
+//		}
 		//下架留言
-		if("logout".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-			try {
-				String fmId = req.getParameter("fmId");
-				
-				FmService fmSvc = new FmService();
-				fmSvc.logout_Fm(fmId);
-				
-				String url = "/forumIndex.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req,res);
-			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/forumIndex.jsp");
-				failureView.forward(req, res);
-			}
-			
-			
-		}
-		
+//		if("logout".equals(action)) {
+//			List<String> errorMsgs = new LinkedList<String>();
+//			req.setAttribute("errorMsgs", errorMsgs);
+//			try {
+//				String fmId = req.getParameter("fmId");
+//				FmService fmSvc = new FmService();
+//				fmSvc.logout_Fm(fmId);
+//				String url = "/forumIndex.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req,res);
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+//				RequestDispatcher failureView = req
+//						.getRequestDispatcher("/forumIndex.jsp");
+//				failureView.forward(req, res);
+//			}
+//		}
+//		
 	
 	}
 

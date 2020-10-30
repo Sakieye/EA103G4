@@ -38,14 +38,14 @@
 						</c:if>
 					</header>
 					<div id="addform">
-						<form METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/forum/fmr.do">
+						<form METHOD="post" id="sendForm" ACTION="<%=request.getContextPath()%>/front-end/forum/fmr.do">
 							<fieldset>
 								<p>
 									<label for="content">檢舉原因 :</label>
 									<textarea id="summernote" name="fmrContent"></textarea>
 								</p>
 								<p>
-									<input type="submit">
+									
 									<input type="hidden" name="action" value="insert">
 									<input type="hidden" name="faId" value="${fmVO.faId}">
 									<input type="hidden" name="fmId" value="${fmVO.fmId}">
@@ -53,6 +53,7 @@
 								</p>
 							</fieldset>
 						</form>
+						<input id="send" type="submit">
 					</div>
 				</div>
 			</div>
@@ -73,7 +74,39 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<!-- include summernote css/js -->
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/summernote.js"></script>
+	<script>
+	$(document).ready(function(){
+		$('#send').click(() => {
+	        var url = window.location.href.substr(window.location.href.lastIndexOf('/')).substr(1);
+
+	        if (url === "addFaPage.jsp") {
+	            console.log("addFa");
+	            if ($($("#summernote").summernote('code').replace(/&nbsp;|<br>/g, ' ')).text().trim() === '' || $('#faTopic').val().trim() === '') {
+	                swal({
+	                	title:"文章或內容請勿空白!!",
+	                	icon:"warning"
+	                })
+	            } else {
+	                $("#sendForm").submit();
+	            }
+	        } else {
+	            console.log("other");
+	            if ($($("#summernote").summernote('code').replace(/&nbsp;|<br>/g, ' ')).text().trim() === '') {
+	            	 swal({
+	                 	title:"文章或內容請勿空白!!",
+	                 	icon:"warning"
+	                 })
+	            } else {
+	                $("#sendForm").submit();
+	            }
+	        }
+
+	    })
+	})
+	
+	</script>
 </body>
 
 </html>

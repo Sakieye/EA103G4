@@ -98,7 +98,6 @@
 									<button type="submit" >
 										<i class="fa fa-search"></i>
 									</button>
-<!-- 									<input id="searchBtn"  type="submit" value="搜尋"> -->
 								</form>
 							</div>
 							<div class="col-md-2">

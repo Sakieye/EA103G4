@@ -40,21 +40,21 @@
 						</c:if>
 					</header>
 					<div id="addform">
-						<form METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/forum/fa.do">
+						<form METHOD="post" id="sendForm" ACTION="<%=request.getContextPath()%>/front-end/forum/fa.do">
 							<p>
-								<label for="topic">主題 :</label>
-								<input type="text" name="faTopic" value="">
+								<label for="topic">文章主題 :</label>
+								<input type="text" id="faTopic" name="faTopic">
 							</p>
 							<p>
-								<label for="content">CONTENT :</label>
+								<label for="content">文章內容 :</label>
 								<textarea id="summernote" name="faContent"></textarea>
 							</p>
 							<p>
-								<input type="submit">
 								<input type="hidden" name="action" value="insert">
 								<input type="hidden" name="memId" value="${memVO.mem_id}">
 							</p>
 						</form>
+						<input id="send" type="submit">
 					</div>
 				</div>
 			</div>
@@ -75,7 +75,40 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<!-- include summernote css/js -->
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/summernote.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/summernote.js" ></script>
+	
+	<script>
+	$(document).ready(function(){
+		$('#send').click(() => {
+	        var url = window.location.href.substr(window.location.href.lastIndexOf('/')).substr(1);
+
+	        if (url === "addFaPage.jsp") {
+	            console.log("addFa");
+	            if ($($("#summernote").summernote('code').replace(/&nbsp;|<br>/g, ' ')).text().trim() === '' || $('#faTopic').val().trim() === '') {
+	                swal({
+	                	title:"文章或內容請勿空白!!",
+	                	icon:"warning"
+	                })
+	            } else {
+	                $("#sendForm").submit();
+	            }
+	        } else {
+	            console.log("other");
+	            if ($($("#summernote").summernote('code').replace(/&nbsp;|<br>/g, ' ')).text().trim() === '') {
+	            	 swal({
+	                 	title:"文章或內容請勿空白!!",
+	                 	icon:"warning"
+	                 })
+	            } else {
+	                $("#sendForm").submit();
+	            }
+	        }
+
+	    })
+	})
+	
+	</script>
 </body>
 
 </html>

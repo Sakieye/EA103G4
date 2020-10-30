@@ -8,4 +8,5 @@
                 lang: 'zh-CN',
                 focus: true
             })
+            
         });

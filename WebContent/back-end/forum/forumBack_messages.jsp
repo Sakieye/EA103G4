@@ -121,14 +121,9 @@ html {
 									name="fmrId" value="${fmrVO.fmrId}"> <input
 									type="hidden" name="fmId" value="${fmrVO.fmId}"> <input
                                     type="hidden" name="adminId" value="${adminsVO.admin_id}">
-
 								</td>
 								</form>
-
 							</tr>
-
-
-
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal_1${vs.index}"
 								tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
