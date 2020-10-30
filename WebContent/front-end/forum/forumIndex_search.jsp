@@ -19,7 +19,9 @@
 		jedis.close();
 		e.printStackTrace();
 	}finally{
-		jedis.close();
+		if(jedis != null){
+			jedis.close();
+		}
 	}
 	pageContext.setAttribute("searchHotKeys",searchHotKeys);
 %>

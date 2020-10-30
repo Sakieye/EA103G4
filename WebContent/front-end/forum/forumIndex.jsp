@@ -23,7 +23,8 @@
 		jedis.close();
 		e.printStackTrace();
 	}finally{
-		jedis.close();
+		if(jedis != null)
+			jedis.close();
 	}
 	FaService faSvc = new FaService();
 	List<FaVO> list = faSvc.getAll_Index();
