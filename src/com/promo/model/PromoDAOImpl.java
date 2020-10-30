@@ -30,7 +30,8 @@ public class PromoDAOImpl implements PromoDAO {
 	private static final String ADV_SEARCH_STMT = "SELECT * FROM PROMOTIONS WHERE (? IS NULL OR PROMO_ID = ?) "
 			+ "AND (? IS NULL OR upper(PROMO_NAME) LIKE '%'|| upper(?) || '%') "
 			+ "AND (? IS NULL OR PROMO_START_TIME >= to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss.ff')) "
-			+ "AND (? IS NULL OR PROMO_END_TIME <= to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss.ff'))";
+			+ "AND (? IS NULL OR PROMO_END_TIME <= to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss.ff')) "
+			+ "ORDER BY PROMO_ID DESC";
 	private static final String FIND_ALL_VALID_STMT = "SELECT * FROM PROMOTIONS WHERE (PROMO_START_TIME <= CURRENT_TIMESTAMP) AND (CURRENT_TIMESTAMP <= PROMO_END_TIME)";
 
 	@Override

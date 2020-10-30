@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.category.model.Category;
 import com.category.model.CategoryService;
 
+import tools.StrUtil;
+
 @WebServlet("/CategoryManagement")
 public class CategoryManagement extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,7 +32,7 @@ public class CategoryManagement extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		CategoryService categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
-		String categoryName = request.getParameter("categoryName").trim();
+		String categoryName = StrUtil.tryToTrim(request.getParameter("categoryName"));
 		categoryService.addCategory(categoryName);
 		// 重新導回自己
 		response.sendRedirect(request.getContextPath() + "/CategoryManagement");

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.promo.model.Promo;
 import com.promo.model.PromoService;
 
-import tools.StrToTimestamp;
+import tools.StrUtil;
 
 @WebServlet("/AddPromo")
 public class AddPromo extends HttpServlet {
@@ -28,15 +28,15 @@ public class AddPromo extends HttpServlet {
 			throws ServletException, IOException {
 		String url = request.getContextPath() + "/PromoManagement";
 		PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
-		String promoName = request.getParameter("promoName").trim();
+		String promoName = StrUtil.tryToTrim(request.getParameter("promoName"));
 		String promoStartTimeStr = request.getParameter("promoStartTime");
 		String promoEndTimeStr = request.getParameter("promoEndTime");
 
 		// 處理JS傳來的時間格式
 		if (promoStartTimeStr != null && promoEndTimeStr != null
 				&& !promoService.getByPromoNameUnique(promoName).isPresent()) {
-			Timestamp promoStartTime = StrToTimestamp.convert(promoStartTimeStr);
-			Timestamp promoEndTime = StrToTimestamp.convert(promoEndTimeStr);
+			Timestamp promoStartTime = StrUtil.toTimestamp(promoStartTimeStr);
+			Timestamp promoEndTime = StrUtil.toTimestamp(promoEndTimeStr);
 			promoService.addPromo(promoName, promoStartTime, promoEndTime);
 		}
 		

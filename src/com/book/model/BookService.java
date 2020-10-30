@@ -548,4 +548,8 @@ public class BookService {
 	public List<String> getByAuthorLike(String author) {
 		return bookDAO.findByAuthorLike(author);
 	}
+
+	public List<Book> getByPromoID(String promoID, boolean isFront) {
+		return bookDAO.findByPromoID(promoID, isFront);
+	}
 }

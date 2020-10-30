@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.promo.model.PromoService;
-import tools.StrToTimestamp;
+import tools.StrUtil;
 
 @WebServlet("/UpdatePromo")
 public class UpdatePromo extends HttpServlet {
@@ -27,10 +27,10 @@ public class UpdatePromo extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String promoID = request.getParameter("promoID");
-		String promoName = request.getParameter("promoName").trim();
+		String promoName = StrUtil.tryToTrim(request.getParameter("promoName"));
 
-		Timestamp promoStartTime = StrToTimestamp.convert(request.getParameter("promoStartTime"));
-		Timestamp promoEndTime = StrToTimestamp.convert(request.getParameter("promoEndTime"));
+		Timestamp promoStartTime = StrUtil.toTimestamp(request.getParameter("promoStartTime"));
+		Timestamp promoEndTime = StrUtil.toTimestamp(request.getParameter("promoEndTime"));
 		PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
 		promoService.updatePromo(promoID, promoName, promoStartTime, promoEndTime);
 		response.sendRedirect(request.getContextPath() + "/ShowPromoDetails?promoID=" + promoID);

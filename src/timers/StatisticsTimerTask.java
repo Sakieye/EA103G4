@@ -1,4 +1,4 @@
-package com.timer;
+package timers;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;

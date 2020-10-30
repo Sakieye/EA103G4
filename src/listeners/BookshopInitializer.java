@@ -1,4 +1,4 @@
-package com.listener;
+package listeners;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

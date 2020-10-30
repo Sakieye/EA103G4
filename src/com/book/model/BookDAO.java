@@ -24,4 +24,5 @@ public interface BookDAO {
 	List<String> findByBookIDLike(String bookID);
 	List<String> findByBookNameLike(String bookName);
 	List<String> findByAuthorLike(String author);
+	List<Book> findByPromoID(String promoID, boolean isFront);
 }

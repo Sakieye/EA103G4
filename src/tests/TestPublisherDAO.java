@@ -1,4 +1,4 @@
-package test;
+package tests;
 
 import java.sql.SQLException;
 import java.util.List;

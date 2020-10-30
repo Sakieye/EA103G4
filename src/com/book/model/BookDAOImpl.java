@@ -49,7 +49,10 @@ public class BookDAOImpl implements BookDAO {
 	private static final String FIND_BY_BOOK_ID_LIKE_STMT = "SELECT BOOK_ID FROM BOOKS WHERE BOOK_ID LIKE (upper(?) || '%') AND ROWNUM <= 20";
 	private static final String FIND_BY_BOOK_NAME_LIKE_STMT = "SELECT BOOK_NAME FROM BOOKS WHERE UPPER(BOOK_NAME) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
 	private static final String FIND_BY_AUTHOR_LIKE_STMT = "SELECT AUTHOR FROM BOOKS WHERE UPPER(AUTHOR) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
-
+	private static final String FIND_BY_PROMO_ID_STMT = "SELECT * FROM BOOKS WHERE BOOK_ID IN (SELECT BOOK_ID FROM PROMOTION_DETAILS WHERE PROMO_ID = ?)";
+	private static final String FIND_BY_PROMO_ID_STMT_FRONT = "SELECT * FROM BOOKS WHERE BOOK_ID IN (SELECT BOOK_ID FROM PROMOTION_DETAILS WHERE PROMO_ID = ?) AND IS_SOLD = 1";
+	
+	
 	@Override
 	public void insert(Book book) {
 		Connection con = null;
@@ -1086,5 +1089,80 @@ public class BookDAOImpl implements BookDAO {
 			}
 		}
 		return authors;
+	}
+
+	@Override
+	public List<Book> findByPromoID(String promoID, boolean isFront) {
+		List<Book> books = new ArrayList<Book>();
+		Book book = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+
+			if (isFront) {
+				pstmt = con.prepareStatement(FIND_BY_PROMO_ID_STMT_FRONT);
+			} else {
+				pstmt = con.prepareStatement(FIND_BY_PROMO_ID_STMT);
+			}
+
+			pstmt.setString(1, promoID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				book = new Book();
+				book.setBookID(rs.getString("BOOK_ID"));
+				book.setPublisherID(rs.getString("PUBLISHER_ID"));
+				book.setLanguageID(rs.getString("LANGUAGE_ID"));
+				book.setCategoryID(rs.getString("CATEGORY_ID"));
+				book.setBookName(rs.getString("BOOK_NAME"));
+				book.setIsbn(rs.getString("ISBN"));
+				book.setAuthor(rs.getString("AUTHOR"));
+				book.setListPrice(rs.getDouble("LIST_PRICE"));
+				book.setSalePrice(rs.getDouble("SALE_PRICE"));
+				book.setBookBP(rs.getDouble("BOOK_BP"));
+				book.setIsSold(rs.getInt("IS_SOLD"));
+				book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
+				book.setStock(rs.getInt("STOCK"));
+				book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
+				book.setBookIntro(rs.getString("BOOK_INTRO"));
+				book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
+				if (rs.getObject("SALE_PRICE_PROMO") == null) {
+					book.setSalePricePromo(Double.NaN);
+				} else {
+					book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
+				}
+				if (rs.getObject("BOOK_BP_PROMO") == null) {
+					book.setBookBPPromo(Double.NaN);
+				} else {
+					book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
+				}
+				book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+				books.add(book);
+			}
+
+		} catch (
+
+		SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return books;
 	}
 }

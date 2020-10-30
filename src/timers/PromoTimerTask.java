@@ -1,10 +1,10 @@
-package com.timer;
+package timers;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -87,15 +87,34 @@ public class PromoTimerTask extends TimerTask {
 
 		// 失效促銷事件處理
 		removePromos(removePromos);
+		StringBuilder removePromoSB = new StringBuilder();
+		for (Iterator<Promo> i = removePromos.iterator(); i.hasNext();) {
+			Promo promo = i.next();
+			removePromoSB.append(promo.getPromoName());
+			if (i.hasNext()) {
+				// not last
+				removePromoSB.append(",");
+			}
+		}
 
 		// 生效促銷事件處理
 		newPromos(newPromos);
+		StringBuilder newPromoSB = new StringBuilder();
+		for (Iterator<Promo> i = newPromos.iterator(); i.hasNext();) {
+			Promo promo = i.next();
+			newPromoSB.append(promo.getPromoName());
+			if (i.hasNext()) {
+				// not last
+				newPromoSB.append(",");
+			}
+		}
 
 		bookService.updateEffPromos(currentValidPromos.toString());
 		long spendTime = System.currentTimeMillis() - start;
-		String msg = String.format("完成更新，本輪有效的促銷事件: %s，花費: %d ms", currentValidPromos, spendTime);
+		String msg = String.format("完成更新，本輪生效的促銷事件: %s，本輪失效的促銷事件: %s花費: %d ms", newPromoSB.toString(),
+				removePromoSB.toString(), spendTime);
 		System.out.println(msg);
-		
+
 		SimpleRedisLogger logger = new SimpleRedisLogger();
 		// 取得Jedis連線資源
 		JedisPool pool = JedisUtil.getJedisPool();
@@ -117,15 +136,9 @@ public class PromoTimerTask extends TimerTask {
 			removePromos.forEach(promo -> {
 				System.out.println(promo);
 				String promoID = promo.getPromoID();
-				List<String> bookIDs = new ArrayList<String>();
-				List<PromoDetail> removePromoDetails = promoDetailService.getByPromoID(promoID);
 
-				// 針對這個promo，先把相關的bookID蒐集起來，以便資料庫batch操作
-				removePromoDetails.forEach(pd -> {
-					bookIDs.add(pd.getBookID());
-				});
 				// 找出這個promo相關的所有書
-				List<Book> books = bookService.getByBookIDList(bookIDs);
+				List<Book> books = bookService.getByPromoID(promoID, false);
 
 				for (int i = 0; i < books.size(); i++) {
 					Book book = books.get(i);
@@ -142,38 +155,9 @@ public class PromoTimerTask extends TimerTask {
 					} else {
 						// 仍有其他作用中的促銷事件
 						int[] maxDiscountAndMaxBpPercent = { -1, 0 };
-
-						String[] ohterPromos = effectivePromos.split(",");
-						Map<String, int[]> otherPromoMap = new HashMap<String, int[]>();
-
-						for (String op : ohterPromos) {
-							int discount = Integer.parseInt(op.substring(op.indexOf(':') + 1, op.lastIndexOf(':')));
-							int bpPercent = Integer.parseInt(op.substring(op.lastIndexOf(':') + 1));
-							int[] discountAndBP = { discount, bpPercent };
-							otherPromoMap.put(op, discountAndBP);
-						}
-
-						otherPromoMap.forEach((k, v) -> {
-							if (v[0] > maxDiscountAndMaxBpPercent[0]) {
-								maxDiscountAndMaxBpPercent[0] = v[0];
-								maxDiscountAndMaxBpPercent[1] = v[1];
-							}
-						});
-
-						// 取得maxDiscount之後再巡一次，避免有discount相同，但bpPercent更高的明細出現
-						otherPromoMap.forEach((k, v) -> {
-							if (v[0] == maxDiscountAndMaxBpPercent[0] && v[1] > maxDiscountAndMaxBpPercent[1]) {
-								maxDiscountAndMaxBpPercent[1] = v[1];
-							}
-						});
-
-						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
-								(100 - maxDiscountAndMaxBpPercent[0]));
-						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
-								maxDiscountAndMaxBpPercent[1]);
-
-						book.setSalePricePromo(salePricePromo);
-						book.setBookBPPromo(bookBPPromo);
+						Double[] res = dealOtherPromos(maxDiscountAndMaxBpPercent, effectivePromos, book);
+						book.setSalePricePromo(res[0]);
+						book.setBookBPPromo(res[1]);
 					}
 					book.setEffectivePromos(effectivePromos);
 				}
@@ -188,17 +172,15 @@ public class PromoTimerTask extends TimerTask {
 			newPromos.forEach(promo -> {
 				System.out.println(promo);
 				String promoID = promo.getPromoID();
-				List<String> bookIDs = new ArrayList<String>();
 				List<PromoDetail> newPromoDetails = promoDetailService.getByPromoID(promoID);
 				Map<String, PromoDetail> bookIDPDMap = new HashMap<String, PromoDetail>(); // bookID : PD
 
-				// 針對這個promo，先把相關的bookID蒐集起來，以便資料庫batch操作
+				// 針對這個promo，先把相關的bookID蒐集起來，以便紀錄對應的PD
 				newPromoDetails.forEach(pd -> {
-					bookIDs.add(pd.getBookID());
 					bookIDPDMap.put(pd.getBookID(), pd);
 				});
 				// 找出這個promo相關的所有書
-				List<Book> books = bookService.getByBookIDList(bookIDs);
+				List<Book> books = bookService.getByPromoID(promoID, false);
 
 				for (int i = 0; i < books.size(); i++) {
 					Book book = books.get(i);
@@ -223,38 +205,9 @@ public class PromoTimerTask extends TimerTask {
 						}
 					} else { // 仍有其他作用中的促銷事件
 						int[] maxDiscountAndMaxBpPercent = { pd.getDiscount(), pd.getBpPercent() };
-
-						String[] ohterPromos = effectivePromos.split(",");
-						Map<String, int[]> otherPromoMap = new HashMap<String, int[]>();
-
-						for (String op : ohterPromos) {
-							int discount = Integer.parseInt(op.substring(op.indexOf(':') + 1, op.lastIndexOf(':')));
-							int bpPercent = Integer.parseInt(op.substring(op.lastIndexOf(':') + 1));
-							int[] discountAndBP = { discount, bpPercent };
-							otherPromoMap.put(op, discountAndBP);
-						}
-
-						otherPromoMap.forEach((k, v) -> {
-							if (v[0] > maxDiscountAndMaxBpPercent[0]) {
-								maxDiscountAndMaxBpPercent[0] = v[0];
-								maxDiscountAndMaxBpPercent[1] = v[1];
-							}
-						});
-
-						// 取得maxDiscount之後再巡一次，避免有discount相同，但bpPercent更高的明細出現
-						otherPromoMap.forEach((k, v) -> {
-							if (v[0] == maxDiscountAndMaxBpPercent[0] && v[1] > maxDiscountAndMaxBpPercent[1]) {
-								maxDiscountAndMaxBpPercent[1] = v[1];
-							}
-						});
-
-						Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
-								(100 - maxDiscountAndMaxBpPercent[0]));
-						Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
-								maxDiscountAndMaxBpPercent[1]);
-
-						book.setSalePricePromo(salePricePromo);
-						book.setBookBPPromo(bookBPPromo);
+						Double[] res = dealOtherPromos(maxDiscountAndMaxBpPercent, effectivePromos, book);
+						book.setSalePricePromo(res[0]);
+						book.setBookBPPromo(res[1]);
 					}
 
 					StringBuffer effPromos = new StringBuffer(effectivePromos);
@@ -270,5 +223,38 @@ public class PromoTimerTask extends TimerTask {
 				bookService.updateBooks(books);
 			});
 		}
+	}
+
+	private Double[] dealOtherPromos(int[] maxDiscountAndMaxBpPercent, String effectivePromos, Book book) {
+		String[] ohterPromos = effectivePromos.split(",");
+		Map<String, int[]> otherPromoMap = new HashMap<String, int[]>();
+
+		for (String op : ohterPromos) {
+			int discount = Integer.parseInt(op.substring(op.indexOf(':') + 1, op.lastIndexOf(':')));
+			int bpPercent = Integer.parseInt(op.substring(op.lastIndexOf(':') + 1));
+			int[] discountAndBP = { discount, bpPercent };
+			otherPromoMap.put(op, discountAndBP);
+		}
+
+		otherPromoMap.forEach((k, v) -> {
+			if (v[0] > maxDiscountAndMaxBpPercent[0]) {
+				maxDiscountAndMaxBpPercent[0] = v[0];
+				maxDiscountAndMaxBpPercent[1] = v[1];
+			}
+		});
+
+		// 取得maxDiscount之後再巡一次，避免有discount相同，但bpPercent更高的明細出現
+		otherPromoMap.forEach((k, v) -> {
+			if (v[0] == maxDiscountAndMaxBpPercent[0] && v[1] > maxDiscountAndMaxBpPercent[1]) {
+				maxDiscountAndMaxBpPercent[1] = v[1];
+			}
+		});
+
+		Double salePricePromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(),
+				(100 - maxDiscountAndMaxBpPercent[0]));
+		Double bookBPPromo = calculateSalePricePromoOrBookBPPromo(book.getListPrice(), maxDiscountAndMaxBpPercent[1]);
+
+		Double[] res = { salePricePromo, bookBPPromo };
+		return res;
 	}
 }

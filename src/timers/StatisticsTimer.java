@@ -1,4 +1,4 @@
-package com.timer;
+package timers;
 
 import java.io.IOException;
 import java.sql.Date;
