@@ -143,7 +143,13 @@
 		<url-pattern>/back-end/order/listAll_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/listOne_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/select_order.jsp</url-pattern>
-		<url-pattern>/back-end/order/update_order.jsp</url-pattern>		
+		<url-pattern>/back-end/order/update_order.jsp</url-pattern>	
+		<url-pattern>/back-end/cs/csindex.jsp</url-pattern>		
+		<url-pattern>/back-end/cs/listAllCs.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/addLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listAllLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listOneLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/update_lecture.jsp</url-pattern>					
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -179,6 +185,12 @@
 		<url-pattern>/back-end/order/listOne_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/select_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/update_order.jsp</url-pattern>
+		<url-pattern>/back-end/cs/csindex.jsp</url-pattern>		
+		<url-pattern>/back-end/cs/listAllCs.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/addLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listAllLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listOneLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/update_lecture.jsp</url-pattern>	
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

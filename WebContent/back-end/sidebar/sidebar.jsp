@@ -35,7 +35,7 @@
         <div>
             <h5><b>&nbsp;講座<span>Lecture</span></b></h5>
             <ul>
-            <li>&nbsp;&nbsp;<span class="auth2"><a href="#">講座管理</a></span></li>            
+            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/lecture/listAllLecture.jsp">講座管理</a></span></li>            
             </ul>
         </div>
 <!--         <div class="auth"> -->
