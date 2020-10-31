@@ -186,6 +186,7 @@ public class FaServlet extends HttpServlet {
 				faVO = faSvc.updateFa(faTopic, faContent,faId);
 				
 				req.setAttribute("faVO", faVO);
+				req.setAttribute("updateSuccess", "修改完成");
 				String url = "/front-end/forum/memberCenter_forum.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
