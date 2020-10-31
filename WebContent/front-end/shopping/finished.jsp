@@ -12,48 +12,16 @@
 	<title>訂購完成</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/main-front.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/header.css" />
-<!--書城首頁CSS-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bookshop-eshop-index.css" />
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-	crossorigin="anonymous">
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/bootstrap.min.css">
-<!--商品展示Slider CSS與字體-->
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-	integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/product-slider.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/prddetailpage.css" />
-<!--Header購物車、次Header搜尋欄-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/header-front-with-cart-and-search.css">
-<!--下拉式書籍類別選單-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/sm-core-css.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/sm-clean.css">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/cliff/png" href="<%=request.getContextPath()%>/image/cliff/icons/favicon.png"/>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/main-front.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css" />
+	<!--Header購物車、次Header搜尋欄-->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-front-with-cart-and-search.css">
+	<!-- jQuery AutoCompelete -->
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <!--=============================================================================================== -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animate/animate.css">
-<!--=============================================================================================== -->
-<%-- 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animsition/css/animsition.min.css"> --%>
 <!--=============================================================================================== -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/perfect-scrollbar/perfect-scrollbar.css">
 <!--=============================================================================================== -->
@@ -64,27 +32,17 @@
 	
 </head>
 <body class="animsition">
-	
 	<!-- Header -->
 	<header class="header-v4">
 		<!-- Header desktop -->
-		<div class="container-menu-desktop">
+		<div class="container-menu-desktop" style="height:48px;">
 			<!-- Topbar -->
 			<div class="top-bar">
 				<jsp:include page="/front-end/header/header-with-cart.jsp"/>
 			</div>
-
 			<div class="wrap-menu-desktop how-shadow1">
-				<nav class="limiter-menu-desktop container">
-						<!-- Eshop Header -->
-					<div id="logoDiv">
-						<%@include file="/front-end/header/eshop-header.jsp"%>
-					</div>
-				</nav>
 			</div>	
-			
 		</div>
-		
 	</header>
 
 	<!-- Title page -->
@@ -93,8 +51,7 @@
 			訂單成立
 		</h2>
 	</section>	
-
-
+	
 	<!-- Content page -->
 	<section class="bg0 p-t-75 p-b-120">
 		<div class="container">
@@ -116,8 +73,6 @@
 						</h3>
 					</div>
 				</div>
-				
-				
 			<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
 					<div class="how-bor1 ">
 						<div class="hov-img0">
@@ -125,12 +80,13 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</section>	
-	
-	
 	<jsp:include page="/front-end/footer/footer.jsp" />
+		<!-- Scripts -->
+	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/util.js"></script>
+	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 </body>
 </html>

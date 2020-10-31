@@ -86,14 +86,17 @@ public class ShpingServlet extends HttpServlet {
 		String payURL = "/front-end/shopping/pay.jsp";
 		String whichPage = req.getParameter("whichPage");
 		String showAll = req.getParameter("showAll");
-
+		
+		
 		@SuppressWarnings("unchecked")
 		List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
 		String action = req.getParameter("action");
 		ShpingServlet shping = new ShpingServlet();
+		JSONArray careFormJSON = new JSONArray();
+
+		 
 
 		if (!action.equals("BOOKDETAIL")) {
-			JSONArray careFormJSON = new JSONArray();
 			// 加入購物車
 			if (action.equals("ADD") || action.equals("DETAILADD")) {
 				Cart cart1 = getPrd(req);
@@ -109,21 +112,7 @@ public class ShpingServlet extends HttpServlet {
 						cartlist.add(cart1);
 					}
 				}
-				for (Cart cart : cartlist) {
-					JSONObject obj = new JSONObject();
-					try {
-						obj.put("mem_id", cart.getMem_Id());
-						obj.put("isbn", cart.getIsbn());
-						obj.put("book_id", cart.getBook_Id());
-						obj.put("book_name", cart.getBook_Name());
-						obj.put("publisher_id", cart.getPublisher_Id());
-						obj.put("price", cart.getPrice());
-						obj.put("book_bp", cart.getBook_BP());
-						obj.put("comm_qty", cart.getComm_Qty());
-						careFormJSON.put(obj);
-					} catch (JSONException e) {
-						throw new RuntimeException("▲Error： [加入JSON失敗!]" + e.getMessage());
-					}
+				listToJSON(cartlist);
 
 				}
 
@@ -131,8 +120,6 @@ public class ShpingServlet extends HttpServlet {
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
 
-				res.setContentType("text/plain");
-				res.setCharacterEncoding("UTF-8");
 				PrintWriter out = res.getWriter();
 				out.write(careFormJSON.toString());
 				out.flush();
@@ -148,33 +135,38 @@ public class ShpingServlet extends HttpServlet {
 				String[] getTotal = shping.gettotal(cartlist);
 				session.setAttribute("getTotal", getTotal);
 				session.setAttribute("shpingcart", cartlist);
+				
+				PrintWriter out = res.getWriter();
+				out.write(careFormJSON.toString());
+				out.flush();
+				out.close();
 
-				req.getRequestDispatcher(cartURL).forward(req, res);
-//				res.sendRedirect(delURL);
+				
 			}
-			// 付款確認
-			if (action.equals("PAYCHECK")) {
-				String[] getTotal = shping.gettotal(cartlist);
-				session.setAttribute("getTotal", getTotal);
-				session.setAttribute("shpingcart", cartlist);
-
-//				res.sendRedirect(payURL);
-				req.getRequestDispatcher(payURL).forward(req, res);
-
-			}
-
-		}
-
-		// 頁面session
-		if (session != null) {
-			if (session.getAttribute("shpingcart") != null && (whichPage != null || showAll != null)) {
-				req.setAttribute("shpingcart", session.getAttribute("shpingcart"));
-				req.setAttribute("whichPage", whichPage);
-				req.setAttribute("showAll", showAll);
-			}
-		}
-
 	}
+	private JSONArray listToJSON(List<Cart> cartlist) {
+		JSONArray careFormJSON = new JSONArray();
+	
+		for (Cart cart : cartlist) {
+			JSONObject obj = new JSONObject();
+			try {
+				obj.put("mem_id", cart.getMem_Id());
+				obj.put("isbn", cart.getIsbn());
+				obj.put("book_id", cart.getBook_Id());
+				obj.put("book_name", cart.getBook_Name());
+				obj.put("publisher_id", cart.getPublisher_Id());
+				obj.put("price", cart.getPrice());
+				obj.put("book_bp", cart.getBook_BP());
+				obj.put("comm_qty", cart.getComm_Qty());
+				careFormJSON.put(obj);
+			} catch (JSONException e) {
+				throw new RuntimeException("▲Error： [加入JSON失敗!]" + e.getMessage());
+			}
+		}
+		return careFormJSON;
+		
+	}
+	
 
 	private Cart getPrd(HttpServletRequest req) throws ServletException, IOException {
 		String mem_Id = req.getParameter("mem_Id");

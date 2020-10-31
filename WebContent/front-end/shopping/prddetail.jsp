@@ -34,8 +34,6 @@
 <!--自訂prddetailpage.css-->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/prddetailpage.css" />
 <!--===============================================================================================-->
-<link rel="icon" type="image/cliff/png" href="<%=request.getContextPath()%>/image/cliff/icons/favicon.png" />
-<!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animate/animate.css">
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animsition/css/animsition.min.css">
@@ -396,9 +394,7 @@
 									success : function(data) {
 										swal(nameProduct, "此商品成功加入購物車 !",
 												"success");
-										setTimeout(function() {
-											go();
-										}, 850);
+										$('.badge').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
 									},
 									error : function(data) {
 										swal(nameProduct, "此商品無法加入購物車 Q_Q。",
@@ -406,11 +402,8 @@
 									}
 								})
 							})
-				})
+						})
 
-		function go() {
-			history.go(0);
-		}
 		function cartFormJSON(action, book_Name, book_Id, isbn, book_BP,
 				publisher_Id, price, comm_Qty) {
 			var cartFormJSON = {
