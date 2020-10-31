@@ -316,4 +316,20 @@
 		<param-name>key2</param-name>
 		<param-value>gRBmoIL0btl4V9i6u0</param-value>
 	</context-param>
+	<servlet>
+		<servlet-name>CsServlet</servlet-name>
+		<servlet-class>com.cs.controller.CsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CsServlet</servlet-name>
+		<url-pattern>/back-end/cs/cs.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>CsSendGmail</servlet-name>
+		<servlet-class>com.cs.controller.CsSendGmail</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CsSendGmail</servlet-name>
+		<url-pattern>/back-end/cs/CsSendGmail.do</url-pattern>
+	</servlet-mapping>
 </web-app>

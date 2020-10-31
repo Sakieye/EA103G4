@@ -14,7 +14,6 @@ import com.cs.model.CsService;
 import com.cs.model.CsVO;
 
 
-@WebServlet("/CsServlet")
 public class CsServlet extends HttpServlet {
 	
  
@@ -27,8 +26,7 @@ public class CsServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
-		if ("insertCs".equals(action)) { 
-			
+		if ("insertCs".equals(action)) {
 			//收集錯誤訊息
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -56,15 +54,11 @@ public class CsServlet extends HttpServlet {
 				//開始新增資料
 				CsService csSvc = new CsService();
 				csVO = csSvc.addCs(cs_Email, cs_Tel, cs_Subject, cs_Message, cs_isSend);
-	
-				//新增完成
-				String url = "/back-end/cs/listAllCs.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);			
+						
 			} catch (RuntimeException e) {
 				errorMsgs.add("傳送失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/cs/csindex.jsp");
+						.getRequestDispatcher("/back-end/cs/listAllCs.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -93,32 +87,7 @@ public class CsServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
 				successView.forward(req, res);		
 			}			
-		}
-		
-		if("getOneCs_For_Display".equals(action)) {
-			//收集錯誤訊息
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-			try {
-				//接收訊息編號
-				String cs_ID = req.getParameter("cs_ID"); 
-				
-				//取得該訊息資訊
-				CsService csSvc = new CsService();
-				CsVO csVO = csSvc.getOneCs(cs_ID);
-				
-				//準備轉交
-				req.setAttribute("csVO", csVO);
-				String url = "/back-end/cs/csindex.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res); 
-			} catch (Exception e) {
-				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
-				successView.forward(req, res);		
-			}
-		}							
+		}				
 	}
 
 }

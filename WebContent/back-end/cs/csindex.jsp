@@ -38,7 +38,7 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
   }
-  span {
+  .mailspan {
   	color: red;
   	font-weight:bold;  	
   }
@@ -53,6 +53,13 @@
   .mailbutton {
   	text-align:right;
   }	
+  input[type="text"],  input[type="email"] {
+    background: rgba(144, 144, 144, 0.075);
+    border-color: rgba(144, 144, 144, 0.25);
+    height: 2rem;
+    width: 80%;
+    text-align:left;
+  } 
 </style>
 </head>
 
@@ -117,10 +124,16 @@
 												<td><fmt:formatDate value='${csVO.cs_Time}' pattern='yyyy-MM-dd HH:mm'/></td>
 												<td>${csVO.cs_isSend eq 0 ? "尚未回覆":"已回覆"}</td>
 												<td>
-													<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Test${update.index}">詳情</button>
+													<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#csDetails${update.index}">詳情</button>
 													<!-- Modal -->
-												      <div class="modal fade" id="Test${update.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-												        <div class="modal-dialog" role="document">
+													<%@ include file="csDetailsModal.jsp" %>
+												</td>
+												<td>
+													<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#csGmail${update.index}">回覆</button>
+											
+												  	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/cs/CsSendGmail.do" style="margin-bottom: 0px;">
+												     <div class="modal fade" id="csGmail${update.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												        <div class="modal-dialog modal-dialog-centered" role="document">
 												          <div class="modal-content">
 												            <div class="modal-header">
 												              <h5 class="modal-title" id="exampleModalLabel">詳細資訊</h5>
@@ -130,35 +143,36 @@
 												            </div>
 												            <div class="modal-body">										           
 												                <p>
-												                  <label for="contact-name" class="conteac-names">信箱:<br><span>${csVO.cs_Email}</span></label>										                  
+												                  <label for="contact-name" class="conteac-names">收件者信箱:</label>										                  
+												                  <span>*</span>
+                                                                  <br><input type="email" id="cs_Email" name="cs_Email" class="cs_Email" value="${csVO.cs_Email}" readonly="readonly" required>	
 												                </p>
 												                <p>
-												                  <label for="contact-tel" class="conteac-names">電話:<br><span>${csVO.cs_Tel}</span></label>										                
-												                </p>
-												                <p>
-												                  <label for="contact-tel" class="conteac-names">主旨:<br><span>${csVO.cs_Subject}</span></label>										                
+												                  <label for="contact-tel" class="conteac-names">主旨:</label>
+												                  <span class="mailspan">*</span>
+                                                                  <br><input type="text" id="cs_Subject" name="cs_Subject" maxlength="30" required placeholder="請輸入30字以內" >											                
 												                </p>										                
 												                <p>
 												                  <label for="contace-message">留言:</label>
 												                  <br>
-												                  <textarea name="messages" rows="10" cols="60"  readonly="readonly">${csVO.cs_Message}</textarea>
+												                  <textarea name="cs_Message" rows="10" cols="60" required></textarea>
 												                </p>            
 												            </div>
 												            <div  class="modal-footer">
+												              <input type="submit" class="btn btn-primary" value="回覆">
+												     		  <input type="hidden" name="cs_ID"  value="${csVO.cs_ID}">
+												     		  <input type="hidden" name="cs_isSend"  value="${csVO.cs_isSend}">
+												              <input type="hidden" name="action"	value="sendmail">	
 												              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 												            </div>
 												          </div>
 												        </div>
-												      </div>	
+												      </div>									     
+
+												    </FORM>
 												</td>
 												<td>
-												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" style="margin-bottom: 0px;">
-												     <input type="submit" class="btn btn-danger" value="回覆">
-												     <input type="hidden" name="empno"  value="${empVO.empno}">
-												     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-												</td>
-												<td>
-												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/CsServlet" style="margin-bottom: 0px;">
+												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/cs/cs.do" style="margin-bottom: 0px;">
 												     <input type="submit" class="btn btn-secondary" value="刪除">
 												     <input type="hidden" name="cs_ID"  value="${csVO.cs_ID}">
 												     <input type="hidden" name="action" value="deleteCs"></FORM>
