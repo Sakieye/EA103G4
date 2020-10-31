@@ -86,7 +86,7 @@ public class BookClubServlet extends HttpServlet {
 				String bc_id = req.getParameter("bc_id");
 				BookClubService bookClubService = new BookClubService();
 				BookClubVO bookClubVO = bookClubService.getOneBookClub(bc_id);
-				
+				System.out.println(bc_id);
 				req.setAttribute("listOneBookClub", bookClubVO);
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/bookclub/listOneBookClub.jsp");
 				successView.forward(req, res);

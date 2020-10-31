@@ -108,6 +108,16 @@
 	       		      title: e.bc_name + '審核通知',
 	       		      text: e.message,
 	       		      timeout: 'keep',
+	       		   buttons: [{
+	                    text: '知道了',
+	                    click: function(e) {
+	                        e.closeNotification()
+	                    }},  		   		  {
+                  text: '聊天去',
+                  click: function() {
+                  	location.href=`<%=request.getContextPath() %>` + "/front-end/bookclub/bookclub.do?action=bookClubChat&bc_id=" + e.bc_id + '&mem_id=' + '${memVO.mem_id}';
+                  }
+              }]
 	       		    })
 		    }
 		    function failNotice (e){
@@ -120,16 +130,40 @@
 		    function signIn (e){
 		    	naranja()['log']({
 	       		      title: e.bc_name + '加入通知',
+	       		      icon: true,
 	       		      text: e.mem_name + "報名了此讀書會，請盡快審核",
 	       		      timeout: 'keep',
-	       		    })
+	       		   	  buttons: [{
+		                    text: '稍後再說',
+		                    click: function(e) {
+		                        e.closeNotification()
+		                    }},  		   		  {
+	                    text: '馬上審核',
+	                    click: function() {
+	                    	location.href=`<%=request.getContextPath() %>` + "/front-end/bookclub/bookclub.do?action=getOne_For_Display&bc_id=" + e.bc_id;
+	                    }
+	                } 
+	                ]
+	       		})
 		    }
 		    function update (e){
 		    	naranja()['log']({
 	       		      title: e.bc_name + '修改通知',
 	       		      text: e.mem_name + "修改了讀書會，請盡快查看",
 	       		      timeout: 'keep',
-	       		    })
+	       		   buttons: [{
+	                    text: '稍後再說',
+	                    click: function(e) {
+	                        e.closeNotification()
+	                    }},
+	       			   {
+	                    text: '馬上查看',
+	                    click: function() {
+	                    	location.href=`<%=request.getContextPath() %>` + "/front-end/bookclub/bookclub.do?action=getOne_For_Display&bc_id=" + e.bc_id;
+	                    }
+	                } 
+	                ]
+	       		})
 		    }
 	</script>
 </body>
