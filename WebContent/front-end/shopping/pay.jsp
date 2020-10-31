@@ -8,23 +8,27 @@
 <%@ page import="com.payme.model.*"%>
 
 <%
-	@SuppressWarnings("unchecked")
-	List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
-	pageContext.setAttribute("cartlist", cartlist);
+	if(session.getAttribute("memVO")!=null && session.getAttribute("shpingcart")!=null){
+		
+		@SuppressWarnings("unchecked")
+		List<Cart> cartlist = (Vector<Cart>) session.getAttribute("shpingcart");
+		pageContext.setAttribute("cartlist", cartlist);
+		
+		String[] totalPrice = (String[]) session.getAttribute("getTotal");
+		pageContext.setAttribute("totalPrice", totalPrice);
+		
+		MemVO memVO = (MemVO) session.getAttribute("memVO");
+		pageContext.setAttribute("memVO", memVO);
 
-	String[] totalPrice = (String[]) session.getAttribute("getTotal");
-	pageContext.setAttribute("totalPrice", totalPrice);
+		MemService memSvc = new MemService();
+		MemVO memSvcVO = memSvc.getOneMem(memVO.getMem_id());
+		pageContext.setAttribute("memSvcVO", memSvcVO);
 
-	MemVO memVO = (MemVO) session.getAttribute("memVO");
-	pageContext.setAttribute("memVO", memVO);
-
-	MemService memSvc = new MemService();
-	MemVO memSvcVO = memSvc.getOneMem(memVO.getMem_id());
-	pageContext.setAttribute("memSvcVO", memSvcVO);
-
-	PayService paySvc = new PayService();
-	List<PayVO> payVO = paySvc.getOneMemPay(memVO.getMem_id());
-	pageContext.setAttribute("payVO", payVO);
+		PayService paySvc = new PayService();
+		List<PayVO> payVO = paySvc.getOneMemPay(memVO.getMem_id());
+		pageContext.setAttribute("payVO", payVO);
+		
+		String odprice=null;
 %>
 
 
@@ -103,56 +107,55 @@
 									<div id="collapseOne" class="collapse show"
 										aria-labelledby="headingOne" data-parent="#accordionExample">
 										<div class="card-body">
-
-											<table class="cartprd">
+											<table class="cartprd table-shopping-cart">
+												<tr class="table_head">
+													<th class="column-1">項目</th>
+													<th class="column-1">參考圖</th>
+													<th class="column-2">書名</th>
+													<th class="column-3">數量</th>
+													<th class="column-4">小計</th>
+													<th class="column-5">Point</th>
+												</tr>
 												<c:set var="count" scope="session" />
 
 												<c:forEach var="cart" items="${cartlist}"
 													varStatus="cartstatus">
 
-													<tr>
+													<tr class="table_row">
 														<!--項目 -->
-														<td style="vertical-align: middle;"><h5>${count=count+1}</h5></td>
+														<td class="column-1" style="vertical-align: middle;"><h5>${count=count+1}</h5></td>
 														<!--商品圖 -->
-														<td id="imgTd" style="vertical-align: middle;"><img
+														<td class="column-1" id="imgTd" style="vertical-align: middle;"><img
 															class="prdimgTd" alt="404 NOT FOUND"
 															src="${pageContext.request.contextPath}/ShowBookPic?bookID=${cart.book_Id}">
 														</td>
+														<td class="column-2" style="vertical-align: middle;width:100px;">
 														<!--ISBN -->
-														<td style="vertical-align: middle;">
-															<h6>ISBN：${cart.isbn}</h6> <!--商品名稱  -->
-															<h3>${cart.book_Name}</h3> <!--出版社  -->
-															<h6>${cart.publisher_Id}</h6>
+															<h6>ISBN：${cart.isbn}</h6> 
+														<!--商品名稱  -->
+															<h4>${cart.book_Name}</h4> 
 														</td>
 														<!--購買數量  -->
-														<td style="vertical-align: middle;"><h5>${cart.comm_Qty}個</h5></td>
+														<td class="column-3" style="vertical-align: middle;"><h5>${cart.comm_Qty}個</h5></td>
 														<!--價錢小計  -->
-														<td style="vertical-align: middle;"><h5>
-																TWD$
-																<fmt:formatNumber type="number"
-																	value="${cart.price*cart.comm_Qty}"
-																	maxFractionDigits="0" />
+														<td style="vertical-align: middle;">
+															<h5>TWD$
+																<fmt:formatNumber type="number" value="${cart.price*cart.comm_Qty}" maxFractionDigits="0" />
 															</h5></td>
 														<!--單項獲得紅利  -->
 														<td style="vertical-align: middle;"><h5>
-																<fmt:formatNumber type="number"
-																	value="${cart.book_BP*cart.comm_Qty}"
-																	maxFractionDigits="0" />
+																<fmt:formatNumber type="number" value="${cart.book_BP*cart.comm_Qty}" maxFractionDigits="0" />
 																點
-															</h5> <!-- input 商品資料 --> <input type="hidden" name="book_Id"
-															value="${cart.book_Id}"> <input type="hidden"
-															name="book_Name" value="${cart.book_Name}"> <input
-															type="hidden" name="price"
-															value="${cart.price*cart.comm_Qty}"> <input
-															type="hidden" name="comm_Qty" value="${cart.comm_Qty}">
-															<input type="hidden" name="book_BP"
-															value="<fmt:formatNumber type="number" value="${cart.book_BP*cart.comm_Qty}" maxFractionDigits="0" />">
-
+															</h5> 
+															<!-- input 商品資料 --> 
+															<input type="hidden" name="book_Id" value="${cart.book_Id}"> 
+															<input type="hidden" name="book_Name" value="${cart.book_Name}"> 
+															<input type="hidden" name="price" value="${cart.price*cart.comm_Qty}"> 
+															<input type="hidden" name="comm_Qty" value="${cart.comm_Qty}">
+															<input type="hidden" name="book_BP" value="<fmt:formatNumber type="number" value="${cart.book_BP*cart.comm_Qty}" maxFractionDigits="0" />">
 														</td>
 												</c:forEach>
-
 											</table>
-
 											<div class="alert alert-info">
 												<b>POINT： + <span id="prdtotal">${totalPrice[1]}</span></b><br>
 												<b>小計(優惠已折)： TWD$ <span id="prdtotal">${totalPrice[0]}</span></b>
@@ -177,6 +180,7 @@
 										<div class="card-body">
 											<div class="form-row">
 												<div class="form-group col-md-6">
+												
 													<label for="inputEmail4">收&nbsp;件&nbsp;人&nbsp;：&nbsp;</label><input
 														type="text" class="form-control" id="rec_Name"
 														name="rec_Name" size="10" value="${memSvcVO.mem_name}"
@@ -291,16 +295,14 @@
 
 											<!-- 紅利點數 -->
 											<hr size="10px" align="center" width="100%">
-											<div id=chelisInf>
-												<span> ◎您累計的紅利點數：<span><b><fmt:formatNumber
-																type="number" value="${memSvcVO.mem_bonus}" /></b> 點</span> <c:if
-														test="${memSvcVO.mem_bonus >=1}">
-																 , 使用：
-													<input type="number" id="use_Bonus" name="use_Bonus"
-															step="5" min="0" max="10000" value="0"
-															style="width: 80px; height: 30px;">點
+											<div class="price" data-price="${totalPrice[0]}" id=chelisInf>
+												<span> ◎您累計的紅利點數：<span>
+												<b><fmt:formatNumber type="number" value="${memSvcVO.mem_bonus}" />
+												</b> 點</span> 
+												<c:if test="${memSvcVO.mem_bonus >=1}">
+													, 使用：<input class="use_Bonus" type="number" name="use_Bonus" step="1" min="0" max="${memSvcVO.mem_bonus}" value="0" style="width: 80px; height: 30px;">點
 													<p>◎註： 1 Point = TWD $1</p>
-													</c:if>
+												</c:if>
 												</span>
 											</div>
 
@@ -328,31 +330,34 @@
 								<div class="alert alert-secondary" align="center">
 									<div class="container"></div>
 									<div class="alert">
-										<h3 class="display-5">本次訂單金額：${totalPrice[0]}</h3>
+										<h3 class="display-5">本次訂單金額：<b class="totalprice">${totalPrice[0]}</b></h3>
 									</div>
 
 									<div class="alert">
 										<!-- input 訂單資料 -->
 										<input type="hidden" name="mem_Id" value="${memVO.mem_id}">
-										<%-- 	<input type="hidden" name="mem_Bonus" value="${memSvcVO.mem_bonus}"> --%>
-										<input type="hidden" name="order_Total"
-											value="${totalPrice[0]}"> <input type="hidden"
-											name="get_Bonus" value="${totalPrice[1]}"> <input
-											type="hidden" name="order_Qty" value="${count}"> <input
-											type="hidden" name="action" value="PAY">
+										<input type="hidden" name="order_Total" id="order_Total" value="${totalPrice[0]}"> 
+										<input type="hidden" name="get_Bonus" value="${totalPrice[1]}"> 
+										<input type="hidden" name="order_Qty" value="${count}"> 
+										<input type="hidden" name="action" value="PAY">
 										<button type="submit" class="flex-c-m stext-101 cl0 size-116-pay bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
 										<b><font color=#000>確認結帳</font></b></button>
 
 									</div>
-
-								</div>
 							</div>
-						</FORM>
-					
+						</div>
+					</FORM>
 				</div>
 			</div>
 		</div>
 	</section>	
+	<%
+	}else{
+	%>
+	<jsp:forward page="/front-end/bookshop-eshop/index.jsp" />
+	<% 
+	}
+	%>
 	
 	
 	<jsp:include page="/front-end/footer/footer.jsp" />
@@ -364,6 +369,8 @@
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
+<!-- ======================================================================================= -->
+	<!-- 下拉式選單 -->
 	<script>
 		function listBtn() {
 			var listBtn = document.getElementById('cardBtn');
@@ -392,6 +399,24 @@
 				listext3.style.display = 'none';
 			}
 		}
+	</script>
+<!-- ======================================================================================= -->
+	<!-- 計算總金額 -->
+	<script>
+		$(function(){
+		  $('.price').on( 'keyup','.use_Bonus',function(){
+			var price = +$(this).closest('.price').data('price');
+		    var use_Bonus = +$(this).val();
+		    $('.totalprice').text(price-use_Bonus);
+		    $('#order_Total').val(price-use_Bonus);
+		  });
+		  $('.price').on( 'click','.use_Bonus',function(){
+			var price = +$(this).closest('.price').data('price');
+			var use_Bonus = +$(this).val();
+			$('.totalprice').text(price-use_Bonus);
+			$('#order_Total').val(price-use_Bonus);
+		  });
+		});
 	</script>
 </body>
 </html>
