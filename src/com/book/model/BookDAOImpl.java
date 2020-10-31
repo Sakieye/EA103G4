@@ -51,8 +51,7 @@ public class BookDAOImpl implements BookDAO {
 	private static final String FIND_BY_AUTHOR_LIKE_STMT = "SELECT AUTHOR FROM BOOKS WHERE UPPER(AUTHOR) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
 	private static final String FIND_BY_PROMO_ID_STMT = "SELECT * FROM BOOKS WHERE BOOK_ID IN (SELECT BOOK_ID FROM PROMOTION_DETAILS WHERE PROMO_ID = ?)";
 	private static final String FIND_BY_PROMO_ID_STMT_FRONT = "SELECT * FROM BOOKS WHERE BOOK_ID IN (SELECT BOOK_ID FROM PROMOTION_DETAILS WHERE PROMO_ID = ?) AND IS_SOLD = 1";
-	
-	
+
 	@Override
 	public void insert(Book book) {
 		Connection con = null;
@@ -115,35 +114,7 @@ public class BookDAOImpl implements BookDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				book = new Book();
-				book.setBookID(rs.getString("BOOK_ID"));
-				book.setPublisherID(rs.getString("PUBLISHER_ID"));
-				book.setLanguageID(rs.getString("LANGUAGE_ID"));
-				book.setCategoryID(rs.getString("CATEGORY_ID"));
-				book.setBookName(rs.getString("BOOK_NAME"));
-				book.setIsbn(rs.getString("ISBN"));
-				book.setAuthor(rs.getString("AUTHOR"));
-				book.setListPrice(rs.getDouble("LIST_PRICE"));
-				book.setSalePrice(rs.getDouble("SALE_PRICE"));
-				book.setBookBP(rs.getDouble("BOOK_BP"));
-				book.setIsSold(rs.getInt("IS_SOLD"));
-				book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
-				book.setStock(rs.getInt("STOCK"));
-				book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
-				book.setBookIntro(rs.getString("BOOK_INTRO"));
-				book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
-				if (rs.getObject("SALE_PRICE_PROMO") == null) {
-					book.setSalePricePromo(Double.NaN);
-				} else {
-					book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
-				}
-				if (rs.getObject("BOOK_BP_PROMO") == null) {
-					book.setBookBPPromo(Double.NaN);
-				} else {
-					book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
-				}
-				book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
-
+				book = setBook(rs);
 			}
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -177,7 +148,6 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Book> advSearch(Map<String, String> map) {
 		List<Book> listBook = new ArrayList<Book>();
-		Book book = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -199,34 +169,7 @@ public class BookDAOImpl implements BookDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				book = new Book();
-				book.setBookID(rs.getString("BOOK_ID"));
-				book.setPublisherID(rs.getString("PUBLISHER_ID"));
-				book.setLanguageID(rs.getString("LANGUAGE_ID"));
-				book.setCategoryID(rs.getString("CATEGORY_ID"));
-				book.setBookName(rs.getString("BOOK_NAME"));
-				book.setIsbn(rs.getString("ISBN"));
-				book.setAuthor(rs.getString("AUTHOR"));
-				book.setListPrice(rs.getDouble("LIST_PRICE"));
-				book.setSalePrice(rs.getDouble("SALE_PRICE"));
-				book.setBookBP(rs.getDouble("BOOK_BP"));
-				book.setIsSold(rs.getInt("IS_SOLD"));
-				book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
-				book.setStock(rs.getInt("STOCK"));
-				book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
-				book.setBookIntro(rs.getString("BOOK_INTRO"));
-				book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
-				if (rs.getObject("SALE_PRICE_PROMO") == null) {
-					book.setSalePricePromo(Double.NaN);
-				} else {
-					book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
-				}
-				if (rs.getObject("BOOK_BP_PROMO") == null) {
-					book.setBookBPPromo(Double.NaN);
-				} else {
-					book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
-				}
-				book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+				Book book = setBook(rs);
 				listBook.add(book);
 			}
 		} catch (SQLException se) {
@@ -344,61 +287,6 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public void insertBatch(List<Book> books) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = ds.getConnection();
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(INSERT_STMT);
-
-			for (Book book : books) {
-				pstmt.setString(1, book.getPublisherID());
-				pstmt.setString(2, book.getLanguageID());
-				pstmt.setString(3, book.getCategoryID());
-				pstmt.setString(4, book.getBookName());
-				pstmt.setString(5, book.getIsbn());
-				pstmt.setString(6, book.getAuthor());
-				pstmt.setDouble(7, book.getListPrice());
-				pstmt.setDouble(8, book.getSalePrice());
-				pstmt.setDouble(9, book.getBookBP());
-				pstmt.setInt(10, book.getIsSold());
-				pstmt.setDate(11, book.getPublicationDate());
-				pstmt.setInt(13, book.getStock());
-				pstmt.setInt(14, book.getSafetyStock());
-				pstmt.setString(15, book.getBookIntro());
-				pstmt.setString(16, book.getBookNameOriginal());
-				pstmt.addBatch();
-			}
-
-			pstmt.executeBatch();
-			con.commit();
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.setAutoCommit(true);
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-
-	}
-
-	@Override
 	public void updateSalePricePromoBatch(List<String> bookIDs, List<Double> salePricePromos) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -497,7 +385,6 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Book> findByBookIDList(List<String> bookIDs, boolean isFront) {
 		List<Book> listBook = new ArrayList<Book>();
-		Book book = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -514,34 +401,7 @@ public class BookDAOImpl implements BookDAO {
 				pstmt.setString(1, bookID);
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
-					book = new Book();
-					book.setBookID(rs.getString("BOOK_ID"));
-					book.setPublisherID(rs.getString("PUBLISHER_ID"));
-					book.setLanguageID(rs.getString("LANGUAGE_ID"));
-					book.setCategoryID(rs.getString("CATEGORY_ID"));
-					book.setBookName(rs.getString("BOOK_NAME"));
-					book.setIsbn(rs.getString("ISBN"));
-					book.setAuthor(rs.getString("AUTHOR"));
-					book.setListPrice(rs.getDouble("LIST_PRICE"));
-					book.setSalePrice(rs.getDouble("SALE_PRICE"));
-					book.setBookBP(rs.getDouble("BOOK_BP"));
-					book.setIsSold(rs.getInt("IS_SOLD"));
-					book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
-					book.setStock(rs.getInt("STOCK"));
-					book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
-					book.setBookIntro(rs.getString("BOOK_INTRO"));
-					book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
-					if (rs.getObject("SALE_PRICE_PROMO") == null) {
-						book.setSalePricePromo(Double.NaN);
-					} else {
-						book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
-					}
-					if (rs.getObject("BOOK_BP_PROMO") == null) {
-						book.setBookBPPromo(Double.NaN);
-					} else {
-						book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
-					}
-					book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+					Book book = setBook(rs);
 					listBook.add(book);
 				}
 			}
@@ -784,7 +644,6 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Book> findByRandom(int num, boolean isFront) {
 		List<Book> listBook = new ArrayList<Book>();
-		Book book = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -796,34 +655,7 @@ public class BookDAOImpl implements BookDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				book = new Book();
-				book.setBookID(rs.getString("BOOK_ID"));
-				book.setPublisherID(rs.getString("PUBLISHER_ID"));
-				book.setLanguageID(rs.getString("LANGUAGE_ID"));
-				book.setCategoryID(rs.getString("CATEGORY_ID"));
-				book.setBookName(rs.getString("BOOK_NAME"));
-				book.setIsbn(rs.getString("ISBN"));
-				book.setAuthor(rs.getString("AUTHOR"));
-				book.setListPrice(rs.getDouble("LIST_PRICE"));
-				book.setSalePrice(rs.getDouble("SALE_PRICE"));
-				book.setBookBP(rs.getDouble("BOOK_BP"));
-				book.setIsSold(rs.getInt("IS_SOLD"));
-				book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
-				book.setStock(rs.getInt("STOCK"));
-				book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
-				book.setBookIntro(rs.getString("BOOK_INTRO"));
-				book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
-				if (rs.getObject("SALE_PRICE_PROMO") == null) {
-					book.setSalePricePromo(Double.NaN);
-				} else {
-					book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
-				}
-				if (rs.getObject("BOOK_BP_PROMO") == null) {
-					book.setBookBPPromo(Double.NaN);
-				} else {
-					book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
-				}
-				book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+				Book book = setBook(rs);
 				listBook.add(book);
 			}
 
@@ -854,7 +686,6 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Book> findNewBooks(int num, boolean isFront) {
 		List<Book> listBook = new ArrayList<Book>();
-		Book book = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -871,34 +702,7 @@ public class BookDAOImpl implements BookDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				book = new Book();
-				book.setBookID(rs.getString("BOOK_ID"));
-				book.setPublisherID(rs.getString("PUBLISHER_ID"));
-				book.setLanguageID(rs.getString("LANGUAGE_ID"));
-				book.setCategoryID(rs.getString("CATEGORY_ID"));
-				book.setBookName(rs.getString("BOOK_NAME"));
-				book.setIsbn(rs.getString("ISBN"));
-				book.setAuthor(rs.getString("AUTHOR"));
-				book.setListPrice(rs.getDouble("LIST_PRICE"));
-				book.setSalePrice(rs.getDouble("SALE_PRICE"));
-				book.setBookBP(rs.getDouble("BOOK_BP"));
-				book.setIsSold(rs.getInt("IS_SOLD"));
-				book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
-				book.setStock(rs.getInt("STOCK"));
-				book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
-				book.setBookIntro(rs.getString("BOOK_INTRO"));
-				book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
-				if (rs.getObject("SALE_PRICE_PROMO") == null) {
-					book.setSalePricePromo(Double.NaN);
-				} else {
-					book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
-				}
-				if (rs.getObject("BOOK_BP_PROMO") == null) {
-					book.setBookBPPromo(Double.NaN);
-				} else {
-					book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
-				}
-				book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+				Book book = setBook(rs);
 				listBook.add(book);
 			}
 
@@ -1094,7 +898,6 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Book> findByPromoID(String promoID, boolean isFront) {
 		List<Book> books = new ArrayList<Book>();
-		Book book = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1111,34 +914,7 @@ public class BookDAOImpl implements BookDAO {
 			pstmt.setString(1, promoID);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				book = new Book();
-				book.setBookID(rs.getString("BOOK_ID"));
-				book.setPublisherID(rs.getString("PUBLISHER_ID"));
-				book.setLanguageID(rs.getString("LANGUAGE_ID"));
-				book.setCategoryID(rs.getString("CATEGORY_ID"));
-				book.setBookName(rs.getString("BOOK_NAME"));
-				book.setIsbn(rs.getString("ISBN"));
-				book.setAuthor(rs.getString("AUTHOR"));
-				book.setListPrice(rs.getDouble("LIST_PRICE"));
-				book.setSalePrice(rs.getDouble("SALE_PRICE"));
-				book.setBookBP(rs.getDouble("BOOK_BP"));
-				book.setIsSold(rs.getInt("IS_SOLD"));
-				book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
-				book.setStock(rs.getInt("STOCK"));
-				book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
-				book.setBookIntro(rs.getString("BOOK_INTRO"));
-				book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
-				if (rs.getObject("SALE_PRICE_PROMO") == null) {
-					book.setSalePricePromo(Double.NaN);
-				} else {
-					book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
-				}
-				if (rs.getObject("BOOK_BP_PROMO") == null) {
-					book.setBookBPPromo(Double.NaN);
-				} else {
-					book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
-				}
-				book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+				Book book = setBook(rs);
 				books.add(book);
 			}
 
@@ -1164,5 +940,38 @@ public class BookDAOImpl implements BookDAO {
 			}
 		}
 		return books;
+	}
+
+	// setter工具方法
+	private Book setBook(ResultSet rs) throws SQLException {
+		Book book = new Book();
+		book.setBookID(rs.getString("BOOK_ID"));
+		book.setPublisherID(rs.getString("PUBLISHER_ID"));
+		book.setLanguageID(rs.getString("LANGUAGE_ID"));
+		book.setCategoryID(rs.getString("CATEGORY_ID"));
+		book.setBookName(rs.getString("BOOK_NAME"));
+		book.setIsbn(rs.getString("ISBN"));
+		book.setAuthor(rs.getString("AUTHOR"));
+		book.setListPrice(rs.getDouble("LIST_PRICE"));
+		book.setSalePrice(rs.getDouble("SALE_PRICE"));
+		book.setBookBP(rs.getDouble("BOOK_BP"));
+		book.setIsSold(rs.getInt("IS_SOLD"));
+		book.setPublicationDate(rs.getDate("PUBLICATION_DATE"));
+		book.setStock(rs.getInt("STOCK"));
+		book.setSafetyStock(rs.getInt("SAFETY_STOCK"));
+		book.setBookIntro(rs.getString("BOOK_INTRO"));
+		book.setBookNameOriginal(rs.getString("BOOK_NAME_ORIGINAL"));
+		if (rs.getObject("SALE_PRICE_PROMO") == null) {
+			book.setSalePricePromo(Double.NaN);
+		} else {
+			book.setSalePricePromo(rs.getDouble("SALE_PRICE_PROMO"));
+		}
+		if (rs.getObject("BOOK_BP_PROMO") == null) {
+			book.setBookBPPromo(Double.NaN);
+		} else {
+			book.setBookBPPromo(rs.getDouble("BOOK_BP_PROMO"));
+		}
+		book.setEffectivePromos(rs.getString("EFFECTIVE_PROMOS"));
+		return book;
 	}
 }

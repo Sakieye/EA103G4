@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main-back.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookManagement.css" />
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" />
 
 <title>促銷事件管理</title>
@@ -51,15 +51,15 @@
 					%>
 					<c:choose>
 						<c:when test="${not empty promotions}">
-							<%@ include file='/back-end/pages_PromoManagement/page1.file'%><%-- 查詢筆數和現在頁數的顯示 --%>
+							<%@ include file='/back-end/jsp_PromoManagement/page1.file'%><%-- 查詢筆數和現在頁數的顯示 --%>
 							<c:forEach var="promo" items="${promotions}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 								<tr>
 									<td>${promo.promoID}</td>
 									<td>
-									   ${promo.promoName}
-									   <c:if test="${promo.isValid()}">
-									       <p>effective</p>
-									   </c:if>
+										${promo.promoName}
+										<c:if test="${promo.isValid()}">
+											<p>effective</p>
+										</c:if>
 									</td>
 									<td>
 										<fmt:formatDate value="${promo.promoStartTime}" pattern="yyyy-MM-dd HH:mm" />
@@ -83,7 +83,7 @@
 									</td>
 								</tr>
 							</c:forEach>
-							<%@ include file="/back-end/pages_PromoManagement/page2.file"%>
+							<%@ include file="/back-end/jsp_PromoManagement/page2.file"%>
 						</c:when>
 					</c:choose>
 				</tbody>
@@ -93,9 +93,7 @@
 	</div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous"></script>
 	<script>
 		$('#promoStartTime').datetimepicker({

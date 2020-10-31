@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import com.promo.model.Promo;
 import com.promo.model.PromoService;
 
+import tools.StrUtil;
+
 @WebServlet("/PromoManagement")
 public class PromoManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -44,7 +46,7 @@ public class PromoManagement extends HttpServlet {
 		if ("getAdvSearch".equals(request.getParameter("action"))) {
 			PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("promoName", request.getParameter("promoName").trim());
+			map.put("promoName", StrUtil.tryToTrim(request.getParameter("promoName")));
 			map.put("promoStartTime", request.getParameter("promoStartTime"));
 			map.put("promoEndTime", request.getParameter("promoEndTime"));
 			List<Promo> promotionsTemp = promoService.getByAdvSearch(map);

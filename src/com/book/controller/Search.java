@@ -54,7 +54,6 @@ public class Search extends HttpServlet {
 			String bookName = StrUtil.tryToTrim(request.getParameter("bookName"));
 			String author = StrUtil.tryToTrim(request.getParameter("author"));
 			String publisherName = StrUtil.tryToTrim(request.getParameter("publisherName"));
-			publisherName = StrUtil.tryToTrim(publisherName);
 			String salePriceMinStr = request.getParameter("realPriceMin");
 			String salePriceMaxStr = request.getParameter("realPriceMax");
 			String discountMinStr = request.getParameter("discountMin");
