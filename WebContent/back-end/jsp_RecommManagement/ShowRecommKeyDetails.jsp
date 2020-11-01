@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main-back.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookManagement.css" />
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <title>推薦系統管理</title>
 </head>
 <body>
@@ -23,7 +23,7 @@
 		<main id="center" class="column">
 			<h1>${param.keyName}</h1>
 			<div>
-				<button type="button" class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/UpdateRecommKey?keyName=${param.keyName}'">在此Key中新增統計資料</button>
+				<button type="button" class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/UpdateRecommKey?keyName=${param.keyName}'">在此Key中新增/更新統計資料</button>
 			</div>
 			<br>
 			<!-- Table - Hoverable rows -->

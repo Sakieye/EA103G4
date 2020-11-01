@@ -18,6 +18,7 @@ import com.book.model.BookService;
 import com.category.model.CategoryService;
 import com.google.gson.Gson;
 import com.publishers.model.PublisherService;
+import tools.StrUtil;
 
 @WebServlet("/Search")
 public class Search extends HttpServlet {
@@ -37,8 +38,7 @@ public class Search extends HttpServlet {
 
 		// 使用一般搜尋
 		if ("search".equals(action)) {
-			String bookName = request.getParameter("bookName");
-			bookName = tryToTrim(bookName);
+			String bookName = StrUtil.tryToTrim(request.getParameter("bookName"));
 
 			if ("".equals(bookName) || bookName == null) {
 				errorMsgs.add("請輸入至少一項搜尋條件");
@@ -51,12 +51,9 @@ public class Search extends HttpServlet {
 			request.setAttribute("books", books);
 			request.getRequestDispatcher(SUCESS_URL).forward(request, response);
 		} else if ("advSearch".equals(action)) { // 使用進階搜尋
-			String bookName = request.getParameter("bookName");
-			bookName = tryToTrim(bookName);
-			String author = request.getParameter("author");
-			author = tryToTrim(author);
-			String publisherName = request.getParameter("publisherName");
-			publisherName = tryToTrim(publisherName);
+			String bookName = StrUtil.tryToTrim(request.getParameter("bookName"));
+			String author = StrUtil.tryToTrim(request.getParameter("author"));
+			String publisherName = StrUtil.tryToTrim(request.getParameter("publisherName"));
 			String salePriceMinStr = request.getParameter("realPriceMin");
 			String salePriceMaxStr = request.getParameter("realPriceMax");
 			String discountMinStr = request.getParameter("discountMin");
@@ -144,9 +141,9 @@ public class Search extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String bookName = request.getParameter("bookName");
-		String author = request.getParameter("author");
-		String publisherName = request.getParameter("publisherName");
+		String bookName = StrUtil.tryToTrim(request.getParameter("bookName"));
+		String author = StrUtil.tryToTrim(request.getParameter("author"));
+		String publisherName = StrUtil.tryToTrim(request.getParameter("publisherName"));
 
 		// AJAX自動補字
 		if (bookName != null) {
@@ -167,14 +164,6 @@ public class Search extends HttpServlet {
 			List<String> publisherNames = publisherService.getByPublisherNameLike(publisherName);
 			String searchList = new Gson().toJson(publisherNames);
 			response.getWriter().write(searchList);
-		}
-	}
-
-	private String tryToTrim(String str) {
-		if (str != null) {
-			return str.trim();
-		} else {
-			return str;
 		}
 	}
 }

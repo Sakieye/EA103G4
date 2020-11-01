@@ -162,8 +162,8 @@
 	<!-- Footer -->
 	<%@include file="/front-end/footer/footer.jsp"%>
 	<!-- Scripts -->
-	<script src="${pageContext.request.contextPath}/vendor/shop/bootstrap/js/popper.js"></script>
-	<script src="${pageContext.request.contextPath}/vendor/shop/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/skel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/util.js"></script>

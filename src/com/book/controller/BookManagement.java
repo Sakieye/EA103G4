@@ -18,6 +18,8 @@ import com.book.model.BookService;
 import com.category.model.Category;
 import com.category.model.CategoryService;
 
+import tools.StrUtil;
+
 @WebServlet("/BookManagement")
 public class BookManagement extends HttpServlet {
 
@@ -40,20 +42,7 @@ public class BookManagement extends HttpServlet {
 		// 使用搜尋
 		if ("getAdvSearch".equals(request.getParameter("action"))) {
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("bookName", request.getParameter("bookName").trim());
-			map.put("author", request.getParameter("author").trim());
-			map.put("publisherName", request.getParameter("publisherName").trim());
-			map.put("isbn", request.getParameter("isbn").trim());
-			map.put("salePriceMin", request.getParameter("realPriceMin"));
-			map.put("salePriceMax", request.getParameter("realPriceMax"));
-			map.put("discountMin", request.getParameter("discountMin"));
-			map.put("discountMax", request.getParameter("discountMax"));
-			map.put("isSold", request.getParameter("isSold"));
-			map.put("publicationDateMin", request.getParameter("publicationDateMin"));
-			map.put("publicationDateMax", request.getParameter("publicationDateMax"));
-			map.put("categoryID", request.getParameter("categoryID"));
-			List<Book> books = bookService.getByAdvSearch(map);
+			List<Book> books = bookService.advSearchByRequest(request, categoryService, false);
 
 			request.setAttribute("books", books);
 		} else if ("0".equals(isSold) || "1".equals(isSold)) { // 上下架操作

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.promo.model.Promo;
 import com.promo.model.PromoService;
+
+import tools.StrUtil;
 
 @WebServlet("/PromoManagement")
 public class PromoManagement extends HttpServlet {
@@ -39,12 +43,13 @@ public class PromoManagement extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String term;
 
 		// 使用搜尋
 		if ("getAdvSearch".equals(request.getParameter("action"))) {
 			PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("promoName", request.getParameter("promoName").trim());
+			map.put("promoName", StrUtil.tryToTrim(request.getParameter("promoName")));
 			map.put("promoStartTime", request.getParameter("promoStartTime"));
 			map.put("promoEndTime", request.getParameter("promoEndTime"));
 			List<Promo> promotionsTemp = promoService.getByAdvSearch(map);
@@ -71,9 +76,17 @@ public class PromoManagement extends HttpServlet {
 					request.setAttribute("promotions", promotionsTemp);
 				}
 			}
+			request.getRequestDispatcher("/back-end/jsp_PromoManagement/PromoManagement.jsp").forward(request,
+					response);
+			// AJAX自動補字
+		} else if ((term = request.getParameter("term")) != null) {
+			PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
+			response.setContentType("application/json");
+			List<String> promoNames = promoService.getPromoNameLike(term);
+			String searchList = new Gson().toJson(promoNames);
+			response.getWriter().write(searchList);
 		}
 
-		request.getRequestDispatcher("/back-end/jsp_PromoManagement/PromoManagement.jsp").forward(request, response);
 	}
 
 }

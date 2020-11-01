@@ -16,8 +16,8 @@
 		<label for="isValid">促銷事件狀態</label>
 		<select name="isValid" id="isValid" class="form-control" name="isValid">
 			<option value="-1"></option>
-			<option value="0">目前無效</option>
 			<option value="1">作用中</option>
+			<option value="0">目前無效</option>
 		</select>
 	</div>
 </div>

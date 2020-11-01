@@ -106,20 +106,7 @@ public class AddPromoDetails extends HttpServlet {
 			request.setAttribute("promo", promoService.getByPromoID(promoID).get());
 
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("bookName", request.getParameter("bookName"));
-			map.put("author", request.getParameter("author"));
-			map.put("publisherName", request.getParameter("publisherName"));
-			map.put("isbn", request.getParameter("isbn"));
-			map.put("salePriceMin", request.getParameter("realPriceMin"));
-			map.put("salePriceMax", request.getParameter("realPriceMax"));
-			map.put("discountMin", request.getParameter("discountMin"));
-			map.put("discountMax", request.getParameter("discountMax"));
-			map.put("isSold", request.getParameter("isSold"));
-			map.put("publicationDateMin", request.getParameter("publicationDateMin"));
-			map.put("publicationDateMax", request.getParameter("publicationDateMax"));
-			map.put("categoryID", request.getParameter("categoryID"));
-			List<Book> books = bookService.getByAdvSearch(map);
+			List<Book> books = bookService.advSearchByRequest(request, categoryService, false);
 
 			request.setAttribute("books", books);
 			request.getRequestDispatcher("/back-end/jsp_PromoManagement/AddPromoDetails.jsp").forward(request,

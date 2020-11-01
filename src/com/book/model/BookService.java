@@ -15,6 +15,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.category.model.Category;
 import com.category.model.CategoryService;
 import com.promo.model.Promo;
@@ -28,6 +30,7 @@ import redis.clients.jedis.exceptions.JedisException;
 import tools.CountComparator;
 import tools.JedisUtil;
 import tools.RandomCollection;
+import tools.StrUtil;
 
 public class BookService {
 	private final BookDAO bookDAO;
@@ -126,6 +129,7 @@ public class BookService {
 		return getByCategoryID(categoryID, false);
 	}
 
+	// 僅查詢此categoryID
 	public List<Book> getByCategoryID(String categoryID, boolean isFrontEnd) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("categoryID", categoryID);
@@ -139,6 +143,7 @@ public class BookService {
 		return getByParentCategoryID(parentCategoryID, categoryService, false);
 	}
 
+	// 查詢此categoryID與其下所有子類別
 	public List<Book> getByParentCategoryID(String parentCategoryID, CategoryService categoryService,
 			boolean isFrontEnd) {
 		List<Book> books = new ArrayList<Book>();
@@ -238,13 +243,6 @@ public class BookService {
 
 	public List<Book> updateEffPromoBatch(List<String> bookIDs, List<String> effectivePromos) {
 		bookDAO.updateEffPromoBatch(bookIDs, effectivePromos);
-		return getByBookIDList(bookIDs);
-	}
-
-	public List<Book> addBookBatch(List<Book> books) {
-		bookDAO.insertBatch(books);
-		List<String> bookIDs = new ArrayList<String>();
-		books.forEach(book -> bookIDs.add(book.getBookID()));
 		return getByBookIDList(bookIDs);
 	}
 
@@ -547,5 +545,40 @@ public class BookService {
 
 	public List<String> getByAuthorLike(String author) {
 		return bookDAO.findByAuthorLike(author);
+	}
+
+	public List<Book> getByPromoID(String promoID, boolean isFront) {
+		return bookDAO.findByPromoID(promoID, isFront);
+	}
+
+	public List<Book> advSearchByRequest(HttpServletRequest request, CategoryService categoryService, boolean isFront) {
+		String categoryID = request.getParameter("categoryID");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("categoryID", categoryID);
+		map.put("bookName", StrUtil.tryToTrim(request.getParameter("bookName")));
+		map.put("author", StrUtil.tryToTrim(request.getParameter("author")));
+		map.put("publisherName", StrUtil.tryToTrim(request.getParameter("publisherName")));
+		map.put("isbn", StrUtil.tryToTrim(request.getParameter("isbn")));
+		map.put("salePriceMin", request.getParameter("realPriceMin"));
+		map.put("salePriceMax", request.getParameter("realPriceMax"));
+		map.put("discountMin", request.getParameter("discountMin"));
+		map.put("discountMax", request.getParameter("discountMax"));
+		map.put("isSold", request.getParameter("isSold"));
+		map.put("publicationDateMin", request.getParameter("publicationDateMin"));
+		map.put("publicationDateMax", request.getParameter("publicationDateMax"));
+
+		// 首次查詢
+		List<Book> books = getByAdvSearch(map, isFront);
+
+		// 對子類別查詢
+		if (categoryID != null) {
+			Set<String> childCategoryIDs = categoryService.getAllChildCatIDs(categoryID);
+			childCategoryIDs.forEach(childCategoryID -> {
+				map.put("categoryID", childCategoryID);
+				books.addAll(getByAdvSearch(map, isFront));
+			});
+		}
+
+		return books;
 	}
 }

@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bookclub_regis_detail.model.BookClub_Regis_DetailService;
+import com.bookclub_regis_detail.model.BookClub_Regis_DetailVO;
+
 
 @ServerEndpoint("/NoticeWS/{mem_id}"
 
@@ -37,6 +40,15 @@ public class NoticeWS {
 
 			if (receivedSession.isOpen())
 				receivedSession.getAsyncRemote().sendText(message);
+		}
+		if("bookClub".equals(obj.get("type"))) {
+			BookClub_Regis_DetailService bookClub_Regis_DetailSvc = new BookClub_Regis_DetailService();
+			List<BookClub_Regis_DetailVO> list = bookClub_Regis_DetailSvc.getByBc_id((String)obj.get("bc_id"));
+			for(BookClub_Regis_DetailVO b : list) {
+				Session bookClubSession = member.get(b.getMem_id());
+				if(bookClubSession.isOpen())
+					bookClubSession.getAsyncRemote().sendText(message);
+			}
 		}
 		System.out.println(message);
 	}

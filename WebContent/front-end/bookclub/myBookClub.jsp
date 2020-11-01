@@ -34,7 +34,9 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/myBookClub.css">
 <body>
-
+<div class="bg"></div>
+	<div class="bg bg2"></div>
+	<div class="bg bg3"></div>
 	<jsp:include page="/front-end/header/header.jsp" />
 	<section id="One" class="wrapper style3">
 		<div class="inner">
@@ -54,7 +56,7 @@
 			<div class="col-12">
 				<!------------------------------------------------ 表頭 ------------------------------------------->
 				<table class="table reviewBody text-center table-striped">
-					<thead class="thead-light">
+					<thead class="thead-dark">
 						<tr>
 							<th scope="col" class="titleItem text-nowrap">讀書會名稱</th>
 							<th scope="col" class="titleItem text-nowrap">活動地址</th>
@@ -85,7 +87,7 @@
 								<td>${bookClubVO.bc_comfirm_peo}</td>
 								<td>
 									<FORM METHOD="post" ACTION="bookclub.do">
-										<button type="submit" class="update-button">修改讀書會</button>
+										<button type="submit" class="btn btn-warning ${bookClubVO.bc_status}">修改讀書會</button>
 										<input type="hidden" name="bc_id" value="${bookClubVO.bc_id}">
 										<input type="hidden" name="action" value="getOne_For_Update">
 									</FORM>
@@ -94,7 +96,7 @@
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
 										class="m-0">
-										<button type="submit" class="reviewGroupBtn btn btn-info"
+										<button type="submit" class="reviewGroupBtn btn btn-info ${bookClubVO.bc_status}"
 											name="action" value="getOne_For_Display">詳情</button>
 										<input type="hidden" name="bc_id" value="${bookClubVO.bc_id}">
 									</form>
@@ -104,9 +106,8 @@
 									<form
 										action="<%=request.getContextPath()%>/front-end/bookclub/bookclub.do"
 										class="m-0" id="myBookClubimg">
-										<img src="<%=request.getContextPath()%>/images/bookclub/chat.png" id="chatpic" class="btn chat">
-										
-										<button type="submit" class="btn chat" name="action" id="chatbtn"
+										<img src="<%=request.getContextPath()%>/images/bookclub/chat.png" class="btn chat chatpic">
+										<button type="submit" class="btn chat ${bookClubVO.bc_status}" name="action" id="chatbtn"
 										 	value="bookClubChat" style="border: none;display: none">
 										</button>
 										<input type="hidden" name="bc_id" value="${bookClubVO.bc_id}">
@@ -115,7 +116,7 @@
 									</form>
 								</td>
 								<td>
-									<button type="button" class="btn btn-danger quit disband"
+									<button type="button" class="btn btn-danger quit disband ${bookClubVO.bc_status}"
 										data-toggle="modal"
 										data-target="#quitModal"
 										value="${bookClubVO.bc_id}" >解散</button>
@@ -183,10 +184,15 @@
 	<%request.removeAttribute("disband");%>
 	</c:if>
 	
-	$('#chatpic').on('click',function(){
-		$('#chatbtn').click();
+	$('.chatpic').on('click',function(){
+		$(this).next().click();
 	});
 	$('td').css('vertical-align','middle');
+	$('.3').attr("disabled", true);
+	var status = '${bookClubVO.bc_status}'
+		if(status === '2'){
+			$('.btn').attr("disabled", true);
+		}
 	</script>
 	
 </body>

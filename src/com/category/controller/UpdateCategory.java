@@ -13,6 +13,8 @@ import com.bookpic.model.BookPicService;
 import com.category.model.Category;
 import com.category.model.CategoryService;
 
+import tools.StrUtil;
+
 @WebServlet("/UpdateCategory")
 public class UpdateCategory extends HttpServlet {
 
@@ -30,7 +32,7 @@ public class UpdateCategory extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String categoryID = request.getParameter("categoryID");
-		String categoryName = request.getParameter("categoryName").trim();
+		String categoryName = StrUtil.tryToTrim(request.getParameter("categoryName"));
 		String parentCategoryID = null;
 		CategoryService categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
 		Optional<Category> parentCategory = categoryService.getParentCategoryByChildCategoryName(categoryName);

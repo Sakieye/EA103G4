@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public interface BookDAO {
 	void insert(Book book);
-	void insertBatch(List<Book> books);
 	Optional<Book> findByBookID(String bookID);
 	List<Book> advSearch(Map<String, String> map);
 	List<Book> findByBookIDList(List<String> bookIDs, boolean isFront);
@@ -24,4 +23,5 @@ public interface BookDAO {
 	List<String> findByBookIDLike(String bookID);
 	List<String> findByBookNameLike(String bookName);
 	List<String> findByAuthorLike(String author);
+	List<Book> findByPromoID(String promoID, boolean isFront);
 }

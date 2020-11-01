@@ -36,43 +36,28 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.auto-complete.css" />
 
 <!--自訂prddetailpage.css-->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/prddetailpage.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/prddetailpage.css" />
 <!--===============================================================================================-->
-<link rel="icon" type="image/cliff/png"
-	href="<%=request.getContextPath()%>/images/cliff/icons/favicon.png" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animate/animate.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/vendor/shop/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/vendor/shop/animsition/css/animsition.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/vendor/shop/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/slick/slick.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/vendor/shop/slick/slick.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/MagnificPopup/magnific-popup.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/vendor/shop/MagnificPopup/magnific-popup.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/vendor/shop/perfect-scrollbar/perfect-scrollbar.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/shoputil.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/shopmain.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shoputil.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shopmain.css">
 <!--===============================================================================================-->
 <!--Header購物車、次Header搜尋欄-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/header-front-with-cart-and-search.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-front-with-cart-and-search.css">
 <!--下拉式書籍類別選單-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/sm-core-css.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/sm-clean.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
 </head>
 
 <body class="animsition">
@@ -125,8 +110,7 @@
 								<!-- Block2 -->
 								<div class="block2">
 									<!--商品清單  -->
-									<div class="card" id="booklist"
-										onclick="<%=request.getContextPath()%> ">
+									<div class="card" id="booklist">
 										<div class="block2-pic hov-img0 block2-pic-bookindex">
 											<FORM class="form-inline" name="detailFrom" method="GET"
 												action="<%=request.getContextPath()%>/Shopping.html">
@@ -152,7 +136,6 @@
 												</b>
 												</span>
 												<!--加入購物車  -->
-<%-- 												<FORM class="form-inline" name="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html"> --%>
 													<input type="hidden" name="comm_Qty" id="comm_Qty" value="1"> 
 													<input type="hidden" name="mem_Id" id="mem_Id" value="visitors"> 
 													<input type="hidden" name="publisher_Id" id="publisher_Id" value="${book.publisherID}">
@@ -164,8 +147,6 @@
 													<input type="hidden" name="price" id="price" value="${book.bookRealPrice}">
 													<input type="hidden" name="action" id="action" value="ADD">
 													<input type="image"  class="card-img-body js-addcart-index"  src="<%=request.getContextPath()%>/images/cliff/car.gif">
-<%-- 													<img alt="暫無圖片" class="card-img-body js-addcart-index"  src="<%=request.getContextPath()%>/images/cliff/car.gif"> --%>
-<!-- 												</FORM> -->
 											</div>
 										</div>
 									</div>
@@ -209,25 +190,18 @@
 	<!-- pic -->
 	<script src="<%=request.getContextPath()%>/js/smoothproducts.min.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/animsition/js/animsition.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/popper.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/popper.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/bootstrap.min.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/daterangepicker/moment.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/daterangepicker/daterangepicker.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/daterangepicker/moment.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/daterangepicker/daterangepicker.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/slick/slick.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/slick/slick.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/shopslick-custom.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/MagnificPopup/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script>
 		$('.gallery-lb').each(function() {
 			$(this).magnificPopup({
@@ -241,19 +215,10 @@
 		});
 	</script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/isotope/isotope.pkgd.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/isotope/isotope.pkgd.min.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/vendor/shop/sweetalert/sweetalert.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.fly.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/shop/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.js-addwish-detail').on('click', function(e) {
-			e.preventDefault();
-		});
-
-
-		/*---------------------------------------------*/
 		var PathURL = window.document.location.href;
 		var localhost = PathURL.substring(0, PathURL
 				.indexOf(window.document.location.pathname));
@@ -262,40 +227,33 @@
 				function() {
 					var nameProduct = $(this).parent().parent().parent()
 							.parent().find('.js-name-index').html();
-					$(this).on(
-							'click',
+					$(this).on('click',
 							function() {
 								$.ajax({
 									type : "POST",
 									url : localhost + '/EA103G4/Shopping.html',
-									data : cartFormJSON($('#action').val(), $(
-											'#book_Name').val(), $('#book_Id')
-											.val(), $('#isbn').val(), $(
-											'#book_BP').val(), $(
-											'#publisher_Id').val(), $('#price')
-											.val(), $('#comm_Qty').val()),
+									data : cartFormJSON(
+											 $(this).parent().children('#action').val(), 
+											 $(this).parent().children('#book_Name').val(), 
+											 $(this).parent().children('#book_Id').val(), 
+											 $(this).parent().children('#isbn').val(), 
+											 $(this).parent().children('#book_BP').val(), 
+											 $(this).parent().children('#publisher_Id').val(), 
+											 $(this).parent().children('#price').val(), 
+											 $(this).parent().children('#comm_Qty').val()),
 									dataType : "json",
 
 									success : function(data) {
-										swal(nameProduct, "此商品成功加入購物車 !",
-												"success");
-										setTimeout(function() {
-											go();
-										}, 500);
+										swal(nameProduct, "此商品成功加入購物車 !", "success");
+										$('.badge').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
 									},
 									error : function(data) {
-										swal(nameProduct, "此商品無法加入購物車 Q_Q。",
-												"error");
+										swal(nameProduct, "此商品無法加入購物車 Q_Q。", "error");
 									}
 								})
 							})
-				})
-
-		function go() {
-			history.go(0);
-		}
-		function cartFormJSON(action, book_Name, book_Id, isbn, book_BP,
-				publisher_Id, price, comm_Qty) {
+						})
+		function cartFormJSON(action, book_Name, book_Id, isbn, book_BP,publisher_Id, price, comm_Qty) {
 			var cartFormJSON = {
 				"action" : action,
 				"book_Name" : book_Name,
@@ -314,20 +272,16 @@
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/js/shopmain.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.scrollex.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/skel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/util.js"></script>
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
 	<!--carousel slider滑入滑出顯示contorls-->
-	<script
-		src="${pageContext.request.contextPath}/js/carousel-control-react.js"></script>
+	<script src="${pageContext.request.contextPath}/js/carousel-control-react.js"></script>
 	<!--Header進階搜尋toggle顯示/隱藏表單、一般搜尋按鈕註冊-->
-	<script
-		src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
+	<script src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
 	<!--Header下拉式書籍類別選單-->
-	<script
-		src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
 	<!--Header Search Autocompelete-->
 	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>
 

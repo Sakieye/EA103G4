@@ -9,16 +9,13 @@
 <%@ page import="com.questionnair_answer.model.*"%>
 
 <%
-	
 	BookClubVO bookClubVO = (BookClubVO) request.getAttribute("listOneBookClub");
 	request.setAttribute("listOneBookClub", bookClubVO);
 	if(bookClubVO == null){
 		String bc_id = (String) session.getAttribute("bc_id");
-		System.out.println(bc_id);
 		BookClubService bookClubService = new BookClubService();
 		bookClubVO =  bookClubService.getOneBookClub(bc_id);
 	}
-	
 %>
 <%
 	QuestionService questionSvc = new QuestionService();
@@ -139,7 +136,7 @@
 					<c:if test="${memVO.mem_id eq listOneBookClub.mem_id}">
 						<FORM METHOD="post" ACTION="bookclub.do">
 							<button type="submit" class="style-6e8fa4a0-register-button">修改讀書會</button>
-							<input type="hidden" name="bc_id"value="<%= bookClubVO.getBc_id() %>"> 
+							<input type="hidden" name="bc_id"value="<%= bookClubVO.getBc_id() %>">
 							<input type="hidden" name="action" value="getOne_For_Update">
 						</FORM>
 					</c:if>
@@ -547,7 +544,15 @@
 	    });
 	    <% request.removeAttribute("isFull"); %>
 	    </c:if>
-	    
+	    <c:if test="${not empty situation.update}">
+	    swal.fire({
+	        icon:'success',
+	        title:'YEAH',
+	        text:"修改成功"
+	    });
+	    sendUpdateBookClubMessage();
+	    	<% request.removeAttribute("update"); %>
+	    </c:if>
 	</script>
 		<!-- 地圖script -->
 	<script>

@@ -12,4 +12,5 @@ public interface PromoDAO {
 	void update(Promo promo);
 	List<Promo> advSearch(Map<String, String> map);
 	Set<Promo> findValidPromos();
+	List<String> findByPromoNameLike(String promoName);
 }

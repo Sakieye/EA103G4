@@ -75,10 +75,12 @@ public class PromoService {
 
 		return promoDAO.advSearch(map);
 	}
-	
+
 	public Set<Promo> getValidPromos() {
 		return promoDAO.findValidPromos();
 	}
 
-
+	public List<String> getPromoNameLike(String promoName) {
+		return promoDAO.findByPromoNameLike(promoName);
+	}
 }
