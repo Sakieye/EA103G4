@@ -22,10 +22,9 @@ public class CsServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		
+
 		if ("insertCs".equals(action)) {
 			//收集錯誤訊息
 			List<String> errorMsgs = new LinkedList<String>();
@@ -65,7 +64,6 @@ public class CsServlet extends HttpServlet {
 		
 		
 		if("deleteCs".equals(action)) {
-			
 			//收集錯誤訊息
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -76,11 +74,6 @@ public class CsServlet extends HttpServlet {
 				//開始刪除資料
 				CsService csSvc = new CsService();
 				csSvc.deleteCs(cs_ID);
-				
-				//刪除成功,開始轉交
-				String url = "/back-end/cs/csindex.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());

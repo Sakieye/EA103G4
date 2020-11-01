@@ -29,7 +29,7 @@
 												                <p>
 												                  <label for="contace-message">留言:</label>
 												                  <br>
-												                  <textarea name="messages" rows="10" cols="60"  readonly="readonly">${csVO.cs_Message}</textarea>
+												                  <textarea name="messages" rows="10" cols="50"  readonly="readonly">${csVO.cs_Message}</textarea>
 												                </p>            
 												            </div>
 												            <div  class="modal-footer">

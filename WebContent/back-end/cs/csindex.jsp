@@ -18,13 +18,13 @@
 <title>客服信箱</title>
 <style type="text/css">
 	table th,td{
-         font-size: 12px;
+         font-size: 16px;
          font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
          text-align: center;
       }
     
   label{
-  	font-size: 12px;
+  	font-size: 16px;
     font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
   }
   h4 {
@@ -59,6 +59,9 @@
     height: 2rem;
     width: 80%;
     text-align:left;
+  }
+  .thcss{
+  	background-color:rgba(255,255,0,0.3);
   } 
 </style>
 </head>
@@ -88,7 +91,7 @@
 								
 								<table class="table table-hover ">
 									<thead>
-										<tr>
+										<tr class="thcss">
 											<%
 												CsService csSvc =new CsService();
 												List<CsVO> list = csSvc.getAll();
@@ -155,10 +158,11 @@
 												                <p>
 												                  <label for="contace-message">留言:</label>
 												                  <br>
-												                  <textarea name="cs_Message" rows="10" cols="60" required></textarea>
+												                  <textarea name="cs_Message" rows="10" cols="50" required></textarea>
 												                </p>            
 												            </div>
 												            <div  class="modal-footer">
+												              
 												              <input type="submit" class="btn btn-primary" value="回覆">
 												     		  <input type="hidden" name="cs_ID"  value="${csVO.cs_ID}">
 												     		  <input type="hidden" name="cs_isSend"  value="${csVO.cs_isSend}">
@@ -172,8 +176,9 @@
 												    </FORM>
 												</td>
 												<td>
-												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/cs/cs.do" style="margin-bottom: 0px;">
-												     <input type="submit" class="btn btn-secondary" value="刪除">
+												  <FORM id="${csVO.cs_ID}" METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/cs/cs.do" style="margin-bottom: 0px;">
+												     <button type="button" class="btn btn-secondary doDelete " value="${csVO.cs_ID}">刪除</button>
+<!-- 												     <input type="submit" class="btn btn-secondary" value="刪除"> -->
 												     <input type="hidden" name="cs_ID"  value="${csVO.cs_ID}">
 												     <input type="hidden" name="action" value="deleteCs"></FORM>
 												</td>						
@@ -194,7 +199,9 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <!--引用SweetAlert2.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.0/sweetalert2.all.js"></script>
 	<script>
 	
 	//針對主旨 限縮字數
@@ -210,6 +217,49 @@
 	});
 	
 	//刪除前 確認是否回覆進行提示
+	$(document).ready(function(){
+	   $(".doDelete").click(function(){
+		var theone="[id='"+$(this).val()+"']";
+
+	   	swal({
+        	title: "確定刪除？",
+        	html: "按下確定後資料會永久刪除",
+        	type: "question",
+        	showCancelButton: true//顯示取消按鈕
+    	}).then(
+        	function (result) {
+            	if (result.value) {
+            		
+                //使用者按下「確定」要做的事
+                	$.ajax({
+			         type:"POST",                    //指定http參數傳輸格式為POST
+			         url: "${pageContext.request.contextPath}/back-end/cs/cs.do",        //請求目標的url，可在url內加上GET參數，如 www.xxxx.com?xx=yy&xxx=yyy
+			         data: $(theone).serialize(), //要傳給目標的data為id=formId的Form其序列化(serialize)為的值，之
+					 
+					 success : function(){
+						 swal({
+							title: "成功刪除", 
+							text: "請點選OK!", 
+							type:"success"}).then(function(){ 
+							   location.reload();
+							 }
+						 );
+				      },
+					 error:function(err){
+					 	swal("系統異常", "資料未被刪除", "error");
+					  }	 
+					});
+            	} else if (result.dismiss === "cancel"){
+                 //使用者按下「取消」要做的事
+                swal("取消", "資料未被刪除", "error");
+            	}//end else  
+        	});//end then 
+			 
+		});
+	});
+	
+	
+
 	</script>
 	
 
