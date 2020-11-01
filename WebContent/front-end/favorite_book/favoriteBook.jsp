@@ -126,7 +126,8 @@
 									String bookID = favorite_Book.getBook_ID();
 									String bookName = bookService.getByBookID(bookID).get().getBookName();
 									String author = bookService.getByBookID(bookID).get().getAuthor();
-									
+									Integer is_Sold = bookService.getByBookID(bookID).get().getIsSold();
+									request.setAttribute("is_Sold", is_Sold);
 									BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
 									Optional<BookPicture> bookPicture = bookPicService.getFirstPicByBookID(bookID);
 									String bookPicName = bookPicture.get().getBookPicName();
@@ -134,6 +135,7 @@
 								%>
 							<tbody>	
 								<tr>
+								  <c:if test="${is_Sold == 1}">
 									<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*5;" onMouseOut="this.width=this.width/5;"></td>				
 									<td><%=bookName%></td>
 									<td><%=author%></td>
@@ -156,6 +158,7 @@
 											<input type="hidden" name="action" value="deleteFavBook">
 										</FORM>
 									</td>
+								 </c:if>
 								</tr>
 							</tbody>	
 							</c:forEach>
