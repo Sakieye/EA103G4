@@ -99,6 +99,8 @@
         }
         .submenu-item:hover {
             background: #555;
+            color: white !important;
+			text-decoration:none;
         }
         .now .item {
             background: #ddd;

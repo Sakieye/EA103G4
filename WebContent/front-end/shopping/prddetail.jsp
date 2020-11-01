@@ -118,22 +118,7 @@
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<%@ include file="/front-end/bookshop-eshop/breadcrumb.jsp"%>
-						<div class="star-ratings-css">
-							<div class="star-ratings-css-top" style="width: ${revSvc2.getRatingAvg(book.bookID)*100}%">
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-							</div>
-							<div class="star-ratings-css-bottom">
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-							</div>
-						</div>
+						<div class="star-ratings-sprite"><span style="width:${revSvc2.getRatingAvg(book.bookID)*100}%" class="star-ratings-sprite-rating"></span></div>
 						<span class="mt-0" style="font-size: 8px;">
 							<b>ISBN：${prddetail.isbn}</b>
 						</span>

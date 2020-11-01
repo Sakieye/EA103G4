@@ -114,6 +114,7 @@ public class MemServlet extends HttpServlet {
 			String requestURL = req.getParameter("requestURL");
 			
 			try {
+				MemService memSvc = new MemService();
 				String mem_id = req.getParameter("mem_id").trim();
 
 				String mem_account = req.getParameter("mem_account").trim();
@@ -145,7 +146,7 @@ public class MemServlet extends HttpServlet {
 				try {
 					mem_bonus = new Double(req.getParameter("mem_bonus").trim());
 				} catch (NumberFormatException e) {
-					mem_bonus = 0.0; // 錯誤處理
+					mem_bonus = memSvc.getOneMem(mem_id).getMem_bonus();
 				}
 
 				byte[] mem_pic = null;
@@ -157,7 +158,7 @@ public class MemServlet extends HttpServlet {
 					in.close();
 //					System.out.println(mem_pic);
 				} else {
-					MemService memSvc = new MemService();
+					memSvc = new MemService();
 					MemVO memVO = memSvc.getOneMem(mem_id);
 					mem_pic = memVO.getMem_pic();
 				}
@@ -166,7 +167,7 @@ public class MemServlet extends HttpServlet {
 				try {
 					mem_exp = new Double(req.getParameter("mem_exp").trim());
 				} catch (NumberFormatException e) {
-					mem_exp = 0.0; // 錯誤處理
+					mem_exp = memSvc.getOneMem(mem_id).getMem_exp();
 				}
 
 				Integer mem_iskol = new Integer(req.getParameter("mem_iskol").trim());
@@ -193,7 +194,7 @@ public class MemServlet extends HttpServlet {
 				// 錯誤處理區塊
 
 				// 開始修改資料
-				MemService memSvc = new MemService();
+				
 				memVO = memSvc.updateMem(mem_id, mem_account, mem_password, mem_name, mem_email, mem_nickname, mem_sex,
 						mem_birth, mem_addr, mem_tel, mem_bonus, mem_pic, mem_iskol, mem_exp, mem_status);
 
@@ -286,8 +287,6 @@ public class MemServlet extends HttpServlet {
 			String location = req.getContextPath() + "/front-end/member/signIn.jsp";
 			res.sendRedirect(location);
 		}
-		// 查詢個人
-		// 查詢全部
 
 		// 修改密碼
 		if ("updatePwd".equals(action)) {
@@ -359,10 +358,10 @@ public class MemServlet extends HttpServlet {
 
 				String userInputCode = req.getParameter("userInputCode").trim();
 				
-				if(!jedis.exists(memVO.getMem_tel()))
+				if(!jedis.exists(memVO.getMem_id()))
 					errorMsgs.put("userInputCodeError", "驗證碼已過期");
 				
-				String code = jedis.get(memVO.getMem_tel());
+				String code = jedis.get(memVO.getMem_id());
 				jedis.close();
 				
 				if (userInputCode == null || userInputCode.trim().length() == 0)
@@ -383,7 +382,8 @@ public class MemServlet extends HttpServlet {
 				successView.forward(req, res);
 
 			} catch (Exception e) {
-				jedis.close();
+				if(jedis != null)
+					jedis.close();
 			}
 		}
 

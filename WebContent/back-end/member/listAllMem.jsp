@@ -188,7 +188,7 @@
 								aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 									<div class="modal-content">
-										<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" name="form1" enctype="multipart/form-data">
+										<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" name="form1" id="form1" enctype="multipart/form-data">
 											<div class="modal-header">
 												<h5 class="modal-title" id="exampleModalCenterTitle" style="font-weight: 700;">會員(${memVO.mem_id})</h5>						
 												<button type="button" class="close" aria-label="Close">
@@ -200,14 +200,17 @@
 													<tr>
 														<th>會員姓名</th>
 														<th>${memVO.mem_name}</th>
+													
 													</tr>
 													<tr>
 														<th>紅利餘額</th>
-														<td><input type="text" name="mem_bonus" size="10" value="${memVO.mem_bonus}" class="input2" /></td>
+														<td><input type="text" name="mem_bonus" size="10" value="${memVO.mem_bonus}" class="input2" oninput="value=value.replace(/[^\d]/g,'')" /></td>
+												
 													</tr>
 													<tr>
 														<th>經驗值</th>
-														<td><input type="text" name="mem_exp" size="10" value="${memVO.mem_exp}" class="input2" /></td>
+														<td><input type="text" name="mem_exp" size="10" value="${memVO.mem_exp}" class="input2" oninput="value=value.replace(/[^\d]/g,'')"/></td>
+													
 													</tr>
 													<tr>
 														<th>身分</th>
@@ -218,7 +221,9 @@
 																	<option value="1">公眾人物</option>
 																</select>
 															</td>
+															
 														</c:if>
+														
 														<c:if test="${memVO.mem_iskol == 1}">
 															<td>
 																<select size="1" name="mem_iskol">
@@ -226,7 +231,9 @@
 																	<option value="1">公眾人物</option>
 																</select>
 															</td>
+															
 														</c:if>
+														<td></td>
 													</tr>			
 												</table>																													
 											</div>
@@ -244,7 +251,7 @@
 												<input type="hidden" name="mem_status" value="${memVO.mem_status}" />
 												<input type="hidden" name="mem_id" value="${memVO.mem_id}" />				
 												<input type="hidden" name="action" value="update_fromBack" />
-												<button type="submit" class="btn btn-secondary" >送出修改</button>
+												<button type="submit" class="btn btn-secondary" id="update">送出修改</button>
 												<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 			     								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
 												<button type="button" class="btn btn-secondary mybtn2" data-dismiss="modal">Close</button>
@@ -358,13 +365,10 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
-		function openWindows(mem_id){
-
-			window.open("update_mem.jsp?mem_id=" + mem_id ,"Sample","fullscreen=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no, copyhistory=no,width=500,height=430,left=750,top=150");
-		}
+	
 		
 	</script>
 

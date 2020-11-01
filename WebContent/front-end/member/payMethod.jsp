@@ -78,13 +78,13 @@
 					<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do">
 					<div class="row " id="inputCard">
 						<div class="col-6">
-							<input type="text" name="cardNum1" placeholder="1234" maxlength="4" />
+							<input type="text" name="cardNum1" placeholder="1234" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" />
 							-
-							<input type="text" name="cardNum2" placeholder="5678" maxlength="4" />
+							<input type="text" name="cardNum2" placeholder="5678" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" />
 							-
-							<input type="text" name="cardNum3" placeholder="9012" maxlength="4" />
+							<input type="text" name="cardNum3" placeholder="9012" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" />
 							-
-							<input type="text" name="cardNum4" placeholder="3456" maxlength="4" />
+							<input type="text" name="cardNum4" placeholder="3456" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" />
 						</div>
 						<div class="col-1 mmdd">
 							<input type="text" name="mm" placeholder="MM" maxlength="2"/>
