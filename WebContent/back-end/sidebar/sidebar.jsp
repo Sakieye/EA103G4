@@ -12,6 +12,8 @@
     href="<%=request.getContextPath()%>/css/main-back.css" />
 <link rel="stylesheet"
     href="<%=request.getContextPath()%>/css/bootstrap.min.css" />
+ <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+ 
  <head>
  <style>
  .unshow{
@@ -25,7 +27,7 @@
 <!--         <div class="auth"> -->
         <div>
             <br>
-            <h5><b>&nbsp;書城<span>Bookshop</span></b></h5>
+           <h5><b>&nbsp;<span><i class="fas fa-book"></i>&nbsp;書城 Bookshop</span></b></h5>
             <ul>         
            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/BookManagementIndex">商品管理</a></span></li>             
            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/order/select_order.jsp">訂單管理</a></span></li>                 
@@ -33,28 +35,28 @@
         </div>
 <!--         <div class="auth"> -->
         <div>
-            <h5><b>&nbsp;講座<span>Lecture</span></b></h5>
+            <h5><b>&nbsp;<span><i class="fas fa-chalkboard-teacher"></i>&nbsp;講座 Lecture</span></b></h5>         
             <ul>
             <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/lecture/listAllLecture.jsp">講座管理</a></span></li>            
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
-            <h5><b>&nbsp;討論區<span>Forum</span></b></h5>
+            <h5><b>&nbsp;<span><i class="fas fa-comments"></i>&nbsp;討論區 Forum</span></b></h5>
             <ul>
             <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/forum/forumBack_forums.jsp">討論區檢舉管理</a></span></li>             
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
-            <h5><b>&nbsp;讀書會<span>Book Club</span></b></h5>
+            <h5><b>&nbsp;<span><i class="fas fa-book-reader"></i>&nbsp;讀書會 Book Club</span></b></h5>
             <ul>           
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/bookclub_report/listAllBookClub_Report.jsp">讀書會檢舉管理</a></span></li>             
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
-            <h5><b>&nbsp;管理<span>Manegement</span></b></h5>
+            <h5><b>&nbsp;<span><i class="fas fa-user-cog"></i>&nbsp;管理 Manegement</span></b></h5>
             <ul>       
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/member/listAllMem.jsp">會員管理</a></span></li>                      
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/admins/listAllAdmins.jsp">員工管理</a></span></li>                                          
@@ -63,7 +65,7 @@
         </div>
 <!--         <div class="auth"> -->
         <div>
-            <h5><b>&nbsp;客服<span>Customer Service</span></b></h5>
+            <font size="3.5px"><b>&nbsp;<span><i class="fas fa-headset"></i>&nbsp;客服 Customer Service</span></b></font>
             <ul>           
          <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/cs/csindex.jsp">客服回覆</a></span></li>           
             </ul>
