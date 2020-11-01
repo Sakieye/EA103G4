@@ -32,10 +32,12 @@
 					<label for="categoryName" class="control-label">新分類名稱</label>
 					<input type="text" class="form-control" id="categoryName" name="categoryName" value='${param.categoryName}' required>
 					<div class="help-block with-errors"></div>
-					<button type="submit" class="btn btn-danger btn-block" style="position: relative; top: 1em">確認送出</button>
+					<button type="submit" class="btn btn-danger btn-block" id="submitBtn" style="position: relative; top: 1em" disabled>確認送出</button>
 				</div>
 			</div>
 		</form>
+		<div id="msgDiv" style="color: red;">
+		</div>
 		<h3 style="position: relative; top: 1em">既有商品分類列表</h3>
 		<span style="position: relative; top: 2em; color: red; font-size: 12px">*已有商品參照的類別無法編輯／刪除</span>
 		<table class="table" style="position: relative; top: 3em">
@@ -85,9 +87,8 @@
 			</tbody>
 		</table>
 	</main>
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
+	<%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
+	<%@include file="/back-end/jsp_Common/check-category-js.jsp"%>
 </body>
 
 </html>

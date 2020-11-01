@@ -40,16 +40,19 @@
 					<input type="text" class="form-control" name="promoName" id="promoName" value='${param.promoName}' required>
 				</div>
 				<div class="col-md-2">
-					<label for="promoStartTime">促銷事件起始時間(最早)</label>
+					<label for="promoStartTime">促銷事件起始時間</label>
 					<input type="text" id='promoStartTime' name='promoStartTime' class="form-control" required>
 				</div>
 				<div class="col-md-2" style="position: relative; left: 1em">
-					<label for="promoEndTime">促銷事件結束時間(最晚)</label>
+					<label for="promoEndTime">促銷事件結束時間</label>
 					<input type="text" id='promoEndTime' name='promoEndTime' class="form-control" required>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-danger btn-block" style="position: relative; top: 1em">確認送出</button>
+			<button type="submit" class="btn btn-danger btn-block" style="position: relative; top: 1em" disabled>確認送出</button>
 		</form>
+		<br>
+		<div id="msgDiv" style="color: red;">
+        </div>
 	</main>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -74,6 +77,7 @@
             value: '<%=promoTimeDefault%>',
 		})
 	</script>
+	<%@include file="/back-end/jsp_Common/check-promo-js.jsp"%>
 </body>
 
 </html>

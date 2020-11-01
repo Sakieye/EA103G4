@@ -168,13 +168,14 @@
                     }
                 });
                 
-                $.post('${request.header("Referer")}?action=removeFromPromo&promoID=<%=promoID%>', { bookList: bookList }, function(){
-                	alert("更新成功！");
-                    window.location.replace("<%=request.getContextPath() + "/ShowPromoDetails?promoID=" + promoID + "&update=1"%>
-		");
-																})
-											})
-						});
+            $.post('${request.header("Referer")}?action=removeFromPromo&promoID=<%=promoID%>', 
+            		{ bookList: bookList }, 
+            		function(){
+            			alert("更新成功！");
+            			window.location.replace("<%=request.getContextPath() + "/ShowPromoDetails?promoID=" + promoID + "&update=1"%>");
+            		})
+            });
+		});
 	</script>
 </body>
 </html>

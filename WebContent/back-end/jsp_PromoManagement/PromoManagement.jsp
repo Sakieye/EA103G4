@@ -16,6 +16,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookManagement.css" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<!-- jQuery AutoCompelete -->
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css">
+<script src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.auto-complete.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.auto-complete.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" />
 
 <title>促銷事件管理</title>
@@ -91,9 +97,8 @@
 		</main>
 		<%@include file="/back-end/sidebar/sidebar.jsp"%>
 	</div>
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
+    <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous"></script>
 	<script>
 		$('#promoStartTime').datetimepicker({
@@ -112,6 +117,29 @@
 			step : 30,
 		})
 	</script>
+	<script type="text/javascript">
+        $(function(){
+            $("#promoName").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/PromoManagement",
+                        type: "POST",
+                        data: {
+                            term: request.term
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $("#promoName").val(ui.item.value);
+                    return false;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

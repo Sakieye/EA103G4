@@ -29,14 +29,20 @@
 					<label for="categoryName" class="control-label">修改分類名稱</label>
 					<input type="text" class="form-control" id="categoryName" name="categoryName" value='${category.categoryName}' required>
 					<div class="help-block with-errors"></div>
-					<button type="submit" class="btn btn-danger btn-block" style="position: relative; top: 1em">確認送出</button>
+					<button type="submit" class="btn btn-danger btn-block" id="submitBtn" style="position: relative; top: 1em" disabled>確認送出</button>
 				</div>
 			</div>
 		</form>
+		<div id="msgDiv" style="color: red;">
+			<c:if test="${errorMsgs.size()>0}">
+				<script type="text/javascript">
+					alert("${errorMsgs}");
+				</script>
+			</c:if>
+		</div>
 	</main>
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
+	<%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
+	<%@include file="/back-end/jsp_Common/check-category-js.jsp"%>
 </body>
 
 </html>

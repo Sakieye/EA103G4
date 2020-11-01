@@ -8,6 +8,9 @@
 	promoStartTime = promoStartTime.substring(0, promoStartTime.lastIndexOf('.'));
 	String promoEndTime = promo.getPromoEndTime().toString();
 	promoEndTime = promoEndTime.substring(0, promoEndTime.lastIndexOf('.'));
+	
+	// AJAX檢查判斷是新增還是編輯
+	pageContext.setAttribute("promoID", promo.getPromoID());
 %>
 
 <!DOCTYPE html>
@@ -38,16 +41,19 @@
 					<input type="text" class="form-control" name="promoName" id="promoName" value='${promo.promoName}'>
 				</div>
 				<div class="col-md-2">
-					<label for="promoStartTime">促銷事件起始時間(最早)</label>
+					<label for="promoStartTime">促銷事件起始時間</label>
 					<input type="text" id='promoStartTime' name='promoStartTime' class="form-control">
 				</div>
 				<div class="col-md-2" style="position: relative; left: 1em">
-					<label for="promoEndTime">促銷事件結束時間(最晚)</label>
+					<label for="promoEndTime">促銷事件結束時間</label>
 					<input type="text" id='promoEndTime' name='promoEndTime' class="form-control">
 				</div>
 			</div>
-			<button type="submit" class="btn btn-danger btn-block" style="position: relative; top: 1em">確認送出</button>
+			<button type="submit" class="btn btn-danger btn-block" style="position: relative; top: 1em" disabled>確認送出</button>
 		</form>
+		<br>
+        <div id="msgDiv" style="color: red;">
+        </div>
 	</main>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -72,6 +78,7 @@
             value: '<%=promoEndTime%>',
 		})
 	</script>
+	<%@include file="/back-end/jsp_Common/check-promo-js.jsp"%>
 </body>
 
 </html>

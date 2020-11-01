@@ -140,13 +140,14 @@
                     }
                 });
                 
-                $.post('${request.header("Referer")}?action=AddToPromo&promoID=<%=promoID%>', { bookList: bookList }, function(){
-                    alert("成功加入！請接著設定促銷折扣和紅利");
-                    window.location.replace("<%=request.getContextPath() + "/ShowPromoDetails?promoID=" + promoID%>
-		");
-																})
-											})
-						});
+            $.post('${request.header("Referer")}?action=AddToPromo&promoID=<%=promoID%>', 
+            		{ bookList: bookList }, 
+            		function(){
+            		    alert("成功加入！請接著設定促銷折扣和紅利");
+            		    window.location.replace("<%=request.getContextPath() + "/ShowPromoDetails?promoID=" + promoID%>");
+					})
+				});
+		});
 	</script>
 	<!--Search Autocompelete-->
 	<%@include file="/front-end/header/header-search-autocompelete-js.jsp"%>

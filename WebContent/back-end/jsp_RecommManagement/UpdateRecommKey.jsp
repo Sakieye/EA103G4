@@ -62,7 +62,7 @@
 						</div>
 						<div class="col-md-2">
 							<label for="count">Count</label>
-							<input type="number" id='count' name='count' min="0" class="form-control" value="${count}" required>
+							<input type="number" id='count' name='count' min="1" class="form-control" value="${count eq 0 ? 1 : count}" required>
 						</div>
 					</div>
 					<c:choose>
@@ -132,7 +132,7 @@
 					error: function(msg) {
 						$('#submitBtn').attr("disabled", true);
 						$('#msgDiv').css('color', 'red')
-						$('#msgDiv').text("此商品ID不存在資料庫中");
+						$('#msgDiv').text(msg.responseText);
 					}
 				});
 			}

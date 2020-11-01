@@ -32,6 +32,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookManagement.css" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<!-- jQuery AutoCompelete -->
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css">
+<script src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.auto-complete.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.auto-complete.css" />
 <title>編輯商品(單筆)</title>
 </head>
 
@@ -145,9 +151,8 @@
 			<input type="submit" value="確認送出" class="btn btn-danger btn-block" />
 		</form>
 	</main>
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <%@include file="/back-end/jsp_Common/jquery-popper-bootstrap-js.jsp"%>
+	<!--Autocompelete-->
+    <%@include file="/back-end/jsp_Common/autocompelete-author-publisherName-js.jsp"%>
 </body>
 
 </html>
