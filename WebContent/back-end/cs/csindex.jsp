@@ -72,8 +72,7 @@
 		<main id="center" class="column">
 			<h1>客服信箱</h1>
 			<div class="mailbutton">
-				<input type ="button" class="btn btn-primary" onclick="javascript:location.href='<%=request.getContextPath()%>/back-end/cs/csindex.jsp'" value="收件匣"></input>
-				<input type ="button" class="btn btn-primary" onclick="javascript:location.href='<%=request.getContextPath()%>/back-end/cs/csindex.jsp'" value="寄信備份"></input>
+				
 			</div>
 			<p></p>
 			<hr color="black" size="3" />
@@ -113,7 +112,7 @@
 									<%@ include file="page1.file" %> 
 									<tbody>
 										<c:forEach var="csVO" items="${list}" varStatus="update" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-											<tr>
+											<tr class="${csVO.cs_ID}">
 												<%
 													CsVO csVO = (CsVO) pageContext.getAttribute("csVO");
 													String email[] = csVO.getCs_Email().split("@");
@@ -220,6 +219,7 @@
 	$(document).ready(function(){
 	   $(".doDelete").click(function(){
 		var theone="[id='"+$(this).val()+"']";
+		var thetwo="[class='"+$(this).val()+"']";
 
 	   	swal({
         	title: "確定刪除？",
@@ -241,7 +241,7 @@
 							title: "成功刪除", 
 							text: "請點選OK!", 
 							type:"success"}).then(function(){ 
-							   location.reload();
+							   $(thetwo).remove();
 							 }
 						 );
 				      },

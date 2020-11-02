@@ -24,12 +24,13 @@ public class CsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
 		if ("insertCs".equals(action)) {
 			//收集錯誤訊息
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
+			//接收正確訊息回傳用
+			List<String> messages = new LinkedList<String>();
+			req.setAttribute("messages", messages);
 			try {	
 				//接收訊息信箱
 				String cs_Email = req.getParameter("cs_Email");
@@ -53,11 +54,14 @@ public class CsServlet extends HttpServlet {
 				//開始新增資料
 				CsService csSvc = new CsService();
 				csVO = csSvc.addCs(cs_Email, cs_Tel, cs_Subject, cs_Message, cs_isSend);
-						
+				messages.add("傳送成功");
+				String url = "/front-end/cs/csNewFile.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
 			} catch (RuntimeException e) {
 				errorMsgs.add("傳送失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/cs/listAllCs.jsp");
+						.getRequestDispatcher("/front-end/cs/csNewFile.jsp");
 				failureView.forward(req, res);
 			}
 		}
