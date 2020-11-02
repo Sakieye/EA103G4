@@ -242,53 +242,46 @@
 												<hr size="10px" align="center" width="100%">
 												<div class="form-group col-md-12">
 													<label>信用卡資料</label> 
-<!-- 						<div class="col-6"> -->
-<!-- 							<input type="text" name="cardNum1" placeholder="1234" maxlength="4"> -->
-<!-- 							- -->
-<!-- 							<input type="text" name="cardNum2" placeholder="5678" maxlength="4"> -->
-<!-- 							- -->
-<!-- 							<input type="text" name="cardNum3" placeholder="9012" maxlength="4"> -->
-<!-- 							- -->
-<!-- 							<input type="text" name="cardNum4" placeholder="3456" maxlength="4"> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-1 mmdd"> -->
-<!-- 							<input type="text" name="mm" placeholder="MM" maxlength="2"> -->
-<!-- 							/ -->
-<!-- 							<input type="text" name="yy" placeholder="YY" maxlength="2"> -->
-<!-- 						</div> -->
-													
-													
-													<input type="number" name="credit"
-														value=""> <span for="pro">有效日期：</span> <input
-														id="mm" type="text" list="MM" name="mm" placeholder="MM"
-														maxlength="2"> / <input id="yy" type="text"
-														list="YY" name="yy" placeholder="YY" maxlength="2">
-													<datalist id="MM">
-														<option value="1">01</option>
-														<option value="2">02</option>
-														<option value="3">03</option>
-														<option value="4">04</option>
-														<option value="5">05</option>
-														<option value="6">06</option>
-														<option value="7">07</option>
-														<option value="8">08</option>
-														<option value="9">09</option>
-														<option value="10">10</option>
-														<option value="11">11</option>
-														<option value="12">12</option>
-													</datalist>
-													<datalist id="YY">
-														<option value="20"></option>
-														<option value="21"></option>
-														<option value="22"></option>
-														<option value="23"></option>
-														<option value="24"></option>
-														<option value="25"></option>
-														<option value="26"></option>
-														<option value="27"></option>
-														<option value="28"></option>
-														<option value="29"></option>
-													</datalist>
+						<div class="col-6" style="display:flex;">
+							<input type="text" name="cardNum1" placeholder="1234" maxlength="4">
+							-
+							<input type="text" name="cardNum2" placeholder="5678" maxlength="4">
+							-
+							<input type="text" name="cardNum3" placeholder="9012" maxlength="4">
+							-
+							<input type="text" name="cardNum4" placeholder="3456" maxlength="4">
+						</div>
+						<div class="col-1 mmdd" style="display:flex;">
+							<span for="pro">有效日期：</span> 
+							<input id="mm" type="text" list="MM" name="mm" placeholder="MM" maxlength="2">
+							 / <input id="yy" type="text" list="YY" name="yy" placeholder="YY" maxlength="2">
+							<datalist id="MM">
+								<option value="1">01</option>
+								<option value="2">02</option>
+								<option value="3">03</option>
+								<option value="4">04</option>
+								<option value="5">05</option>
+								<option value="6">06</option>
+								<option value="7">07</option>
+								<option value="8">08</option>
+								<option value="9">09</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+							</datalist>
+							<datalist id="YY">
+								<option value="20"></option>
+								<option value="21"></option>
+								<option value="22"></option>
+								<option value="23"></option>
+								<option value="24"></option>
+								<option value="25"></option>
+								<option value="26"></option>
+								<option value="27"></option>
+								<option value="28"></option>
+								<option value="29"></option>
+							</datalist>
+						</div>
 												</div>
 											</div>
 
@@ -296,12 +289,15 @@
 											<!-- 紅利點數 -->
 											<hr size="10px" align="center" width="100%">
 											<div class="price" data-price="${totalPrice[0]}" id=chelisInf>
-												<span> ◎您累計的紅利點數：<span>
+												<span style="display:flex;"> ◎您累計的紅利點數：<span>
 												<b><fmt:formatNumber type="number" value="${memSvcVO.mem_bonus}" />
 												</b> 點</span> 
 												<c:if test="${memSvcVO.mem_bonus >=1}">
-													, 使用：<input class="use_Bonus" type="number" name="use_Bonus" step="1" min="0" max="${memSvcVO.mem_bonus}" value="0" style="width: 80px; height: 30px;">點
-													<p>◎註： 1 Point = TWD $1</p>
+													, 使用：<b><input class="use_Bonus" type="number" name="use_Bonus" step="1" min="0" max="${memSvcVO.mem_bonus}" value="0" 
+													style="width: 50px; height: 21px; display:flex; text-align: center; 
+													border-width:3px;border-style:dashed;border-color:#9d1e31ab;padding:5px;"></b>
+													<p style="display:flex;">點</p>
+													<p style="color:red; font-size:12px; margin-top: 0.1%;">（註： 1 Point = TWD $1）</p>
 												</c:if>
 												</span>
 											</div>
@@ -340,7 +336,7 @@
 										<input type="hidden" name="get_Bonus" value="${totalPrice[1]}"> 
 										<input type="hidden" name="order_Qty" value="${count}"> 
 										<input type="hidden" name="action" value="PAY">
-										<button type="submit" class="flex-c-m stext-101 cl0 size-116-pay bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+										<button type="submit" class="flex-c-m stext-101 cl0 size-116-pay bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer js-btn-submit">
 										<b><font color=#000>確認結帳</font></b></button>
 
 									</div>
@@ -401,26 +397,30 @@
 		}
 	</script>
 <!-- ======================================================================================= -->
+<script src="<%=request.getContextPath()%>/vendor/shop/sweetalert/sweetalert.min.js"></script>
 	<!-- 計算總金額 -->
 	<script>
 		$(function(){
-		  $('.price').on( 'keyup','.use_Bonus',function(){
+		  $('.price').on('keyup','.use_Bonus',function(){
 			var price = +$(this).closest('.price').data('price');
-		    var use_Bonus = +$(this).val();
-		    var total_price = price - use_Bonus;
-            if(total_price>=0){
-            $('.totalprice').text(total_price);
-            $('#order_Total').val(total_price);
-            }else{
-            $('.totalprice').text(0);
-            $('#order_Total').val(0);
-            }
-//             $('.totalprice').text(price-use_Bonus);
-//             $('#order_Total').val(price-use_Bonus);
-          });
+			if(+$(this).val()<=price){
+				var use_Bonus = +$(this).val();
+				var total_price = price - use_Bonus;
+	            if(total_price>=0){
+	            $('.totalprice').text(total_price);
+	            $('#order_Total').val(total_price);
+	            }else{
+	            $('.totalprice').text(0);
+	            $('#order_Total').val(0);
+	            }}else{
+	            	swal({title: "使用點數已超過本次訂單金額，請重新輸入！",type: "error",buttons: true})
+					$('.use_Bonus').val(0);
+	            }
+	          });
 
 		  $('.price').on( 'click','.use_Bonus',function(){
 			var price = +$(this).closest('.price').data('price');
+			if(+$(this).val()<=price){
 			var use_Bonus = +$(this).val();
 			var total_price = price - use_Bonus;
             if(total_price>=0){
@@ -430,11 +430,13 @@
             $('.totalprice').text(0);
             $('#order_Total').val(0);
             }
-//             $('.totalprice').text(price-use_Bonus);
-//             $('#order_Total').val(price-use_Bonus);
+            	
+            }
           });
 
 		});
 	</script>
+<!-- ======================================================================================= -->
+
 </body>
 </html>

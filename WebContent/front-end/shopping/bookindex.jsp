@@ -58,6 +58,11 @@
 <!--下拉式書籍類別選單-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-core-css.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sm-clean.css">
+<style>
+    button#normal-search-icon{
+        background-color: #f2f2f2;
+    }
+</style>
 </head>
 
 <body class="animsition">
@@ -161,7 +166,7 @@
 					</div>
 				</c:otherwise>
 			</c:choose>
-			<div class="flex-w flex-sb-m p-b-52 pagenumber">
+			<div class="p-b-52 pagenumber">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 					<div class="page col-md-12">
 						<!--換頁頁碼待修-->
