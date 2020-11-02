@@ -169,10 +169,84 @@ public class OrderDAO implements OrderDAO_Interface {
 
 	}
 
-	
-	
-	
 
+	@Override
+	public void shipment(OrderVO odvo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GO_ORD);
+			con.setAutoCommit(false);
+
+			pstmt.setInt(1, odvo.getOrder_status());
+			pstmt.setString(2, odvo.getOrder_id());
+
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (SQLException sqle) {
+			try {
+				con.rollback();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			throw new RuntimeException("▲Error： [shipment]" + sqle.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void cancel(String order_id) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(DEL_ORD);
+			con.setAutoCommit(false);
+			pstmt.setString(1, order_id);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (SQLException sqle) {
+			try {
+				con.rollback();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			throw new RuntimeException("▲Error： [cancel]" + sqle.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+	
 	@Override
 	public void update(OrderVO odvo) {
 		Connection con = null;
@@ -221,48 +295,6 @@ public class OrderDAO implements OrderDAO_Interface {
 			}
 		}
 
-	}
-
-	@Override
-	public void cancel(String order_id) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(DEL_ORD);
-			con.setAutoCommit(false);
-
-			pstmt.setString(1, order_id);
-
-			pstmt.executeUpdate();
-
-			con.commit();
-
-		} catch (SQLException sqle) {
-			try {
-				con.rollback();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			throw new RuntimeException("▲Error： [cancel]" + sqle.getMessage());
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
 	}
 
 	@Override

@@ -133,7 +133,7 @@
 														<!--ISBN -->
 															<h6>ISBN：${cart.isbn}</h6> 
 														<!--商品名稱  -->
-															<h4>${cart.book_Name}</h4> 
+															<h4 style="width:100%;white-space:normal;word-wrap:break-word;word-break:break-all;" >${cart.book_Name}</h4> 
 														</td>
 														<!--購買數量  -->
 														<td class="column-3" style="vertical-align: middle;"><h5>${cart.comm_Qty}個</h5></td>
@@ -407,15 +407,33 @@
 		  $('.price').on( 'keyup','.use_Bonus',function(){
 			var price = +$(this).closest('.price').data('price');
 		    var use_Bonus = +$(this).val();
-		    $('.totalprice').text(price-use_Bonus);
-		    $('#order_Total').val(price-use_Bonus);
-		  });
+		    var total_price = price - use_Bonus;
+            if(total_price>=0){
+            $('.totalprice').text(total_price);
+            $('#order_Total').val(total_price);
+            }else{
+            $('.totalprice').text(0);
+            $('#order_Total').val(0);
+            }
+//             $('.totalprice').text(price-use_Bonus);
+//             $('#order_Total').val(price-use_Bonus);
+          });
+
 		  $('.price').on( 'click','.use_Bonus',function(){
 			var price = +$(this).closest('.price').data('price');
 			var use_Bonus = +$(this).val();
-			$('.totalprice').text(price-use_Bonus);
-			$('#order_Total').val(price-use_Bonus);
-		  });
+			var total_price = price - use_Bonus;
+            if(total_price>=0){
+            $('.totalprice').text(total_price);
+            $('#order_Total').val(total_price);
+            }else{
+            $('.totalprice').text(0);
+            $('#order_Total').val(0);
+            }
+//             $('.totalprice').text(price-use_Bonus);
+//             $('#order_Total').val(price-use_Bonus);
+          });
+
 		});
 	</script>
 </body>

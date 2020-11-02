@@ -68,6 +68,10 @@ public class OrderService {
 		odi.cancel(order_id);
 	}
 	
+	public void shipment(OrderVO odvo) {
+		odi.shipment(odvo);
+	}
+	
 	public OrderVO getOneOd(String order_id) {
 		return odi.findbyid(order_id);
 	}

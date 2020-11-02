@@ -29,8 +29,9 @@
             <br>
            <h5><b>&nbsp;<span><i class="fas fa-book"></i>&nbsp;書城 Bookshop</span></b></h5>
             <ul>         
-           <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/BookManagementIndex">商品管理</a></span></li>             
-           <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/order/select_order.jsp">訂單管理</a></span></li>                 
+           <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/BookManagementIndex">商品管理</a></span></li>   
+                     
+           <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/order/listAll_order.jsp">訂單管理</a></span></li>                 
             </ul>
         </div>
 <!--         <div class="auth"> -->

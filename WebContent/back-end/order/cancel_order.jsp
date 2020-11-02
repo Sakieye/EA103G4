@@ -55,10 +55,6 @@
 									</ul>
 								</c:if>
 								<hr>
-								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
-								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
-								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
-
 								<FORM class="form-inline" METHOD="post"
 									ACTION="<%=request.getContextPath()%>/order/order.do">
 									<input class="form-control mr-sm-2" type="text"
@@ -70,7 +66,7 @@
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="listAll_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/listAll_order.jsp">
 									<jsp:useBean id="odSvc" scope="page"
 										class="com.order.model.OrderService" />
 									<button class="btn btn-sm btn-outline-secondary" type="submit">總覽</button>
@@ -79,7 +75,7 @@
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="create_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/create_order.jsp">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">客服新增</button>
 								</FORM>
 

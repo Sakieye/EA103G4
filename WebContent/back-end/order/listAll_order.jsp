@@ -80,14 +80,14 @@
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="listAll_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/listAll_order.jsp">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">總覽</button>
 								</FORM>
 
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="create_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/create_order.jsp">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">客服新增</button>
 								</FORM>
 							</nav>
@@ -130,7 +130,7 @@
 													<h5>備註</h5>
 												</div>
 												<div class="divTableCell" id="order_TH">
-													<h5>訂單明細</h5>
+													<h5>快速出貨</h5>
 												</div>
 
 											</div>
@@ -139,59 +139,60 @@
 
 									<!-- 訂單資訊 -->
 									<c:forEach var="odVO" items="${list}">
-										<%-- <%-- 											<% 明細取值尚未解決--%>
-										<!-- // 											List<DetailVO> dtSvcVO = dtSvc.getOneOd(); -->
-										<!-- // 											pageContext.setAttribute("dtSvcVO", dtSvcVO); -->
-										<!-- // 											MemVO memSvcVO = memSvc.getOneMem(odVO.getMem_id()); -->
-										<!-- // 											pageContext.setAttribute("memSvcVO", memSvcVO); -->
-										<%-- <%-- 											%> --%>
 										<div class="divTable">
 											<div class="divTableBody">
 												<div class="divTableRow">
-													<div class="divTableCell">${odVO.order_id}</div>
-													<div class="divTableCell">${odVO.mem_id}&nbsp;${memSvcVO.mem_name}</div>
-													<div class="divTableCell">
+													<div class="divTableCell" style="width: 114px;">
+													<FORM class="form-inline" METHOD="post" ACTION="<%=request.getContextPath()%>/order/order.do"> 
+													<b>
+													<button type="submit" name="order_id" value="${odVO.order_id}" style="background-color: transparent; border:0px; color:#337CFC">${odVO.order_id}</button>
+													</b>
+													<input type="hidden" name="action" value="selOneOd">
+													</FORM>
+													</div>
+													<div class="divTableCell" style="width: 122px;">${odVO.mem_id}&nbsp;${memSvcVO.mem_name}</div>
+													<div class="divTableCell" style="width: 127px;">
 														<fmt:formatDate value="${odVO.order_date}"
 															pattern="yyyy-MM-dd HH:mm:ss" />
 													</div>
-													<div class="divTableCell">${odVO.order_qty}</div>
-													<div class="divTableCell">${odVO.use_bonus}點</div>
-													<div class="divTableCell">TWD$&nbsp;${odVO.order_total}</div>
+													<div class="divTableCell" style="width: 185px;">${odVO.order_qty}</div>
+													<div class="divTableCell" style="width: 146px;">${odVO.use_bonus}點</div>
+													<div class="divTableCell" style="width: 159px;">TWD$&nbsp;${odVO.order_total}</div>
 													<c:choose>
 														<c:when test="${odVO.order_pay==1}">
-															<div class="divTableCell">信用卡</div>
+															<div class="divTableCell" style="width: 140px;">信用卡</div>
 														</c:when>
 														<c:when test="${odVO.order_pay==2}">
-															<div class="divTableCell">貨到付款</div>
+															<div class="divTableCell" style="width: 140px;">貨到付款</div>
 														</c:when>
 														<c:otherwise>
-															<div class="divTableCell">請洽客服</div>
+															<div class="divTableCell" style="width: 140px;">請洽客服</div>
 														</c:otherwise>
 													</c:choose>
 													<c:choose>
 														<c:when test="${odVO.delivery==1}">
-															<div class="divTableCell">超商取貨</div>
+															<div class="divTableCell" style="width: 158px;">超商取貨</div>
 														</c:when>
 														<c:when test="${odVO.delivery==2}">
-															<div class="divTableCell">宅配</div>
+															<div class="divTableCell" style="width: 158px;">宅配</div>
 														</c:when>
 													</c:choose>
 
 													<c:choose>
 														<c:when test="${odVO.order_status==1}">
-															<div class="divTableCell">訂單成立</div>
+															<div class="divTableCell" style="width: 166px;">訂單成立</div>
 														</c:when>
 														<c:when test="${odVO.order_status==2}">
-															<div class="divTableCell">已出貨</div>
+															<div class="divTableCell" style="width: 166px;">已出貨</div>
 														</c:when>
 														<c:when test="${odVO.order_status==3}">
-															<div class="divTableCell">商品已送達</div>
+															<div class="divTableCell" style="width: 166px;">商品已送達</div>
 														</c:when>
 														<c:when test="${odVO.order_status==4}">
-															<div class="divTableCell">訂單取消</div>
+															<div class="divTableCell" style="width: 166px;">訂單取消</div>
 														</c:when>
 														<c:otherwise>
-															<div class="divTableCell">請洽客服</div>
+															<div class="divTableCell" style="width: 166px;">請洽客服</div>
 														</c:otherwise>
 													</c:choose>
 													<c:choose>
@@ -202,55 +203,33 @@
 															<div class="divTableCell">${odVO.mem_note}</div>
 														</c:when>
 													</c:choose>
-													<div class="divTableCell">
-														<button class="btn btn-link btn-block text-left"
-															type="button" data-toggle="collapse"
-															data-target="#collapseOne" aria-expanded="true"
-															aria-controls="collapseOne" id="cardBtn"
-															style="outline: none;">按我</button>
+													<div class="divTableCell" style="width: 111px;">
+													<FORM class="form-inline" METHOD="post" ACTION="<%=request.getContextPath()%>/order/order.do">
+														<input type="hidden" name=order_id value="${odVO.order_id}">
+														<input type="hidden" name="action" value="shipment">
+														<button class="btn btn-sm btn-outline-secondary ${odVO.order_status}" type="submit" disabled="disabled">出貨</button>
+													</FORM>
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="divTable">
 											<div class="divTableBody" style="float: left;">
-												<div class="divTableCell">
-													&nbsp;&nbsp;&nbsp;&nbsp;收件資訊>>&nbsp;&nbsp;//Name：${odVO.rec_name}&nbsp;//Phone：${odVO.rec_tel}&nbsp;//Address：${odVO.rec_add}</div>
-											</div>
-										</div>
-										<hr size="10px" align="center" width="100%">
-
-
-
-
-										<!-- 訂單明細 -->
-										<div id="collapseOne" class="collapse show"
-											aria-labelledby="headingOne" data-parent="#accordionExample">
-											<div class="card-body">
-												<div class="orderDT">
-													<div class="orderDTBody">
-														<div class="orderDTRow">
-															<div class="orderDTCell" id="thDT">明細編號</div>
-															<div class="orderDTCell" id="thDT">商品名稱(貨號)</div>
-															<div class="orderDTCell" id="thDT">數量</div>
-															<div class="orderDTCell" id="thDT">單價小計</div>
-															<div class="orderDTCell" id="thDT">紅利</div>
-														</div>
-														<c:set var="count" scope="session" />
-														<c:forEach var="detail" items="${dtSvcVO}"
-															varStatus="detailstatus">
-															<div class="orderDTRow">
-																<div class="orderDTCell">${count=count+1}</div>
-																<div class="orderDTCell" style="text-align: left;">${detail.items_name}(${detail.book_id})</div>
-																<div class="orderDTCell">${detail.comm_qty}</div>
-																<div class="orderDTCell">${detail.comm_price}</div>
-																<div class="orderDTCell">+ ${detail.comm_bonus}</div>
-															</div>
-														</c:forEach>
-													</div>
+												<div class="divTableRow">
+													<div class="divTableCell" style="background-color: #353C42;color: #FFF;">收件資訊</div>
+													<div class="divTableCell"></div>
+													<div class="divTableCell">收件人：</div>
+													<div class="divTableCell">${odVO.rec_name}</div>
+													<div class="divTableCell"></div>
+													<div class="divTableCell">電話：</div>
+													<div class="divTableCell">${odVO.rec_tel}</div>
+													<div class="divTableCell"></div>
+													<div class="divTableCell">地址：</div>
+													<div class="divTableCell">${odVO.rec_add}</div>
 												</div>
 											</div>
 										</div>
+										<hr size="10px" align="center" width="100%">
 									</c:forEach>
 								</div>
 							</div>
@@ -258,32 +237,8 @@
 					</div>
 				</div>
 			</div>
-
-
-
-			<!-- 							<td> -->
-			<!-- 								<FORM METHOD="post" ACTION="order.do"> -->
-			<!-- 									<input type="submit" class="btn btn-sm btn-outline-secondary" value="修改"> <input type="hidden" -->
-			<%-- 										name="order_id" value="${odVO.order_id}"> --%>
-			<!-- 									<input -->
-			<!-- 										type="hidden" name="action" value="getupdate"> -->
-			<!-- 								</FORM> -->
-
-			<!-- 								<FORM METHOD="post" ACTION="order.do"> -->
-			<!-- 									<input type="submit" class="btn btn-sm btn-outline-secondary" value="刪除"> <input type="hidden" -->
-			<%-- 										name="order_id" value="${odVO.order_id}"> --%>
-			<!-- 									<input -->
-			<!-- 										type="hidden" name="action" value="getcancel"> -->
-			<!-- 								</FORM> -->
-			<!-- 							</td> -->
-			<!-- 						</tr> -->
-			<%-- 					</c:forEach> --%>
-			<!-- 				</table> -->
-
 		</main>
-
 		<jsp:include page="/back-end/sidebar/sidebar.jsp" />
-
 	</div>
 
 	<!-- Optional JavaScript -->
@@ -302,6 +257,10 @@
 				}
 			});
 		});
+		
+		/*============================================================================*/
+		
+		$('.1').prop('disabled',false);
 	</script>
 
 </body>
