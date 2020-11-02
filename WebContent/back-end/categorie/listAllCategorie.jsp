@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.categorie.model.*"%>
+<%@ page import="com.lecture.model.*"%>
 
 <%
 	CategorieService categorieService = new CategorieService();
@@ -49,11 +51,15 @@ pageContext.setAttribute("list", list);
 					<div class="pull-left">
 						<h1 class="text-blue h1">類別列表</h1>
 						<div>
+						<a href="<%=request.getContextPath()%>/back-end/lecture/listAllLecture.jsp"><big>講座列表<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list-ul" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  									<path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+							</svg></big></a>&nbsp;&nbsp;&nbsp;
 							<a href="<%=request.getContextPath()%>/back-end/categorie/addCategorie.jsp">新增類別 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   									<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   									<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
 								</svg>
-							</a>
+							</a>&nbsp;&nbsp;&nbsp;
+							<a href="">講座訂單列表</a>
 						</div>
 					</div>
 					<jsp:useBean id="categorieService1" scope="page" class="com.categorie.model.CategorieService" />

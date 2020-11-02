@@ -246,7 +246,7 @@ public class LectureServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				LectureService lectureService = new LectureService();
 
-				lectureVO = lectureService.update(lc_place, lc_time, lc_hr, lc_deadline, lc_start_time, lc_peo_lim, lc_peo_up, lc_info, lc_state, lc_id);
+				lectureVO = lectureService.update(lc_place, lc_time, lc_hr, lc_start_time, lc_deadline, lc_peo_lim, lc_peo_up, lc_info, lc_state, lc_id);
 				
 				lectureVO.setLc_class_id(lc_class_id);
 				lectureVO.setAdmin_id(admin_id);
