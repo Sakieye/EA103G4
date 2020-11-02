@@ -221,7 +221,7 @@ public class MemServlet extends HttpServlet {
 
 			} catch (Exception e) {
 				if ("update_fromFront".equals(action)) {// 前台
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSpace.jsp");// 後台
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/memberSpace.jsp");// 前台
 					failureView.forward(req, res);
 				} else {// 後台
 					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);// 後台

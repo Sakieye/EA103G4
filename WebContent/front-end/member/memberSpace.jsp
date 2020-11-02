@@ -140,15 +140,15 @@
 							<tbody>
 								<tr>
 									<td>姓名</td>
-									<td>${memVO.mem_name}</td>
+									<td style="padding-top:7px;">&nbsp;&nbsp;&nbsp;&nbsp;${memVO.mem_name}</td>
 								</tr>
 								<tr>
 									<td>帳號</td>
-									<td>${memVO.mem_account}</td>
+									<td style="padding-top:7px;">&nbsp;&nbsp;&nbsp;&nbsp;${memVO.mem_account}</td>
 								</tr>
 								<tr>
 									<td>E-MAIL</td>
-									<td>${memVO.mem_email}</td>
+									<td style="padding-top:7px;">&nbsp;&nbsp;&nbsp;${memVO.mem_email}</td>
 								</tr>
 								<tr>
 									<td>暱稱</td>

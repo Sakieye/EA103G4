@@ -17,6 +17,7 @@
 	href="<%=request.getContextPath()%>/css/main-front.css" />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/css/jquery.datetimepicker.css" />
@@ -174,7 +175,11 @@
 							<div class="input-div-file">
 								<span id="personalpic"> <img id="image"
 									src="<%=request.getContextPath()%>/images/member/0.png" />
-								</span> <input type="file" name="mem_pic" id="myFile" />
+								</span> 
+								<label class="btn btn-dark" style="margin-left: 70px;">
+									<input type="file" name="mem_pic" id="myFile" style="display:none;" />
+									<i class="fa fa-photo" ></i> 上傳圖片
+								</label>
 							</div>
 							<div id="nothing">* 為必填欄位，請填妥欄位資訊。</div>
 							<div>
@@ -359,6 +364,8 @@
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 	
 	<script src="<%=request.getContextPath()%>/js/jquery.scrollex.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 
 </body>
