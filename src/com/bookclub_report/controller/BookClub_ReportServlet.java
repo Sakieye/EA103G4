@@ -111,7 +111,7 @@ public class BookClub_ReportServlet extends HttpServlet {
 			
 //		===============================更新讀書會狀態==============================================			
 			BookClubService bookClubSvc = new BookClubService();
-			bookClubSvc.updateStatus(bc_id,2);
+			bookClubSvc.updateStatus(bc_id,3);
 //		===============================更新讀書會檢舉狀態===========================================			
 			BookClub_ReportService bookClub_ReportSvc = new BookClub_ReportService();
 			bookClub_ReportSvc.update_Status(2, bcr_id);
