@@ -85,8 +85,8 @@ pageContext.setAttribute("list", list);
 												<td>${lectureVO.lc_deadline}</td>
 												<td>${lectureVO.lc_peo_up}</td>
 												<td>
-													<form method="post" action="<%=request.getContextPath()%>/back-end/lecture/lecture.do">
-														<button type="submit" style="background-color: #dee2e6;">
+													<form method="post" action="<%=request.getContextPath()%>/back-end/lecture/lecture.do" BorderStyle="0">
+														<button type="submit" style="background-color: #dee2e6;" onclick="Signup()">
 															<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   																<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
   																<path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
@@ -120,10 +120,8 @@ pageContext.setAttribute("list", list);
 
 	<!-- 超連結submit -->
 	<script>
-		function formSubmit(action) {
-			console.log(action);
-			$('#form_input').attr("value", action);
-			$('#form').submit();
+	function Signup() {
+		  window.open("<%=request.getContextPath()%>/signup/addSignup.jsp","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");
 		}
 	</script>
 
