@@ -36,11 +36,11 @@
 				enctype="multipart/form-data" onchange="loadImageFile(event)">
 				<fieldset id="myFieldset">
 					<legend>SIGN UP</legend>
-					<div id="fontSpace">
+					<div id="fontSpace" style="display:inline-block;">
 						<div id="font1">如果您還沒成為BOOKSHOP會員</div>
-						<div id="font2">請填下您的個人資料，成為我們的會員吧。</div>
-
+						<div id="font2" >請填下您的個人資料，成為我們的會員吧。</div>		
 					</div>
+					<button type="button" id="magical-button" class="btn btn-secondary" style="display:inline-block; color:white !important; ">Magic</button>
 					<div id="Data-Content">
 						<div id="Data-Title">
 							<div id="AlignRight">
@@ -186,6 +186,7 @@
 							 	<input type="hidden" name="subject" value="註冊驗證碼" />
 								<button type="submit" class="btn" id="btn-submit">SUBMIT</button>
 							</div>
+							
 						</div>
 					</div>
 				</fieldset>
@@ -211,18 +212,18 @@
 		window.onload = function() {
 			var mem_account = document.getElementsByName("mem_account")[0];
 			var mem_email = document.getElementsByName("mem_email")[0];
-			//为昵称选项注册onblur事件
+			
 			mem_account.onblur = function() {
 				var mem_account = this.value;
-				//1.获取XMLHttpRequest对象
+				
 				var req = getXMLHttpRequest();
-				//4.处理响应结果
+				
 				req.onreadystatechange = function() {
-					if (req.readyState == 4) {//XMLHttpRequest对象读取成功
-						if (req.status == 200) {//服务器相应正常
+					if (req.readyState == 4) {
+						if (req.status == 200) {
 							var msg = document.getElementById("msg");
 							var btn = document.getElementById("btn-submit");
-							//根据返回的结果显示不同的信息
+							
 							if (req.responseText === "true") {
 								msg.innerText = "👎🏻此帳號已被註冊";
 								btn.disabled = true;
@@ -233,26 +234,26 @@
 						}
 					}
 				}
-				//2.建立一个连接
+				
 				req.open("get",
 						"${pageContext.request.contextPath}/mem/AccountCheck.do?mem_account="
 								+ mem_account);
-				//3.发送get请求
+				
 				req.send(null);
 			}
 
 			mem_email.onblur = function() {
 				var mem_email = this.value;
-				//1.获取XMLHttpRequest对象
+				
 				var req = getXMLHttpRequest();
-				//4.处理响应结果
+				
 				req.onreadystatechange = function() {
-					if (req.readyState == 4) {//XMLHttpRequest对象读取成功
-						if (req.status == 200) {//服务器相应正常
+					if (req.readyState == 4) {
+						if (req.status == 200) {
 							var emailmsg = document.getElementById("emailmsg");
 							var emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
 							var btn = document.getElementById("btn-submit");
-							//根据返回的结果显示不同的信息
+							
 							if (req.responseText === "true") {
 								emailmsg.innerText = "👎🏻此E-Mail已被註冊";
 								btn.disabled = true;
@@ -266,11 +267,11 @@
 						}
 					}
 				}
-				//2.建立一个连接
+				
 				req.open("get",
 						"${pageContext.request.contextPath}/mem/EmailCheck.do?mem_email="
 								+ mem_email);
-				//3.发送get请求
+				
 				req.send(null);
 			}
 
@@ -327,12 +328,9 @@
 		});
 
 		var somedate2 = new Date();
-		$('#f_date1')
-				.datetimepicker(
-						{
-							beforeShowDay : function(date) {
-								if (date.getYear() > somedate2.getYear()
-										|| (date.getYear() == somedate2
+		$('#f_date1').datetimepicker({
+			beforeShowDay : function(date) {
+			if (date.getYear() > somedate2.getYear() || (date.getYear() == somedate2
 												.getYear() && date.getMonth() > somedate2
 												.getMonth())
 										|| (date.getYear() == somedate2
@@ -355,6 +353,20 @@
 			});
 		
 		
+		$('#magical-button').click(function(e){
+			e.preventDefault();
+			$('#account').val("321");
+			$('#psw').val("321");
+			$('#confirmpsw').val("321");
+			$('#name').val("大衛海鮮");
+			$('#email').val("xuzhewei199583@gmail.com");
+			$('#sex').val("男");
+			$('#nickname').val("大衛海鮮");
+			$('#e04').val("松山路101號101樓");
+			$('#twzipcode').val("台北市110信義區");
+			$('#tel').val("0970682613");
+			$('#f_date1').val("1995-08-03");
+		});
 	</script>
 
 
