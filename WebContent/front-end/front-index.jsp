@@ -24,11 +24,7 @@
 	<!-- Banner -->
 	<section class="banner full">
 		<article>
-<<<<<<< HEAD
-			<img src="<%=request.getContextPath()%>/front-end/images/4.jpg" alt="" />
-=======
 			<img src="<%=request.getContextPath()%>/front-end/images/6.jpg" alt="" />
->>>>>>> refs/heads/Joel
 			<div class="inner">
 				<!--                 <header> -->
 				<!--                     <p>Content1</p> -->
