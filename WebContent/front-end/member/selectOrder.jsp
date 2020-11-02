@@ -171,8 +171,16 @@
 													  <c:forEach var="detailVO" items="${detailSvc.getOneOd(orderVO.order_id)}">
 														  <tbody>
 														    <tr>
-														      <th scope="row">${detailVO.items_name}</th>
-														      <td><img style="width: 120px;" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${detailVO.book_id}" alt="Product"></td>
+														      <th scope="row">
+															      <a href="<%=request.getContextPath()%>/Shopping.html?book_id=${detailVO.book_id}" style="color:black;">
+															      	${detailVO.items_name}
+															      </a>
+														      </th>
+														      <td>
+															      <a href="<%=request.getContextPath()%>/Shopping.html?book_id=${detailVO.book_id}">
+															      	<img style="width: 120px;" src="${pageContext.request.contextPath}/ShowBookPic?bookID=${detailVO.book_id}" alt="Product">
+															      </a>
+														      </td>
 														      <td>${detailVO.comm_qty}</td>
 														      <td>$<fmt:formatNumber type="number" value="${detailVO.comm_price}" maxFractionDigits="0"/></td>
 														      

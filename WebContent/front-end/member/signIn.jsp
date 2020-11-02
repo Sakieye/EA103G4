@@ -143,7 +143,7 @@
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
-				<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/sendSMSForgerPwd.do" name="form" style="margin-bottom: 0; background-color: snow;">
+				<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/sendSMSForgerPwd.do" name="form" style="margin-bottom: 0; background-color: gainsboro;">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalCenterTitle"
 							style="font-weight: 700;">確認身分</h5>

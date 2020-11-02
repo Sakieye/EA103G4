@@ -18,7 +18,13 @@
  <style>
  .unshow{
  display:none;
- } 
+ }
+ .a{
+ 	color: black;
+ }
+ .li{
+	padding: 5px; 
+ }
  </style>
  </head>   
 
@@ -29,45 +35,45 @@
             <br>
            <h5><b>&nbsp;<span><i class="fas fa-book"></i>&nbsp;書城 Bookshop</span></b></h5>
             <ul>         
-           <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/BookManagementIndex">商品管理</a></span></li>             
-           <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/order/select_order.jsp">訂單管理</a></span></li>                 
+           <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/BookManagementIndex">商品管理</a></span></li>             
+           <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/order/select_order.jsp">訂單管理</a></span></li>                 
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
             <h5><b>&nbsp;<span><i class="fas fa-chalkboard-teacher"></i>&nbsp;講座 Lecture</span></b></h5>         
             <ul>
-            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/lecture/listAllLecture.jsp">講座管理</a></span></li>            
+            <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/lecture/listAllLecture.jsp">講座管理</a></span></li>            
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
             <h5><b>&nbsp;<span><i class="fas fa-comments"></i>&nbsp;討論區 Forum</span></b></h5>
             <ul>
-            <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/forum/forumBack_forums.jsp">討論區檢舉管理</a></span></li>             
+            <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/forum/forumBack_forums.jsp">討論區檢舉管理</a></span></li>             
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
             <h5><b>&nbsp;<span><i class="fas fa-book-reader"></i>&nbsp;讀書會 Book Club</span></b></h5>
             <ul>           
-         <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/bookclub_report/listAllBookClub_Report.jsp">讀書會檢舉管理</a></span></li>             
+         <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/bookclub_report/listAllBookClub_Report.jsp">讀書會檢舉管理</a></span></li>             
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
             <h5><b>&nbsp;<span><i class="fas fa-user-cog"></i>&nbsp;管理 Manegement</span></b></h5>
             <ul>       
-         <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/member/listAllMem.jsp">會員管理</a></span></li>                      
-         <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/admins/listAllAdmins.jsp">員工管理</a></span></li>                                          
-         <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/MarketingManagementIndex">行銷管理</a></span></li>                                 
+         <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/member/listAllMem.jsp">會員管理</a></span></li>                      
+         <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/admins/listAllAdmins.jsp">員工管理</a></span></li>                                          
+         <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/MarketingManagementIndex">行銷管理</a></span></li>                                 
             </ul>
         </div>
 <!--         <div class="auth"> -->
         <div>
             <font size="3.5px"><b>&nbsp;<span><i class="fas fa-headset"></i>&nbsp;客服 Customer Service</span></b></font>
             <ul>           
-         <li>&nbsp;&nbsp;<span class="auth2"><a href="<%=request.getContextPath()%>/back-end/cs/csindex.jsp">客服回覆</a></span></li>           
+         <li class="li">&nbsp;&nbsp;<span class="auth2"><a class="a" href="<%=request.getContextPath()%>/back-end/cs/csindex.jsp">客服回覆</a></span></li>           
             </ul>
         </div>
     </div>

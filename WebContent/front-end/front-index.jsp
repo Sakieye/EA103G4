@@ -24,7 +24,7 @@
 	<!-- Banner -->
 	<section class="banner full">
 		<article>
-			<img src="<%=request.getContextPath()%>/front-end/images/0.jpg" alt="" />
+			<img src="<%=request.getContextPath()%>/front-end/images/6.jpg" alt="" />
 			<div class="inner">
 				<!--                 <header> -->
 				<!--                     <p>Content1</p> -->

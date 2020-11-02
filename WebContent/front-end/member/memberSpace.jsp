@@ -179,8 +179,8 @@
 									<tr>
 										<td></td>
 										<td>
-											<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${memVO.mem_id}" style="width: 220px; height: 180px; border-radius: 10px; border: 3px dashed black;" id="image">
-											<label class="btn btn-info" style="margin-left: 70px;">
+											<img src="<%=request.getContextPath()%>/mem/MemPic?mem_id=${memVO.mem_id}" style="width: 220px; height: 195px; border-radius: 10px; border: 3px dashed black;" id="image">
+											<label class="btn btn-dark" style="margin-left: 60px;">
 												<input type="file" name="mem_pic" size="10" value="${memVO.mem_pic}" id="myfile" style="display:none;"/>
 												<i class="fa fa-photo" ></i> 上傳圖片
 											</label>
@@ -190,8 +190,8 @@
 									<tr>
 										<td></td>
 										<td>
-											<img src="<%=request.getContextPath()%>/BookShopLogo/3.png" style="width: 220px; height: 180px; border-radius: 10px; border: 3px dashed black;" id="image" >
-											<label class="btn btn-info" style="margin-left: 70px;">
+											<img src="<%=request.getContextPath()%>/BookShopLogo/3.png" style="width: 220px; height: 195px; border-radius: 10px; border: 3px dashed black;" id="image" >
+											<label class="btn btn-dark" style="margin-left: 60px;">
 												<input type="file" name="mem_pic" size="10" value="${memVO.mem_pic}" id="myfile" style="display:none;"/>
 												<i class="fa fa-photo"></i> 上傳圖片
 											</label>								
