@@ -13,6 +13,10 @@ pageContext.setAttribute("lectureVO", lectureVO);
 <%
 	List<CategorieVO> categorieVO = (List<CategorieVO>) request.getAttribute("categorieVO"); //用集合來接許多權限的物件
 %>
+<%
+	String admin_name_s = (String) session.getAttribute("admin_name_s");
+    String admin_id_s = (String) session.getAttribute("admin_id_s");
+%>
 
 
 <html>
@@ -97,7 +101,7 @@ pageContext.setAttribute("lectureVO", lectureVO);
 										<div class="col-md-6">
 											<div class="form-group">
 												<div class="h5 text-gray">管理員編號:</div>
-												<div class="h3 text-dark">${lectureVO.admin_id}</div>
+												<div class="h3 text-dark"><%=admin_id_s%> <%=admin_name_s%></div>
 
 											</div>
 

@@ -9,10 +9,6 @@
 <%@ page import="java.util.*"%>
 
 <%
-	if((MemVO)request.getSession().getAttribute("MemVO") == null){
-		request.getSession().setAttribute("comefromPage", request.getRequestURI());
-	}
-	
 	Jedis jedis= null;
 	Set<String> searchHotKeys = null;
 	try{
@@ -23,7 +19,8 @@
 		jedis.close();
 		e.printStackTrace();
 	}finally{
-		jedis.close();
+		if(jedis != null)
+			jedis.close();
 	}
 	FaService faSvc = new FaService();
 	List<FaVO> list = faSvc.getAll_Index();
@@ -97,7 +94,6 @@
 									<button type="submit" >
 										<i class="fa fa-search"></i>
 									</button>
-<!-- 									<input id="searchBtn"  type="submit" value="搜尋"> -->
 								</form>
 							</div>
 							<div class="col-md-2">

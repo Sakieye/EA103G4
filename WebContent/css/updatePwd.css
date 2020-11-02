@@ -34,10 +34,6 @@
         	box-shadow:0 0 17px black;
         }
        
-        
-         /* ===================================
-  			 嚙踝蕭謕蕭��嚙踝蕭謘遴��嚙踐�雓�雓葡����蕭蹎刻嚙踐揭嚙踝蕭謕蕭豲������揭
-   			===================================*/
         .myMenu {
             max-width: 300px;
             margin: 0 auto;
@@ -76,7 +72,7 @@
         	
         }
         .inputBlock .left label{
-        	font-family: "Helvetica", "Arial","LiHei Pro","��嚙踝蕭-��蕭","��嚙踐�縣��嚙踝蕭", sans-serif;
+        	font-family: "Helvetica", "Arial","LiHei Pro";
 		    font-weight: 700;
 		    font-size: 20px;
         }
@@ -156,9 +152,7 @@
         	margin-top: 50px;
         }
         
-        /* ===================================
-   			���雓�鞊莎�揭嚙踝蕭謕蕭豲����蕭豱佗蕭嚙踐�蕭豲���赯�嚙踐揭嚙踝蕭謕蕭豲������揭���雓�
-		   ===================================*/
+       
         .drop-down {
             position: relative;
         }
@@ -182,9 +176,7 @@
             overflow: visible;
             height: 30px;
         }
-        /* ===================================
-   			嚙踝蕭謕蕭��嚙踐���迨嚙踐嚙踝蕭��蕭豲嚙踝蕭謕蕭豲蕭蹎刻嚙踐揭嚙踝蕭謕蕭豲������揭
-   		   ===================================*/
+     
         .item {
         	font-size: 25px;
             width: 100%;
@@ -193,6 +185,8 @@
         }
         .item:hover {
             background: #333;
+            color: white !important;
+			text-decoration:none;
         }
         .submenu-item {
             background: #333;
@@ -203,6 +197,8 @@
         }
         .submenu-item:hover {
             background: #555;
+            color: white !important;
+			text-decoration:none;
         }
         .now .item {
             background: #ddd;

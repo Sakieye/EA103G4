@@ -21,6 +21,8 @@ import com.book.model.BookService;
 import com.publishers.model.Publisher;
 import com.publishers.model.PublisherService;
 
+import tools.StrUtil;
+
 @WebServlet("/AddOneBook")
 @MultipartConfig
 public class AddOneBook extends HttpServlet {
@@ -39,7 +41,7 @@ public class AddOneBook extends HttpServlet {
 		request.setAttribute("errorMsgs", errorMsgs);
 
 		// 這4項不可為null，但目前只做前端驗證
-		String bookName = request.getParameter("bookName").trim();
+		String bookName = StrUtil.tryToTrim(request.getParameter("bookName"));
 		String isbn = request.getParameter("isbn").trim();
 		String author = request.getParameter("author").trim();
 		String categoryID = request.getParameter("category");

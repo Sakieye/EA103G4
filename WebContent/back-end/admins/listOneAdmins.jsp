@@ -71,7 +71,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div id="img" style="text-align: center;">
-                                                    <img class="rounded-circle" width="350px" height="350px" src="${pageContext.request.contextPath}/ShowAdminPic?admin_id=${adminsVO.admin_id}" />
+                                                    <img class="rounded-circle" width="350px" height="350px" style="box-shadow:7px 4px 9px 1px #333333;" src="${pageContext.request.contextPath}/ShowAdminPic?admin_id=${adminsVO.admin_id}" />
                                                 </div>
                                             </div>
                                         </div>

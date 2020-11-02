@@ -144,7 +144,6 @@
 						<hr>
 					</c:forEach>
 					<%@ include file="page2.file"%>
-<%-- 					--${param.whichPage}--${param.memId} --%>
 				</div>
 			</div>
 		</div>
@@ -178,6 +177,13 @@
 	$(document).ready(function() {
 		if(${not empty errorMsgs}){
 			toastr['error']('主題或內容請勿空白!!!', '修改文章失敗');
+		}
+		
+		if(`${updateSuccess}` !== ""){
+			swal({
+				title:"${updateSuccess}",
+				icon: "success"
+			})
 		}
 		
 		for(let i = 0; i < ${faSvc.getOneMemFa(memVO.getMem_id()).size()} ; i++){

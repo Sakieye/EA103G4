@@ -12,8 +12,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.celebrity_book.model.Celebrity_Book;
-
 public class CsDAO implements CsDAO_interface{
 	private static DataSource ds = null;
 	static {
@@ -30,7 +28,8 @@ public class CsDAO implements CsDAO_interface{
 	private static final String GET_ALL_CS = "SELECT * FROM CUSTOMER_SERVICE ORDER BY  CS_ID DESC";
 	private static final String GET_ONE_CS = "SELECT * FROM MEMBER WHERE CS_ID = ?";
 	private static final String DELETE_CS = "DELETE FROM CUSTOMER_SERVICE WHERE CS_ID = ?";
-	
+	private static final String UPDATE_CS = "UPDATE CUSTOMER_SERVICE SET CS_ISSEND=? WHERE CS_ID=?";
+	private static final String GET_SEARCH = "SELECT * FROM CUSTOMER_SERVICE WHERE CS_EMAIL LIKE '%' || ? || '%' ORDER BY  CS_ID DESC ";
 	@Override
 	public void insert(CsVO csVO) {
 		Connection con = null;
@@ -209,6 +208,97 @@ public class CsDAO implements CsDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void update(CsVO csVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_CS);
+
+			pstmt.setInt(1, csVO.getCs_isSend());
+			pstmt.setString(2, csVO.getCs_ID());
+			pstmt.executeUpdate();
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}	 
+		
+	}
+
+	@Override
+	public List<CsVO> findBySearch(String cssearch) {
+		List<CsVO> list = new ArrayList<CsVO>();
+		CsVO csVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_SEARCH);
+			pstmt.setString(1,cssearch);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				csVO = new CsVO();
+				csVO.setCs_ID(rs.getString("cs_ID"));
+				csVO.setCs_Email(rs.getString("cs_Email"));
+				csVO.setCs_Tel(rs.getString("cs_Tel"));
+				csVO.setCs_Subject(rs.getString("cs_Subject"));
+				csVO.setCs_Message(rs.getString("cs_Message"));
+				csVO.setCs_isSend(rs.getInt("cs_isSend"));
+				csVO.setCs_Time(rs.getTimestamp("cs_Time"));
+				
+				list.add(csVO);		
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	
 	}
 
 }

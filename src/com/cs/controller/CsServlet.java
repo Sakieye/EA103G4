@@ -3,18 +3,21 @@ package com.cs.controller;
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import com.bookclub.model.BookClubService;
+import com.bookclub.model.BookClubVO;
 import com.cs.model.CsService;
 import com.cs.model.CsVO;
 
 
-@WebServlet("/CsServlet")
 public class CsServlet extends HttpServlet {
 	
  
@@ -23,16 +26,15 @@ public class CsServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		
-		if ("insertCs".equals(action)) { 
-			
+		if ("insertCs".equals(action)) {
 			//收集錯誤訊息
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
+			//接收正確訊息回傳用
+			List<String> messages = new LinkedList<String>();
+			req.setAttribute("messages", messages);
 			try {	
 				//接收訊息信箱
 				String cs_Email = req.getParameter("cs_Email");
@@ -56,22 +58,20 @@ public class CsServlet extends HttpServlet {
 				//開始新增資料
 				CsService csSvc = new CsService();
 				csVO = csSvc.addCs(cs_Email, cs_Tel, cs_Subject, cs_Message, cs_isSend);
-	
-				//新增完成
-				String url = "/back-end/cs/listAllCs.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);			
+				messages.add("傳送成功");
+				String url = "/front-end/cs/csSendback.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
 			} catch (RuntimeException e) {
 				errorMsgs.add("傳送失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/cs/csindex.jsp");
+						.getRequestDispatcher("/front-end/cs/csSendback.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
 		
 		if("deleteCs".equals(action)) {
-			
 			//收集錯誤訊息
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -82,11 +82,6 @@ public class CsServlet extends HttpServlet {
 				//開始刪除資料
 				CsService csSvc = new CsService();
 				csSvc.deleteCs(cs_ID);
-				
-				//刪除成功,開始轉交
-				String url = "/back-end/cs/csindex.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
@@ -95,30 +90,40 @@ public class CsServlet extends HttpServlet {
 			}			
 		}
 		
-		if("getOneCs_For_Display".equals(action)) {
-			//收集錯誤訊息
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-			try {
-				//接收訊息編號
-				String cs_ID = req.getParameter("cs_ID"); 
-				
-				//取得該訊息資訊
-				CsService csSvc = new CsService();
-				CsVO csVO = csSvc.getOneCs(cs_ID);
-				
-				//準備轉交
-				req.setAttribute("csVO", csVO);
-				String url = "/back-end/cs/csindex.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res); 
-			} catch (Exception e) {
-				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
-				successView.forward(req, res);		
+		
+		if ("CSsearch".equals(action)) {
+			String cssearch = req.getParameter("cssearch");
+			Map<String, String> search_result = new HashMap<String, String>();
+			req.setAttribute("search_result", search_result);
+			CsService csSvc = new CsService();
+
+			HttpSession session = req.getSession();
+			List<CsVO> list = null;
+			if (cssearch.trim() != "") {
+				list = csSvc.getSearch(cssearch);
+			} else {
+				session.setAttribute("list", list);
+				session.setAttribute("title", "查詢結果:");
+				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
+				rd.forward(req, res);
+				return;
 			}
-		}							
+
+			if (!list.isEmpty()) {
+				session.setAttribute("list", list);
+				session.setAttribute("title", "查詢結果:");
+				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/cssearch.jsp");
+				rd.forward(req, res);
+				return;
+			} else {
+				session.setAttribute("list", list);
+				session.setAttribute("title", "查詢結果:");
+				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/cssearch.jsp");
+				rd.forward(req, res);
+				return;
+			}
+		}
+		
 	}
 
 }

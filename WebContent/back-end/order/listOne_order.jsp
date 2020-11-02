@@ -46,7 +46,7 @@
 </head>
 
 
-<body style="background-color: #EEDCD9;">
+<body>
 	<jsp:include page="/back-end/header/header.jsp" />
 	<div id="container">
 		<main id="center" class="column">
@@ -80,14 +80,15 @@
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="listAll_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/listAll_order.jsp">
+									<jsp:useBean id="odSvc" scope="page" class="com.order.model.OrderService" />
 									<button class="btn btn-sm btn-outline-secondary" type="submit">總覽</button>
 								</FORM>
 
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="create_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/create_order.jsp">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">客服新增</button>
 								</FORM>
 							</nav>
@@ -130,9 +131,6 @@
 												</div>
 												<div class="divTableCell" id="order_TH">
 													<h5>備註</h5>
-												</div>
-												<div class="divTableCell" id="order_TH">
-													<h5>訂單明細</h5>
 												</div>
 
 											</div>
@@ -193,24 +191,27 @@
 														<div class="divTableCell">${odVO.mem_note}</div>
 													</c:when>
 												</c:choose>
-												<div class="divTableCell">
-													<button class="btn btn-link btn-block text-left"
-														type="button" data-toggle="collapse"
-														data-target="#collapseOne" aria-expanded="true"
-														aria-controls="collapseOne" id="cardBtn"
-														style="outline: none;">按我</button>
-												</div>
+
 												<hr size="10px" align="center" width="100%">
 											</div>
 										</div>
 									</div>
 									<div class="divTable">
-										<div class="divTableBody" style="float: left;">
-											<div class="divTableCell">
-												&nbsp;&nbsp;&nbsp;&nbsp;收件資訊>>&nbsp;&nbsp;#Name：${odVO.rec_name}&nbsp;#Phone：${odVO.rec_tel}&nbsp;#Address：${odVO.rec_add}</div>
+											<div class="divTableBody" style="float: left;">
+												<div class="divTableRow">
+													<div class="divTableCell" style="background-color: #353C42;color: #FFF;">收件資訊</div>
+													<div class="divTableCell"></div>
+													<div class="divTableCell">收件人：</div>
+													<div class="divTableCell">${odVO.rec_name}</div>
+													<div class="divTableCell"></div>
+													<div class="divTableCell">電話：</div>
+													<div class="divTableCell">${odVO.rec_tel}</div>
+													<div class="divTableCell"></div>
+													<div class="divTableCell">地址：</div>
+													<div class="divTableCell">${odVO.rec_add}</div>
+												</div>
+											</div>
 										</div>
-									</div>
-
 
 									<!-- 訂單明細 -->
 									<div id="collapseOne" class="collapse show"

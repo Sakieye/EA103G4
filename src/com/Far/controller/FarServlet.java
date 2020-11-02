@@ -65,9 +65,6 @@ public class FarServlet extends HttpServlet {
 				if(farContent == null || farContent.trim().length() == 0) {
 					errorMsgs.add("檢舉內容請勿空白!");
 				}
-				
-				
-				
 				FarVO farVO = new FarVO();
 				farVO.setFaId(faId);
 				farVO.setMemId(memId);

@@ -1,5 +1,6 @@
 package com.bookpic.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Optional;
@@ -15,34 +16,39 @@ import com.bookpic.model.BookPicture;
 
 @WebServlet("/ShowBookPic")
 public class ShowBookPic extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("image/*");
 		String bookID = request.getParameter("bookID");
 		String bookPicName = request.getParameter("bookPicName");
+		Optional<BookPicture> bookPic = null;
 
 		if (bookID != null && bookPicName != null) {
 			BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
-			Optional<BookPicture> bookPic = bookPicService.getByBookIDAndBookPicName(bookID, bookPicName);
-			if (bookPic.isPresent()) {
-				OutputStream os = response.getOutputStream();
-				os.write(bookPic.get().getBookPic());
-			}
+			bookPic = bookPicService.getByBookIDAndBookPicName(bookID, bookPicName);
 		} else if (bookID != null && bookPicName == null) { // 只請求封面圖
 			BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
-			Optional<BookPicture> bookPic = bookPicService.getFirstPicByBookID(bookID);
-			if (bookPic.isPresent()) {
-				OutputStream os = response.getOutputStream();
-				os.write(bookPic.get().getBookPic());
-			}
+			bookPic = bookPicService.getFirstPicByBookID(bookID);
 		}
+
+		if (bookPic.isPresent()) {
+			writeBytes(response, bookPic.get());
+		}
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
+	private void writeBytes(HttpServletResponse response, BookPicture bookPicture) throws IOException {
+		byte[] buf = new byte[4 * 1024];
+		ByteArrayInputStream bin = new ByteArrayInputStream(bookPicture.getBookPic());
+		OutputStream os = response.getOutputStream();
+		int len;
+		while ((len = bin.read(buf)) != -1) {
+			os.write(buf, 0, len);
+		}
+		bin.close();
+		os.flush();
+		os.close();
 	}
 
 }

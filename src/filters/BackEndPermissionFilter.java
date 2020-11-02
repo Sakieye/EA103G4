@@ -39,7 +39,7 @@ public class BackEndPermissionFilter implements Filter {
 //	    System.out.println("list"+ list);
 	    	    
 	    String uri = req.getRequestURI();
-	    System.out.println("uri "+ uri);
+//	    System.out.println("uri "+ uri);
 	    
 	    List<String> PER0001 = new ArrayList<>();
 	    PER0001.add(req.getContextPath()+"/back-end/jsp_BookManagement/Index.jsp");
@@ -73,10 +73,10 @@ public class BackEndPermissionFilter implements Filter {
 	    PER0004.add(req.getContextPath()+"/back-end/forum/forumBack_forums.jsp");
 	    PER0004.add(req.getContextPath()+"/back-end/forum/forumBack_messages.jsp");
 	    PER0004.add(req.getContextPath()+"/back-end/forum/reviewBack.jsp");
-
 	    
 	    List<String> PER0005 = new ArrayList<>();
-	   
+	    PER0005.add(req.getContextPath()+"/back-end/cs/csindex.jsp");
+	    PER0005.add(req.getContextPath()+"/back-end/cs/listAllCs.jsp");
 
 	    List<String> PER0007 = new ArrayList<>();
 	    PER0007.add(req.getContextPath()+"/back-end/member/listAllMem.jsp");
@@ -98,7 +98,11 @@ public class BackEndPermissionFilter implements Filter {
 	    PER0008.add(req.getContextPath()+"/back-end/advertising/create_ad.jsp");
     
 	    List<String> PER0009 = new ArrayList<>();
-	        
+	    PER0009.add(req.getContextPath()+"/back-end/lecture/addLecture.jsp");
+	    PER0009.add(req.getContextPath()+"/back-end/lecture/listAllLecture.jsp");
+	    PER0009.add(req.getContextPath()+"/back-end/lecture/listOneLecture.jsp");
+	    PER0009.add(req.getContextPath()+"/back-end/lecture/update_lecture.jsp");
+	    
 	    List<String> PER0010 = new ArrayList<>();
 	    PER0010.add(req.getContextPath()+"/back-end/admins/listAllAdmins.jsp");
 	    PER0010.add(req.getContextPath()+"/back-end/admins/addAdmins.jsp");

@@ -20,6 +20,8 @@ import com.book.model.BookService;
 import com.publishers.model.Publisher;
 import com.publishers.model.PublisherService;
 
+import tools.StrUtil;
+
 @WebServlet("/BookUpdateOne")
 @MultipartConfig
 public class BookUpdateOne extends HttpServlet {
@@ -49,9 +51,9 @@ public class BookUpdateOne extends HttpServlet {
 		request.setAttribute("errorMsgs", errorMsgs);
 
 		// 修改既有書籍
-		String bookName = request.getParameter("bookName").trim();
-		String isbn = request.getParameter("isbn").trim();
-		String publisherName = request.getParameter("publisherName").trim();
+		String bookName = StrUtil.tryToTrim(request.getParameter("bookName"));
+		String isbn = StrUtil.tryToTrim(request.getParameter("isbn"));
+		String publisherName = StrUtil.tryToTrim(request.getParameter("publisherName"));
 		Publisher pulisher = publisherService.getOneByPublisherName(publisherName);
 		if (pulisher == null) {
 			errorMsgs.add("出版社尚未存在於出版社清單中，請先新增出版社");
@@ -62,8 +64,8 @@ public class BookUpdateOne extends HttpServlet {
 		}
 
 		String publisherID = pulisher.getPublisher_ID();
-		String author = request.getParameter("author").trim();
-		String bookNameOriginal = request.getParameter("bookNameOriginal").trim();
+		String author = StrUtil.tryToTrim(request.getParameter("author"));
+		String bookNameOriginal = StrUtil.tryToTrim(request.getParameter("bookNameOriginal"));
 
 		Date publicationDate = null;
 		try {

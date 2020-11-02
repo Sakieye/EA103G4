@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,15 +24,17 @@ public class PromoDAOImpl implements PromoDAO {
 
 	private static final String INSERT_STMT = "INSERT INTO PROMOTIONS(PROMO_ID,PROMO_NAME,PROMO_START_TIME,PROMO_END_TIME) VALUES ('PROMO' || lpad(PROMO_ID_SEQ.NEXTVAL, 10, '0'),?,?,?)";
 	private static final String FIND_BY_PROMO_ID_STMT = "SELECT * FROM PROMOTIONS WHERE PROMO_ID = ?";
-	private static final String FIND_BY_PROMO_NAME_UNIQUE_STMT = "SELECT * FROM PROMOTIONS WHERE upper(PROMO_NAME) = upper(?)";
+	private static final String FIND_BY_PROMO_NAME_UNIQUE_STMT = "SELECT * FROM PROMOTIONS WHERE UPPER(PROMO_NAME) = UPPER(?)";
 	private static final String UPDATE_STMT = "UPDATE PROMOTIONS SET PROMO_NAME = ?, PROMO_START_TIME = ?, PROMO_END_TIME = ? WHERE PROMO_ID = ?";
 	private static final List<String> ADV_SEARCH_CONDITIONS = Arrays.asList("promoID", "promoName", "promoStartTime",
 			"promoEndTime");
 	private static final String ADV_SEARCH_STMT = "SELECT * FROM PROMOTIONS WHERE (? IS NULL OR PROMO_ID = ?) "
 			+ "AND (? IS NULL OR upper(PROMO_NAME) LIKE '%'|| upper(?) || '%') "
 			+ "AND (? IS NULL OR PROMO_START_TIME >= to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss.ff')) "
-			+ "AND (? IS NULL OR PROMO_END_TIME <= to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss.ff'))";
+			+ "AND (? IS NULL OR PROMO_END_TIME <= to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss.ff')) "
+			+ "ORDER BY PROMO_ID DESC";
 	private static final String FIND_ALL_VALID_STMT = "SELECT * FROM PROMOTIONS WHERE (PROMO_START_TIME <= CURRENT_TIMESTAMP) AND (CURRENT_TIMESTAMP <= PROMO_END_TIME)";
+	private static final String FIND_BY_PROMO_NAME_LIKE_STMT = "SELECT PROMO_NAME FROM PROMOTIONS WHERE UPPER(PROMO_NAME) LIKE (UPPER(?) || '%') AND ROWNUM <= 10";
 
 	@Override
 	public void insert(Promo promo) {
@@ -276,7 +279,7 @@ public class PromoDAOImpl implements PromoDAO {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_ALL_VALID_STMT);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				promo = new Promo();
 				promo.setPromoID(rs.getString("PROMO_ID"));
@@ -312,6 +315,51 @@ public class PromoDAOImpl implements PromoDAO {
 			}
 		}
 		return listPromo;
+	}
+
+	@Override
+	public List<String> findByPromoNameLike(String promoName) {
+		List<String> promoNames = new LinkedList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_PROMO_NAME_LIKE_STMT);
+			pstmt.setString(1, promoName);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				promoNames.add(rs.getString(1));
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return promoNames;
 	}
 
 }

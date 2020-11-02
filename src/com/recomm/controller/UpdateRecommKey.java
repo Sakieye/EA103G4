@@ -73,15 +73,12 @@ public class UpdateRecommKey extends HttpServlet {
 
 		// AJAX檢查bookID
 		if (checkBookID != null && !"".equals(checkBookID)) {
-			response.setContentType("application/json");
-			try {
-//				System.out.println("checkBookID: " + checkBookID);
-				if (bookService.getByBookID(checkBookID).isPresent()) {
-					response.getWriter().write(new Gson().toJson("OK"));
-					response.setStatus(HttpServletResponse.SC_OK);
-				}
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
+			response.setContentType("text/html;charset=UTF-8");
+			if (bookService.getByBookID(checkBookID).isPresent()) {
+				response.getWriter().write("OK");
+			} else {
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.getWriter().write("此商品ID不存在資料庫中");
 			}
 		}
 
@@ -89,7 +86,6 @@ public class UpdateRecommKey extends HttpServlet {
 		if (term != null) {
 			response.setContentType("application/json");
 			try {
-//				System.out.println("Data from ajax call " + term);
 				List<String> bookIDs = bookService.getByBookIDLike(term);
 				String searchList = new Gson().toJson(bookIDs);
 				response.getWriter().write(searchList);
@@ -100,8 +96,6 @@ public class UpdateRecommKey extends HttpServlet {
 
 			String keyName = request.getParameter("keyName");
 			String bookID = request.getParameter("bookID");
-
-//			System.out.println("Here: " + bookID);
 
 			if (bookService.getByBookID(bookID).isPresent()) {
 				// 取得Redis連線
@@ -121,7 +115,6 @@ public class UpdateRecommKey extends HttpServlet {
 					}
 					// 嘗試新增/更新
 					jedis.zadd(keyName, count, bookID);
-//					System.out.println("jedis.zadd: " + bookID + " - " + count);
 				} else {
 					errorMsgs.add("keyName不存在Redis資料庫中");
 				}
@@ -130,7 +123,6 @@ public class UpdateRecommKey extends HttpServlet {
 			}
 
 			if (errorMsgs.size() == 0) {
-//				errorMsgs.forEach(e -> System.out.println(e));
 				request.getRequestDispatcher("/ShowRecommKeyDetails?keyName=" + keyName).forward(request, response);
 			}
 		}

@@ -63,6 +63,25 @@
 		<url-pattern>/front-end/forum/addFmrPage.jsp</url-pattern>
 		<url-pattern>/front-end/member/selectOrder.jsp</url-pattern>
 		<url-pattern>/front-end/member/selectOrderByBtn.jsp</url-pattern>
+		<url-pattern>/front-end/forum/memberCenter_forum.jsp</url-pattern>
+		<url-pattern>/front-end/forum/memberCenter_forum_collections.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<filter>
+		<filter-name>fromPageFilter</filter-name>
+		<filter-class>com.mem.filters.ComefromPage</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>fromPageFilter</filter-name>
+		<url-pattern>/front-end/front-index.jsp</url-pattern>
+		<url-pattern>/front-end/forum/forumIndex.jsp</url-pattern>
+		<url-pattern>/front-end/member/signUp.jsp</url-pattern>
+		<url-pattern>/front-end/member/confirmationCode.jsp</url-pattern>
+		<url-pattern>/front-end/bookclub/listOneBookClub.jsp</url-pattern> 
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -143,7 +162,13 @@
 		<url-pattern>/back-end/order/listAll_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/listOne_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/select_order.jsp</url-pattern>
-		<url-pattern>/back-end/order/update_order.jsp</url-pattern>		
+		<url-pattern>/back-end/order/update_order.jsp</url-pattern>	
+		<url-pattern>/back-end/cs/csindex.jsp</url-pattern>		
+		<url-pattern>/back-end/cs/listAllCs.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/addLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listAllLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listOneLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/update_lecture.jsp</url-pattern>					
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -179,6 +204,12 @@
 		<url-pattern>/back-end/order/listOne_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/select_order.jsp</url-pattern>
 		<url-pattern>/back-end/order/update_order.jsp</url-pattern>
+		<url-pattern>/back-end/cs/csindex.jsp</url-pattern>		
+		<url-pattern>/back-end/cs/listAllCs.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/addLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listAllLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/listOneLecture.jsp</url-pattern>		
+		<url-pattern>/back-end/lecture/update_lecture.jsp</url-pattern>	
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -285,4 +316,20 @@
 		<param-name>key2</param-name>
 		<param-value>gRBmoIL0btl4V9i6u0</param-value>
 	</context-param>
+	<servlet>
+		<servlet-name>CsServlet</servlet-name>
+		<servlet-class>com.cs.controller.CsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CsServlet</servlet-name>
+		<url-pattern>/back-end/cs/cs.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>CsSendGmail</servlet-name>
+		<servlet-class>com.cs.controller.CsSendGmail</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CsSendGmail</servlet-name>
+		<url-pattern>/back-end/cs/CsSendGmail.do</url-pattern>
+	</servlet-mapping>
 </web-app>

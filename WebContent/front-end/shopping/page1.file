@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%  int rowsPerPage = 20;  //每頁的筆數
+<%  int rowsPerPage = 16;  //每頁的筆數
     int rowNumber=0;      //總筆數
     int pageNumber=0;     //總頁數      
     int whichPage=1;      //第幾頁
@@ -36,8 +36,44 @@
     } 
 %>
 
-<%if (pageNumber>0){%>
-  <b><font color=red>第<%=whichPage%>/<%=pageNumber%>頁</font></b>
-<%}%>
+<%-- <%if (pageNumber>0){%> --%>
+<%--   <b><font color=red>第<%=whichPage%>/<%=pageNumber%>頁</font></b> --%>
+<%-- <%}%> --%>
 
-<b>符合查詢條件如下所示: 共<font color=red><%=rowNumber%></font>筆</b>
+<%-- <b>符合查詢條件如下所示: 共<font color=red><%=rowNumber%></font>筆</b> --%>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+  <%if (rowsPerPage < rowNumber) {%>
+    <%if(pageIndex >= rowsPerPage){%>
+  	<li class="page-item">
+      <a class="page-link" href="${request.header("Referer")}?whichPage=1" style="text-decoration:none;"><b>＜＜</b></a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="${request.header("Referer")}?whichPage=<%=whichPage-1%>" style="text-decoration:none;"><b>＜</b></a>
+    </li>
+    <%}%>
+<%--     <%if (pageNumber>0){%> --%>
+<%--     <c:forEach begin ="1" end ="<%=pageNumber%>" step ="1" varStatus="index"> --%>
+<%--     <form metho="get" action="${request.header("Referer")}" style="display:inline-block"> --%>
+<%--     <li class="page-item"><a class="page-link" type="submit" herf="${request.header("Referer")}?whichPage=${index.index}">${index.index}</a></li> --%>
+<%--     <input type="hidden" id="whichPage" name="whichPage" value='${index.index+1}'> --%>
+<!--     </form> -->
+<%-- 	</c:forEach> --%>
+<%--     <%}%> --%>
+    <%if (pageNumber>0){%>
+  <h3><b><font color=#01273C>　　<%=whichPage%>　</font>/　<%=pageNumber%>　　</b></h3>
+<%}%>
+    
+    <%if(pageIndex < pageIndexArray[pageNumber-1]){%>
+    <li class="page-item">
+      <a class="page-link" href="${request.header("Referer")}?whichPage=<%=whichPage+1%>" style="text-decoration:none;"><b>＞</b></a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="${request.header("Referer")}?whichPage=<%=pageNumber%>" style="text-decoration:none;"><b>＞＞</b></a>
+    </li>
+    <%}%>
+  <%}%> 
+  </ul>
+</nav>
+

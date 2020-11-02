@@ -84,11 +84,10 @@ public class BookClubServlet extends HttpServlet {
 		if ("getOne_For_Display".equals(action)) {
 			try {
 				String bc_id = req.getParameter("bc_id");
-				Questionnair_AnswerService questionnair_AnswerSvc = new Questionnair_AnswerService();
 				BookClubService bookClubService = new BookClubService();
 				BookClubVO bookClubVO = bookClubService.getOneBookClub(bc_id);
+				System.out.println(bc_id);
 				req.setAttribute("listOneBookClub", bookClubVO);
-				req.setAttribute("questionnair_AnswerSvc", questionnair_AnswerSvc);
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/bookclub/listOneBookClub.jsp");
 				successView.forward(req, res);
 				
@@ -124,6 +123,9 @@ public class BookClubServlet extends HttpServlet {
 		if ("insert".equals(action)) {
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			Map<String, String> situation = new LinkedHashMap<String, String>();
+			req.setAttribute("situation", situation);
+			
 			try {
 				/*********************** 從session取會員編號 *************************/
 				HttpSession session = req.getSession();
@@ -235,6 +237,7 @@ public class BookClubServlet extends HttpServlet {
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ****************************/
 				req.setAttribute("bookClubVO", bookClubVO);
+				situation.put("creat", "創建成功");
 				String url = "/front-end/bookclub/bookclub_index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -269,6 +272,8 @@ public class BookClubServlet extends HttpServlet {
 		if ("update".equals(action)) {
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			Map<String, String> situation = new LinkedHashMap<String, String>();
+			req.setAttribute("situation", situation);
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				/*********************** 讀書會編號 *************************/
@@ -374,31 +379,17 @@ public class BookClubServlet extends HttpServlet {
 				/*************************** 2.開始修改資料 ***************************************/
 				BookClubService bookClubSvc = new BookClubService();
 				
-				BookClub_Regis_DetailService bookClub_Regis_DetailSvc = new BookClub_Regis_DetailService();
-				List<BookClub_Regis_DetailVO> listDetail = bookClub_Regis_DetailSvc.getByBc_id(bc_id);
-				MemVO memVO = new MemVO(); 
-				MemService memSvc = new MemService();
-				for(BookClub_Regis_DetailVO brdVO : listDetail) {
-					memVO = memSvc.getOneMem(brdVO.getMem_id());
-					
-					String to = memVO.getMem_email();
-				      
-				      String subject = bookClubVO.getBc_name() + "修改通知";
-				      
-				      String ch_name = memVO.getMem_nickname();
-				      String messageText = "Hello! " + ch_name + "\n您報名" + bookClubVO.getBc_name() + "讀書會，資訊有更改，請盡快查看"; 
-				       
-				      MailService mailService = new MailService();
-				      mailService.sendMail(to, subject, messageText);
-				}
+				
 				// 讀書會資料
 				bookClubVO = bookClubSvc.update(bc_id, bc_name, bc_place, bc_time_start, bc_time_end,
 						bc_peo_upper_limit, bc_peo_lower_limit, bc_intro, bc_cover_pic, bc_init, bc_deadline);
 				/*******************
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 ****************************/
-				req.setAttribute("bookClubVO", bookClubVO);
-				String url = "/front-end/bookclub/bookclub_index.jsp";
+				bookClubVO = bookClubSvc.getOneBookClub(bc_id);
+				req.setAttribute("listOneBookClub", bookClubVO);
+				situation.put("update", "修改成功");
+				String url = "/front-end/bookclub/listOneBookClub.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 				/*************************** 其他可能的錯誤處理 **********************************/
@@ -420,7 +411,26 @@ public class BookClubServlet extends HttpServlet {
 			
 			String bc_id = req.getParameter("bc_id");
 			BookClubService bookClubSvc = new BookClubService();
-			bookClubSvc.updateStatus(bc_id,2);
+			BookClubVO bookClubVO = bookClubSvc.getOneBookClub(bc_id);
+			bookClubSvc.updateStatus(bc_id,3);
+			
+			BookClub_Regis_DetailService bookClub_Regis_DetailSvc = new BookClub_Regis_DetailService();
+			List<BookClub_Regis_DetailVO> listDetail = bookClub_Regis_DetailSvc.getByBc_id(bc_id);
+			MemVO memVO = new MemVO(); 
+			MemService memSvc = new MemService();
+			for(BookClub_Regis_DetailVO brdVO : listDetail) {
+				memVO = memSvc.getOneMem(brdVO.getMem_id());
+				
+				String to = memVO.getMem_email();
+			      
+			      String subject = bookClubVO.getBc_name() + "解散通知";
+			      
+			      String ch_name = memVO.getMem_nickname();
+			      String messageText = "Hello! " + ch_name + "\n您報名" + bookClubVO.getBc_name() + "讀書會，已經解散囉"; 
+			       
+			      MailService mailService = new MailService();
+			      mailService.sendMail(to, subject, messageText);
+			}
 			
 			situation.put("disband", "解散");
 			String url = "/front-end/bookclub/myBookClub.jsp";

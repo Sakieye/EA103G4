@@ -23,7 +23,7 @@ pageContext.setAttribute("lectureVO", lectureVO);
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendors/styles/icon-font.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/src/plugins/jquery-steps/jquery.steps.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendors/styles/style.css">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.datetimepicker.css" />
 
 <style>
 .main-container {
@@ -346,14 +346,14 @@ pageContext.setAttribute("lectureVO", lectureVO);
 		window.onload = init;
 	</script>
 	<!-- js -->
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/core.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/script.min.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/process.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/layout-settings.js"></script>
 	<script src="<%=request.getContextPath()%>/src/plugins/jquery-steps/jquery.steps.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/steps-setting.js"></script>
-	<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-	<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 	<script>
 		$.datetimepicker.setLocale('zh'); // kr ko ja en
 		$(function() {

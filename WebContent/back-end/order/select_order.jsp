@@ -39,7 +39,6 @@
 					<div class="col-12 col-md-12">
 
 						<!-- 訂單管理 -->
-
 						<div class="container-fluid">
 							<nav class="navbar navbar-light bg-light">
 								<h3>│訂單管理</h3>
@@ -52,31 +51,24 @@
 									</ul>
 								</c:if>
 								<hr>
-								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
-								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
-								<FORM class="form-inline" METHOD="post" ACTION=""></FORM>
 
-								<FORM class="form-inline" METHOD="post"
-									ACTION="<%=request.getContextPath()%>/order/order.do">
-									<input class="form-control mr-sm-2" type="text"
-										placeholder="輸入訂單編號 (共12碼)" aria-label="Search" name=order_id>
+								<FORM class="form-inline" METHOD="post" ACTION="<%=request.getContextPath()%>/order/order.do">
+									<input class="form-control mr-sm-2" type="text" placeholder="輸入訂單編號 (共12碼)" aria-label="Search" name=order_id>
 									<input type="hidden" name="action" value="selOneOd">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">開始查詢</button>
 								</FORM>
 								
 								<a>│</a>
 								
-								<FORM class="form-inline" METHOD="post"
-									ACTION="listAll_order.jsp">
-									<jsp:useBean id="odSvc" scope="page"
-										class="com.order.model.OrderService" />
+								<FORM class="form-inline" METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/order/listAll_order.jsp">
+									<jsp:useBean id="odSvc" scope="page" class="com.order.model.OrderService" />
 									<button class="btn btn-sm btn-outline-secondary" type="submit">總覽</button>
 								</FORM>
 
 								<a>│</a>
 
 								<FORM class="form-inline" METHOD="post"
-									ACTION="create_order.jsp">
+									ACTION="<%=request.getContextPath()%>/back-end/order/create_order.jsp">
 									<button class="btn btn-sm btn-outline-secondary" type="submit">客服新增</button>
 								</FORM>
 							</nav>

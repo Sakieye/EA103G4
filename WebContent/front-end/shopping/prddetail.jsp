@@ -34,8 +34,6 @@
 <!--自訂prddetailpage.css-->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/prddetailpage.css" />
 <!--===============================================================================================-->
-<link rel="icon" type="image/cliff/png" href="<%=request.getContextPath()%>/image/cliff/icons/favicon.png" />
-<!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animate/animate.css">
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendor/shop/animsition/css/animsition.min.css">
@@ -99,7 +97,6 @@
 						<div class="wrap-slick3 flex-sb flex-w">
 							<div class="wrap-slick3-dots"></div>
 							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
 							<div class="slick3 gallery-lb">
 								<c:forEach var="pic" items="${bookPiclist}" varStatus="picindex">
 									<div class="item-slick3" data-thumb="${pageContext.request.contextPath}/ShowBookPic?bookID=${pic.bookID}&bookPicName=${pic.bookPicName}">
@@ -119,22 +116,7 @@
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<%@ include file="/front-end/bookshop-eshop/breadcrumb.jsp"%>
-						<div class="star-ratings-css">
-							<div class="star-ratings-css-top" style="width: ${revSvc2.getRatingAvg(book.bookID)*100}%">
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-							</div>
-							<div class="star-ratings-css-bottom">
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-								<span>★</span>
-							</div>
-						</div>
+						<div class="star-ratings-sprite"><span style="width:${revSvc2.getRatingAvg(book.bookID)*100}%" class="star-ratings-sprite-rating"></span></div>
 						<span class="mt-0" style="font-size: 8px;">
 							<b>ISBN：${prddetail.isbn}</b>
 						</span>
@@ -181,10 +163,8 @@
 							元
 						</span>
 
-						<!--  -->
+						<!-- 加入收藏及購物車 -->
 						<div class="p-t-33">
-							<!-- 此區可補充 -->
-
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<FORM class="form-inline" name="cartFrom" id="cartFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
@@ -340,12 +320,10 @@
 
 	<jsp:include page="/front-end/footer/footer.jsp" />
 	<!--Scripts-->
-	<%-- 	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script> --%>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
-	<%-- 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script> --%>
-
+	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
 	<!-- pic -->
-	<script src="js/smoothproducts.min.js"></script>
+	<script src="<%=request.getContextPath()%>js/smoothproducts.min.js"></script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
@@ -357,11 +335,6 @@
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/slick/slick.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/shopslick-custom.js"></script>
-	<!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/vendor/shop/parallax100/parallax100.js"></script>
-	<script>
-		$('.parallax100').parallax100();
-	</script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script>
@@ -381,36 +354,6 @@
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/vendor/shop/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.js-addwish-b2, .js-addwish-detail').on('click', function(e) {
-			e.preventDefault();
-		});
-
-		$('.js-addwish-b2').each(
-				function() {
-					var nameProduct = $(this).parent().parent().find(
-							'.js-name-b2').html();
-					$(this).on('click', function() {
-						swal(nameProduct, "is added to wishlist !", "success");
-
-						$(this).addClass('js-addedwish-b2');
-						$(this).off('click');
-					});
-				});
-
-		$('.js-addwish-detail').each(
-				function() {
-					var nameProduct = $(this).parent().parent().parent().find(
-							'.js-name-detail').html();
-
-					$(this).on('click', function() {
-						swal(nameProduct, "is added to wishlist !", "success");
-
-						$(this).addClass('js-addedwish-detail');
-						$(this).off('click');
-					});
-				});
-
-		/*---------------------------------------------*/
 		var PathURL = window.document.location.href;
 		var localhost = PathURL.substring(0, PathURL
 				.indexOf(window.document.location.pathname));
@@ -436,9 +379,7 @@
 									success : function(data) {
 										swal(nameProduct, "此商品成功加入購物車 !",
 												"success");
-										setTimeout(function() {
-											go();
-										}, 850);
+										$('.badge').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
 									},
 									error : function(data) {
 										swal(nameProduct, "此商品無法加入購物車 Q_Q。",
@@ -446,11 +387,8 @@
 									}
 								})
 							})
-				})
+						})
 
-		function go() {
-			history.go(0);
-		}
 		function cartFormJSON(action, book_Name, book_Id, isbn, book_BP,
 				publisher_Id, price, comm_Qty) {
 			var cartFormJSON = {
@@ -465,23 +403,6 @@
 			};
 			return cartFormJSON;
 		}
-	</script>
-	<!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/vendor/shop/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function() {
-			$(this).css('position', 'relative');
-			$(this).css('overflow', 'hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed : 1,
-				scrollingThreshold : 1000,
-				wheelPropagation : false,
-			});
-
-			$(window).on('resize', function() {
-				ps.update();
-			})
-		});
 	</script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/js/shopmain.js"></script>

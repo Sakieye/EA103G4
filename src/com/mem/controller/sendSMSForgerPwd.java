@@ -30,34 +30,23 @@ public class sendSMSForgerPwd extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html;charset=UTF-8");
 		
-		String phoneNum = req.getParameter("phoneNum");
-		if(phoneNum == null || phoneNum.trim().length() == 0) { //前端有擋但不刪
-			String error = "請輸入您的電話";
-			req.setAttribute("error", error);
-			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
-			failureView.forward(req, res);
-			return;
-		}
+		String memId = req.getParameter("mem_id");
+		System.out.println(memId);
+		
 		String code = getCode();
 		
-		String[] str = {phoneNum};
-		Map<String, String[]> map = new HashMap<String, String[]>();
-		map.put("mem_tel", str);
 		MemService memSvc = new MemService();
-		List<MemVO> list = memSvc.getAll(map);
-		String mem_id = null;
-		for(MemVO memVO : list)
-			mem_id = memVO.getMem_id();
+		MemVO memVO = memSvc.getOneMem(memId);
 		
-		req.getSession().setAttribute("mem_id", mem_id);
+		req.getSession().setAttribute("mem_id", memId);
 		
 		Jedis jedis = new Jedis("localhost", 6379);
 		jedis.auth("123456");
-		jedis.set(phoneNum, code);
-		jedis.expire(phoneNum, 300); //過期時間五分鐘
+		jedis.set(memId, code);
+		jedis.expire(memId, 300); //過期時間五分鐘
 		jedis.close();
 		
-		SendSMS(phoneNum, code);
+		SendSMS(memVO.getMem_tel(), code);
 		
 		String url = "/front-end/member/updateForForgetPwd.jsp";
 		req.getRequestDispatcher(url).forward(req, res);

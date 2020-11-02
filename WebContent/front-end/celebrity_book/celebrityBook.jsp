@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.celebrity_book.model.*,com.mem.model.*,com.book.model.*,com.bookpic.model.*"%>
-<script type="text/javascript"  src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -18,7 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
     <style>
       table td{
@@ -109,10 +109,13 @@
 									<tr>
 										<%
 											MemVO memVO = (MemVO)session.getAttribute("memVO");
+											
 											Celebrity_BookService cbSvc = new Celebrity_BookService();
 											List<Celebrity_Book> list = cbSvc.getAll(memVO.getMem_id());
+											BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 											pageContext.setAttribute("list", list);
-											BookService bookService = (BookService) getServletContext().getAttribute("bookService");							
+											
+																		
 										%>
 										<th>商品圖</th>						
 										<th>書名</th>
@@ -130,14 +133,15 @@
 										String bookID = celebrity_book.getBook_ID();
 										String bookName = bookService.getByBookID(bookID).get().getBookName();
 										String author = bookService.getByBookID(bookID).get().getAuthor();
-										
+										Integer is_Sold = bookService.getByBookID(bookID).get().getIsSold();
+										request.setAttribute("is_Sold", is_Sold);
 										BookPicService bookPicService = (BookPicService) getServletContext().getAttribute("bookPicService");
 										Optional<BookPicture> bookPicture = bookPicService.getFirstPicByBookID(bookID);
 										String bookPicName = bookPicture.get().getBookPicName();
 										%>
 									<tbody>
 										<tr>
-											
+										  <c:if test="${is_Sold == 1}">
 											<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*5;" onMouseOut="this.width=this.width/5;"></td>				
 											<td><%=bookName%></td>
 											<td><%=author%></td>
@@ -163,7 +167,7 @@
 											     <input type="hidden" name="mem_ID"  value="${celebrity_Book.mem_ID}">
 											     <input type="hidden" name="action" value="deleteCelBook"></FORM>
 											</td>
-											
+										 </c:if>
 										</tr>
 									</tbody>	
 									</c:forEach>							            
@@ -182,10 +186,7 @@
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	
 		    
 </body>
 </html>

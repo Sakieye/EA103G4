@@ -24,7 +24,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- 	購物車每分鐘刷新一次 -->
-<!-- <meta http-equiv="refresh" content="60"> -->
+<meta http-equiv="refresh" content="1800">
 
 
 <link rel="stylesheet" href="<%= request.getContextPath()%>/css/main-front.css" />
@@ -62,14 +62,9 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shoputil.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shopmain.css">
 <!--===============================================================================================-->
-
-
-
 </head>
 
 <body class="animsition">
-	
-
 	<jsp:include page="/front-end/header/header-with-cart.jsp"/>
 	<section id="One" class="wrapper style4" style="padding: 3.25rem 0 0rem 0;">
 		<!-- Eshop Header -->
@@ -90,7 +85,7 @@
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 						<div class="wrap-table-shopping-cart">
 						
-							<table class="table-shopping-cart">
+							<table class="table-shopping-cart" id="cartTable">
 								<tr class="table_head">
 									<th class="column-1">參考圖</th>
 									<th class="column-2">書名</th>
@@ -108,7 +103,7 @@
 										</div>
 									</td>
 									<td class="column-2">
-										<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${cart.book_Id}'>
+										<a class="js-name-del" href='${pageContext.request.contextPath}/Shopping.html?book_id=${cart.book_Id}'>
 											${cart.book_Name}
 										</a>
 									</td>
@@ -123,11 +118,10 @@
 										<p style="font-size:10px;">(+ <fmt:formatNumber type="number" value="${cart.book_BP*cart.comm_Qty}" maxFractionDigits="0" />點)</p>
 									</td>
 									<td class="column-4">
-									<FORM class="form-inline" name="delFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
-										<input type="hidden" name="action" value="DEL"> 
-										<input type="hidden" name="del" value="${cartstatus.index}">
-										<button class="flex-c-m stext-101 cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" type="submit" style="width: 25px; height: 25px;">X</button>
-									</FORM>
+										<input type="hidden" name="action" id="action" value="DEL"> 
+										<input type="hidden" name="del" id="del" value="${cartstatus.index}">
+										<input type="hidden" name="url" value=<%=request.getRequestURL()%>> 
+										<button class="flex-c-m stext-101 cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5 js-cart-del" type="submit" style="width: 25px; height: 25px;">X</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -176,30 +170,29 @@
 								</span>
 							</div>
 						</div>
-						<FORM class="form-inline" name="checkFrom" method="POST" action="<%=request.getContextPath()%>/Shopping.html">
-							<input type="hidden" name="action" value="PAYCHECK">
-							<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-								<b>結　帳</b>
+							<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer js-cart-paycheck">
+								<b><font color=#000>結　帳</font></b>
 							</button>
-					</FORM>
 					</div>
 				</div>
 				<%
 					} else {
 				%>
-					<a style="color: #668787; font-size: 20px; text-aglin: center;">
-					<c:out value="購物車空空der...與您的腦一樣ＱＱ" /></a>
-					<!-- 	<div style="height:80%; width:100%;"></div> -->
-								
+					<div class="bg0 p-t-75 p-b-85">
+						<div class="container container-cart">
+							<div class="row">
+								<a style="color: #668787; font-size: 42px; text-aglin: center;">
+								<c:out value="購物車空空der... "/><br>
+								<c:out value="　　　　是否與你的皮夾一樣ＱＱ"/>
+								</a>
+								<input type="image"  class=""  src="<%=request.getContextPath()%>/images/cliff/ifine.png">
+							</div>
+						</div>
+					</div>								
 				<%} %>
 			</div>
 		</div>
 	</div>
-
-
-
-	
-		
 
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
@@ -208,18 +201,19 @@
 		</span>
 	</div>
 	
-	
 <!--===============================================================================================-->	
+	<!-- Scripts -->
+	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/util.js"></script>
+	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/stopExecutionOnTimeout.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.easing.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.datetimepicker.full.js"></script>
 	<!--Header進階搜尋toggle顯示/隱藏表單、一般搜尋按鈕註冊-->
-	<script
-		src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
+	<script src="${pageContext.request.contextPath}/front-end/header/header-search-bar-js.jsp"></script>
 	<!--Header下拉式書籍類別選單-->
-	<script
-		src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.smartmenus.min.js"></script>
 	<!-- pic -->
 	<script src="<%=request.getContextPath()%>/js/smoothproducts.min.js"></script>
 <!--===============================================================================================-->
@@ -228,8 +222,54 @@
 	<script src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/popper.js"></script>
 	<script src="<%=request.getContextPath()%>/vendor/shop/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/vendor/shop/sweetalert/sweetalert.min.js"></script>
+	<script>
+	var PathURL = window.document.location.href;
+	var localhost = PathURL.substring(0, PathURL
+			.indexOf(window.document.location.pathname));
 
+	$('.js-cart-del').each(
+			function() {
+				var nameProduct = $(this).parent().parent().parent()
+						.parent().find('.js-name-del').html();
+				var div=$('.wrap-table-shopping-cart').html();
+				$(this).on('click',
+						function() {
+							$.ajax({
+								type : "POST",
+								url : localhost + '/EA103G4/Shopping.html',
+								data : cartFormJSON(
+										 $(this).parent().children('#action').val(), 
+										 $(this).parent().children('#del').val()),
+								dataType : "json",
+
+								success : function(data) {
+									swal(nameProduct, "此商品成功移除!",
+											"success");
+									go();
+									$('.badge').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
+								},
+								error : function(data) {
+									swal(nameProduct, "無法移除, 請稍後再試。",
+											"error");
+								}
+							})
+						})
+					})
+	function go(){history.go(0)};
+	function cartFormJSON(action, del) {
+		var cartFormJSON = {
+			"action" : action,
+			"del" : del
+		};
+		return cartFormJSON;
+	}
+	/*=========================================================*/
+	$('.js-cart-paycheck').on('click',function(){window.location.href='http://localhost:8081/EA103G4/front-end/shopping/pay.jsp';})
+	
+	</script>
 
 </body>
 <jsp:include page="/front-end/footer/footer.jsp" />
+
 </html>

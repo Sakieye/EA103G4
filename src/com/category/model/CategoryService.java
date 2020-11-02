@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class CategoryService {
@@ -130,7 +132,6 @@ public class CategoryService {
 		List<Category> allCats = getAll();
 		Map<String, List<Category>> catMap = new LinkedHashMap<String, List<Category>>(); // parentCatID :
 																							// [childCats...]
-
 		allCats.forEach(cat -> {
 			String parentCatID = cat.getParentCategoryID();
 			String catName = cat.getCategoryName();
@@ -200,5 +201,22 @@ public class CategoryService {
 		}
 
 		return categoryCountMap;
+	}
+
+	public Set<String> getAllChildCatIDs(String categoryID) {
+		Set<String> categoryIDs = new LinkedHashSet<String>();
+
+		// 若有第一層子類別，加入
+		getByParentCategoryID(categoryID).forEach(firstChildCat -> {
+			String fisrtChildCatID = firstChildCat.getCategoryID();
+			categoryIDs.add(fisrtChildCatID);
+			
+			// 若有第二層子類別，加入
+			getByParentCategoryID(fisrtChildCatID)
+					.forEach(secondChildCat -> categoryIDs.add(secondChildCat.getCategoryID()));
+
+		});
+
+		return categoryIDs;
 	}
 }

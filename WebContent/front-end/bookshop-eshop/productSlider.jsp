@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.book.model.*"%>
+<%@ page import="tools.Arith"%>
 
 <%
 	String type = request.getParameter("type");
@@ -50,12 +51,23 @@
 												<a href='${pageContext.request.contextPath}/Shopping.html?book_id=${book.bookID}'>${book.bookName}</a>
 											</li>
 											<li class="product-author">
-												<a href='${pageContext.request.contextPath}/front-end/shopping/bookindex.jsp?author=${book.author}'>作者:&nbsp;${book.author}</a>
+												<a href='${pageContext.request.contextPath}/Search?author=${book.author}&action=advSearch'>作者:&nbsp;${book.author}</a>
 											</li>
 											<li class="product-real-sale-price">
 												優惠價:&nbsp;
 												<span>
-													<fmt:formatNumber type="number" maxFractionDigits="0" value="${book.bookRealPrice/book.listPrice*100}" />
+												    <%
+												    // 顯示折數
+												    Book book = (Book) pageContext.getAttribute("book");
+												    double showDiscount = Arith.mul(book.getBookRealPrice(), 100.0);
+												    showDiscount = Arith.div(showDiscount, book.getListPrice(), 0);
+												    
+												    if (showDiscount % 10 == 0) {
+											            showDiscount = showDiscount / 10;
+											        }
+												    
+												    %>
+													<fmt:formatNumber type="number" maxFractionDigits="0" value="<%=showDiscount%>" />
 												</span>
 												折
 												<span>

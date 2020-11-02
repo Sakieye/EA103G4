@@ -53,6 +53,15 @@
 #phone{
 	border-radius: 10px;
 }
+#modal2 img{
+	box-shadow: 0 0 9px black;
+	margin-bottom:10px;
+}
+#member{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 </style>
 </head>
@@ -105,22 +114,52 @@
 		tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/sendSMSForgerPwd.do" name="form" onclick="return false">
+			<div class="modal-content" style="background-color: snow;">
+<%-- 				<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/sendSMSForgerPwd.do" name="form" onclick="return false"> --%>
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalCenterTitle"
-							style="font-weight: 700;">請輸入手機號碼，並收取簡訊</h5>
+							style="font-weight: 700;">請輸入手機號碼</h5>
 						<button type="button" class="close" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body" id="modal1">
 						<input type="text" name="phoneNum" id="phone" maxlength="10">
 						<div class="errorMsg" id="err"></div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-secondary mybtn2" id="button">Submit</button>
+						<button type="submit" class="btn btn-secondary mybtn2" id="button" data-toggle="modal" data-target="#myModal2" data-backdrop="static">送出</button>
 						<button type="button" class="btn btn-secondary mybtn2" data-dismiss="modal">Close</button>
+					</div>
+<!-- 				</form> -->
+			</div>
+		</div>
+	</div>
+	<!-- madal -->
+	<jsp:useBean id="memService" scope="page" class="com.mem.model.MemService"/>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal2"
+		tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/sendSMSForgerPwd.do" name="form" style="margin-bottom: 0; background-color: snow;">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle"
+							style="font-weight: 700;">確認身分</h5>
+						<button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" id="modal2">
+						
+						
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="phoneNum" id="phone" maxlength="10">
+						<input type="hidden" name="mem_id" id="memId">
+						<button type="submit" class="btn btn-secondary mybtn2" id="button2" style="width: 60px;">是</button>
+						<button type="button" class="btn btn-secondary mybtn2" data-dismiss="modal" id="button3" style="width: 60px;">否</button>
 					</div>
 				</form>
 			</div>
@@ -136,24 +175,57 @@
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 		
 	<script type="text/javascript">
-	$(document).ready(function(){
-	    $("#button").click(function(){
-	        if($("#phone").val()==""){
-	        	document.getElementById("err").innerText = "請輸入手機號碼";     	      	
-	        } else {
-	            document.form.submit();
-	        }
-	    })
-	 })
+	window.onload = function() {
+		var button = document.getElementById("button");
+		var phone = document.getElementById("phone");
+		button.disabled = true;
+		function validatePassword() {
+			if(phone.value.length == 10){
+				button.disabled = false;
+			}
+		}
+		phone.onchange = validatePassword;
+	}
 	
+	$(document).ready(function() {
+		$("#button").click(function(){
+			$.ajax({
+                type: "POST",
+                url: '${pageContext.request.contextPath}/mem/getMemData.do',
+                data : {
+                    "phone": $('#modal1').find('input[name = "phoneNum"]').val(),
+                },
+                success: function(data) {
+                	var object = JSON.parse(data);
+                	
+               		var modal2 = document.getElementById("modal2");
+               		modal2.innerHTML = 
+               		'<div id="member"><img style="width:150px; height:125px; border-radius:10px;" src="${pageContext.request.contextPath}/mem/MemPic?mem_id=' + object.mem_id +'"/>'
+               		+'<div style="font-size: 20px; font-weight: 700;">請問你是&nbsp;' + object.mem_name + '&nbsp;嗎?</div>'
+               		+'<div style="font-weight: 500;">' + object.mem_email + '</div></div>';	
+                	
+               		$("#memId").val(object.mem_id);
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown) {
+                	var modal2 = document.getElementById("modal2");
+            		modal2.innerHTML = 
+            		'<img style="width:150px; height:125px; border-radius:10px;" src="${pageContext.request.contextPath}/BookShopLogo/4.png"/>'
+            		+'<h5 style="font-weight: 700;">無此會員,請輸入您註冊的手機號碼！</h1>';
+            		
+            		$("#button2").remove();
+            		$("#button3").text("Close");
+                }
+           });
+		});
+	})
 	
+		
 	</script>
 
 </body>

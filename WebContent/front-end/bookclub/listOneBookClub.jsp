@@ -11,6 +11,11 @@
 <%
 	BookClubVO bookClubVO = (BookClubVO) request.getAttribute("listOneBookClub");
 	request.setAttribute("listOneBookClub", bookClubVO);
+	if(bookClubVO == null){
+		String bc_id = (String) session.getAttribute("bc_id");
+		BookClubService bookClubService = new BookClubService();
+		bookClubVO =  bookClubService.getOneBookClub(bc_id);
+	}
 %>
 <%
 	QuestionService questionSvc = new QuestionService();
@@ -33,7 +38,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bookclub_listone.css">
-<body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<body >
 	<jsp:include page="/front-end/bookclub/bookClubNotice.jsp" />
 	<jsp:include page="/front-end/header/header.jsp" />
 	<div class="bg"></div>
@@ -41,6 +47,9 @@
 	<div class="bg bg3"></div>
 	<!-- 點擊置頂按鈕 -->
 	<button type="button" id="BackTop" class="toTop-arrow"></button>
+	
+	<c:choose>
+		<c:when test="${listOneBookClub.bc_status eq 1}">
 	<div class="container">
 		<div class="jumbotron jumbotron-fluid" id="bookclub_pic">
 			<img
@@ -48,9 +57,6 @@
 		</div>
 	</div>
 	<div class="container">
-		<!-- <div class="row" id="bookclub_pic">
-            <img src="images/Bookclub/bookclub1.PNG">
-        </div> -->
 		<br>
 		<div class="row">
 			<div class="col-12 col-md-9">
@@ -131,7 +137,7 @@
 					<c:if test="${memVO.mem_id eq listOneBookClub.mem_id}">
 						<FORM METHOD="post" ACTION="bookclub.do">
 							<button type="submit" class="style-6e8fa4a0-register-button">修改讀書會</button>
-							<input type="hidden" name="bc_id"value="<%= bookClubVO.getBc_id() %>"> 
+							<input type="hidden" name="bc_id"value="<%= bookClubVO.getBc_id() %>">
 							<input type="hidden" name="action" value="getOne_For_Update">
 						</FORM>
 					</c:if>
@@ -150,6 +156,13 @@
 			</div>
 		</div>
 	</div>
+	</c:when>
+		<c:otherwise>
+		<div class="container" style="height:1400px;padding-right: 90%;padding-top: 4%">
+			<img src="<%=request.getContextPath()%>/images/bookclub/404.png" style="height: 40%;position: absolute">
+		</div>
+		</c:otherwise>
+	</c:choose>
 	<jsp:include page="/front-end/footer/footer.jsp" />
 	<!---------------------------------------------------檢舉讀書會跳窗 --------------------------------------------------->
 	<div class="modal" id="report-bookclub" tabindex="-1" role="dialog"
@@ -482,7 +495,13 @@
 	        swal.fire({
 				icon : 'success',
 				title : 'YEAH',
-				text : "審核通過"
+				text : "審核通過",
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  hideClass: {
+				    popup: 'animate__animated animate__fadeOutUp'
+				  }
 			});
 	    });
 
@@ -501,16 +520,39 @@
 			swal.fire({
 				icon : 'warning',
 				title : 'GG',
-				text : "審核不通過"
+				text : "審核不通過",
+					showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+					  hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
 			});
 		});
 	</script>
 	<script>
+	<c:if test="${listOneBookClub.bc_status ne 1}">
+	swal.fire({
+		icon : 'error',
+		title : '404',
+		text : "找不到囉~ 讀書會已解散",
+		onClose: () => {
+		location.href=`<%=request.getContextPath()%>` + "/front-end/bookclub/bookclub_index.jsp";
+	  		}
+		});
+	</c:if>
+	
 		<c:if test="${not empty situation.success}">
 		swal.fire({
 			icon : 'success',
 			title : 'YEAH',
-			text : "報名成功，等待審核"
+			text : "報名成功，等待審核",
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  hideClass: {
+				    popup: 'animate__animated animate__fadeOutUp'
+				  }
 		});
 		sendAddBookClubMessage();
 			<%request.removeAttribute("success");%>
@@ -519,7 +561,13 @@
 		swal.fire({
 			icon : 'success',
 			title : 'YEAH',
-			text : "檢舉成功，等待審核"
+			text : "檢舉成功，等待審核",
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  hideClass: {
+				    popup: 'animate__animated animate__fadeOutUp'
+				  }
 		});
 			<%request.removeAttribute("report");%>
 		</c:if>
@@ -539,7 +587,15 @@
 	    });
 	    <% request.removeAttribute("isFull"); %>
 	    </c:if>
-	    
+	    <c:if test="${not empty situation.update}">
+	    swal.fire({
+	        icon:'success',
+	        title:'YEAH',
+	        text:"修改成功"
+	    });
+	    sendUpdateBookClubMessage();
+	    	<% request.removeAttribute("update"); %>
+	    </c:if>
 	</script>
 		<!-- 地圖script -->
 	<script>

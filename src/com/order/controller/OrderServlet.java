@@ -36,7 +36,6 @@ public class OrderServlet extends HttpServlet {
 		if ("PAY".equals(action)) {
 
 			try {
-
 				// order info
 				String mem_id = req.getParameter("mem_Id");
 				if (mem_id == null || mem_id.trim().length() == 0) {
@@ -404,6 +403,43 @@ public class OrderServlet extends HttpServlet {
 			}
 
 		}
+		
+//《shipment》
+		if ("shipment".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				String order_id = req.getParameter("order_id");
+				Integer order_status = 3;
+				
+				OrderVO odVO = new OrderVO();
+				odVO.setOrder_id(order_id);
+				odVO.setOrder_status(order_status);
+			
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("odVO", odVO);
+					RequestDispatcher failView = req.getRequestDispatcher("/back-end/order/listAll_order.jsp");
+					failView.forward(req, res);
+					return;
+				}
+				OrderService odSvc = new OrderService();
+				odSvc.shipment(odVO);
+				OrderVO detailVO = odSvc.getOneOd(order_id);
+				
+				req.setAttribute("odVO", detailVO);
+				RequestDispatcher successView = req.getRequestDispatcher("/back-end/order/listOne_order.jsp");
+				successView.forward(req, res);
+			} catch (Exception e) {
+				errorMsgs.add("▲Error：[ 無法取得資料 ]" + e.getMessage());
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/order/listAll_order.jsp");
+				failView.forward(req, res);
+			}
+
+		}
+		
+		
+		
 
 //《Cancel》
 

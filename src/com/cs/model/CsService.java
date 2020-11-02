@@ -2,6 +2,7 @@ package com.cs.model;
 
 import java.util.List;
 
+
 public class CsService {
 	private CsDAO_interface dao;
 	
@@ -22,15 +23,28 @@ public class CsService {
 		
 		return csVO;		
 	}
+	//刪除訊息
 	public void deleteCs(String cs_ID) {
 		dao.delete(cs_ID);
 	}
-	
+	//顯示全部
 	public List<CsVO> getAll(){
 		return dao.getAll();
-	}
-	public CsVO getOneCs(String cs_ID) {
-		return dao.findByPrimaryKey(cs_ID);
-	}
+	}	
+	//更新回覆狀態
+	public CsVO updateCs(Integer cs_isSend,String cs_ID) {
+		
+		CsVO csVO =new CsVO();
 	
+		csVO.setCs_isSend(cs_isSend);
+		csVO.setCs_ID(cs_ID);
+		
+		dao.update(csVO);
+		
+		return csVO;
+	}
+	//查詢信箱
+	public List<CsVO> getSearch(String cssearch){
+		return dao.findBySearch(cssearch);
+	}
 }

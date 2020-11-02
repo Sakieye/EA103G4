@@ -22,6 +22,7 @@ public class StatusMap implements ServletContextListener{
 		Map<Integer, String> bcStatus = new HashMap<Integer, String>();
 		bcStatus.put(new Integer(1), "進行中");
 		bcStatus.put(new Integer(2), "未進行中");
+		bcStatus.put(new Integer(3), "已解散");
 		context.setAttribute("bcStatus",bcStatus);
 		
 		Map<Integer, String> brdStatus = new HashMap<Integer, String>();

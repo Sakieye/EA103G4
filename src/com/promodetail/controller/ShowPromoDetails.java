@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +25,6 @@ public class ShowPromoDetails extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String update = request.getParameter("update");
 		String promoID = request.getParameter("promoID");
 
 		if ("RemoveAllFromPromo".equals(request.getParameter("action"))) {
@@ -33,29 +33,14 @@ public class ShowPromoDetails extends HttpServlet {
 			promoDetailService.deletePDByPromoID(promoID);
 		}
 
-		// 重導回來清空session，讓GET方法重新查詢更新後的promoDetails
-//		if ("1".equals(update)) {
-//			request.getSession().invalidate();
-//		}
-
 		// 從管理促銷事件頁面首次拜訪，而非從換頁操作
 		if (promoID != null) {
-			long s = System.currentTimeMillis();
-
 			PromoDetailService promoDetailService = (PromoDetailService) getServletContext()
 					.getAttribute("promoDetailService");
 			PromoService promoService = (PromoService) getServletContext().getAttribute("promoService");
 			BookService bookService = (BookService) getServletContext().getAttribute("bookService");
 			List<PromoDetail> promoDetails = promoDetailService.getByPromoID(promoID);
-			List<String> bookIDs = new ArrayList<String>();
-
-			// 建立bookIDs清單
-			promoDetails.forEach(PD -> {
-				bookIDs.add(PD.getBookID());
-			});
-
-			// 以bookIDs一次批量查詢多個Book物件出來
-			List<Book> promoBooks = bookService.getByBookIDList(bookIDs);
+			List<Book> promoBooks = bookService.getByPromoID(promoID, false);
 
 			// 將get表單傳來的隱藏參數promoID轉發給下一個頁面，
 			request.setAttribute("promo", promoService.getByPromoID(promoID).get());
