@@ -231,8 +231,8 @@ public class FaServlet extends HttpServlet {
 			Jedis jedis = null;
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String faTopic = new String(req.getParameter("faTopic"));
-				if (faTopic == null || faTopic.trim().length() == 0) {
+				String faTopic = new String(req.getParameter("faTopic").trim());
+				if (faTopic == null || faTopic.length() == 0) {
 					errorMsgs.add("請輸入搜尋內容!");
 				}
 				/***************************2.錯誤處理，並回傳輸入正確格式的資訊**********************/
