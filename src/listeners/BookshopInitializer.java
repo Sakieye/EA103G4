@@ -40,6 +40,7 @@ import com.publishers.model.PublisherService;
 
 import timers.PromoTimerTask;
 import timers.StatisticsTimerTask;
+import tools.JedisUtil;
 
 @WebListener
 public class BookshopInitializer implements ServletContextListener {
@@ -143,6 +144,7 @@ public class BookshopInitializer implements ServletContextListener {
 	}
 
 	public void contextDestroyed(ServletContextEvent sce) {
+		// 關閉兩個Timer
 		promoTimerService.shutdownNow();
 		try {
 			while (!promoTimerService.awaitTermination(2, TimeUnit.SECONDS)) {
@@ -164,6 +166,9 @@ public class BookshopInitializer implements ServletContextListener {
 			e.printStackTrace();
 		}
 		System.out.println("statisticsTimerService執行緒池關閉");
+		
+		// 關閉Jedis連線池，避免commons-pool-evictor-thread不能關閉
+		JedisUtil.shutdownJedisPool();
 	}
 
 }

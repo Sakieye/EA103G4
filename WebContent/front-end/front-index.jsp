@@ -76,7 +76,9 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/Bookshop-eshop.jpg" alt="Bookshop Logo" />
+							<a href="<%=request.getContextPath()%>/front-end/bookshop-eshop/index.jsp">
+								<img src="<%=request.getContextPath()%>/front-end/images/Bookshop-eshop.jpg" alt="Bookshop Eshop" />
+							</a>
 						</div>
 						<div class="content">
 							<header class="align-center">
@@ -93,7 +95,9 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/lecture_index.jpg" alt="" />
+							<a href="<%=request.getContextPath()%>/front-end/lecture/lecture_index.jsp">
+								<img src="<%=request.getContextPath()%>/front-end/images/lecture_index.jpg" alt="Bookshop Lecture" />
+							</a>
 						</div>
 						<div class="content">
 							<header class="align-center">
@@ -102,7 +106,7 @@
 							</header>
 							<p></p>
 							<footer class="align-center">
-								<a href="#" class="button alt">Learn More</a>
+								<a href="<%=request.getContextPath()%>/front-end/lecture/lecture_index.jsp" class="button alt">Learn More</a>
 							</footer>
 						</div>
 					</div>
@@ -110,7 +114,9 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/pic3.jpg" alt="" />
+							<a href="<%=request.getContextPath()%>/front-end/forum/forumIndex.jsp">
+								<img src="<%=request.getContextPath()%>/front-end/images/pic3.jpg" alt="Bookshop Forum" />
+							</a>
 						</div>
 						<div class="content">
 							<header class="align-center">
@@ -127,7 +133,9 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="<%=request.getContextPath()%>/front-end/images/bookClub_index.jpg" alt="" />
+							<a href="<%=request.getContextPath()%>/front-end/bookclub/bookclub_index.jsp">
+								<img src="<%=request.getContextPath()%>/front-end/images/bookClub_index.jpg" alt="Bookshop Bookclub" />
+							</a>
 						</div>
 						<div class="content">
 							<header class="align-center">
