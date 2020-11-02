@@ -159,7 +159,7 @@
 	</c:when>
 		<c:otherwise>
 		<div class="container" style="height:1400px;padding-right: 90%;padding-top: 4%">
-			<img src="<%=request.getContextPath()%>/images/bookclub/404.png" style="height: 50%;position: absolute">
+			<img src="<%=request.getContextPath()%>/images/bookclub/404.png" style="height: 40%;position: absolute">
 		</div>
 		</c:otherwise>
 	</c:choose>
