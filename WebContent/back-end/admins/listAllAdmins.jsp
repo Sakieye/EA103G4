@@ -96,7 +96,7 @@
                             <td>${adminsVO.admin_id}</td>
                             <td>
                                 <div id="img">
-                                    <img width="100px" height="100px" src="${pageContext.request.contextPath}/ShowAdminPic?admin_id=${adminsVO.admin_id}" />
+                                    <img class="rounded-circle" width="100px" height="100px" style="box-shadow:7px 4px 9px 1px #333333;" src="${pageContext.request.contextPath}/ShowAdminPic?admin_id=${adminsVO.admin_id}" />
                                 </div>
                             </td>
                             <td>${adminsVO.admin_name}</td>
