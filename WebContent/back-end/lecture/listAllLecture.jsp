@@ -48,13 +48,20 @@ pageContext.setAttribute("list", list);
 			<div class="pd-20 card-box mb-30">
 				<div class="clearfix mb-20">
 					<div class="pull-left">
-						<h1 class="text-blue h1">講座清單列表</h1>
-						<div>
+						<h1 class="text-blue h1" >講座清單列表</h1>
+						<div><a href="<%=request.getContextPath()%>/back-end/categorie/listAllCategorie.jsp"><big>類別類表 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  								<path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+  								<path fill-rule="evenodd" d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/>
+  								<circle cx="3.5" cy="5.5" r=".5"/>
+  								<circle cx="3.5" cy="8" r=".5"/>
+  								<circle cx="3.5" cy="10.5" r=".5"/>
+						</svg></big></a>&nbsp;&nbsp;&nbsp;
 							<a href="<%=request.getContextPath()%>/back-end/lecture/addLecture.jsp">新增講座 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   									<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
   									<path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
 								</svg>
-							</a>
+							</a>&nbsp;&nbsp;&nbsp;
+							<a href="">講座訂單列表</a>
 						</div>
 					</div>
 					<jsp:useBean id="lectureService1" scope="page" class="com.lecture.model.LectureService" />

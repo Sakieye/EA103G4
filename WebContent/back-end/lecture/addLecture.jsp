@@ -2,9 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.lecture.model.*"%>
 <%@ page import="com.categorie.model.*"%>
+<%@ page import="com.admins.model.*"%>
 
 <%
 	LectureVO lectureVO = (LectureVO) request.getAttribute("lectureVO");
+%>
+
+<%
+	String admin_name_s = (String) session.getAttribute("admin_name_s");
+    String admin_id_s = (String) session.getAttribute("admin_id_s");
 %>
 
 <!DOCTYPE html>
@@ -22,7 +28,8 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendors/styles/icon-font.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/src/plugins/jquery-steps/jquery.steps.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/vendors/styles/style.css">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/css/jquery.datetimepicker.css" />
 
 
 <style>
@@ -229,12 +236,8 @@
 
 								<div class="col-md-6">
 									<div class="form-group">
-										<label><font color=red><b>*</b></font>管理員編號:</label> <select class="custom-select form-control" name="admin_id" required="required">
-											<option value="AD001">Peter</option>
-											<c:forEach var="admin" items="${admins}">
-												<option value="${admins.admins_id}">${admins.admins_name}</option>
-											</c:forEach>
-										</select>
+										<label><font color=red><b>*</b></font>管理員編號:</label>
+										<div><%=admin_id_s%> <%=admin_name_s%></div>
 									</div>
 								</div>
 
@@ -341,9 +344,11 @@
 							</div>
 
 
-							<div class="row">
-
-								<input type="hidden" name="action" value="insert"> <input type="hidden" name="lc_id" value="${lectureVO.lc_id}"> <input type="submit" value="送出" class="btn btn-dark btn-sm">
+							<div class="row">							   
+								<input type="hidden" name="action" value="insert"> 
+								<input type="hidden" name="lc_id" value="${lectureVO.lc_id}"> 
+								<input type="hidden" name="admin_id" value="<%=admin_id_s%>"> 
+								<input type="submit" value="送出" class="btn btn-dark btn-sm">
 							</div>
 
 						</section>
@@ -393,15 +398,14 @@
 	</script>
 
 	<!-- js -->
-
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/core.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/script.min.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/process.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/layout-settings.js"></script>
 	<script src="<%=request.getContextPath()%>/src/plugins/jquery-steps/jquery.steps.js"></script>
 	<script src="<%=request.getContextPath()%>/vendors/scripts/steps-setting.js"></script>
-	<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-	<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
 
 	<script>
