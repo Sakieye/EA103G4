@@ -47,6 +47,7 @@ public class ShowBookPic extends HttpServlet {
 			os.write(buf, 0, len);
 		}
 		bin.close();
+		os.flush();
 		os.close();
 	}
 

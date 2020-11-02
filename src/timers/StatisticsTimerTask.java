@@ -35,7 +35,7 @@ public class StatisticsTimerTask extends TimerTask {
 		Date d = new Date(start);
 		String threadName = Thread.currentThread().getName();
 		StringBuffer sb = new StringBuffer("\n" + threadName + "瀏覽/銷售統計執行時間:\t");
-		System.out.print(sb.append(TIME_FORMATTER.format(d)).append("\t").append(start));
+		System.out.print(sb.append(TIME_FORMATTER.format(d)));
 
 		// 取得Redis連線
 		JedisPool pool = JedisUtil.getJedisPool();

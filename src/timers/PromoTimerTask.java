@@ -45,7 +45,7 @@ public class PromoTimerTask extends TimerTask {
 		Date date = new Date(start);
 		String threadName = Thread.currentThread().getName();
 		StringBuffer sb = new StringBuffer("\n" + threadName + "促銷事件更新執行時間:\t");
-		System.out.print(sb.append(FORMATTER.format(date)).append("\t").append(start));
+		System.out.print(sb.append(FORMATTER.format(date)));
 
 		// 查詢並建構前一輪有效promo事件(存在B00000000001的欄位中)
 		Optional<Book> firstBook = bookService.getByBookID("B00000000001");
