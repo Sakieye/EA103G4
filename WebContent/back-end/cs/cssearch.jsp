@@ -61,8 +61,8 @@
 					        <div class="row">
 					            <div class="col-lg-6">
 					                <div class="input-group">
-					                    <input type="text" name="cssearch" placeholder="search...">
-					                    <button type="submit"class="btn btn-default" id="doSearch" >Go!</button>
+					                    <input type="text" name="cssearch" placeholder="search Email...">
+					                    <button type="submit"class="btn btn-default" id="doSearch" >查詢!</button>
 										<input type="hidden" name="action" value="CSsearch" >
 					                </div><!-- /input-group -->
 					            </div><!-- /.col-lg-6 -->
@@ -101,8 +101,12 @@
 											<th>刪除</th>						
 										</tr>
 									</thead>
-									
-									<%@ include file="page1.file" %> 
+									<h3>${title}
+									<%@ include file="searchpage1.file" %> 
+									</h3>
+									<c:if test="${empty list }">
+										<h1 style="text-align:center;color:red;">查無資訊!請重新查詢</h1>
+									</c:if>
 									<tbody>
 										<c:forEach var="csVO" items="${list}" varStatus="update" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 											<tr class="${csVO.cs_ID}">
@@ -111,13 +115,18 @@
 													String email[] = csVO.getCs_Email().split("@");
 													String emails = email[0];
 												%>
-																													
+																												
 												<td>${csVO.cs_ID}</td>
 												<td><%=emails %></td>
 												<td>${csVO.cs_Tel}</td>
 												<td class="ellipsis">${csVO.cs_Subject}</td>
 												<td><fmt:formatDate value='${csVO.cs_Time}' pattern='yyyy-MM-dd HH:mm'/></td>
-												<td>${csVO.cs_isSend eq 0 ? "尚未回覆":"已回覆"}</td>
+												<c:if test="${csVO.cs_isSend ==0}">
+													<td><span class="mailspan">未回覆</span></td>
+												</c:if>
+												<c:if test="${csVO.cs_isSend ==1}">
+													<td style="color:blue">已回覆</td>
+												</c:if>
 												<td>
 													<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#csDetails${update.index}">詳情</button>
 													<!-- Modal -->
@@ -179,7 +188,7 @@
 										</c:forEach>
 									</tbody>								            
 								</table>
-							<%@ include file="page2.file" %>
+							<%@ include file="searchpage2.file" %>
 				</div> 
 			</div>
 		 </div>

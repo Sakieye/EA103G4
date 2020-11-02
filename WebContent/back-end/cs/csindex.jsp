@@ -46,6 +46,13 @@
   .thcss{
   	background-color:rgba(255,255,0,0.3);
   }
+  .csinput input{
+		
+		height: 2rem;
+        width: 100%;
+        background: rgba(144, 144, 144, 0.075);
+        border:1px;
+	}
 </style>
 </head>
 
@@ -65,8 +72,8 @@
 					        <div class="row">
 					            <div class="col-lg-6">
 					                <div class="input-group">
-					                    <input type="text" name="cssearch" placeholder="search...">
-					                    <button type="submit"class="btn btn-default" id="doSearch" >Go!</button>
+					                    <input type="text" name="cssearch" placeholder="search Email...">
+					                    <button type="submit"class="btn btn-default" id="doSearch" >查詢!</button>
 										<input type="hidden" name="action" value="CSsearch" >
 					                </div><!-- /input-group -->
 					            </div><!-- /.col-lg-6 -->
@@ -121,7 +128,12 @@
 												<td>${csVO.cs_Tel}</td>
 												<td class="ellipsis">${csVO.cs_Subject}</td>
 												<td><fmt:formatDate value='${csVO.cs_Time}' pattern='yyyy-MM-dd HH:mm'/></td>
-												<td>${csVO.cs_isSend eq 0 ? "尚未回覆":"已回覆"}</td>
+												<c:if test="${csVO.cs_isSend ==0}">
+													<td><span class="mailspan">&times;</span></td>
+												</c:if>
+												<c:if test="${csVO.cs_isSend ==1}">
+													<td style="color:blue">&radic;</td>
+												</c:if>
 												<td>
 													<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#csDetails${update.index}">詳情</button>
 													<!-- Modal -->
@@ -141,21 +153,21 @@
 												              </button>
 												            </div>
 												            <div class="modal-body">										           
-												                <p>
-												                  <label for="contact-name" class="conteac-names">收件者信箱:</label>										                  
-												                  <span>*</span>
-                                                                  <br><input type="email" id="cs_Email" name="cs_Email" class="cs_Email" value="${csVO.cs_Email}" readonly="readonly" required>	
-												                </p>
-												                <p>
-												                  <label for="contact-tel" class="conteac-names">主旨:</label>
-												                  <span class="mailspan">*</span>
-                                                                  <br><input type="text" id="cs_Subject" name="cs_Subject" maxlength="30" required placeholder="請輸入30字以內" >											                
-												                </p>										                
-												                <p>
-												                  <label for="contace-message">留言:</label>
-												                  <br>
+												                <div>收件者信箱:<span>*</span></div>
+												                <div class="csinput">
+												                	<input type="email" id="cs_Email" name="cs_Email" class="cs_Email" value="${csVO.cs_Email}" readonly="readonly" required>	
+												                </div>
+												                <br>
+												                <div>主旨:<span class="mailspan">*</span></div>
+												                <div class="csinput">
+												                	<input type="text" id="cs_Subject" name="cs_Subject" maxlength="30" required placeholder="請輸入30字以內" >											                
+												                </div>
+												                <br>
+												                <div>留言:<span class="mailspan">*</span>
+												                </div>
+												                <div>  
 												                  <textarea name="cs_Message" rows="10" cols="50" required></textarea>
-												                </p>            
+												                </div>            
 												            </div>
 												            <div  class="modal-footer">
 												              
@@ -174,9 +186,10 @@
 												<td>
 												  <FORM id="${csVO.cs_ID}" METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/cs/cs.do" style="margin-bottom: 0px;">
 												     <button type="button" class="btn btn-secondary doDelete " value="${csVO.cs_ID}">刪除</button>
-<!-- 												     <input type="submit" class="btn btn-secondary" value="刪除"> -->
 												     <input type="hidden" name="cs_ID"  value="${csVO.cs_ID}">
-												     <input type="hidden" name="action" value="deleteCs"></FORM>
+												     <input type="hidden" name="action" value="deleteCs">
+												     <input type="hidden" name="cs_issend" value="${csVO.cs_isSend}">
+												  </FORM>
 												</td>						
 											</tr>
 											 									
@@ -217,46 +230,71 @@
 	   $(".doDelete").click(function(){
 		var theone="[id='"+$(this).val()+"']";
 		var thetwo="[class='"+$(this).val()+"']";
-
-	   	swal({
-        	title: "確定刪除？",
-        	html: "按下確定後資料會永久刪除",
-        	type: "question",
-        	showCancelButton: true//顯示取消按鈕
-    	}).then(
-        	function (result) {
-            	if (result.value) {
-            		
-                //使用者按下「確定」要做的事
-                	$.ajax({
-			         type:"POST",                    //指定http參數傳輸格式為POST
-			         url: "${pageContext.request.contextPath}/back-end/cs/cs.do",        //請求目標的url，可在url內加上GET參數，如 www.xxxx.com?xx=yy&xxx=yyy
-			         data: $(theone).serialize(), //要傳給目標的data為id=formId的Form其序列化(serialize)為的值，之
-					 
-					 success : function(){
-						 swal({
-							title: "成功刪除", 
-							text: "請點選OK!", 
-							type:"success"}).then(function(){ 
-							   $(thetwo).remove();
-							 }
-						 );
-				      },
-					 error:function(err){
-					 	swal("系統異常", "資料未被刪除", "error");
-					  }	 
+ 		var issend = $(this).next().next().next().val();	
+		if( issend == 1){
+		   	swal({
+	        	title: "確定刪除？",
+	        	html: "按下確定後資料會永久刪除",
+	        	type: "question",
+	        	showCancelButton: true
+	    	}).then(
+	        	function (result) {
+	            	if (result.value) {    
+	                	$.ajax({
+				         type:"POST",                   
+				         url: "${pageContext.request.contextPath}/back-end/cs/cs.do",        
+				         data: $(theone).serialize(), 
+						 success : function(){
+							 swal({
+								title: "成功刪除", 
+								text: "請點選OK!", 
+								type:"success"}).then(function(){ 
+								   $(thetwo).remove();
+								 }
+							 );
+					      },
+						 error:function(err){
+						 	swal("系統異常", "資料未被刪除", "error");
+						  }	 
 					});
-            	} else if (result.dismiss === "cancel"){
-                 //使用者按下「取消」要做的事
-                swal("取消", "資料未被刪除", "error");
-            	}//end else  
-        	});//end then 
-			 
-		});
+            	} else if (result.dismiss === "cancel"){                
+                	swal("取消", "資料未被刪除", "error");
+            	}  
+        	}); 			 
+		}else{
+			swal({
+	        	title: "尚未回覆,確定刪除?",
+	        	html: "按下確定後資料會永久刪除",
+	        	type: "warning",
+	        	showCancelButton: true
+	    	}).then(
+	        	function (result) {
+	            	if (result.value) {    
+	                	$.ajax({
+				         type:"POST",                   
+				         url: "${pageContext.request.contextPath}/back-end/cs/cs.do",        
+				         data: $(theone).serialize(), 
+						 success : function(){
+							 swal({
+								title: "成功刪除", 
+								text: "請點選OK!", 
+								type:"success"}).then(function(){ 
+								   $(thetwo).remove();
+								 }
+							 );
+					      },
+						 error:function(err){
+						 	swal("系統異常", "資料未被刪除", "error");
+						  }	 
+					});
+            	} else if (result.dismiss === "cancel"){                
+                	swal("取消", "資料未被刪除", "error");
+            	}  
+        	}); 			
+		}});
+		
 	});
 	
-	
-
 	</script>
 	
 

@@ -69,44 +69,48 @@
 				<div class="container">
 					<div class="csrow" style="text-align:center;" >
 						<c:if test="${not empty messages}">												
-										<c:forEach var="messages" items="${messages}">
-											<script>
-												swal("${messages}","","success");
-											</script>									
-										</c:forEach>
-								</c:if>
-								<c:if test="${not empty errorMsgs}">			
-								<c:forEach var="errorMsgs" items="${errorMsgs}">
-											<script>
-												swal("${errorMsgs}","分享書單已有此商品","error");
-											</script>
-										</c:forEach>
-								</c:if>
-					<form id="csAjaxform" action="<%=request.getContextPath()%>/back-end/cs/cs.do" method="post">            
-		                <div>信箱:<span  class="mainspan">*</span></div>
-		                <div class="csinput">
-		                	<input type="email" id="cs_Email" name="cs_Email" required>
-		                </div>
-		                <br>
-						<div>電話:<span  class="mainspan">*</span></div>
-		                <div class="csinput">
-		                	<input type="tel" id="cs_Tel" name="cs_Tel" required class="inputcs">
-						</div>
-						<br>
-						<div>主旨:<span  class="mainspan">*</span></div>
-		                <div class="csinput">
-		                	<input type="text" id="cs_Subject" name="cs_Subject" class="inputcs" required placeholder="請填寫30字以內" maxlength="30">
-		                </div>
-		                <br>
-						<div>留言:<span class="mainspan">*</span></div>
-						<div class="csinput">
-							<textarea name="cs_Message" rows="10" cols="60"  required placeholder="請在這留下你的建議或問題!" class="inputcs"></textarea>
-		                </div >       
-		      		    <button type="submit" class="btn btn-primary"  id="doSend">確認送出</button>
-		              	<input type="hidden" name="action" value="insertCs">
-		              	<button type="reset" value="Reset">清空</button>
-		              	<input type="button" class="btn btn-danger" value="返回首頁" onclick="location.href='<%=request.getContextPath()%>/front-end/front-index.jsp'">
-          			</form>
+							<c:forEach var="messages" items="${messages}">
+								<script>
+									swal("${messages}","","success");
+								</script>									
+							</c:forEach>
+						</c:if>
+						<c:if test="${not empty errorMsgs}">			
+							<c:forEach var="errorMsgs" items="${errorMsgs}">
+								<script>
+									swal("${errorMsgs}","分享書單已有此商品","error");
+								</script>
+							</c:forEach>
+						</c:if>
+						<h4>
+							<p>感謝您對我們的支持，若有任何疑問或寶貴的意見，歡迎您隨時與我們聯繫，客服人員將竭誠為您服務!</p>
+						</h4>
+						<hr>		
+						<form id="csAjaxform" action="<%=request.getContextPath()%>/back-end/cs/cs.do" method="post">            
+			                <div>信箱:<span  class="mainspan">*</span></div>
+			                <div class="csinput">
+			                	<input type="email" id="cs_Email" name="cs_Email" required>
+			                </div>
+			                <br>
+							<div>電話:<span  class="mainspan">*</span></div>
+			                <div class="csinput">
+			                	<input type="tel" id="cs_Tel" name="cs_Tel" required class="inputcs">
+							</div>
+							<br>
+							<div>主旨:<span  class="mainspan">*</span></div>
+			                <div class="csinput">
+			                	<input type="text" id="cs_Subject" name="cs_Subject" class="inputcs" required placeholder="請填寫30字以內" maxlength="30">
+			                </div>
+			                <br>
+							<div>留言:<span class="mainspan">*</span></div>
+							<div class="csinput">
+								<textarea name="cs_Message" rows="10" cols="60"  required placeholder="請在這留下你的建議或問題!" class="inputcs"></textarea>
+			                </div >       
+			      		    <button type="submit" class="btn btn-primary"  id="doSend">確認送出</button>
+			              	<input type="hidden" name="action" value="insertCs">
+			              	<button type="reset" value="Reset">清空</button>
+			              	<input type="button" class="btn btn-danger" value="返回首頁" onclick="location.href='<%=request.getContextPath()%>/front-end/front-index.jsp'">
+	          			</form>
 				</div> 
 			</div>
 		  </div>

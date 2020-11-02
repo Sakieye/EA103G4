@@ -59,13 +59,13 @@ public class CsServlet extends HttpServlet {
 				CsService csSvc = new CsService();
 				csVO = csSvc.addCs(cs_Email, cs_Tel, cs_Subject, cs_Message, cs_isSend);
 				messages.add("傳送成功");
-				String url = "/front-end/cs/csNewFile.jsp";
+				String url = "/front-end/cs/csSendback.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 			} catch (RuntimeException e) {
 				errorMsgs.add("傳送失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/cs/csNewFile.jsp");
+						.getRequestDispatcher("/front-end/cs/csSendback.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -102,10 +102,8 @@ public class CsServlet extends HttpServlet {
 			if (cssearch.trim() != "") {
 				list = csSvc.getSearch(cssearch);
 			} else {
-				list = csSvc.getSearch("無輸入關鍵字");
 				session.setAttribute("list", list);
 				session.setAttribute("title", "查詢結果:");
-				search_result.put("error", "請輸入關鍵字");
 				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
 				rd.forward(req, res);
 				return;
@@ -119,7 +117,6 @@ public class CsServlet extends HttpServlet {
 				return;
 			} else {
 				session.setAttribute("list", list);
-				search_result.put("data_not_found", "查無資料");
 				session.setAttribute("title", "查詢結果:");
 				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/cssearch.jsp");
 				rd.forward(req, res);
