@@ -43,4 +43,8 @@ public class CsService {
 		
 		return csVO;
 	}
+	//查詢信箱
+	public List<CsVO> getSearch(String cssearch){
+		return dao.findBySearch(cssearch);
+	}
 }

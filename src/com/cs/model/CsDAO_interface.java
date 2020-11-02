@@ -8,4 +8,5 @@ public interface CsDAO_interface {
     public CsVO findByPrimaryKey(String cs_ID);
     public List<CsVO> getAll();
     public void update(CsVO csVO);
+    public List<CsVO> findBySearch(String cssearch);
 }

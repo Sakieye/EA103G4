@@ -3,13 +3,17 @@ package com.cs.controller;
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import com.bookclub.model.BookClubService;
+import com.bookclub.model.BookClubVO;
 import com.cs.model.CsService;
 import com.cs.model.CsVO;
 
@@ -84,7 +88,45 @@ public class CsServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
 				successView.forward(req, res);		
 			}			
-		}				
+		}
+		
+		
+		if ("CSsearch".equals(action)) {
+			String cssearch = req.getParameter("cssearch");
+			Map<String, String> search_result = new HashMap<String, String>();
+			req.setAttribute("search_result", search_result);
+			CsService csSvc = new CsService();
+
+			HttpSession session = req.getSession();
+			List<CsVO> list = null;
+			if (cssearch.trim() != "") {
+				list = csSvc.getSearch(cssearch);
+			} else {
+				list = csSvc.getSearch("無輸入關鍵字");
+				session.setAttribute("list", list);
+				session.setAttribute("title", "查詢結果:");
+				search_result.put("error", "請輸入關鍵字");
+				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/csindex.jsp");
+				rd.forward(req, res);
+				return;
+			}
+
+			if (!list.isEmpty()) {
+				session.setAttribute("list", list);
+				session.setAttribute("title", "查詢結果:");
+				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/cssearch.jsp");
+				rd.forward(req, res);
+				return;
+			} else {
+				session.setAttribute("list", list);
+				search_result.put("data_not_found", "查無資料");
+				session.setAttribute("title", "查詢結果:");
+				RequestDispatcher rd = req.getRequestDispatcher("/back-end/cs/cssearch.jsp");
+				rd.forward(req, res);
+				return;
+			}
+		}
+		
 	}
 
 }

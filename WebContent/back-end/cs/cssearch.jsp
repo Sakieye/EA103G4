@@ -23,29 +23,25 @@
          font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
          text-align: center;
       }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-  .mailspan {
-  	color: red;
-  	font-weight:bold;  	
-  }
-  .ellipsis {
-	overflow:hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-  }
-  .modal-body {
-  	text-align: left;
-  }
-  .mailbutton {
-  	text-align:right;
-  }	
+	.mailspan {
+	  	color: red;
+	  	font-weight:bold;  	
+	}
+	.ellipsis {
+		overflow:hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	.modal-body {
+  		text-align: left;
+  	}
+  	.mailbutton {
+  		text-align:right;
+  	}	
   
-  .thcss{
-  	background-color:rgba(255,255,0,0.3);
-  }
+  	.thcss{
+  		background-color:rgba(255,255,0,0.3);
+  	}
 </style>
 </head>
 
@@ -89,8 +85,8 @@
 										<tr class="thcss">
 											<%
 												CsService csSvc =new CsService();
-												List<CsVO> list = csSvc.getAll();
-												pageContext.setAttribute("list",list);
+												List<CsVO> list = (List) session.getAttribute("list");
+												
 																			
 											%>
 											
