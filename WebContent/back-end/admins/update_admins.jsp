@@ -278,10 +278,13 @@
                                             <label>上傳照片:</label> <input type="file" name="admin_pic" id="admin_pic" multiple>
                                         </div>
                                         <div id="preview"></div>
-                                    </div>
+                            z        </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="hidden" name="action" value="update"> <input type="hidden" name="admin_id" value="${adminsVO.admin_id}"> <input type="hidden" name="admin_id_no" value="${adminsVO.admin_id_no}"> <input type="hidden" name="admin_dutydate" value="${adminsVO.admin_dutydate}"> <input type="submit" value="送出" class="btn btn-dark btn-sm">
+                                            <input type="hidden" name="action" value="update"> <input type="hidden" name="admin_id" value="${adminsVO.admin_id}"> 
+                                            <input type="hidden" name="admin_id_no" value="${adminsVO.admin_id_no}"> 
+                                            <input type="hidden" name="admin_dutydate" value="${adminsVO.admin_dutydate}"> 
+                                            <input type="submit" value="送出" class="btn btn-dark btn-sm">
                                         </div>
                                     </div>
                                 </div>
