@@ -186,7 +186,7 @@
                 <div class="min-height-200px">
                     <div class="pd-20 card-box mb-30">
                         <div class="clearfix">
-                            <h2 class="text-dark h2">修改員工資料</h2>
+                            <h2 class="text-dark h2"><i class="fas fa-hammer"></i>&nbsp;修改員工資料</h2>
                             <div class="pull-right">
                                 <input type="image" src="<%=request.getContextPath()%>/images/admins/back.png" width="30px" height="30px" onClick="history.go(-1)">
                             </div>
@@ -211,19 +211,19 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>姓名:</label> <input type="text" class="form-control" name="admin_name" value="${adminsVO.admin_name}" maxlength="10" required />
+                                            <label><i class="fas fa-user-alt"></i>&nbsp;姓名:</label> <input type="text" class="form-control" name="admin_name" value="${adminsVO.admin_name}" maxlength="10" required />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>身分證:<font color=red><b>*</b></font></label>
-                                            <div name="admin_id_no">${adminsVO.admin_id_no}</div>
+                                            <label><i class="far fa-id-card"></i>&nbsp;身分證:<font color=red><b>*</b></font></label>
+                                            <div>${adminsVO.admin_id_no}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>雇用日期:<font color=red><b>*</b></font></label>
-                                            <div name="admin_dutydate">${adminsVO.admin_dutydate}</div>
+                                            <label><i class="fas fa-calendar-day"></i>&nbsp;雇用日期:<font color=red><b>*</b></font></label>
+                                            <div>${adminsVO.admin_dutydate}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -231,17 +231,17 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Email:</label> <input type="email" class="form-control" name="admin_mail" value="${adminsVO.admin_mail}" required />
+                                            <label><i class="fas fa-envelope-open"></i>&nbsp;Email:</label> <input type="email" class="form-control" name="admin_mail" value="${adminsVO.admin_mail}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>手機:</label> <input type="text" class="form-control" name="admin_mobile" value="${adminsVO.admin_mobile}" maxlength="10" required />
+                                            <label><i class="fas fa-mobile-alt"></i>&nbsp;手機:</label> <input type="text" class="form-control" name="admin_mobile" value="${adminsVO.admin_mobile}" maxlength="10" required />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>在職狀態:</label> <select class="custom-select form-control" name="admin_jobstate">
+                                            <label><i class="fas fa-user-secret"></i>&nbsp;在職狀態:</label> <select class="custom-select form-control" name="admin_jobstate">
                                                 <option value="${adminsVO.admin_jobstate == 1 ? 1:0}">${adminsVO.admin_jobstate == 1?"在職":"離職"}</option>
                                                 <option value="${adminsVO.admin_jobstate == 1 ? 0:1}">${adminsVO.admin_jobstate == 1?"離職":"在職"}
                                                 </option>
@@ -254,7 +254,7 @@
                                     <div class="col-md-12">
                                         <div id="twzipcode"></div>
                                         <div class="form-group">
-                                            <label>地址:</label>
+                                            <label><i class="fas fa-map-marker-alt"></i>&nbsp;地址:</label>
                                             <input type="text" class=" form-control" style="margin-top: 10px" name="admin_address" value="${adminsVO.admin_address}" required>
                                         </div>
                                     </div>
@@ -263,7 +263,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>權限:</label>
+                                            <label><i class="fas fa-briefcase"></i>&nbsp;權限:</label>
                                             <div class="form-group pull-right">
                                                 <jsp:useBean id="permissiondelimitSvc" scope="page" class="com.permissiondelimit.model.PermissionDelimitService" />
                                                 <c:forEach var="permissiondelimitVO" items="${permissiondelimitSvc.all}">
@@ -275,10 +275,10 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>上傳照片:</label> <input type="file" name="admin_pic" id="admin_pic" multiple>
+                                            <label><i class="fas fa-image"></i>&nbsp;上傳照片:</label> <input type="file" name="admin_pic" id="admin_pic" multiple>
                                         </div>
                                         <div id="preview"></div>
-                            z        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <input type="hidden" name="action" value="update"> <input type="hidden" name="admin_id" value="${adminsVO.admin_id}"> 

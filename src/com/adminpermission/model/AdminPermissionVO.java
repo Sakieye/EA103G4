@@ -1,6 +1,6 @@
 package com.adminpermission.model;
 
-public class AdminPermissionVO {
+public class AdminPermissionVO implements java.io.Serializable{
 	
 	private String per_id;
 	private String admin_id;

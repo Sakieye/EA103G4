@@ -183,7 +183,7 @@
             <div class="min-height-200px">
                 <div class="pd-20 card-box mb-30">
                     <div class="clearfix">
-                        <h2 class="text-dark h2">新增員工資料</h2>
+                        <h2 class="text-dark h2"><i class="fas fa-user-plus"></i>&nbsp;新增員工資料</h2>
                         <input type="image" src="<%=request.getContextPath()%>/images/admins/back.png" width="30px" height="30px" onClick="history.go(-1)" class="pull-right">
                     </div>
                     <!-- 錯誤表列 -->
@@ -200,24 +200,24 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>姓名:</label> <input type="text" class="form-control" id="admin_name" name="admin_name" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_name()%>" maxlength="10" required />
+                                        <label><i class="fas fa-user-alt"></i>&nbsp;姓名:</label> <input type="text" class="form-control" id="admin_name" name="admin_name" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_name()%>" maxlength="10" required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>身分證:</label> <input type="text" class="form-control" id="admin_id_no" name="admin_id_no" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_id_no()%>" maxlength="10" required />
+                                        <label><i class="far fa-id-card"></i>&nbsp;身分證:</label> <input type="text" class="form-control" id="admin_id_no" name="admin_id_no" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_id_no()%>" maxlength="10" required />
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email:</label> <input type="email" class="form-control" id="admin_mail" name="admin_mail" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_mail()%>" required />
+                                        <label><i class="fas fa-envelope-open"></i>&nbsp;Email:</label> <input type="email" class="form-control" id="admin_mail" name="admin_mail" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_mail()%>" required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>手機:</label> <input type="text" class="form-control" id="admin_mobile" name="admin_mobile" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_mobile()%>" maxlength="10" required />
+                                        <label><i class="fas fa-mobile-alt"></i>&nbsp;手機:</label> <input type="text" class="form-control" id="admin_mobile" name="admin_mobile" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_mobile()%>" maxlength="10" required />
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                                 <div class="col-md-12">
                                     <div id="twzipcode"></div>
                                     <div class="form-group">
-                                        <label>地址:</label>
+                                        <label><i class="fas fa-map-marker-alt"></i>&nbsp;地址:</label>
                                         <div id="zipcode3">
                                             <div class="f3" data-role="county" name="city"></div>
                                             <div class="f4" data-role="district" name="town"></div>
@@ -237,12 +237,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>雇用日期:</label> <input type="date" class="date form-control" id="admin_dutydate" name="admin_dutydate" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_dutydate()%>" required>
+                                        <label><i class="fas fa-calendar-day"></i>&nbsp;雇用日期:</label> <input type="date" class="date form-control" id="admin_dutydate" name="admin_dutydate" value="<%=(adminsVO == null) ? " " : adminsVO.getAdmin_dutydate()%>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>在職狀態:</label> <select class="custom-select form-control" name="admin_jobstate">
+                                        <label><i class="fas fa-user-secret"></i>&nbsp;在職狀態:</label> <select class="custom-select form-control" name="admin_jobstate">
                                             <option>請選擇</option>
                                             <option value="1" selected>在職</option>
                                             <option value="0">離職</option>
@@ -253,7 +253,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>上傳照片:</label> <input type="file" name="admin_pic" id="admin_pic">
+                                        <label><i class="fas fa-image"></i>&nbsp;上傳照片:</label><br>
+                                        <input type="file" name="admin_pic" id="admin_pic">
                                     </div>
                                     <table>
                                         <tr>
@@ -263,7 +264,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>權限:</label>
+                                        <label><i class="fas fa-briefcase"></i>&nbsp;權限:</label>
                                         <div class="form-group">
                                             <jsp:useBean id="permissiondelimitSvc" scope="page" class="com.permissiondelimit.model.PermissionDelimitService" />
                                             <c:forEach var="permissiondelimitVO" items="${permissiondelimitSvc.all}">
@@ -305,7 +306,7 @@
         e.preventDefault();
         admin_name.value = "吳永志";
         admin_id_no.value = "A176696093";
-        admin_mail.value = "bookshop.ea103@gmail.com";
+        admin_mail.value = "xuzhewei199583@gmail.com";
         admin_mobile.value = "0988168168";
         address.value = "中大路300號";
         admin_dutydate.value = "2020-11-10";
