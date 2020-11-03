@@ -31,9 +31,9 @@ public class CsSendGmail extends HttpServlet {
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		
 		if("sendmail".equals(action)) {
 			//接收成功,錯誤訊息
+			
 			List<String> messages = new LinkedList<String>();
 			req.setAttribute("messages", messages);
 			List<String> errorMsgs = new LinkedList<String>();
@@ -87,10 +87,7 @@ public class CsSendGmail extends HttpServlet {
 				   CsService csSvc = new CsService();
 				   csVO = csSvc.updateCs(cs_isSend, cs_ID);
 
-				   //傳送 及修改完成 轉交
-				   String url = "/back-end/cs/csindex.jsp";
-				   RequestDispatcher successView = req.getRequestDispatcher(url); 
-				   successView.forward(req, res);
+				   
 				   
 		     }catch (MessagingException e){
 		    	errorMsgs.add("傳送失敗,請檢查網路是否正常");

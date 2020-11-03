@@ -143,7 +143,7 @@
 									<c:if test="${ memVO.getMem_iskol()==1}">
 										<td>
 											<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/celebrity_book/celebrity_book.do" style="margin-bottom: 0px;">
-												<input type="submit" value="新增">
+												<input type="submit" value="新增至名人書單">
 												<input type="hidden" name="book_ID" value="${favorite_Book.book_ID}">
 												<input type="hidden" name="mem_ID" value="${favorite_Book.mem_ID}">
 												<input type="hidden" name="action" value="insertCelBook">
@@ -152,7 +152,7 @@
 									</c:if>
 									<td>
 										<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/favorite_book/favorite_book.do" style="margin-bottom: 0px;">
-											<input type="submit" value="刪除">
+											<input type="submit"  value="刪除">
 											<input type="hidden" name="book_ID" value="${favorite_Book.book_ID}">
 											<input type="hidden" name="mem_ID" value="${favorite_Book.mem_ID}">
 											<input type="hidden" name="action" value="deleteFavBook">

@@ -30,7 +30,7 @@ public class Favorite_BookDAO implements Favorite_BookDAO_interface{
 			"SELECT favorite_books.book_id ,favorite_books.fav_time ,favorite_books.mem_id,"
 			+ "books.book_name FROM FAVORITE_BOOKS "
 			+ "INNER JOIN BOOKS ON books.book_id = favorite_books.book_id "
-			+ "WHERE favorite_books.mem_id= ?";
+			+ "WHERE favorite_books.mem_id= ? ORDER BY  FAV_TIME DESC";
 	private static final String DELETE =
 			"DELETE FROM FAVORITE_BOOKS WHERE BOOK_ID=? AND MEM_ID=?";
 	
