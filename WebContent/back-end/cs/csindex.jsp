@@ -286,8 +286,18 @@
 	//寄送信件AJAX
 	$(document).ready(function(){
 		$(".doSendEmail").click(function(){
-			
 			var sendform = "[id='"+$(this).val()+"']";
+			var Subs = "[id='Subject"+$(this).next().val()+"']";
+			var Msgs = "[id='Message"+$(this).next().val()+"']";
+			if($(Subs).val().trim()==""||$(Subs).val().trim()== null){
+				swal("主旨錯誤","請確認後再重新送出","error");
+	            return;
+	         }
+			if($(Msgs).val().trim()==""||$(Msgs).val().trim()== null){
+				swal("留言錯誤","請確認後再重新送出","error");
+	            return;
+	         }
+			
 			$.ajax({
 				type:"POST",
 				url:"${pageContext.request.contextPath}/back-end/cs/CsSendGmail.do",
@@ -352,8 +362,6 @@
             	swal("取消", "資料未被刪除", "error");
         	}  
     	}); 		
-		
-		
 	})
 	
 	</script>

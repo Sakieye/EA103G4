@@ -25,13 +25,13 @@
 						<br>
 						<div>主旨:<span class="mailspan">*</span></div>
 						<div class="csinput">
-							<input type="text" id="cs_Subject" name="cs_Subject" maxlength="30" required placeholder="請輸入30字以內" >											                
+							<input type="text" id="Subject${csVO.cs_ID}" name="cs_Subject" maxlength="30" required placeholder="請輸入30字以內" >											                
 						</div>
 						<br>
 						<div>留言:<span class="mailspan">*</span>
 						</div>
 						<div>  
-							<textarea name="cs_Message" rows="10" cols="50" required></textarea>
+							<textarea id="Message${csVO.cs_ID}" name="cs_Message" rows="10" cols="50" required></textarea>
 						</div>            
 					</div>
 					<div  class="modal-footer">
@@ -45,6 +45,5 @@
 			</div>
 		</div>									     
 	 </FORM>
-	 
 </body>
 </html>
