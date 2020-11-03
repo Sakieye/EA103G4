@@ -309,6 +309,8 @@ public class BookService {
 				double viewedCount = tuple.getScore();
 				rc.add(viewedCount, bookID);
 			});
+			
+			
 
 			String bookID;
 			while ((bookID = rc.next()) != null && bookIDs.size() < bookNum) {
