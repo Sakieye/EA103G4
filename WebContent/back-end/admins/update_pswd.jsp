@@ -105,15 +105,6 @@ body {
 												</c:forEach>
 											</ul>
 										</c:if>
-
-										<%-- 正確表列 --%>
-										<%--                                         <c:if test="${not empty rightMsgs}"> --%>
-										<!--                                             <ul> -->
-										<%--                                                 <c:forEach var="r_message" items="${rightMsgs}"> --%>
-										<%--                                                     <li style="color: blue">${r_message}</li> --%>
-										<%--                                                 </c:forEach> --%>
-										<!--                                             </ul> -->
-										<%--                                         </c:if> --%>
 										<span id="word"></span>
 										<div class="form-group">
 											<input type="text" name="pswd"
@@ -163,15 +154,6 @@ body {
 							if (exampleInputAccount.value !== ""
 									&& exampleInputPassword.value !== ""
 									&& exampleInputAccount.value === exampleInputPassword.value) {
-								alert("修改完成！將自動轉至登入頁面。");
-								swal({
-									title : "修改完成！",
-									text : "5秒後自動轉至登入頁面。",
-									icon : "success",
-									timer : 5000,
-									showConfirmButton : false
-								})
-
 							} else {
 								swal({
 									title : "修改失敗！",

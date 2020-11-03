@@ -396,7 +396,8 @@ public class AdminsServlet extends HttpServlet {
 					errorMsgs.add("兩次輸入修改密碼不一樣");
 				} else {
 					admin_pswd = pswd_again;
-//					rightMsgs.add("修改已完成，請回登入頁面再次登入!");
+					String update = "update";
+				    req.setAttribute("update", update);
 				}
 //				System.out.println("4,admin_pswd"+admin_pswd);
 
@@ -416,7 +417,7 @@ public class AdminsServlet extends HttpServlet {
 //				System.out.println("5,adminsVO.getAdmin_pswd()"+adminsVO.getAdmin_pswd());
 
 				/*************************** 3.新增完成，準備轉交(Send the Success view) ***********/
-				req.setAttribute("adminsVO", adminsVO);
+				req.setAttribute("adminsVO", adminsVO);						
 //				System.out.println("6,adminsVO"+adminsVO);
 
 				String url = "/back-end/login/login.jsp";
@@ -607,13 +608,16 @@ public class AdminsServlet extends HttpServlet {
 
 				// 【檢查該帳號 , 密碼是否有效】
 				if (adminsVO.getAdmin_jobstate() == 0) {
-					errorMsgs.add("你已經離職了，還想幹嘛！");
+					String quit = "quit";
+					req.setAttribute("quit", quit);
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
 					failureView.forward(req, res);
+
 				}
 
 				else if (!allowUser(account, password)) { // 【帳號 , 密碼無效時】
-					errorMsgs.add("您的帳號或密碼無效！請重新輸入！");
+					String error = "error";
+					req.setAttribute("error", error);
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
 					failureView.forward(req, res);
 
@@ -644,7 +648,8 @@ public class AdminsServlet extends HttpServlet {
 																									// (-->如無來源網頁:則重導至login_success.jsp)
 				}
 			} catch (Exception e) {
-				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+				String badguy = "badguy";
+				req.setAttribute("badguy", badguy);
 				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
 				failureView.forward(req, res);
 			}

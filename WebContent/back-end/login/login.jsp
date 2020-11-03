@@ -2,6 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.admins.model.*"%>
+<%
+String quit = (String) request.getAttribute("quit");
+String error = (String) request.getAttribute("error");
+String badguy = (String) request.getAttribute("badguy");
+String update = (String) request.getAttribute("update");
+%>
 <html>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -75,7 +81,7 @@ body {
 </style>
 </head>
 
-<body id="gradient">
+<body id="gradient" onload="note()">
 	<div class="container">
 		<!-- Outer Row -->
 		<div class="row justify-content-center">
@@ -98,15 +104,6 @@ body {
 									<form method="post"
 										action="<%=request.getContextPath()%>/back-end/admin/admins.do"
 										class="user">
-										<%-- 錯誤表列 --%>
-										<c:if test="${not empty errorMsgs}">
-											<font style="color: red">請修正以下錯誤:</font>
-											<ul>
-												<c:forEach var="message" items="${errorMsgs}">
-													<li style="color: red">${message}</li>
-												</c:forEach>
-											</ul>
-										</c:if>
 										<div class="form-group">
 											<input type="text" name="admin_id"
 												class="form-control form-control-user"
@@ -141,6 +138,8 @@ body {
 	</div>
 	<!-- js-->
 	<script src="<%=request.getContextPath()%>/js/sb-admin-2.min.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>	
 	<script type="text/javascript">
 		var button = document.getElementById("button");
@@ -221,6 +220,53 @@ body {
 		}
 
 		setInterval(updateGradient, 10);
+	</script>
+	
+	<script type="text/javascript">
+	var quit = `${quit}`;
+	var error = `${error}`;
+	var badguy = `${badguy}`;
+	var update = `${update}`;
+	
+	function note(){
+		if(quit === "quit"){
+			swal({
+				title : "你已離職，還想幹嘛!",
+				text : "5秒後，為您轉至轉職好朋友",
+	 			icon : "warning",			
+				timer : 3000,
+			}).then(function() {
+			    window.location = "https://www.tibame.com/";
+			});
+		}
+		
+	 if(error === "error"){
+			swal({
+				title : "帳號或密碼有誤!",
+				text : "請再重新輸入",
+	 			icon : "error",			
+				timer : 5000
+			});
+		}
+	 
+	 if(badguy === "badguy"){
+			swal({
+				title : "你確定是部客俠一員嗎?",
+				text : "逼逼~報警前趕緊走！",
+	 			icon : "error",			
+				timer : 5000
+			});
+		}
+	 if(update === "update"){
+			swal({
+				title : "修改密碼完成！",
+				text : "請以新密碼重新登入",
+	 			icon : "success",			
+				timer : 5000
+			});
+		}
+	}
+	
 	</script>
 </body>
 
