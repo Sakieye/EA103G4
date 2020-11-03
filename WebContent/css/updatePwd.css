@@ -142,7 +142,7 @@
          .success{
         	font-family: "LiGothic", "FangSong", Arial, serif;
             color: green;
-            font-size: 32px;
+            font-size: 22px;
             margin-left: auto;
         	margin-right: auto;
             line-height: 10px;
@@ -150,6 +150,8 @@
         	letter-spacing: 1px;
         	width: 700px;
         	margin-top: 50px;
+        	text-align:center;
+        	
         }
         
        

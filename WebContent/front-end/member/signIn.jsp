@@ -3,7 +3,8 @@
 <%@ page import="com.mem.model.*"%>
 
 <%
-	MemVO memVO = (MemVO) request.getAttribute("memVO");
+	String account = (String) request.getAttribute("account");
+	pageContext.setAttribute("account", account);
 %>
 
 
@@ -86,8 +87,7 @@
 			<div id="input-div">
 				<label for="inputEmail" class="sr-only">Account</label> <input
 					type="text" id="inputEmail" class="form-control"
-					placeholder="Account" required autofocus name="mem_account"
-					value="<%=(memVO == null) ? "" : memVO.getMem_account()%>" /> <label
+					placeholder="Account" required autofocus name="mem_account" value="${account}" /> <label
 					for="inputPassword" class="sr-only">Password</label> <input
 					type="password" id="inputPassword" class="form-control"
 					placeholder="Password" required name="mem_password" value="" />
@@ -114,7 +114,7 @@
 		tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content" style="background-color: snow;">
+			<div class="modal-content" style="background-color: gainsboro;">
 <%-- 				<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/sendSMSForgerPwd.do" name="form" onclick="return false"> --%>
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalCenterTitle"
@@ -124,7 +124,7 @@
 						</button>
 					</div>
 					<div class="modal-body" id="modal1">
-						<input type="text" name="phoneNum" id="phone" maxlength="10">
+						<input type="text" name="phoneNum" id="phone" maxlength="10" style="font-size:20px; font-weight: 700; background-color: ghostwhite;">
 						<div class="errorMsg" id="err"></div>
 					</div>
 					<div class="modal-footer">
@@ -153,7 +153,8 @@
 					</div>
 					<div class="modal-body" id="modal2">
 						
-						
+<!-- 					append內容區塊 -->
+			
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" name="phoneNum" id="phone" maxlength="10">
@@ -205,12 +206,24 @@
                 	var object = JSON.parse(data);
                 	
                		var modal2 = document.getElementById("modal2");
+               		var email = String(object.mem_email);
+               		var memEmail = '';
+               		for(let i=0; i<email.length;i++){
+               			if(i==3 || i==4 || i==5 || i==8 || i==9){
+               				memEmail += '*';
+               			} else {
+               				memEmail += email[i];
+               			}
+               		}
+               		console.log(memEmail);
+               		
                		modal2.innerHTML = 
                		'<div id="member"><img style="width:150px; height:125px; border-radius:10px;" src="${pageContext.request.contextPath}/mem/MemPic?mem_id=' + object.mem_id +'"/>'
                		+'<div style="font-size: 20px; font-weight: 700;">請問你是&nbsp;' + object.mem_name + '&nbsp;嗎?</div>'
-               		+'<div style="font-weight: 500;">' + object.mem_email + '</div></div>';	
+               		+'<div style="font-size: 18px; font-weight: 500;">' + memEmail + '</div></div>';	
                 	
                		$("#memId").val(object.mem_id);
+               		$("#button2").show();
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown) {
                 	var modal2 = document.getElementById("modal2");
@@ -218,7 +231,7 @@
             		'<img style="width:150px; height:125px; border-radius:10px;" src="${pageContext.request.contextPath}/BookShopLogo/4.png"/>'
             		+'<h5 style="font-weight: 700;">無此會員,請輸入您註冊的手機號碼！</h1>';
             		
-            		$("#button2").remove();
+            		$("#button2").hide();
             		$("#button3").text("Close");
                 }
            });

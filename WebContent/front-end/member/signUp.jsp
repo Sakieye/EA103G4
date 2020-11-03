@@ -330,15 +330,8 @@
 		var somedate2 = new Date();
 		$('#f_date1').datetimepicker({
 			beforeShowDay : function(date) {
-			if (date.getYear() > somedate2.getYear() || (date.getYear() == somedate2
-												.getYear() && date.getMonth() > somedate2
-												.getMonth())
-										|| (date.getYear() == somedate2
-												.getYear()
-												&& date.getMonth() == somedate2
-														.getMonth() && date
-												.getDate() > somedate2
-												.getDate())) {
+			if (date.getYear() > somedate2.getYear() || (date.getYear() == somedate2.getYear() && date.getMonth() > somedate2.getMonth()) || (date.getYear() == somedate2.getYear()
+				&& date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())) {
 									return [ false, "" ]
 								}
 				return [ true, "" ];

@@ -105,4 +105,8 @@ public class MemService {
 	public void updateBonus(String mem_id, Double mem_bonus, Connection con) {
 		dao.updateBonus(mem_id, mem_bonus, con);
 	}
+	
+	public void updateStatusByAccount(String account) {
+		dao.updateStatusByAccoutn(account);
+	}
 }
