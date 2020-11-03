@@ -47,14 +47,32 @@
         <div class=" card-box ">
             <div class="clearfix mb-20">
                 <div class="pull-left">
-                    <h1 class="text-blue h1">員工列表</h1>
+                    <h1 class="text-blue h1"><i class="fas fa-users"></i>&nbsp;員工列表</h1>
                     <div>
                         <a href="<%=request.getContextPath()%>/back-end/admins/addAdmins.jsp"><img id="button" src="<%=request.getContextPath()%>/images/admins/user_add.png" height="50px" width="50px"></a>
                     </div>              
                 </div>
                 <jsp:useBean id="adminsSvc1" scope="page" class="com.admins.model.AdminsService" />
                 <div class="pull-right">
-                <div>
+                <div>                  
+                    <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="admin_id" placeholder="請輸入員工編號...">
+                            <div class="input-group-append">
+                                <input type="hidden" name="action" value="getOne_For_Display">
+                                <input type="submit" value="送出" class="btn btn-dark btn-sm">
+                            </div>                           
+                        </div>
+                    </form>                   
+                    <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="admin_name" placeholder="請輸入員工姓名...">
+                            <div class="input-group-append">
+                                <input type="hidden" name="action" value="getOne_For_Display_By_Name">
+                                <input type="submit" value="送出" class="btn btn-dark btn-sm">
+                            </div>                           
+                        </div>
+                    </form>                   
                     <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <select class="custom-select form-control" name="admin_id">
@@ -64,13 +82,12 @@
                                 </c:forEach>
                             </select>
                             <div class="input-group-append">
-                                <input type="hidden" name="po_no" value="${udbtxVO.po_no}">
                                 <input type="hidden" name="action" value="getOne_For_Display">
                                 <input type="submit" value="送出" class="btn btn-dark btn-sm">
                             </div>                           
                         </div>
-                    </form>
-                    </div>
+                    </form>                             
+                    </div>                   
                      <div class = "pull-right" style="padding-top:15px">
                         <a href="<%=request.getContextPath()%>/back-end/login/loginSuccess.jsp"><img src="<%=request.getContextPath()%>/images/admins/home.png" height="45px" width="45px"></a>
                     </div>
@@ -84,8 +101,8 @@
                         <th scope="col">姓名</th>
                         <th scope="col">郵件</th>
                         <th scope="col">狀態</th>
-                        <th scope="col">異動</th>
-                        <th scope="col"></th>
+                        <th scope="col">修改</th>
+                        <th scope="col">查看明細</th>
                     </tr>
                 </thead>
                 <%@ include file="page1.file" %> 
@@ -101,11 +118,10 @@
                             </td>
                             <td>${adminsVO.admin_name}</td>
                             <td>${adminsVO.admin_mail}</td>
-                            <td>${adminsVO.admin_jobstate == 1?"在職":"離職"}</td>
-                            
-                            <td>
+                            <td><i class="fas fa-lightbulb ${adminsVO.admin_jobstate}" style="color:green"></i>&nbsp;${adminsVO.admin_jobstate == 1?"在職":"離職"}</td>
+                           <td>
                                 <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do">
-                                    <input type="image" name="submitPng" src="<%=request.getContextPath()%>/images/admins/edit.png" onclick="submit()">
+                                    <input type="image" name="submitPng" src="<%=request.getContextPath()%>/images/admins/edit.png" onclick="submit()" class="${adminsVO.admin_jobstate}" disabled="disabled">
                                     <input type="hidden" name="admin_id" value="${adminsVO.admin_id}">
                                     <input type="hidden" name="admin_id" value="${adminpermissionVO.admin_id}">
                                     <input type="hidden" name="action" value="getOne_For_Update">
@@ -127,6 +143,11 @@
         </div>
       </div> 
       <br>  
-  <jsp:include page="/back-end/sidebar/sidebar.jsp" />									
+  <jsp:include page="/back-end/sidebar/sidebar.jsp" />
+  <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+  <script type="text/javascript">
+  $('.1').prop('disabled',false);
+  $('.0').css('color','red');
+  </script>									
 </body>
 </html>

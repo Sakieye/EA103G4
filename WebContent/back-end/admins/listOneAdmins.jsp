@@ -40,7 +40,7 @@
                 <div class="min-height-200px">
                     <div class="pd-20 card-box mb-30">
                         <div class="clearfix">
-                            <h2 class="text-dark h2">員工資料詳情</h2>
+                            <h2 class="text-dark h2"><i class="fas fa-user-circle"></i>&nbsp;員工資料詳情</h2>
                             <div class = "pull-right" style="padding:0 0 5px 0">
                                  <a href="<%=request.getContextPath()%>/back-end/login/loginSuccess.jsp"><img src="<%=request.getContextPath()%>/images/admins/home.png" height="45px" width="45px"></a>
                             </div>
@@ -79,13 +79,13 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">姓名:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-user-alt"></i>&nbsp;姓名:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_name}</div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">身分證:</div>
+                                                <div class="h5 text-gray"><i class="far fa-id-card"></i>&nbsp;身分證:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_id_no}</div>
                                             </div>
                                         </div>
@@ -94,13 +94,13 @@
                                     <div class="row h4 text-dark">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">Email:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-envelope-open"></i>&nbsp;Email:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_mail}</div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">手機:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-mobile-alt"></i>&nbsp;手機:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_mobile}</div>
                                             </div>
                                         </div>
@@ -109,13 +109,13 @@
                                     <div class="row h4 text-dark">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">雇用日期:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-calendar-day"></i>&nbsp;雇用日期:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_dutydate}</div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">在職狀態:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-user-secret"></i>&nbsp;在職狀態:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_jobstate == 1?"在職":"離職"}</div>
                                             </div>
                                         </div>
@@ -124,15 +124,15 @@
                                     <div class="row h4 text-dark">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">地址:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-map-marker-alt"></i>&nbsp;地址:</div>
                                                 <div class="h3 text-dark">${adminsVO.admin_address}</div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <div class="h5 text-gray">權限:</div>
+                                                <div class="h5 text-gray"><i class="fas fa-briefcase"></i>&nbsp;權限:</div>
                                                 <div class="form-group h3 text-dark">
-                                                    <c:forEach var="permissiondelimitVO" items="${permissiondelimitVO}">${permissiondelimitVO.per_name} <br>
+                                                    <c:forEach var="permissiondelimitVO" items="${permissiondelimitVO}"><i class="fas fa-check"></i></i>&nbsp;${permissiondelimitVO.per_name} <br>
                                                     </c:forEach>
                                                 </div>
                                             </div>

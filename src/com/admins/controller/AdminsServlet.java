@@ -257,7 +257,7 @@ public class AdminsServlet extends HttpServlet {
 //					System.out.println("6" + list2);
 				}
 				// 以上為未修改但要顯示的資料
-				
+
 				AdminsVO adminsVO = new AdminsVO();
 
 //				System.out.println("@update輸入3," + admin_id);
@@ -397,7 +397,7 @@ public class AdminsServlet extends HttpServlet {
 				} else {
 					admin_pswd = pswd_again;
 					String update = "update";
-				    req.setAttribute("update", update);
+					req.setAttribute("update", update);
 				}
 //				System.out.println("4,admin_pswd"+admin_pswd);
 
@@ -417,7 +417,7 @@ public class AdminsServlet extends HttpServlet {
 //				System.out.println("5,adminsVO.getAdmin_pswd()"+adminsVO.getAdmin_pswd());
 
 				/*************************** 3.新增完成，準備轉交(Send the Success view) ***********/
-				req.setAttribute("adminsVO", adminsVO);						
+				req.setAttribute("adminsVO", adminsVO);
 //				System.out.println("6,adminsVO"+adminsVO);
 
 				String url = "/back-end/login/login.jsp";
@@ -490,6 +490,77 @@ public class AdminsServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmins.jsp
 				successView.forward(req, res);
 //				System.out.println("AdminsSevlet-getOne_For_Display OK!");
+
+				/*************************** 其他可能錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/admins/listAllAdmins.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+		// 用admin_name來搜查管理員資料
+		if ("getOne_For_Display_By_Name".equals(action)) { // 來自listAllAdmins.jsp的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接受請求參數 - 輸入格式的錯誤處理 **********************/
+				String admin_name = req.getParameter("admin_name");
+				System.out.println("admin_name"+admin_name);
+				String admin_nameReg = "^[(\u4e00-\u9fa5)]{2,20}$";
+				if (admin_name == null || admin_name.trim().length() == 0) {
+					errorMsgs.add("管理員名稱:不得空白");
+				} else if (!admin_name.trim().matches(admin_nameReg)) {
+					errorMsgs.add("管理員名稱:格式有誤，請輸入中文字");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/admins/listAllAdmins.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/*************************** 2.開始查詢資料 *****************************************/
+				AdminsService adminsSvc = new AdminsService();
+				List<AdminsVO> admins = adminsSvc.getAll();
+				if (admins == null) {
+					errorMsgs.add("查無資料");
+				}
+
+				AdminPermissionService adminpermissionSvc = new AdminPermissionService();
+				for (int j = 0; j < admins.size(); j++) {
+					if (admin_name.equals(admins.get(j).getAdmin_name())) {
+						AdminsVO adminsVO = adminsSvc.getOneAdmin(admins.get(j).getAdmin_id());
+						req.setAttribute("adminsVO", adminsVO);
+//						System.out.println("adminsVO"+adminsVO.getAdmin_id());
+
+						List<AdminPermissionVO> list = adminpermissionSvc
+								.getOneAdminPermission(adminsVO.getAdmin_id());
+						// 顯示權限名字
+						List<PermissionDelimitVO> list2 = new ArrayList<>();
+						for (int i = 0; i < list.size(); i++) {
+							PermissionDelimitVO permissiondelimitVO = new PermissionDelimitService()
+									.getOnePermissionDelimit(list.get(i).getPer_id());// 將關聯表格的per_id改為權限定義的per_id
+							list2.add(permissiondelimitVO);
+							req.setAttribute("permissiondelimitVO", list2);
+//							System.out.println("permissiondelimitVO"+list2);
+						}
+					}
+				}
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/admins/listAllAdmins.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/*************************** 3.查詢完成，準備轉交(Send the Success view) *************/
+				String url = "/back-end/admins/listOneAdmins.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneAdmins.jsp
+				successView.forward(req, res);
+//						System.out.println("AdminsSevlet-getOne_For_Display OK!");
 
 				/*************************** 其他可能錯誤處理 *************************************/
 			} catch (Exception e) {
@@ -612,7 +683,6 @@ public class AdminsServlet extends HttpServlet {
 					req.setAttribute("quit", quit);
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/login/login.jsp");
 					failureView.forward(req, res);
-
 				}
 
 				else if (!allowUser(account, password)) { // 【帳號 , 密碼無效時】
