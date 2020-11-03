@@ -29,11 +29,12 @@ public class MemDAO implements MemDAO_interface {
 	private static final String UPDATE = "UPDATE MEMBER SET MEM_ACCOUNT=?, MEM_PASSWORD=?, MEM_NAME=?, MEM_EMAIL=?, MEM_NICKNAME=?,"
 			+ "MEM_SEX=?, MEM_BIRTH=?, MEM_ADDR=?, MEM_TEL=?, MEM_BONUS=?, MEM_PIC=?, MEM_ISKOL=?, MEM_EXP=?, MEM_STATUS=?"
 			+ "WHERE MEM_ID=?";
-	private static final String UPDATE_PSW = "UPDATE MEMBER SET MEM_PASSWORD=? WHERE MEM_ID=?";
+	private static final String UPDATE_PSW = "UPDATE MEMBER SET MEM_PASSWORD=?, MEM_STATUS=0 WHERE MEM_ID=?";
 	private static final String SIGNIN = "SELECT mem_id FROM MEMBER WHERE MEM_ACCOUNT = ? and MEM_PASSWORD = ?";
 	private static final String CHECK_ACC = "SELECT mem_id FROM MEMBER WHERE MEM_ACCOUNT = ?";
 	private static final String CHECK_EMAIL = "SELECT mem_id FROM MEMBER WHERE MEM_EMAIL = ?";
 	private static final String UPDATE_BONUS = "UPDATE MEMBER SET MEM_BONUS=? WHERE MEM_ID=?";
+	private static final String UPDATE_STATUS_BY_ACCOUNT = "UPDATE MEMBER SET MEM_STATUS=2 WHERE MEM_ACCOUNT=?";//鎖帳號用
 	
 	@Override
 	public MemVO insert(MemVO memVO) {
@@ -653,5 +654,41 @@ public class MemDAO implements MemDAO_interface {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void updateStatusByAccoutn(String mem_account) { //登入頁面時使用
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			
+			pstmt = con.prepareStatement(UPDATE_STATUS_BY_ACCOUNT);
+
+			pstmt.setString(1, mem_account);
+		
+			pstmt.executeUpdate();	
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}	
 	}
 }
