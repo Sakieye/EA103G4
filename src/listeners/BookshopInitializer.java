@@ -129,11 +129,11 @@ public class BookshopInitializer implements ServletContextListener {
 		long initDelay = twelve - current;
 
 		// 測試用啟動初始更新(執行一次)
-		ScheduledExecutorService startUpService = Executors.newSingleThreadScheduledExecutor();
-		Date cur = new Date(System.currentTimeMillis());
-		System.out.println("瀏覽/銷售統計測試用初始啟動更新: " + FORMATTER.format(cur));
-		startUpService.schedule(new StatisticsTimerTask(bookService), 0,
-				TimeUnit.MILLISECONDS);
+//		ScheduledExecutorService startUpService = Executors.newSingleThreadScheduledExecutor();
+//		Date cur = new Date(System.currentTimeMillis());
+//		System.out.println("瀏覽/銷售統計測試用初始啟動更新: " + FORMATTER.format(cur));
+//		startUpService.schedule(new StatisticsTimerTask(bookService), 0,
+//				TimeUnit.MILLISECONDS);
 
 		// 啟動起算下一輪時間開始每天23:59:59執行一次
 		statisticsTimerService = Executors.newSingleThreadScheduledExecutor();
