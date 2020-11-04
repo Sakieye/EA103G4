@@ -137,7 +137,11 @@
 								<tr>
 								  <c:if test="${is_Sold == 1}">
 									<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*5;" onMouseOut="this.width=this.width/5;"></td>				
-									<td><%=bookName%></td>
+									<td>
+										<a
+											href="${pageContext.request.contextPath}/Shopping.html?book_id=<%=bookID%>"><%=bookName%> 
+										</a>
+									</td>		
 									<td><%=author%></td>
 									<td>${favorite_Book.fav_Time}</td>
 									<c:if test="${ memVO.getMem_iskol()==1}">

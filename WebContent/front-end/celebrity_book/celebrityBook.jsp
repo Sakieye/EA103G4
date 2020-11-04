@@ -143,7 +143,11 @@
 										<tr>
 										  <c:if test="${is_Sold == 1}">
 											<td><img src="${pageContext.request.contextPath}/ShowBookPic?bookID=<%=bookID%>&bookPicName=<%=bookPicName%>" alt="Product" class="max-auto d-block" width="50" onMouseOver="this.width=this.width*5;" onMouseOut="this.width=this.width/5;"></td>				
-											<td><%=bookName%></td>
+											<td>
+												<a
+													href="${pageContext.request.contextPath}/Shopping.html?book_id=<%=bookID%>"><%=bookName%> 
+												</a>
+											</td>
 											<td><%=author%></td>
 											<c:if test="${celebrity_Book.share_State==1}">
 												<td><span>分享中</span></td>	 
