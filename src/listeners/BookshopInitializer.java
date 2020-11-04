@@ -131,7 +131,7 @@ public class BookshopInitializer implements ServletContextListener {
 		// 測試用啟動初始更新(執行一次)
 //		ScheduledExecutorService startUpService = Executors.newSingleThreadScheduledExecutor();
 //		Date cur = new Date(System.currentTimeMillis());
-//		System.out.println("促銷事件測試用初始啟動更新: " + formatter.format(cur));
+//		System.out.println("瀏覽/銷售統計測試用初始啟動更新: " + FORMATTER.format(cur));
 //		startUpService.schedule(new StatisticsTimerTask(bookService), 0,
 //				TimeUnit.MILLISECONDS);
 

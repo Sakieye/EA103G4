@@ -616,4 +616,10 @@ public class MemJDBCDAO implements MemDAO_interface {
 		
 	}
 
+	@Override
+	public void updateStatusByAccoutn(String mem_account) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

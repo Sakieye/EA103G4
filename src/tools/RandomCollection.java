@@ -1,8 +1,8 @@
 package tools;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -37,24 +37,30 @@ public class RandomCollection {
 		double key = map.higherKey(value);
 		double weight = map.get(key).getValue();
 //		System.out.println("=====\n前一輪total: " + total);
-		
+
 		total -= weight;
+		String bookID = map.get(key).getKey();
 
 //		System.out.println("本次抽中value: " + value);
 //		System.out.println("本次抽中key: " + key);
-//		System.out.println("本次抽中書: " + map.get(key).getKey() + " - " + weight);
+//		System.out.println("本次抽中書: " + bookID + " - " + weight);
 //		System.out.println("本輪total: " + total);
 
 		Iterator<Double> iterator = map.navigableKeySet().iterator();
-		List<Map.Entry<Double, Map.Entry<String, Double>>> temp = new ArrayList<Map.Entry<Double, Map.Entry<String, Double>>>();
+		List<Map.Entry<Double, Map.Entry<String, Double>>> temp = new LinkedList<Map.Entry<Double, Map.Entry<String, Double>>>();
 
 		while (iterator.hasNext()) {
 			double otherKey = iterator.next();
-			if (otherKey > key) {
+			if (otherKey > value) {
 				temp.add(new AbstractMap.SimpleEntry<Double, Map.Entry<String, Double>>(otherKey - weight,
 						map.get(otherKey)));
 				iterator.remove();
 			}
+		}
+
+		// 移除本該被移除的key
+		if (!temp.isEmpty()) {
+			temp.remove(0);
 		}
 
 		temp.forEach(tempEntry -> {
@@ -63,8 +69,8 @@ public class RandomCollection {
 
 //		for (Double total : map.navigableKeySet()) {
 //			System.out.println(total + " - " + map.get(total).getKey() + " - " + map.get(total).getValue());
-//		}		
+//		}
 
-		return map.get(key).getKey();
+		return bookID;
 	}
 }

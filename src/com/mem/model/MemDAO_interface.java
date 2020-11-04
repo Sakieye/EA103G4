@@ -18,4 +18,5 @@ public interface MemDAO_interface {
     public String getMemIdByMail (String mem_email);
     public List<MemVO> getAll(Map<String, String[]> map);
     public void updateBonus(String mem_id, Double mem_bonus, Connection con); //訂單產生時或取消訂單時使用
+    public void updateStatusByAccoutn(String mem_account); 
 }

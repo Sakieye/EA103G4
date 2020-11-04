@@ -116,6 +116,7 @@ public class MemServlet extends HttpServlet {
 			try {
 				MemService memSvc = new MemService();
 				String mem_id = req.getParameter("mem_id").trim();
+				MemVO memVO = memSvc.getOneMem(mem_id);
 
 				String mem_account = req.getParameter("mem_account").trim();
 
@@ -128,25 +129,29 @@ public class MemServlet extends HttpServlet {
 				String mem_nickname = req.getParameter("mem_nickname").trim();
 
 				Integer mem_sex = new Integer(req.getParameter("mem_sex").trim());
-
+				if (req.getParameter("mem_sex").trim() == null || req.getParameter("mem_sex").trim().trim().length() == 0)
+					mem_sex = memVO.getMem_sex();
+				
 				java.sql.Date mem_birth = null;
 				try {
 					mem_birth = java.sql.Date.valueOf(req.getParameter("mem_birth").trim());
 				} catch (IllegalArgumentException e) {
-					mem_birth = new java.sql.Date(System.currentTimeMillis());
-//					birthError = "請輸入日期";
-//					req.setAttribute("birthError", birthError);
+					mem_birth = memVO.getMem_birth();
 				}
-				// 補錯誤處理
+				
 				String mem_addr = req.getParameter("mem_addr").trim();
-				// 補錯誤處理
+				if(mem_addr == null || mem_addr.trim().length() == 0) 
+					mem_addr = memVO.getMem_addr();
+				
 				String mem_tel = req.getParameter("mem_tel").trim();
-
+				if (mem_tel == null || mem_tel.trim().length() == 0)
+					mem_tel = memVO.getMem_tel();
+				
 				Double mem_bonus = null;
 				try {
 					mem_bonus = new Double(req.getParameter("mem_bonus").trim());
 				} catch (NumberFormatException e) {
-					mem_bonus = memSvc.getOneMem(mem_id).getMem_bonus();
+					mem_bonus = memVO.getMem_bonus();
 				}
 
 				byte[] mem_pic = null;
@@ -156,10 +161,9 @@ public class MemServlet extends HttpServlet {
 					mem_pic = new byte[in.available()];
 					in.read(mem_pic);
 					in.close();
-//					System.out.println(mem_pic);
 				} else {
 					memSvc = new MemService();
-					MemVO memVO = memSvc.getOneMem(mem_id);
+					memVO = memSvc.getOneMem(mem_id);
 					mem_pic = memVO.getMem_pic();
 				}
 
@@ -174,7 +178,7 @@ public class MemServlet extends HttpServlet {
 
 				Integer mem_status = new Integer(req.getParameter("mem_status").trim());
 
-				MemVO memVO = new MemVO();
+				memVO = new MemVO();
 				memVO.setMem_id(mem_id);
 				memVO.setMem_account(mem_account);
 				memVO.setMem_password(mem_password);
@@ -230,27 +234,35 @@ public class MemServlet extends HttpServlet {
 			}
 		}
 
-		// 會員登入 **尚未補上錯誤處理**
+		// 會員登入
 		if ("signin".equals(action)) {
-			MemVO memVO = null;
+			Jedis jedis = new Jedis("localhost", 6379);
+			jedis.auth("123456");
+			MemVO memVO = new MemVO();
 			String errmsg = "";
+			String mem_account = "";
+			String mem_password = "";
+			MemService memSvc = new MemService();
 			try {
-				String mem_account = req.getParameter("mem_account").trim();
-
-				String mem_password = req.getParameter("mem_password").trim();
-
-				memVO = new MemVO();
+				mem_account = req.getParameter("mem_account").trim();
+				mem_password = req.getParameter("mem_password").trim();
 				memVO.setMem_account(mem_account);
 				memVO.setMem_password(mem_password);
-
 				// 帳號密碼送進DB，開始登入
-				MemService memSvc = new MemService();
 				memVO = memSvc.signIn(mem_account, mem_password); // 只有mem_id 可能會跑SQL例外，因為無此帳號密碼
 				memVO = memSvc.getOneMem(memVO.getMem_id()); // 一整包
 				// 判斷是否有這組帳號密碼，確認後轉送
 				if (memVO.getMem_status() != 2) {
 					HttpSession session = req.getSession();
 					session.setAttribute("memVO", memVO); // 將memVO存在session中
+					
+					//如成功登入，清空redis 帳號錯誤的計次
+					String pwderrKey = mem_account + "pwderror";
+					if(jedis.exists(pwderrKey)) {
+						jedis.del(pwderrKey);
+					}
+					if(jedis != null)
+						jedis.close();
 
 					String location = (String) session.getAttribute("location");
 					String comefromPage = (String) session.getAttribute("comefromPage");
@@ -267,19 +279,67 @@ public class MemServlet extends HttpServlet {
 					}
 						
 				} else {
-					errmsg = "此帳號已被註銷，無法登入";
+					errmsg = "帳號已被封鎖15天，因短時間內輸入錯密碼3次，如要恢復帳號正常使用，請點選忘記密碼";
+					req.setAttribute("account", mem_account);
 					req.setAttribute("errmsg", errmsg);
+					if(jedis != null)
+						jedis.close();
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
 					failureView.forward(req, res);
 				}
 			} catch (Exception e) {
-				req.setAttribute("memVO", memVO);
-				errmsg = "無此帳號或密碼，請重新輸入";
-				req.setAttribute("errmsg", errmsg);
-				System.out.println("無此帳號密碼" + e.getMessage() + memVO);//尚未補上錯誤處理
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
-				failureView.forward(req, res);
-			}
+
+				if(memSvc.checkAcc(mem_account)) {//帳號存在，但密碼錯誤，如五分鐘內輸入錯密碼三次將鎖帳號
+					
+					String pwderrKey = mem_account + "pwderror";
+					
+					if(!jedis.exists(pwderrKey)) {
+						jedis.incr(pwderrKey);
+						jedis.expire(pwderrKey, 1296000);//如連續輸入錯誤密碼三次，鎖帳號15天
+						errmsg = "密碼錯誤，請重新輸入";
+						req.setAttribute("account", mem_account);
+						req.setAttribute("errmsg", errmsg);
+						System.out.println("密碼錯誤" + mem_account);
+						if(jedis != null)
+							jedis.close();
+						RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
+						failureView.forward(req, res);
+					} else {
+						if("3".equals(jedis.get(pwderrKey))) {
+							memSvc.updateStatusByAccount(mem_account);
+							errmsg = "帳號已被封鎖15天，因短時間內輸入錯密碼3次，如要恢復帳號正常使用，請點選忘記密碼";
+							req.setAttribute("account", mem_account);
+							req.setAttribute("errmsg", errmsg);
+							System.out.println("密碼錯誤" + mem_account);
+							if(jedis != null)
+								jedis.close();
+							RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
+							failureView.forward(req, res);
+						} else {
+							jedis.incr(pwderrKey);
+							errmsg = "密碼錯誤，請重新輸入";
+							req.setAttribute("account", mem_account);
+							req.setAttribute("errmsg", errmsg);
+							System.out.println("密碼錯誤" + memVO);
+							if(jedis != null)
+								jedis.close();
+							RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
+							failureView.forward(req, res);
+						}
+					}
+					
+							
+				} else {
+					if(jedis != null)
+						jedis.close();
+					errmsg = "無此帳號，請重新輸入";
+					System.out.println("無此帳號密碼" + e.getMessage() + memVO);
+					req.setAttribute("account", mem_account);
+					req.setAttribute("errmsg", errmsg);
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
+					failureView.forward(req, res);
+				}
+			} 
 		}
 
 		if ("logout".equals(action)) { // 登出
@@ -362,7 +422,6 @@ public class MemServlet extends HttpServlet {
 					errorMsgs.put("userInputCodeError", "驗證碼已過期");
 				
 				String code = jedis.get(memVO.getMem_id());
-				jedis.close();
 				
 				if (userInputCode == null || userInputCode.trim().length() == 0)
 					errorMsgs.put("userInputCodeError", "請察看手機驗證碼並輸入");
@@ -373,9 +432,16 @@ public class MemServlet extends HttpServlet {
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/member/updateForForgetPwd.jsp");
 					failureView.forward(req, res);
+					jedis.close();
 					return;
 				}
-
+				
+				
+				String pwderrKey = memVO.getMem_account() + "pwderror";
+				if(jedis.exists(pwderrKey)) {
+					jedis.del(pwderrKey);
+				}
+				jedis.close();
 				/* 開始修改密碼 */
 				memSvc.updatePwd(mem_id, newPwd);
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/signIn.jsp"); // 修改成功後,轉交signIn.jsp
@@ -384,7 +450,7 @@ public class MemServlet extends HttpServlet {
 			} catch (Exception e) {
 				if(jedis != null)
 					jedis.close();
-			}
+			} 
 		}
 
 		if ("insertCreditCard".equals(action)) {// 尚未錯誤處理

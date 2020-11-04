@@ -123,6 +123,18 @@ public class CsServlet extends HttpServlet {
 				return;
 			}
 		}
+		if("delAllCs".equals(action)){
+			String delAll[] = req.getParameterValues("delAll[]");
+			CsService csSvc = new CsService();
+			
+			if (delAll == null) {
+				System.out.println("是空值");
+			}else {
+				for(int i=0;i<delAll.length;i++) {
+					csSvc.deleteCs(delAll[i]);
+				}
+			} 
+		}
 		
 	}
 

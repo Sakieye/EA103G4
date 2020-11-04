@@ -3,10 +3,10 @@ package com.Follow.model;
 import java.util.List;
 
 public class FollowService {
-	private FollowJDBCDAO dao;
+	private FollowDAO dao;
 	
 	public FollowService() {
-		dao = new FollowJDBCDAO();
+		dao = new FollowDAO();
 	}
 	
 	//追蹤

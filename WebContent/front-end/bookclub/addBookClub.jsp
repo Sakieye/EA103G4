@@ -56,7 +56,7 @@
 
 			<div class=" col-md-12" id="main_in">
 				<div class="spot" style="display: none">
-					<input type="text" class="spot" id="spot" name="q_data"
+					<input type="text" class="spot questions" id="spot" name="q_data"
 						placeholder="question"> <img
 						src="<%=request.getContextPath()%>/images/bookclub/delete_question.png"
 						class="trash">
@@ -68,20 +68,22 @@
 						<li>時間</li>
 						<li>地點</li>
 					</ul>
+					<button type="button" onclick="magicButton1();"></button>
+					<button type="button" onclick="magicButton2();"></button>
 					<fieldset>
-						<h2 class="fs-title">舉辦讀書會</h2>
+						<h2 class="fs-title">舉辦讀書會</h2>	
 						<h3 class="fs-subtitle">基本資料</h3>
 						<div class="erroMsgs">${errorMsgs.bc_name}</div>
-						<input type="text" name="bc_name" placeholder="讀書會名稱"
+						<input type="text" name="bc_name" placeholder="讀書會名稱" id="bc_name"
 							value="${param.bc_name}" />
 						<div class="erroMsgs">${errorMsgs.bc_peo_upper_limit}</div>
-						<input type="text" name="bc_peo_upper_limit" placeholder="人數上限"
+						<input type="text" name="bc_peo_upper_limit" placeholder="人數上限" id="bc_peo_upper_limit"
 							value="${param.bc_peo_upper_limit}" />
 						<div class="erroMsgs">${errorMsgs.bc_peo_lower_limit}</div>
-						<input type="text" name="bc_peo_lower_limit" placeholder="人數下限"
+						<input type="text" name="bc_peo_lower_limit" placeholder="人數下限" id="bc_peo_lower_limit"
 							value="${param.bc_peo_lower_limit}" />
 						<div class="erroMsgs">${errorMsgs.bc_intro}</div>
-						<textarea name="bc_intro" placeholder="讀書會介紹">${param.bc_intro}</textarea>
+						<textarea name="bc_intro" placeholder="讀書會介紹" id="bc_intro">${param.bc_intro}</textarea>
 						<div class="erroMsgs">${errorMsgs.bc_cover_pic}</div>
 						<label id="fileInput" for="inputF">
 							<div id="wrapperBackground">
@@ -587,6 +589,25 @@
 // 			});
     </script>
 	<script	src=<%=magicKey%> async defer></script>
+	<script>
+		function magicButton1(){
+			$('#bc_name').attr('value','Java雲端服務開發技術讀書會')	;
+			$('#bc_peo_upper_limit').attr('value','50');
+			$('#bc_peo_lower_limit').attr('value','2');
+			$('#bc_intro').prop('value','紙上得來終覺淺，絕知此事必躬行，我們不能紙上談兵，'+
+										'大家加課加起來，在這一條沿著小斜坡而建的東海藝術街上，匯集了各式各樣的個性店家，'+ 
+										'舉凡後現代主義的咖啡店、復古歐洲的飾品店、摩登的金工、陶藝、茶服館等等應有盡有。'+
+										'但絕大多數人都不知道的是這裡還藏著不下十家的個性茶藝店，每個茶藝師的風格大不相同，'+
+			               				'然而只要細細和他們坐下喝一杯茶，就會發現他們都在誠摯地走在茶道上，用茶創作生活。'+
+			    	  					'有空的話就來東海的藝術街坐坐吧！讓老闆們為你奉上一杯精心煮成的好茶，配著初秋清爽'+
+			    	   					'的陽光，抿滿室的茶香。');
+		}
+		function magicButton2(){
+			$('.questions:eq(1)').attr('value','最近年輕人腦容量都蠻小的，你緩衝區還夠用吧?');
+			$('.questions:eq(2)').attr('value','最近年輕人的膀胱都不太好，你膀胱還行吧?');
+			$('.questions:eq(3)').attr('value','死囡仔 你還在嘛?');
+		}
+		</script>
 </body>
 
 </html>

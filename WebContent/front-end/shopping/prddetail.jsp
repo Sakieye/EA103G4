@@ -426,6 +426,7 @@
 		$('#favbookAjax').click(function() {
 			var bookID = '${book.bookID}';
 			var memID = '${memVO.mem_id}';
+			if(memID!==''){
 				$.post('${pageContext.request.contextPath}/front-end/favorite_book/favorite_book.do',
 					{
 						book_ID : bookID,
@@ -434,7 +435,10 @@
 					}, function(data) {
 						swal('',"此商品成功加入收藏書單 !","success");
 					})
-			})
+			}else{
+				$(location).attr('href', '<%=request.getContextPath()%>/front-end/member/signIn.jsp');
+			}
+		})
 	</script>
 </body>
 </html>

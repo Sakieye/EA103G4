@@ -79,6 +79,9 @@
         }
         .content .container .row .col-md-8 {
             text-align: left;
+            overflow: hidden;
+    		white-space: nowrap;
+   	 		text-overflow: ellipsis;
         }
 
         .content .container .row .col-md-2 {

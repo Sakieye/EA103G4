@@ -2,7 +2,7 @@ package com.admins.model;
 
 import java.sql.Date;
 
-public class AdminsVO {
+public class AdminsVO implements java.io.Serializable{
 	
 	private String admin_id;
 	private String admin_name;

@@ -32,10 +32,10 @@ body {
 	
 	<jsp:include page="/front-end/header/header.jsp" />
 	<div class="myContent">
-		<div id="inner">
+		<div id="inner" style="background-color: lightskyblue;" >
 			<h1>請至您的信箱收取驗證信，並輸入</h1>
 			<form METHOD="post" ACTION="<%=request.getContextPath()%>/mem/mem.do" enctype="multipart/form-data">
-				<input name="userInputCode" id="userInput" class="form-control form-control-lg" type="text" />
+				<input name="userInputCode" id="userInput" class="form-control form-control-lg" type="text" maxlength="8" style="border-radius: 7px;"/>
 				<input type="hidden" name="action" value="insert">
 				<div id="btnDiv"><button type="submit" class="btn btn-info" id="btn">送出</button></div>
 				<c:if test="${not empty error}">
