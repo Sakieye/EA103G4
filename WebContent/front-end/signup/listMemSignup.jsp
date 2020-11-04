@@ -52,6 +52,7 @@ table th {
 </head>
 <body class="subpage">
 	<jsp:include page="/front-end/header/header.jsp" />
+	<jsp:useBean id="lectureService1" scope="page" class="com.lecture.model.LectureService"></jsp:useBean>
 
 	<section id="One" class="wrapper style3">
 		<div class="inner">
@@ -128,15 +129,15 @@ table th {
 							</thead>
 							<%@ include file="page1.file"%>
 							<c:forEach var="signupVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-
+	
 								<tbody>
 									<tr>
 										<td>${signupVO.signup_id}</td>
 										<td>${signupVO.signup_time}</td>
-										<td> lc_nameame %></td>
-										<td>lc_placeace %></td>
-										<td>lc_timeime %></td>
-										<td>lc_hr_hr %></td>
+										<td>${lectureService1.getOneLecture(signupVO.lc_id).lc_name}</td>
+										<td>${lectureService1.getOneLecture(signupVO.lc_id).lc_place}</td>
+										<td>${lectureService1.getOneLecture(signupVO.lc_id).lc_time}</td>
+										<td>${lectureService1.getOneLecture(signupVO.lc_id).lc_hr} hr</td>
 										<td>
 											<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/signup/signup.do" style="margin-bottom: 0px;">
 												<input type="submit" value="取消"> <input type="hidden" name="signup_id" value="${signupVO.signup_id}"> <input type="hidden" name="action" value="delete">

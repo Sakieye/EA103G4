@@ -275,6 +275,7 @@
 	<servlet-mapping>
 		<servlet-name>LectureServlet</servlet-name>
 		<url-pattern>/back-end/lecture/lecture.do</url-pattern>
+		<url-pattern>/front-end/lecture/lecture.do</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -293,6 +294,7 @@
 	<servlet-mapping>
 		<servlet-name>SignupServlet</servlet-name>
 		<url-pattern>/back-end/signup/signup.do</url-pattern>
+		<url-pattern>/front-end/signup/signup.do</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

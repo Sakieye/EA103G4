@@ -38,9 +38,10 @@ public class SignupServlet extends HttpServlet{
 				if (mem_id == null || mem_id.trim().length() == 0) {
 					errorMsgs.add("請先登入後再報名講座");
 				}
+				System.out.println(mem_id);
 				/** lc_id **/
 				String lc_id = req.getParameter("lc_id");
-				
+				System.out.println(lc_id);
 				SignupVO signupVO = new SignupVO();
 				signupVO.setMem_id(mem_id);
 				signupVO.setLc_id(lc_id);
@@ -56,7 +57,7 @@ public class SignupServlet extends HttpServlet{
 				SignupVO signupVO2 = signupService.addSignup(mem_id, lc_id);
 				String signup_id = signupVO2.getSignup_id();
 				/*************************** 3.查詢完成，準備轉交(Send the Success view) *************/
-				String url = "/front-end/signup/listAllSignup.jsp";
+				String url = "/front-end/signup/listMemSignup.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
@@ -69,18 +70,18 @@ public class SignupServlet extends HttpServlet{
 		if ("delete".equals(action)) {
 			try {
 				/********* 1.接受請求參數******/
-				String lc_id = req.getParameter("lc_id");
+				String signup_id = req.getParameter("signup_id");
 				/********* 2.開始刪除資料 ******/
-				LectureService lectureService = new LectureService();
-				lectureService.deleteLecture(lc_id);;
+				SignupService signupService = new SignupService();
+				signupService.deleteSignup(signup_id);;
 				/****************** 3.刪除完成，準備轉交(Send the Success view) **********/
-				String url = "/back-end/lecture/listAllLecture.jsp";
+				String url = "/front-end/signup/listMemSignup.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 			} catch (Exception e) {
 				System.out.println("刪除成功");
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/lecture/listAllLecture.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/signup/listMemSignup.jsp");
 				failureView.forward(req, res);
 			}
 		}

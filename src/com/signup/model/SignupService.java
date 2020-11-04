@@ -9,7 +9,6 @@ public class SignupService {
 	public SignupService() {
 		dao = new SignupDAO();
 	}
-
 	public SignupVO addSignup(String mem_id, String lc_id) {
 
 		SignupVO signupVO = new SignupVO();
@@ -47,15 +46,22 @@ public class SignupService {
 	}
 	
 	public List<SignupVO> getOneSignupLecture(String lc_id) {
-		return dao.findByLecture(lc_id);
+		List<SignupVO> list = dao.findByLecture(lc_id);
+		
+			return list;
+		
 	}
 	
 	public List<SignupVO>getOneSignupMember(String mem_id) {
 		return dao.findByMember(mem_id);
 	}
 	
+	
 	public List<SignupVO> getAll() {
 		return dao.getAll();
 	}
-
+	
+	public boolean checkSignUp(String mem_id, String lc_id) {
+		return dao.checkSignUp(mem_id, lc_id);
+	}
 }

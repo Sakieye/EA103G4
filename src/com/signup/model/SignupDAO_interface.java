@@ -10,4 +10,5 @@ public interface SignupDAO_interface {
 	public List<SignupVO> findByLecture(String lc_id);
 	public List<SignupVO> findByMember(String mem_id);
 	public List<SignupVO> getAll();
+	public boolean checkSignUp(String mem_id, String lc_id);
 }
