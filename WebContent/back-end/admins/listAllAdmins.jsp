@@ -13,6 +13,7 @@
   AdminsVO adminsVO = (AdminsVO) request.getAttribute("adminsVO"); 
 
   List<AdminPermissionVO> adminpermissionVO = (List<AdminPermissionVO>) request.getAttribute("adminpermissionVO"); 
+
 %>
 
 <html>
@@ -41,9 +42,9 @@
         }
     </style>
 </head>
-<body>
+<body onload="note()">
 <jsp:include page="/back-end/header/header.jsp" />
-    <div class="container_l" >       
+    <div class="container_l">       
         <div class=" card-box ">
             <div class="clearfix mb-20">
                 <div class="pull-left">
@@ -93,7 +94,7 @@
                     </div>
                 </div>             
             </div>
-            <table class="table">
+            <table class="table" style="font-size:150%">
                 <thead class="thead-dark">
                     <tr>                   
                         <th scope="col">½s¸¹</th>
@@ -145,9 +146,12 @@
       <br>  
   <jsp:include page="/back-end/sidebar/sidebar.jsp" />
   <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
   <script type="text/javascript">
   $('.1').prop('disabled',false);
   $('.0').css('color','red');
-  </script>									
+  </script>			
+	</script>							
 </body>
 </html>

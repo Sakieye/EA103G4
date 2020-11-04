@@ -201,7 +201,7 @@
                             </ul>
                         </c:if>
                         <form method="post" action="admins.do" name="form1" enctype="multipart/form-data">
-                            <section>
+                            <section style="font-size:150%">
                                 <div class="h3">
                                     <div>
                                         <label>員工編號:<font color=red><b>*</b></font></label>
