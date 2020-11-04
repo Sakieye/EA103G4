@@ -114,7 +114,7 @@
 													<th class="column-2">書名</th>
 													<th class="column-3">數量</th>
 													<th class="column-4">小計</th>
-													<th class="column-5">Point</th>
+													<th class="column-5" style="text-align: center;">Point</th>
 												</tr>
 												<c:set var="count" scope="session" />
 
@@ -143,7 +143,7 @@
 																<fmt:formatNumber type="number" value="${cart.price*cart.comm_Qty}" maxFractionDigits="0" />
 															</h5></td>
 														<!--單項獲得紅利  -->
-														<td style="vertical-align: middle;"><h5>
+														<td style="vertical-align: middle; text-align: center;"><h5>
 																<fmt:formatNumber type="number" value="${cart.book_BP*cart.comm_Qty}" maxFractionDigits="0" />
 																點
 															</h5> 
@@ -293,7 +293,7 @@
 												<b><fmt:formatNumber type="number" value="${memSvcVO.mem_bonus}" />
 												</b> 點</span> 
 												<c:if test="${memSvcVO.mem_bonus >=1}">
-													, 使用：<b><input class="use_Bonus" type="number" name="use_Bonus" step="1" min="0" max="${memSvcVO.mem_bonus}" value="0" 
+													, 使用：<b><input required class="use_Bonus" type="number" name="use_Bonus" step="1" min="0" max="${memSvcVO.mem_bonus}" value="0" 
 													style="width: 50px; height: 21px; display:flex; text-align: center; 
 													border-width:3px;border-style:dashed;border-color:#9d1e31ab;padding:5px;"></b>
 													<p style="display:flex;">點</p>
@@ -407,11 +407,11 @@
 				var use_Bonus = +$(this).val();
 				var total_price = price - use_Bonus;
 	            if(total_price>=0){
-	            $('.totalprice').text(total_price);
-	            $('#order_Total').val(total_price);
+	           		 $('.totalprice').text(total_price);
+	           		 $('#order_Total').val(total_price);
 	            }else{
-	            $('.totalprice').text(0);
-	            $('#order_Total').val(0);
+	           		 $('.totalprice').text(0);
+	            	$('#order_Total').val(0);
 	            }}else{
 	            	swal({title: "使用點數已超過本次訂單金額，請重新輸入！",type: "error",buttons: true})
 					$('.use_Bonus').val(0);
@@ -421,16 +421,17 @@
 		  $('.price').on( 'click','.use_Bonus',function(){
 			var price = +$(this).closest('.price').data('price');
 			if(+$(this).val()<=price){
-			var use_Bonus = +$(this).val();
-			var total_price = price - use_Bonus;
-            if(total_price>=0){
-            $('.totalprice').text(total_price);
-            $('#order_Total').val(total_price);
-            }else{
-            $('.totalprice').text(0);
-            $('#order_Total').val(0);
-            }
-            	
+				var use_Bonus = +$(this).val();
+				var total_price = price - use_Bonus;
+           		 if(total_price>=0){
+           			 $('.totalprice').text(total_price);
+           			 $('#order_Total').val(total_price);
+           		 }else{
+           			 $('.totalprice').text(0);
+           			 $('#order_Total').val(0);
+            }}else{
+            	swal({title: "使用點數已超過本次訂單金額，請重新輸入！",type: "error",buttons: true})
+				$('.use_Bonus').val(0);
             }
           });
 

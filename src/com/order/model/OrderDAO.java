@@ -1,9 +1,23 @@
 package com.order.model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Connection;
 
 import com.detail.model.DetailDAO;
 import com.detail.model.DetailVO;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.mem.model.MemDAO;
 
 import tools.jdbcUtil_CompositeQuery_Order;
@@ -11,7 +25,10 @@ import tools.jdbcUtil_CompositeQuery_Order;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -142,6 +159,9 @@ public class OrderDAO implements OrderDAO_Interface {
 			con.commit();
 			con.setAutoCommit(true);
 			
+			//新增出貨QRCode
+			orderqr(orid_next);
+			
 			System.out.println("本次新增訂單："+orid_next+" 包含"+cartlist.size()+" 筆明細.");
 		} catch (SQLException sqle) {
 			try {
@@ -150,6 +170,10 @@ public class OrderDAO implements OrderDAO_Interface {
 				e.printStackTrace();
 			}
 			throw new RuntimeException("▲Error： [doCreateOD]" + sqle.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (WriterException e) {
+			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -166,7 +190,6 @@ public class OrderDAO implements OrderDAO_Interface {
 				}
 			}
 		}
-
 	}
 
 
@@ -470,7 +493,7 @@ public class OrderDAO implements OrderDAO_Interface {
 
 			
 		} catch (SQLException sqle) {
-			throw new RuntimeException("�Error嚗� [Findbytime]" + sqle.getMessage());
+			throw new RuntimeException("▲Error： [Findbytime]" + sqle.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -497,6 +520,50 @@ public class OrderDAO implements OrderDAO_Interface {
 		return list;
 	}
 	
+	public void orderqr(String orid_next) throws IOException, WriterException {
+//		File urlFile =new File("logistics.jsp");
+		String url = "http://localhost:8081/EA103G4/front-end/logistics/logistics.jsp?order_id=";
+		String format = "jpg";
+		String order_id = orid_next;
+		String logisticsURL = url+order_id;
+		
+		int width = 300;
+		int height = 300;
+		
+		// 設定編碼格式與容錯率
+		Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
+		hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+		// 設置QRCode的存放目錄、檔名與圖片格式
+		String filePath = "C:/EA103_WebApp/eclipse_workspace1/EA103G4/WebContent/images/cliff/orderQR/";
+		String fileName = order_id + ".jpg";
+		Path path = FileSystems.getDefault().getPath(filePath, fileName);
+		// 開始產生QRCode
+		BitMatrix matrix = new MultiFormatWriter().encode(logisticsURL, BarcodeFormat.QR_CODE, width, height, hints);
+		// 把產生的QRCode存到指定的目錄
+		MatrixToImageWriter.writeToPath(matrix, format, path);
+//		System.out.println("path=" + path.toString());
+		// 轉成Base64
+		File file = new File(path.toString());
+		InputStream input = new FileInputStream(file);
+		String result = convert2Byte(input);
+//		System.out.println("result=" + result);
+		
+	}
+	private String convert2Byte(InputStream input) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buff = new byte[100];
+		int length = 0;
+		while ((length = input.read(buff, 0, 100)) > 0) {
+			baos.write(buff, 0, length);
+		}
+		byte[] in2b = baos.toByteArray();
+		baos.flush();
+		baos.close();
+		input.close();
+		return new String(Base64.getEncoder().encodeToString(in2b));
+
+	}
 	
 
 }

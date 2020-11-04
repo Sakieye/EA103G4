@@ -68,7 +68,9 @@
 <body class="animsition">
 
 	<!-- Header With Cart -->
+	<section class="headercart">
 	<%@include file="/front-end/header/header-with-cart.jsp"%>
+	</section>
 	<section id="One" class="wrapper style4"
 		style="padding: 3.25rem 0 0rem 0;">
 		<!-- Eshop Header -->
@@ -250,7 +252,7 @@
 
 									success : function(data) {
 										swal(nameProduct, "此商品成功加入購物車 !", "success");
-										$('.badge').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
+										$('.headercart').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
 									},
 									error : function(data) {
 										swal(nameProduct, "此商品無法加入購物車 Q_Q。", "error");

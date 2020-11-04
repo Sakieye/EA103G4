@@ -406,6 +406,7 @@ public class OrderServlet extends HttpServlet {
 		
 //《shipment》
 		if ("shipment".equals(action)) {
+			String jspname = req.getParameter("name");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 
@@ -426,10 +427,14 @@ public class OrderServlet extends HttpServlet {
 				OrderService odSvc = new OrderService();
 				odSvc.shipment(odVO);
 				OrderVO detailVO = odSvc.getOneOd(order_id);
-				
+				if(jspname.equals("logistics")) {
+					res.sendRedirect("/front-end/bookshop-eshop/index.jsp");
+					
+				}else {
 				req.setAttribute("odVO", detailVO);
 				RequestDispatcher successView = req.getRequestDispatcher("/back-end/order/listOne_order.jsp");
 				successView.forward(req, res);
+				}
 			} catch (Exception e) {
 				errorMsgs.add("▲Error：[ 無法取得資料 ]" + e.getMessage());
 				RequestDispatcher failView = req.getRequestDispatcher("/back-end/order/listAll_order.jsp");

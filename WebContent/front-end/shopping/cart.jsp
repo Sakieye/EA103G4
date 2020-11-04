@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
@@ -62,10 +61,17 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shoputil.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/shopmain.css">
 <!--===============================================================================================-->
+<style>
+    button#normal-search-icon{
+        background-color: #f2f2f2;
+    }
+</style>
 </head>
 
 <body class="animsition">
+	<section class="headercart">
 	<jsp:include page="/front-end/header/header-with-cart.jsp"/>
+	</section>
 	<section id="One" class="wrapper style4" style="padding: 3.25rem 0 0rem 0;">
 		<!-- Eshop Header -->
 		<div id="logoDiv">
@@ -245,9 +251,10 @@
 
 								success : function(data) {
 									swal(nameProduct, "此商品成功移除!",
-											"success");
-									go();
-									$('.badge').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
+											"success").then(function(isConfirm){
+												  if (isConfirm) {
+									go();}});
+									$('.headercart').load(localhost+'/EA103G4/front-end/header/header-with-cart.jsp');
 								},
 								error : function(data) {
 									swal(nameProduct, "無法移除, 請稍後再試。",
