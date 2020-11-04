@@ -27,6 +27,7 @@ public class FollowServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		//開啟通知
 		if("Subscribe".equals(action)) {
 			//使用者會員
 			String memId = req.getParameter("memId");
@@ -35,14 +36,14 @@ public class FollowServlet extends HttpServlet {
 			FollowService followSvc = new FollowService();
 			followSvc.subscribe(memId, aMemId);
 		}
-		
+		//關閉通知
 		if("unSubscribe".equals(action)) {
 			String memId = req.getParameter("memId");
 			String aMemId = req.getParameter("aMemId");
 			FollowService followSvc = new FollowService();
 			followSvc.unSubscribe(memId, aMemId);
 		}
-		
+		//檢查是否有通知
 		if("checkSubscribe".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -60,7 +61,8 @@ public class FollowServlet extends HttpServlet {
 						.getRequestDispatcher("/front-end/forum/forumPage.jsp");
 				failureView.forward(req, res);
 			} finally {
-				pw.close();
+				if(pw != null)
+					pw.close();
 			}
 			
 		}

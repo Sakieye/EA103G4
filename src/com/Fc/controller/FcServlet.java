@@ -24,7 +24,7 @@ public class FcServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		
+		// ajax 收藏
 		if("collect".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -35,8 +35,6 @@ public class FcServlet extends HttpServlet {
 				FcService fcSvc = new FcService();
 				fcSvc.collectFa(memId, faId);
 				
-				
-				
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
@@ -45,7 +43,7 @@ public class FcServlet extends HttpServlet {
 			}
 		}
 		
-		
+		// ajax 取消收藏
 		if("cancelCollect".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -65,7 +63,7 @@ public class FcServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		
+		//檢查是否有收藏
 		if("checkCollection".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);

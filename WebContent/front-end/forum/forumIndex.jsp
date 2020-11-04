@@ -82,7 +82,7 @@
 							</div>
 							<div class="col-md-3">
 								<div id="heading2">
-									<a href="forumIndex_hot.jsp">
+									<a href="<%=request.getContextPath() %>/front-end/forum/forumIndex_hot.jsp">
 										<b>熱門文章</b><i class="fas fa-fire-alt"></i>
 									</a>
 								</div>

@@ -262,7 +262,6 @@ public class FaServlet extends HttpServlet {
 					jedis.zadd("searchKeywords", searchKeywords);
 				}
 				
-				
 				req.setAttribute("faTopic", faTopic);
 				String url = "/front-end/forum/forumIndex_search.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -274,7 +273,8 @@ public class FaServlet extends HttpServlet {
 						.getRequestDispatcher("/front-end/forum/forumIndex.jsp");
 				failureView.forward(req, res);
 			}finally {
-				jedis.close();
+				if(jedis != null)
+					jedis.close();
 			}
 		}
 		

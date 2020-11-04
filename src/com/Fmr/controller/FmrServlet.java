@@ -111,7 +111,7 @@ public class FmrServlet extends HttpServlet {
 			}
 			
 		}
-		
+		//審核
 		if("judge".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
