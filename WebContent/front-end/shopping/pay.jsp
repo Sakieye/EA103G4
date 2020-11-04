@@ -299,6 +299,9 @@
 													<p style="display:flex;">點</p>
 													<p style="color:red; font-size:12px; margin-top: 0.1%;">（註： 1 Point = TWD $1）</p>
 												</c:if>
+												<c:if test="${memSvcVO.mem_bonus == 0}">
+													<input class="use_Bonus" type="hidden" name="use_Bonus" value="0"/>
+												</c:if>
 												</span>
 											</div>
 
