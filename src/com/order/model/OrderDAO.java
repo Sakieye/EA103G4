@@ -519,9 +519,10 @@ public class OrderDAO implements OrderDAO_Interface {
 		}
 		return list;
 	}
-	
+//	
 	public void orderqr(String orid_next) throws IOException, WriterException {
 //		File urlFile =new File("logistics.jsp");
+//		String url = "http://35.234.43.11/EA103G4/front-end/logistics/logistics.jsp?order_id=";
 		String url = "http://34.80.154.240/EA103G4/front-end/logistics/logistics.jsp?order_id=";
 //		String url = "http://localhost/EA103G4/front-end/logistics/logistics.jsp?order_id=";
 		String format = "jpg";
