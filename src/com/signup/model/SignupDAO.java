@@ -30,7 +30,7 @@ public class SignupDAO implements SignupDAO_interface {
 	private static final String GET_ALL_STMT = "SELECT * FROM SIGNUP_DETAIL order by SIGNUP_ID";
 	private static final String GET_ONE_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE SIGNUP_ID = ?";
 	private static final String GET_LECTURE_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE LC_ID = ?";
-	private static final String GET_MEMBER_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE MEM_ID = ?";
+	private static final String GET_MEMBER_STMT = "SELECT * FROM SIGNUP_DETAIL WHERE MEM_ID = ? and lc_id = ?";
 	private static final String DELETE = "DELETE FROM SIGNUP_DETAIL where SIGNUP_ID = ?";
 //	private static final String UPDATE = "UPDATE SIGNUP_DETAIL set SIGNUP_PAY=?, PAY_STATE=?, PAY_TIME=?, SIGN_SEAT=? WHERE SIGNUP_ID = ?";
 
@@ -209,7 +209,7 @@ public class SignupDAO implements SignupDAO_interface {
 	}
 
 	@Override
-	public List<SignupVO> findByLecture(String signup_id) {
+	public List<SignupVO> findByLecture(String lc_id) {
 		
 		List<SignupVO> list1 = new ArrayList<SignupVO>();
 		SignupVO signupVO = null;
@@ -217,13 +217,13 @@ public class SignupDAO implements SignupDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		
 		try {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_LECTURE_STMT);
 
-			pstmt.setString(1, signup_id);
+			pstmt.setString(1, lc_id);
 
 			rs = pstmt.executeQuery();
 
@@ -264,10 +264,11 @@ public class SignupDAO implements SignupDAO_interface {
 			}
 		}
 		return list1;
+		
 	}
 
 	@Override
-	public List<SignupVO> findByMember(String signup_id) {
+	public List<SignupVO> findByMember(String mem_id) {
 		
 		List<SignupVO> list2 = new ArrayList<SignupVO>();
 		SignupVO signupVO = null;
@@ -281,7 +282,7 @@ public class SignupDAO implements SignupDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_MEMBER_STMT);
 
-			pstmt.setString(1, signup_id);
+			pstmt.setString(1, mem_id);
 
 			rs = pstmt.executeQuery();
 
@@ -377,6 +378,60 @@ public class SignupDAO implements SignupDAO_interface {
 			}
 		}
 		return list3;
+	}
+
+	@Override
+	public boolean checkSignUp(String mem_id, String lc_id) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MEMBER_STMT);
+
+			pstmt.setString(1, mem_id);
+			pstmt.setString(2, lc_id);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				flag = true;
+				System.out.println("報名過");
+			} else {
+				System.out.println("沒報名過");
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return flag;
 	}
 
 }

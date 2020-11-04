@@ -363,6 +363,57 @@ public class LectureServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		if ("getOne_ForMem_Display".equals(action)) { 
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/*************************** 1.接受請求參數 - 輸入格式的錯誤處理 **********************/
+				String lc_id = req.getParameter("lc_id").trim();
+				System.out.println(lc_id);
+				String lc_idReg = "^L[0-9]{4}$";
+				if (lc_id == null || (lc_id.trim()).length() == 0) {
+					errorMsgs.add("講座編號 : 請勿空白");
+				} else if (!lc_id.trim().matches(lc_idReg)) {
+					errorMsgs.add("講座編號 : 格式錯誤，開頭必須為L並在後面加入4個數字");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lecture/lecture_index.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				/*************************** 2.開始查詢資料 *****************************************/
+				LectureService lectureService = new LectureService();
+				LectureVO lectureVO = lectureService.getOneLecture(lc_id);
+				
+				if (lectureVO == null) {
+					errorMsgs.add("查無資料");
+				}
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lecture/lecture_index.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				/*************************** 3.查詢完成，準備轉交(Send the Success view) *************/
+				req.setAttribute("lectureVO", lectureVO); 
+				String url = "/front-end/lecture/listOneLecture.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成觀轉交listOneLecture.jsp
+				successView.forward(req, res);
+//				System.out.println("@Lecture-getOne_For_Display OK!");
+			
+			} catch (Exception e) {
+				errorMsgs.add("查無資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lecture/lecture_index.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 ////		===============================�e�x�s������(getAll_For_Display)==============================	
 //		if ("getAll_For_Display".equals(action)) {
 //
