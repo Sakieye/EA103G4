@@ -213,10 +213,12 @@
 							<input type="hidden" name="bcq_id" value="${questionVO.bcq_id}">
 							<label for="message-text" class="col-form-label" >問題:${question.count}</label>
 							<label for="message-text" class="col-form-label">${questionVO.q_data}</label>
-							<input type="text" name="qa_data">
+							<input type="text" class="answers" name="qa_data">
 						</c:forEach>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-default" onclick="magicButton()">
+						答案</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">
 						關閉</button>
 					<input type="hidden" name="action" value="insert"> <input
@@ -235,7 +237,7 @@
 	<!-- 取出service物件 -->
 	<jsp:useBean id="bookClub_Regis_DetailSvc"
 		class="com.bookclub_regis_detail.model.BookClub_Regis_DetailService" />
-
+	<jsp:useBean id="questionnair_AnswerSvc" class="com.questionnair_answer.model.Questionnair_AnswerService" />
 	<div class="modal fade" id="verify" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-dialog-scrollable modal-lg"
 			role="document">
@@ -546,13 +548,7 @@
 		swal.fire({
 			icon : 'success',
 			title : 'YEAH',
-			text : "報名成功，等待審核",
-				showClass: {
-				    popup: 'animate__animated animate__fadeInDown'
-				  },
-				  hideClass: {
-				    popup: 'animate__animated animate__fadeOutUp'
-				  }
+			text : "報名成功，等待審核"
 		});
 		sendAddBookClubMessage();
 			<%request.removeAttribute("success");%>
@@ -561,13 +557,7 @@
 		swal.fire({
 			icon : 'success',
 			title : 'YEAH',
-			text : "檢舉成功，等待審核",
-				showClass: {
-				    popup: 'animate__animated animate__fadeInDown'
-				  },
-				  hideClass: {
-				    popup: 'animate__animated animate__fadeOutUp'
-				  }
+			text : "檢舉成功，等待審核"
 		});
 			<%request.removeAttribute("report");%>
 		</c:if>
@@ -633,6 +623,13 @@
         }
     </script>
 	<script	src=<%=magicKey%> async defer></script>
+	<script>
+		function magicButton(){
+			$('.answers:eq(0)').attr('value','很夠用');
+			$('.answers:eq(1)').attr('value','還行');
+			$('.answers:eq(2)').attr('value','在哦');
+		}
+	</script>
 </body>
 
 </html>
