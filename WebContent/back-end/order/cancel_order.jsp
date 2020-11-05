@@ -87,7 +87,7 @@
 
 				<!-- 客服取消訂單 -->
 
-
+				<input type="hidden" class="backstatus" value="${odVO.order_status}">
 				<FORM METHOD="post" ACTION="order.do" id="form1" name="form1">
 					<table>
 						<tr>
@@ -153,7 +153,7 @@
 									<td>商品已送達</td>
 								</c:when>
 								<c:when test="${odVO.order_status==4}">
-									<td>訂單取消</td>
+									<td>訂單已取消</td>
 								</c:when>
 								<c:otherwise>
 									<td>請洽客服</td>
@@ -164,11 +164,9 @@
 					</table>
 					<input type="hidden" name="action" value="cancel">
 					<input type="hidden" name="order_id" value="${odVO.order_id}">
-					<input type="submit" id="cancel" class="btn btn-sm btn-outline-secondary" value="執行取消">
-					
+					<input type="submit" id="cancel" class="btn btn-sm btn-outline-secondary js-backbtn-cancel ${odVO.order_status}" disabled value="執行取消">
 				</FORM>
 			</div>
-
 		</main>
 
 		<jsp:include page="/back-end/sidebar/sidebar.jsp" />
@@ -191,6 +189,9 @@
 				}
 			});
 		});
+	</script>
+	<script>
+		$('.1').prop('disabled',false);
 	</script>
 
 </body>

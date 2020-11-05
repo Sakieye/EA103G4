@@ -244,22 +244,17 @@
 													<div class="orderDTCell" style="border: 0px solid #8F9F9F;"></div>
 													<div class="orderDTCell" style="border: 0px solid #8F9F9F;"></div>
 													<div class="orderDTCell" style="border: 0px solid #8F9F9F;"></div>
-													<div class="orderDTCell"
-														style="border: 0px solid #8F9F9F; float: right;">
-														<FORM METHOD="post" ACTION="order.do"
-															class="btn btn-sm btn-outline-secondary">
-															<input type="submit" value="修改訂單" style="outline: none;">
-															<input type="hidden" name="order_id"
-																value="${odVO.order_id}" /> <input type="hidden"
-																name="action" value="getupdate" />
+													<div class="orderDTCell"style="border: 0px solid #8F9F9F; float: right;">
+														<FORM METHOD="post" ACTION="order.do" class="btn btn-sm btn-outline-secondary">
+															<input type="submit" class="${odVO.order_status}" value="修改訂單" disabled style="outline: none;">
+															<input type="hidden" name="order_id" value="${odVO.order_id}" /> 
+															<input type="hidden" name="action" value="getupdate" />
 														</FORM>
 
-														<FORM METHOD="post" ACTION="order.do"
-															class="btn btn-sm btn-outline-secondary">
-															<input type="submit" value="取消訂單" style="outline: none;">
-															<input type="hidden" name="order_id"
-																value="${odVO.order_id}"> <input type="hidden"
-																name="action" value="getcancel">
+														<FORM METHOD="post" ACTION="order.do" class="btn btn-sm btn-outline-secondary">
+															<input type="submit" class="${odVO.order_status}" value="取消訂單" disabled style="outline: none;">
+															<input type="hidden" name="order_id" value="${odVO.order_id}"> 
+															<input type="hidden" name="action" value="getcancel">
 														</FORM>
 													</div>
 												</div>
@@ -294,6 +289,9 @@
 				}
 			});
 		});
+	</script>
+	<script>
+		$('.1').prop('disabled',false);
 	</script>
 
 </body>
