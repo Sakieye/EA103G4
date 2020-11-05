@@ -279,7 +279,7 @@ public class MemServlet extends HttpServlet {
 					}
 						
 				} else {
-					errmsg = "帳號已被封鎖15天，因短時間內輸入錯密碼3次，如要恢復帳號正常使用，請點選忘記密碼";
+					errmsg = "帳號遭鎖定15天，如要恢復帳號正常使用，請點選忘記密碼";
 					req.setAttribute("account", mem_account);
 					req.setAttribute("errmsg", errmsg);
 					if(jedis != null)
@@ -305,9 +305,9 @@ public class MemServlet extends HttpServlet {
 						RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/signIn.jsp");
 						failureView.forward(req, res);
 					} else {
-						if("3".equals(jedis.get(pwderrKey))) {
+						if("2".equals(jedis.get(pwderrKey))) {
 							memSvc.updateStatusByAccount(mem_account);
-							errmsg = "帳號已被封鎖15天，因短時間內輸入錯密碼3次，如要恢復帳號正常使用，請點選忘記密碼";
+							errmsg = "帳號已遭鎖定15天，如要恢復帳號正常使用，請點選忘記密碼";
 							req.setAttribute("account", mem_account);
 							req.setAttribute("errmsg", errmsg);
 							System.out.println("密碼錯誤" + mem_account);
