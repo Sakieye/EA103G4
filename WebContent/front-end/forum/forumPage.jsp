@@ -255,9 +255,9 @@
 			}else if((parseInt($("#memExp" + i).text())) <= 2000){
 				$("#memExp" + i).text("Lv.2");
 				$("#memExp" + i).css("font-weight","bold");
-				$("#memExp" + i).css("color","skyblue");
-				$("#memName" + i +"> b").css("color","skyblue");
-				$("#memPic" + i).css("border-color","skyblue");
+				$("#memExp" + i).css("color","blue");
+				$("#memName" + i +"> b").css("color","blue");
+				$("#memPic" + i).css("border-color","blue");
 				$("#memPic" + i).css("box-shadow"," 0 0 10px #9ecaed");
 			}else if((parseInt($("#memExp" + i).text())) <= 3000){
 				$("#memExp" + i).text("Lv.3");
