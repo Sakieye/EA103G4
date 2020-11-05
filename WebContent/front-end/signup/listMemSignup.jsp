@@ -83,7 +83,7 @@ table th {
 					</div></li>
 				<li class="itembox drop-down"><a class="item">講座</a>
 					<div class="submenu">
-						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/signup/listAllSignup.jsp">講座報名紀錄</a>
+						<a class="submenu-item" href="<%=request.getContextPath()%>/front-end/signup/listMemSignup.jsp">講座報名紀錄</a>
 					</div></li>
 				<li class="itembox drop-down"><a class="item">收藏的書單管理</a>
 					<div class="submenu">

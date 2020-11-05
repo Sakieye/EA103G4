@@ -196,7 +196,7 @@
                         </ul>
                     </c:if>
                     <form method="post" action="<%=request.getContextPath()%>/back-end/admin/admins.do" name="form1" enctype="multipart/form-data">
-                        <section>
+                        <section style="font-size:150%">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

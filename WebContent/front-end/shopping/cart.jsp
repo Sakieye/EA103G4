@@ -272,7 +272,7 @@
 		return cartFormJSON;
 	}
 	/*=========================================================*/
-	$('.js-cart-paycheck').on('click',function(){window.location.href='http://localhost:8081/EA103G4/front-end/shopping/pay.jsp';})
+	$('.js-cart-paycheck').on('click',function(){window.location.href=localhost+'/EA103G4/front-end/shopping/pay.jsp';})
 	
 	</script>
 

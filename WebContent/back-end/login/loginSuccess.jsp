@@ -84,16 +84,8 @@
 							</div>
 							<!-- Card Body -->
 							<div class="card-body">
-								<div class="row">
-								<img width="100%" height="130px" src="<%=request.getContextPath()%>/images/login/talk1.png">
-								&nbsp;&nbsp;&nbsp;&nbsp;	
-								<img class="rounded-circle" src="<%=request.getContextPath()%>/images/login/wu.jpg" width="100px" height="100px" style="box-shadow:7px 4px 9px 1px #333333;">
-									
-<!-- 							<div style= "position:relative ">  -->
-<!--                            <div style= "position:relative; left:35px; top:40px;"><h4><b>紙上得來終覺淺,<br> -->
-<!-- 							 &nbsp;&nbsp;&nbsp;絕知此事必躬行</b></<h4> </div>  -->
-<!--                             </div>											  								 								 -->
-								</div>
+							<img class="rounded-circle"  width="100px" height="100px" style="box-shadow:7px 4px 9px 1px #333333;display:inline;" src="<%=request.getContextPath()%>/images/login/wu.jpg">										  								 																
+							<div style="background-image:url('<%=request.getContextPath()%>/images/login/chat.png');background-size:100% 100%; background-repeat:no-repeat;position:absolute;left:150px;top:90px;"><h3><b>紙上得來終覺淺,<br>&nbsp;&nbsp;&nbsp;&nbsp;絕知此事必躬行</b></h3></div>
 							</div>
 						</div>
 					</div>

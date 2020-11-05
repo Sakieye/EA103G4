@@ -519,10 +519,12 @@ public class OrderDAO implements OrderDAO_Interface {
 		}
 		return list;
 	}
-	
+//	
 	public void orderqr(String orid_next) throws IOException, WriterException {
 //		File urlFile =new File("logistics.jsp");
-		String url = "http://localhost:8081/EA103G4/front-end/logistics/logistics.jsp?order_id=";
+//		String url = "http://35.234.43.11/EA103G4/front-end/logistics/logistics.jsp?order_id=";
+		String url = "http://34.80.154.240/EA103G4/front-end/logistics/logistics.jsp?order_id=";
+//		String url = "http://localhost/EA103G4/front-end/logistics/logistics.jsp?order_id=";
 		String format = "jpg";
 		String order_id = orid_next;
 		String logisticsURL = url+order_id;
@@ -535,9 +537,12 @@ public class OrderDAO implements OrderDAO_Interface {
 		hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 		// 設置QRCode的存放目錄、檔名與圖片格式
-		String filePath = "C:/EA103_WebApp/eclipse_workspace1/EA103G4/WebContent/images/cliff/orderQR/";
+		String catPath = System.getProperty("catalina.base");
+		catPath = catPath.substring(0, catPath.indexOf(".metadata")) + "EA103G4/WebContent/images/cliff/orderQR/";
+//		System.out.println(catPath);
+//		String filePath = "C:/EA103_WebApp/eclipse_workspace1/EA103G4/WebContent/images/cliff/orderQR/";
 		String fileName = order_id + ".jpg";
-		Path path = FileSystems.getDefault().getPath(filePath, fileName);
+		Path path = FileSystems.getDefault().getPath(catPath, fileName);
 		// 開始產生QRCode
 		BitMatrix matrix = new MultiFormatWriter().encode(logisticsURL, BarcodeFormat.QR_CODE, width, height, hints);
 		// 把產生的QRCode存到指定的目錄

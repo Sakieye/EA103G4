@@ -127,7 +127,7 @@
 									</div>
 								</div>
 							</div>
-							<c:if test="${sessionScope.memVO.mem_id != fmVO.memId}">
+							<c:if test="${sessionScope.memVO != null && sessionScope.memVO.mem_id != fmVO.memId}">
 							<form method="post" action="<%=request.getContextPath()%>/front-end/forum/fmr.do">
 								<div class="reportBtn">
 									<input type="submit" value="檢舉">

@@ -132,7 +132,7 @@
                                             <div class="form-group">
                                                 <div class="h5 text-gray"><i class="fas fa-briefcase"></i>&nbsp;ลvญญ:</div>
                                                 <div class="form-group h3 text-dark">
-                                                    <c:forEach var="permissiondelimitVO" items="${permissiondelimitVO}"><i class="fas fa-check"></i></i>&nbsp;${permissiondelimitVO.per_name} <br>
+                                                    <c:forEach var="permissiondelimitVO" items="${permissiondelimitVO}"><i class="fas fa-check" style="color:deeppink"></i></i>&nbsp;${permissiondelimitVO.per_name} <br>
                                                     </c:forEach>
                                                 </div>
                                             </div>

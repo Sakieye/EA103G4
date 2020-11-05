@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	response.setHeader("refresh","12;URL=http://localhost:8081/EA103G4/front-end/bookshop-eshop/index.jsp") ;
+	String url = request.getScheme()+"://"+request.getServerName();
+	response.setHeader("refresh","12;URL="+url+"/EA103G4/front-end/bookshop-eshop/index.jsp") ;
 %>
 
 	

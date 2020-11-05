@@ -125,7 +125,6 @@
 										<div class="col-md-2">${fmSvc.getFmResponsesByFaId(faVO.faId)}</div>
 								</div>
 								<hr>
-							
 						</c:forEach>
 						<%@ include file="page2.file" %>
 					</div>
