@@ -48,7 +48,7 @@ public class SignupServlet extends HttpServlet{
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("signupVO", signupVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/signup/addSignup.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lecture/lecture_index.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -62,7 +62,7 @@ public class SignupServlet extends HttpServlet{
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/signup/addSignup.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lecture/lecture_index.jsp");
 				failureView.forward(req, res);
 			}
 		}

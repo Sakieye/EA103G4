@@ -96,7 +96,7 @@
 												<td>${lectureVO.lc_peo_up}</td>	
 												<td>
 													<c:if test="${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id)}">
-														已報名${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id)}
+														已報名
 													</c:if>
 													<c:if test="${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id) == false}">
 <%-- 														<form method="post" BorderStyle="0" ACTION="<%=request.getContextPath()%>/front-end/lecture/lecture.do"> --%>
@@ -118,27 +118,27 @@
 													  <div class="modal-dialog modal-dialog-centered" role="document">
 													    <div class="modal-content">
 													      <div class="modal-header">
-													        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+													        <h5 class="modal-title" id="exampleModalCenterTitle">確認是否報名</h5>
 													        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													          <span aria-hidden="true">&times;</span>
 													        </button>
 													      </div>
-													      <div class="modal-body">
+													      <div class="modal-body" style="color:black;">
 													        <table>
 																<tr>
-																	<th>講座名稱 : </th><td>${lectureVO.lc_name}</td>
+																	<th style="color:black;">講座名稱 : </th><td>${lectureVO.lc_name}</td>
 																	</tr>
 																	<tr>
-																	<th>會員名稱 : </th><td>${memVO.mem_name}</td>
+																	<th style="color:black;">會員名稱 : </th><td>${memVO.mem_name}</td>
 																	</tr>
 																	<tr>
-																	<th>講座地點 : </th><td>${lectureVO.lc_place}</td>
+																	<th style="color:black;">講座地點 : </th><td>${lectureVO.lc_place}</td>
 																	</tr>
 																	<tr>
-																	<th>講座時間 : </th><td>${lectureVO.lc_time}</td>
+																	<th style="color:black;">講座時間 : </th><td>${lectureVO.lc_time}</td>
 																	</tr>
 																	<tr>
-																	<th>講座時數 : </th><td>${lectureVO.lc_hr} hr</td>
+																	<th style="color:black;">講座時數 : </th><td>${lectureVO.lc_hr} hr</td>
 																	</tr>
 																	<tr>
 																	
@@ -153,7 +153,7 @@
 																			<input type="hidden" name="mem_id" value="${memVO.mem_id}"/>
 																			<input type="hidden" name="action" value="insert">
 																</FORM>
-													        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
 													      </div>
 													    </div>
 													  </div>
