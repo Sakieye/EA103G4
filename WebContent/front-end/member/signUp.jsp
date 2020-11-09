@@ -348,9 +348,9 @@
 		
 		$('#magical-button').click(function(e){
 			e.preventDefault();
-			$('#account').val("4321");
-			$('#psw').val("4321");
-			$('#confirmpsw').val("4321");
+			$('#account').val("654321");
+			$('#psw').val("654321");
+			$('#confirmpsw').val("654321");
 			$('#name').val("大衛海鮮");
 			$('#email').val("xuzhewei199583@gmail.com");
 			$('#sex').val("男");

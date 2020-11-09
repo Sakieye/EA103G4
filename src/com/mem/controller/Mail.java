@@ -158,8 +158,8 @@ public class Mail extends HttpServlet {
 			/* 確認無錯誤後，接收Email請求參數 */
 			String subject = req.getParameter("subject");
 			String genAuthCode = new Mail().genAuthCode();
-			String text = "請將以下驗證碼複製後，貼至註冊驗證頁面: " + genAuthCode;
-
+			String text = "請將以下驗證碼輸入至註冊驗證頁面: " + genAuthCode;
+			
 			/*打包完成,準備轉交 */
 			//驗證碼存入 redis
 			Jedis jedis = new Jedis("localhost", 6379);
