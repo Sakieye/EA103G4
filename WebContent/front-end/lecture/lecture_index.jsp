@@ -73,10 +73,8 @@
 											<th scope="col">報名截止日期</th>
 											<th scope="col">人數上限</th>
 											<th scope="col">報名</th>
-
 										</tr>
 									</thead>
-
 									<tbody>
 
 										<c:forEach var="lectureVO" items="${list}">
@@ -95,34 +93,72 @@
 												<td>${lectureVO.lc_hr}</td>
 												<td>${lectureVO.lc_place}</td>
 												<td>${lectureVO.lc_deadline}</td>
-												<td>${lectureVO.lc_peo_up}</td>
-												
-												
-													
-													<td>
-														<c:if test="${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id)}">
-															已報名${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id)}
-														</c:if>
-														<c:if test="${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id) == false}">
-															<form method="post" BorderStyle="0" ACTION="<%=request.getContextPath()%>/front-end/lecture/lecture.do">
-																<button type="submit" style="background-color: #dee2e6;">
-																	<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-	  																	<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
-	  																	<path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
-																	</svg>
-																</button>
-																<input type="hidden" name="lc_id" value="${lectureVO.lc_id}"> 
-																<input type="hidden" name="action" value="getOne_ForMem_Display" />
-															</form>
-														</c:if>
-													</td>
-													
-													
-													
-												
+												<td>${lectureVO.lc_peo_up}</td>	
+												<td>
+													<c:if test="${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id)}">
+														已報名${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id)}
+													</c:if>
+													<c:if test="${signupService1.checkSignUp(sessionScope.memVO.mem_id, lectureVO.lc_id) == false}">
+<%-- 														<form method="post" BorderStyle="0" ACTION="<%=request.getContextPath()%>/front-end/lecture/lecture.do"> --%>
+<!-- 															<button type="button" style="background-color: #dee2e6;" data-toggle="modal" data-target="#signUp"> -->
+<!-- 																<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> -->
+<!--   																	<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" /> -->
+<!--   																	<path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" /> -->
+<!-- 																</svg> -->
+<!-- 															</button> -->
+															<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUp">
+																報名
+															</button>
 
-                                                    
-												
+															<input type="hidden" name="lc_id" value="${lectureVO.lc_id}"> 
+															<input type="hidden" name="action" value="getOne_ForMem_Display" />
+<!-- 														</form> -->
+													</c:if>
+													<div class="modal fade" id="signUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-centered" role="document">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+													        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													          <span aria-hidden="true">&times;</span>
+													        </button>
+													      </div>
+													      <div class="modal-body">
+													        <table>
+																<tr>
+																	<th>講座名稱 : </th><td>${lectureVO.lc_name}</td>
+																	</tr>
+																	<tr>
+																	<th>會員名稱 : </th><td>${memVO.mem_name}</td>
+																	</tr>
+																	<tr>
+																	<th>講座地點 : </th><td>${lectureVO.lc_place}</td>
+																	</tr>
+																	<tr>
+																	<th>講座時間 : </th><td>${lectureVO.lc_time}</td>
+																	</tr>
+																	<tr>
+																	<th>講座時數 : </th><td>${lectureVO.lc_hr} hr</td>
+																	</tr>
+																	<tr>
+																	
+																</tr>
+															</table>
+
+													      </div>
+													      <div class="modal-footer">
+															    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/signup/signup.do">
+																			<input type="submit" value="報名">
+																			<input type="hidden" name="lc_id" value="${lectureVO.lc_id}"/>
+																			<input type="hidden" name="mem_id" value="${memVO.mem_id}"/>
+																			<input type="hidden" name="action" value="insert">
+																</FORM>
+													        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													      </div>
+													    </div>
+													  </div>
+													</div>
+												</td>										
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -144,6 +180,9 @@
 	<script src="<%=request.getContextPath()%>/js/skel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/util.js"></script>
 	<script src="<%=request.getContextPath()%>/js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 	<!-- 超連結submit -->
 	<script>
