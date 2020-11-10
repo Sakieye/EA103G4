@@ -1,3 +1,5 @@
+<img src="https://github.com/Sakieye/EA103G4/blob/master/CUE%20THE_first(curve).jpg" width="250px" height="400px">
+
 # EA103G4
 Bookshop Project @ Tibame, 2020
 
