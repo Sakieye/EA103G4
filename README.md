@@ -1,5 +1,3 @@
-<img src="https://github.com/Sakieye/EA103G4/blob/master/CUE%20THE_first(curve).jpg" width="500px" height="800px">
-
 # EA103G4
 Bookshop Project @ Tibame, 2020
 
@@ -19,3 +17,5 @@ CHWu (CLIFF-WU): 商品搜尋顯示頁面、前台商品詳情頁面、前台購
 THChiu (Kyuu-302): 討論區文章系統、討論區檢舉系統、文章收藏、追蹤通知、討論區前端頁面  
 WJLin (linwanju): 後台員工管理、後台員工權限、後台登入頁面  
 CYWang (daniel23023287): 前台全站首頁、後台首頁、講座管理、講座訂單管理  
+
+<img src="https://github.com/Sakieye/EA103G4/blob/master/CUE%20THE_first(curve).jpg" width="500px" height="800px">
