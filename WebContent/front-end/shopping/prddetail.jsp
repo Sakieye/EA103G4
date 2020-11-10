@@ -176,7 +176,7 @@
 													<b>－</b>
 												</i>
 											</div>
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="comm_Qty" id="comm_Qty" step="1" min="1" max="50" value="1">
+											<input class="mtext-104 cl3 txt-center num-product js-input-commQty" type="number" name="comm_Qty" id="comm_Qty" step="1" min="1" max="50" value="1">
 											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 												<i class="fs-16 zmdi zmdi-plus">
 													<b>＋</b>
@@ -360,6 +360,17 @@
 		var localhost = PathURL.substring(0, PathURL
 				.indexOf(window.document.location.pathname));
 
+		$('input[type=number]').keypress(function(e) {
+		    if (!String.fromCharCode(e.keyCode).match(/[0-9\.]/)) {
+		    	swal("請輸入正確數量", "商品數量不能為負數或0個","error");
+		    	$('.js-input-commQty').val(0);
+		        return false;
+		    }
+		});
+		
+		
+		
+
 		$('.js-addcart-detail').each(
 				function() {
 					var nameProduct = $(this).parent().parent().parent()
@@ -370,12 +381,14 @@
 								$.ajax({
 									type : "POST",
 									url : localhost + '/EA103G4/Shopping.html',
-									data : cartFormJSON($('#action').val(), $(
-											'#book_Name').val(), $('#book_Id')
-											.val(), $('#isbn').val(), $(
-											'#book_BP').val(), $(
-											'#publisher_Id').val(), $('#price')
-											.val(), $('#comm_Qty').val()),
+									data : cartFormJSON($('#action').val(), 
+											$('#book_Name').val(), 
+											$('#book_Id').val(), 
+											$('#isbn').val(), 
+											$('#book_BP').val(), 
+											$('#publisher_Id').val(), 
+											$('#price').val(), 
+											$('#comm_Qty').val()),
 									dataType : "json",
 
 									success : function(data) {

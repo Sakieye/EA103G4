@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	String url = request.getScheme()+"://"+request.getServerName();
+	String url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 	response.setHeader("refresh","12;URL="+url+"/EA103G4/front-end/bookshop-eshop/index.jsp") ;
 %>
 
