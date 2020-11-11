@@ -359,6 +359,28 @@
 		var PathURL = window.document.location.href;
 		var localhost = PathURL.substring(0, PathURL
 				.indexOf(window.document.location.pathname));
+				
+		
+		
+		$('input[type=number]').keypress(function(e) {
+            var eval = String.fromCharCode(e.keyCode);
+            
+            if (!String.fromCharCode(e.keyCode).match(/[0-9.]/) || $('#comm_Qty').val() == 0) {
+                swal("請輸入正確數量", "商品數量不能為負數或0個","error");
+                $('.js-input-commQty').val(1);
+                return false;
+            }
+        });
+
+        $('.btn-num-product-down').click(function(){
+            if(+$('#comm_Qty').val() === 1 || $('#comm_Qty').val() === ''){
+                swal("請輸入正確數量", "商品數量不能為負數或0個","error");
+                $('.js-input-commQty').val(2); //因為按鈕會減1
+                return false;
+            }
+        });
+		
+		
 
 		$('input[type=number]').keypress(function(e) {
 		    if (!String.fromCharCode(e.keyCode).match(/[0-9\.]/)) {

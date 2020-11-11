@@ -421,7 +421,7 @@
 	            }
 	          });
 
-		  $('.price').on( 'click','.use_Bonus',function(){
+		  $('.price').on('click','.use_Bonus',function(){
 			var price = +$(this).closest('.price').data('price');
 			if(+$(this).val()<=price){
 				var use_Bonus = +$(this).val();
