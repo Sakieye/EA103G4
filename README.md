@@ -2,7 +2,7 @@
 Bookshop Project @ Tibame, 2020
 
 ## Technology and tools
-Languages: JAVA, JavaScript, PLSQL, HTML, CSS, Python  
+Languages: JAVA, JavaScript, SQL, HTML, CSS, Python  
 IDE/Editor: Eclipse, Sublime  
 Server: Apache Tomcat 9 on Google Cloud Platform  
 Database: Oracle, Redis  
